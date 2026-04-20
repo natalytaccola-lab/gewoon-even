@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gewoon Even — Noodprotocol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F2EE;
+            --text: #2C2C2C;
+            --text-light: #888888;
+            --green: #3D5A50;
+            --green-light: #4A6B5D;
+            --sand: #B8A898;
+            --terra: #D4836A;
+            --terra-hover: #C0745B;
+            --white: #FFFFFF;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'Outfit', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============ BANNER SVG ============ */
+        .banner {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            height: 200px;
+        }
+
+        .banner svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .brand-name {
+            position: absolute;
+            top: 30px;
+            left: 40px;
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        @media (max-width: 600px) {
+            .banner { height: 140px; }
+            .brand-name {
+                top: 16px;
+                left: 20px;
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ============ LAYOUT ============ */
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============ TYPOGRAPHY ============ */
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--green);
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .strong {
+            font-weight: 600;
+        }
+
+        .subtle {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .green-text {
+            color: var(--green);
+        }
+
+        /* ============ QUIZ ============ */
+        .quiz-intro {
+            padding: 48px 0 24px;
+        }
+
+        .quiz-intro p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .question-container {
+            padding: 32px 0;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .question-number {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--sand);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--text);
+            line-height: 1.4;
+            margin-bottom: 32px;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .answer-btn {
+            background: var(--white);
+            border: 1.5px solid #E5E0DA;
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: left;
+        }
+
+        .answer-btn:hover {
+            border-color: var(--green);
+            background: rgba(61, 90, 80, 0.04);
+        }
+
+        .answer-btn.selected {
+            border-color: var(--green);
+            background: rgba(61, 90, 80, 0.08);
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: #E5E0DA;
+            border-radius: 3px;
+            margin: 40px 0 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--green);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* ============ RESULT ============ */
+        .result-section {
+            padding: 48px 0 32px;
+        }
+
+        .result-section h2 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--green);
+        }
+
+        .normaal-list {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+
+        /* ============ CHECKOUT PAGE ============ */
+        .checkout-section {
+            padding: 48px 0 24px;
+        }
+
+        .price-compare {
+            background: rgba(61, 90, 80, 0.06);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 24px 0;
+        }
+
+        .price-compare .old {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .price-compare .new {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        .features {
+            padding: 16px 0;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .feature-check {
+            color: var(--green);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .feature-text {
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        /* ============ BUTTONS ============ */
+        .btn-primary {
+            display: block;
+            width: 100%;
+            background: var(--terra);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            padding: 18px 32px;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+            text-decoration: none;
+            margin: 24px 0 16px;
+        }
+
+        .btn-primary:hover {
+            background: var(--terra-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(212, 131, 106, 0.25);
+        }
+
+        .btn-decline {
+            display: block;
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 8px;
+            text-align: center;
+            transition: color 0.2s;
+        }
+
+        .btn-decline:hover {
+            color: var(--text);
+        }
+
+        /* ============ TRUST ============ */
+        .trust-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 24px 0;
+            border-top: 1px solid #E5E0DA;
+            margin-top: 24px;
+        }
+
+        .trust-item {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ============ GUARANTEE ============ */
+        .guarantee {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 24px 0;
+            border: 1px solid #E5E0DA;
+        }
+
+        .guarantee p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* ============ UPSELL / DOWNSELL ============ */
+        .upsell-section {
+            padding: 48px 0;
+        }
+
+        .price-strike {
+            text-decoration: line-through;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .price-new {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--green);
+        }
+
+        .upsell-badge {
+            display: inline-block;
+            background: rgba(61, 90, 80, 0.1);
+            color: var(--green);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
+
+        .day-list {
+            padding: 16px 0;
+        }
+
+        .day-item {
+            display: flex;
+            gap: 12px;
+            padding: 6px 0;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        .day-item strong {
+            font-weight: 500;
+            color: var(--green);
+            white-space: nowrap;
+        }
+
+        /* ============ THANK YOU ============ */
+        .thankyou-section {
+            padding: 64px 0;
+            text-align: center;
+        }
+
+        .thankyou-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+        }
+
+        .thankyou-section p {
+            max-width: 480px;
+            margin: 0 auto 16px;
+        }
+
+        .thankyou-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--sand);
+            margin: 32px auto;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            text-align: center;
+            padding: 32px 0;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* ============ SEPARATOR ============ */
+        .section-space {
+            height: 32px;
+        }
+
+        .divider-line {
+            width: 100%;
+            height: 1px;
+            background: #E5E0DA;
+            margin: 32px 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ================================ -->
+<!-- PAGE 1: QUIZ                     -->
+<!-- ================================ -->
+<div class="page active" id="page-quiz">
+    <div class="banner">
+        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1200" height="400" fill="#F5F2EE"/>
+            <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
+            <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
+            <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#D4836A" opacity="0.7"/>
+        </svg>
+        <div class="brand-name">Gewoon Even</div>
+    </div>
+
+    <div class="container">
+        <div class="quiz-intro">
+            <p>Beantwoord 5 korte vragen en ontdek welk protocol bij jou past.</p>
+        </div>
+
+        <div id="quiz-container">
+            <!-- Questions render here -->
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+
+        <!-- Result (hidden until quiz complete) -->
+        <div id="quiz-result" style="display: none;">
+            <div class="result-section">
+                <h2>Herkenbaar, hè?</h2>
+                <div class="section-space"></div>
+                <p>De meeste mensen die deze vragen beantwoorden, herkennen zichzelf in bijna alles. Niet omdat er iets mis is met je. Maar omdat je zenuwstelsel al zo lang op scherp staat dat het normaal is gaan voelen.</p>
+                <p class="normaal-list">Stijve schouders? Normaal. Slapeloze nachten? Normaal. <em>Ja hoor, prima</em> zeggen terwijl je trilt? Normaal.</p>
+                <p class="strong">Maar het is niet normaal. Het is een lichaam dat vastzit in een alarmstand die niet meer uitgaat.</p>
+                <p class="strong">Het goede nieuws: het hoeft maar 18 minuten om dat systeem te resetten.</p>
+                <div class="section-space"></div>
+                <button class="btn-primary" onclick="showPage('page-checkout')">Laat me zien hoe →</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+    </div>
+</div>
+
+
+<!-- ================================ -->
+<!-- PAGE 2: CHECKOUT                 -->
+<!-- ================================ -->
+<div class="page" id="page-checkout">
+    <div class="banner">
+        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1200" height="400" fill="#F5F2EE"/>
+            <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
+            <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
+            <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#D4836A" opacity="0.7"/>
+        </svg>
+        <div class="brand-name">Gewoon Even</div>
+    </div>
+
+    <div class="container">
+        <div class="checkout-section">
+            <h1>Dit stopt niet vanzelf.</h1>
+            <p style="font-size: 1.2rem; font-weight: 400;">Maar het hoeft ook maar 18 minuten.</p>
+
+            <div class="section-space"></div>
+
+            <h2>Gewoon Even — Noodprotocol</h2>
+            <p>Je lichaam is de dijk geworden. Altijd alert. Altijd gespannen. Het weet niet meer hoe het moet stoppen.</p>
+            <p class="strong">Dit is niet jouw schuld. Het is een beschermingsmechanisme dat vastzit.</p>
+            <p class="strong">Het Noodprotocol laat de druk los — in 18 minuten.</p>
+
+            <div class="features">
+                <div class="feature">
+                    <span class="feature-check">✔</span>
+                    <span class="feature-text">Ademhalingstechniek (4-7-8) — activeert je nervus vagus, klinisch gevalideerd</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-check">✔</span>
+                    <span class="feature-text">Sensorische verankering — stopt de gedachtespiraal direct</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-check">✔</span>
+                    <span class="feature-text">Spierontspanning — lost de fysieke spanning op van hoofd tot voeten</span>
+                </div>
+            </div>
+
+            <p>⏱ Direct te gebruiken op je telefoon. Geen theorie. Geen wachtlijst. Gewoon een kalme stem die je terugleidt naar rust.</p>
+
+            <div class="price-compare">
+                <p class="old">Eén sessie bij een psycholoog: €100-150. Wachtlijst: 4-16 weken.</p>
+                <p class="new">Dit protocol: €17</p>
+                <p class="subtle" style="margin-top: 4px;">Eenmalige betaling. Direct toegang.</p>
+            </div>
+
+            <!-- STRIPE PAYMENT LINK - Replace # with your actual Stripe link -->
+            <a href="#" class="btn-primary" id="checkout-btn">Nu direct toegang — €17</a>
+
+            <div class="guarantee">
+                <p class="strong">60 dagen niet-goed-geld-terug.</p>
+                <p>Luister het protocol. Als het niet werkt, krijg je je geld terug. Geen vragen.</p>
+            </div>
+
+            <div class="trust-section">
+                <span class="trust-item">🔒 Veilig betalen via Stripe</span>
+                <span class="trust-item">🇳🇱 Gemaakt voor Nederland</span>
+                <span class="trust-item">Geen abonnement</span>
+            </div>
+
+            <p class="subtle" style="margin-top: 24px;">Gebaseerd op technieken gebruikt door 100.000+ therapeuten wereldwijd. Dit is geen medisch advies.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+    </div>
+</div>
+
+
+<!-- ================================ -->
+<!-- PAGE 3: UPSELL                   -->
+<!-- ================================ -->
+<div class="page" id="page-upsell">
+    <div class="container">
+        <div class="upsell-section">
+            <div class="upsell-badge">Eenmalig aanbod</div>
+            <h1>Wacht even.</h1>
+            <p>Je hebt nu het noodprotocol. Dat helpt als de dijk dreigt te breken.</p>
+            <p class="strong">Maar wat als je de dijk zelf sterker maakt?</p>
+
+            <div class="section-space"></div>
+
+            <h2>Het Protocol van 7 Dagen hertraint je zenuwstelsel.</h2>
+
+            <p>7 audio's van 12 minuten. Elke dag één laag:</p>
+
+            <div class="day-list">
+                <div class="day-item"><strong>Dag 1</strong> Ademhaling en vaguszenuw-activatie</div>
+                <div class="day-item"><strong>Dag 2</strong> Waar angst woont in je lichaam</div>
+                <div class="day-item"><strong>Dag 3</strong> Doemdenken onderbreken</div>
+                <div class="day-item"><strong>Dag 4</strong> Ruimte maken voor wat je onderdrukt hebt</div>
+                <div class="day-item"><strong>Dag 5</strong> Slaap — een avondritueel voor diepe regulatie</div>
+                <div class="day-item"><strong>Dag 6</strong> Aanwezigheid — terugkeren naar je omgeving</div>
+                <div class="day-item"><strong>Dag 7</strong> Integratie — je gereedschap voor de komende 30 dagen</div>
+            </div>
+
+            <p>Gebaseerd op neuroplasticiteit — je brein leert nieuwe patronen in 7 dagen.</p>
+            <p>Inclusief PDF-dagboek voor je voortgang.</p>
+
+            <div class="divider-line"></div>
+
+            <p class="subtle">Je hebt net het Noodprotocol gekocht. Daarom krijg je het Protocol van 7 Dagen nu voor de helft van de prijs. Dit aanbod verschijnt één keer.</p>
+
+            <div style="padding: 16px 0;">
+                <span class="price-strike">€67</span>
+                <span style="margin: 0 8px;">→</span>
+                <span class="price-new">€37</span>
+            </div>
+
+            <!-- STRIPE PAYMENT LINK - Replace # with your actual Stripe link -->
+            <a href="#" class="btn-primary">Ja, ik wil mijn zenuwstelsel hertrainen — €37</a>
+            <button class="btn-decline" onclick="showPage('page-downsell')">Nee bedankt, het Noodprotocol is genoeg</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================ -->
+<!-- PAGE 4: DOWNSELL                 -->
+<!-- ================================ -->
+<div class="page" id="page-downsell">
+    <div class="container">
+        <div class="upsell-section">
+            <h1>Neem dit mee.</h1>
+            <p>De Crisiskaart — je noodplan op papier.</p>
+            <p>5 stappen voor de eerste minuten van een paniekaanval. Printen, bewaren op je telefoon, of in je portemonnee stoppen.</p>
+            <p>Voor als je hoofd te vol is om na te denken.</p>
+
+            <div style="padding: 24px 0;">
+                <span class="price-new">€9</span>
+            </div>
+
+            <!-- STRIPE PAYMENT LINK - Replace # with your actual Stripe link -->
+            <a href="#" class="btn-primary">Ja, neem ik mee — €9</a>
+            <button class="btn-decline" onclick="showPage('page-thankyou')">Nee bedankt</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================ -->
+<!-- PAGE 5: THANK YOU                -->
+<!-- ================================ -->
+<div class="page" id="page-thankyou">
+    <div class="banner">
+        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1200" height="400" fill="#F5F2EE"/>
+            <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
+            <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
+            <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#D4836A" opacity="0.7"/>
+        </svg>
+        <div class="brand-name">Gewoon Even</div>
+    </div>
+
+    <div class="container">
+        <div class="thankyou-section">
+            <h1>Bedankt.</h1>
+            <p>Je ontvangt binnen enkele minuten een email met toegang. Check ook je spam.</p>
+            <p>Tip: download de audio nu en zet hem op je startscherm. Zodat je hem hebt wanneer je hem nodig hebt.</p>
+            <div class="thankyou-divider"></div>
+            <p class="strong">De dijk hoeft niet te breken.<br>Je hebt nu een sluissysteem.</p>
+            <div class="section-space"></div>
+            <p class="green-text strong" style="font-family: var(--font-display); font-size: 1.2rem;">— Gewoon Even</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+    </div>
+</div>
+
+
+<script>
+// ============ QUIZ LOGIC ============
+const questions = [
+    {
+        number: "Vraag 1 van 5",
+        text: "Je zit in de trein en opeens voelt alles te dichtbij — de geluiden, de mensen, de ruimte. Herken je dat?",
+        answers: ["Nee, nooit", "Af en toe", "Ja, regelmatig", "Ja, bijna elke keer"]
+    },
+    {
+        number: "Vraag 2 van 5",
+        text: "Je ligt in bed en je hoofd begint. Gedachten over morgen, over alles wat nog moet, over dingen die misschien nooit gebeuren. Hoe vaak?",
+        answers: ["Zelden", "Een paar keer per maand", "Meerdere keren per week", "Bijna elke nacht"]
+    },
+    {
+        number: "Vraag 3 van 5",
+        text: "Iemand vraagt 'gaat het?' en je zegt 'ja hoor, prima' terwijl je van binnen trilt. Hoe vaak doe je dat?",
+        answers: ["Nooit", "Soms", "Vaak", "Dat is mijn standaardmodus"]
+    },
+    {
+        number: "Vraag 4 van 5",
+        text: "Merk je spanning in je lichaam die er gewoon altijd is? Stijve kaken, schouders omhoog, buikpijn zonder reden?",
+        answers: ["Nee", "Nu je het zegt... ja", "Ja, dagelijks", "Ik wist niet dat dat niet normaal was"]
+    },
+    {
+        number: "Vraag 5 van 5",
+        text: "Als je eerlijk bent — wanneer was de laatste keer dat je echt ontspannen was? Niet 'even op de bank zitten' maar echt rustig van binnen?",
+        answers: ["Vorige week", "Vorige maand", "Ik weet het niet meer", "Ik weet niet of ik dat ooit heb gevoeld"]
+    }
+];
+
+let currentQuestion = 0;
+
+function renderQuestion(index) {
+    const q = questions[index];
+    const container = document.getElementById('quiz-container');
+    
+    container.innerHTML = `
+        <div class="question-container">
+            <div class="question-number">${q.number}</div>
+            <div class="question-text">${q.text}</div>
+            <div class="answers">
+                ${q.answers.map((a, i) => `
+                    <button class="answer-btn" onclick="selectAnswer(${i})">${a}</button>
+                `).join('')}
+            </div>
+        </div>
+    `;
+
+    document.getElementById('progress-fill').style.width = `${(index / questions.length) * 100}%`;
+}
+
+function selectAnswer(answerIndex) {
+    const buttons = document.querySelectorAll('.answer-btn');
+    buttons.forEach(b => b.classList.remove('selected'));
+    buttons[answerIndex].classList.add('selected');
+
+    setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+            renderQuestion(currentQuestion);
+        } else {
+            // Quiz complete
+            document.getElementById('progress-fill').style.width = '100%';
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('quiz-result').style.display = 'block';
+            document.querySelector('.quiz-intro').style.display = 'none';
+            document.querySelector('.progress-bar').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, 400);
+}
+
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Initialize
+renderQuestion(0);
+</script>
+
+</body>
+</html>
