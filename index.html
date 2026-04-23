@@ -819,15 +819,13 @@ function showPage(pageId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Handle URL-based page routing for delivery pages
-const hash = window.location.hash;
-if (hash === '#toegang-np-8f3k2m') {
-    showPage('page-deliver-noodprotocol');
-} else if (hash === '#toegang-p7-4x9nw') {
-    showPage('page-deliver-protocol7');
-} else if (hash === '#toegang-ck-2j7mp') {
-    showPage('page-deliver-crisiskaart');
-}
+// Handle URL-based page routing for delivery pages (wait for DOM so delivery divs exist)
+window.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash;
+    if (hash === '#toegang-np-8f3k2m') showPage('page-deliver-noodprotocol');
+    else if (hash === '#toegang-p7-4x9nw') showPage('page-deliver-protocol7');
+    else if (hash === '#toegang-ck-2j7mp') showPage('page-deliver-crisiskaart');
+});
 
 // Initialize
 renderQuestion(0);
