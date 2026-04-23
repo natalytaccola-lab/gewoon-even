@@ -447,6 +447,61 @@
             background: #E5E0DA;
             margin: 32px 0;
         }
+
+        /* ============ DELIVERY PAGES ============ */
+        .audio-track {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border: 1px solid #E5E0DA;
+        }
+
+        .audio-track-title {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--green);
+            margin-bottom: 8px;
+        }
+
+        .audio-track-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .audio-track audio {
+            width: 100%;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .download-link {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: var(--terra);
+            text-decoration: none;
+            margin-top: 8px;
+            font-weight: 400;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+
+        .delivery-header {
+            padding: 48px 0 24px;
+        }
+
+        .delivery-instruction {
+            background: rgba(61, 90, 80, 0.06);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 16px 0 24px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
     </style>
 </head>
 <body>
@@ -764,9 +819,221 @@ function showPage(pageId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Handle URL-based page routing for delivery pages
+const hash = window.location.hash;
+if (hash === '#toegang-np-8f3k2m') {
+    showPage('page-deliver-noodprotocol');
+} else if (hash === '#toegang-p7-4x9nw') {
+    showPage('page-deliver-protocol7');
+} else if (hash === '#toegang-ck-2j7mp') {
+    showPage('page-deliver-crisiskaart');
+}
+
 // Initialize
 renderQuestion(0);
 </script>
+
+
+<!-- ================================ -->
+<!-- DELIVERY: NOODPROTOCOL           -->
+<!-- ================================ -->
+<div class="page" id="page-deliver-noodprotocol">
+    <div class="banner">
+        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1200" height="400" fill="#F5F2EE"/>
+            <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
+            <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
+            <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#D4836A" opacity="0.7"/>
+        </svg>
+        <div class="brand-name">Gewoon Even</div>
+    </div>
+
+    <div class="container">
+        <div class="delivery-header">
+            <h1>Je Noodprotocol is klaar.</h1>
+            <p>Hieronder vind je je 3 protocollen. Je kunt ze hier beluisteren of downloaden naar je telefoon.</p>
+            <div class="delivery-instruction">
+                🎧 Gebruik koptelefoon of oordopjes voor het beste effect. De lage frequenties in de achtergrondmuziek werken het best via koptelefoon.
+            </div>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">① Noodstop</div>
+            <div class="audio-track-subtitle">Ademhalingstechniek 4-7-8 met aarding · 8 minuten</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/NoodProtocol%20Audio%201.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/NoodProtocol%20Audio%201.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">② Reset</div>
+            <div class="audio-track-subtitle">Sensorische verankering via aanraking · 8 minuten</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/RESET%20-%20Audio%202.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/RESET%20-%20Audio%202.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">③ Landing</div>
+            <div class="audio-track-subtitle">Progressieve spierontspanning met aarding · 8 minuten</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Landing%20-%20Audio%203.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Landing%20-%20Audio%203.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="section-space"></div>
+
+        <p class="subtle">Tip: download de audio's en zet ze op je startscherm. Zodat je ze hebt wanneer je ze nodig hebt.</p>
+
+        <div class="divider-line"></div>
+
+        <p class="green-text strong" style="font-family: var(--font-display); font-size: 1.1rem; text-align: center;">De grond houdt je vast. Altijd al.</p>
+
+        <div class="section-space"></div>
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+    </div>
+</div>
+
+
+<!-- ================================ -->
+<!-- DELIVERY: PROTOCOL 7 DAGEN       -->
+<!-- ================================ -->
+<div class="page" id="page-deliver-protocol7">
+    <div class="banner">
+        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1200" height="400" fill="#F5F2EE"/>
+            <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
+            <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
+            <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#D4836A" opacity="0.7"/>
+        </svg>
+        <div class="brand-name">Gewoon Even</div>
+    </div>
+
+    <div class="container">
+        <div class="delivery-header">
+            <h1>Je Protocol van 7 Dagen.</h1>
+            <p>7 audio's, 7 dagen, 12 minuten per dag. Luister ze in volgorde, één per dag. Elke dag bouwt voort op de vorige.</p>
+            <div class="delivery-instruction">
+                🎧 Gebruik koptelefoon of oordopjes voor het beste effect. Luister elke dag op hetzelfde moment — ochtend, lunch of avond — voor het sterkste resultaat.
+            </div>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">Dag 1 — Ademhaling</div>
+            <div class="audio-track-subtitle">Nervus vagus activatie als dagelijkse praktijk</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%201%20%E2%80%94%20Ademhaling.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%201%20%E2%80%94%20Ademhaling.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">Dag 2 — Lichaam</div>
+            <div class="audio-track-subtitle">Waar angst woont in je lichaam</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%202%20%E2%80%94%20Lichaam.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%202%20%E2%80%94%20Lichaam.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">Dag 3 — Gedachten</div>
+            <div class="audio-track-subtitle">Doemdenken onderbreken</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%203%20%E2%80%94%20Gedachten.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%203%20%E2%80%94%20Gedachten.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">Dag 4 — Emoties</div>
+            <div class="audio-track-subtitle">Wat de angst beschermt</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%204%20%E2%80%94%20Emoties.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%204%20%E2%80%94%20Emoties.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">Dag 5 — Slaap</div>
+            <div class="audio-track-subtitle">Een avondritueel voor diepe regulatie</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%205%20%E2%80%94%20Slaap.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%205%20%E2%80%94%20Slaap.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">Dag 6 — Aanwezigheid</div>
+            <div class="audio-track-subtitle">Terugkeren naar de wereld</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%206%20%E2%80%94%20Aanwezigheid.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%206%20%E2%80%94%20Aanwezigheid.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="audio-track">
+            <div class="audio-track-title">Dag 7 — Integratie</div>
+            <div class="audio-track-subtitle">Je gereedschap voor de komende 30 dagen</div>
+            <audio controls preload="none">
+                <source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%207%20%E2%80%94%20Integratie.MP3" type="audio/mpeg">
+            </audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Dag%207%20%E2%80%94%20Integratie.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+
+        <div class="section-space"></div>
+
+        <p class="subtle">Tip: download alle audio's en maak een afspeellijst op je telefoon in de juiste volgorde.</p>
+
+        <div class="divider-line"></div>
+
+        <p class="green-text strong" style="font-family: var(--font-display); font-size: 1.1rem; text-align: center;">De grond houdt je vast. Altijd al.</p>
+
+        <div class="section-space"></div>
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+    </div>
+</div>
+
+
+<!-- ================================ -->
+<!-- DELIVERY: CRISISKAART            -->
+<!-- ================================ -->
+<div class="page" id="page-deliver-crisiskaart">
+    <div class="container">
+        <div class="delivery-header">
+            <h1>Je Crisiskaart.</h1>
+            <p>Download het PDF-bestand, print het uit, of bewaar het op je telefoon. Voor als je hoofd te vol is om na te denken.</p>
+        </div>
+
+        <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Crisiskaart.pdf" download class="btn-primary" style="text-align: center;">↓ Download Crisiskaart (PDF)</a>
+
+        <div class="section-space"></div>
+
+        <div class="delivery-instruction">
+            Tip: open het PDF op je telefoon en kies "Voeg toe aan startscherm" zodat je het altijd bij de hand hebt. Je kunt het ook printen en in je portemonnee bewaren.
+        </div>
+
+        <div class="divider-line"></div>
+
+        <p class="green-text strong" style="font-family: var(--font-display); font-size: 1.1rem; text-align: center;">De grond houdt je vast. Altijd al.</p>
+
+        <div class="section-space"></div>
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+    </div>
+</div>
+
 
 </body>
 </html>
