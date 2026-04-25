@@ -853,17 +853,22 @@ function showPage(pageId) {
 }
 
 // Handle URL-based page routing for delivery pages
-const hash = window.location.hash;
-if (hash === '#toegang-np-8f3k2m') {
-    showPage('page-deliver-noodprotocol');
-} else if (hash === '#toegang-p7-4x9nw') {
-    showPage('page-deliver-protocol7');
-} else if (hash === '#toegang-ck-2j7mp') {
-    showPage('page-deliver-crisiskaart');
-}
+// Wrapped in DOMContentLoaded because the delivery page divs are defined
+// later in the document; without this, getElementById would return null
+// and showPage() would throw before fbq('track','Purchase') ran.
+document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash;
+    if (hash === '#toegang-np-8f3k2m') {
+        showPage('page-deliver-noodprotocol');
+    } else if (hash === '#toegang-p7-4x9nw') {
+        showPage('page-deliver-protocol7');
+    } else if (hash === '#toegang-ck-2j7mp') {
+        showPage('page-deliver-crisiskaart');
+    }
 
-// Initialize
-renderQuestion(0);
+    // Initialize
+    renderQuestion(0);
+});
 </script>
 
 
