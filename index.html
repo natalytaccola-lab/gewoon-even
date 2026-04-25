@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gewoon Even — Noodprotocol</title>
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1303902808354568');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1303902808354568&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
@@ -615,7 +632,7 @@
 
             <p style="font-size: 0.95rem; color: var(--text); text-align: center; font-style: italic; margin: 16px 0;">Je leest dit omdat je iets zoekt. Dat gevoel verdwijnt niet door deze pagina te sluiten.</p>
 
-            <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary" id="checkout-btn">Nu direct toegang — €17</a>
+            <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Nu direct toegang — €17</a>
 
             <div class="guarantee">
                 <p class="strong">60 dagen niet-goed-geld-terug.</p>
@@ -680,7 +697,7 @@
                 <span class="price-new">€37</span>
             </div>
 
-            <a href="https://buy.stripe.com/3cI4gy5QI9ol8kcblofjG01" class="btn-primary">Ja, ik wil mijn zenuwstelsel hertrainen — €37</a>
+            <a href="https://buy.stripe.com/3cI4gy5QI9ol8kcblofjG01" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik wil mijn zenuwstelsel hertrainen — €37</a>
             <button class="btn-decline" onclick="showPage('page-downsell')">Nee bedankt, het Noodprotocol is genoeg</button>
         </div>
     </div>
@@ -702,7 +719,7 @@
                 <span class="price-new">€9</span>
             </div>
 
-            <a href="https://buy.stripe.com/3cI00i92Ubwt1VO1KOfjG02" class="btn-primary">Ja, neem ik mee — €9</a>
+            <a href="https://buy.stripe.com/3cI00i92Ubwt1VO1KOfjG02" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Crisiskaart',value:9.00,currency:'EUR'})">Ja, neem ik mee — €9</a>
             <button class="btn-decline" onclick="showPage('page-thankyou')">Nee bedankt</button>
         </div>
     </div>
@@ -809,6 +826,7 @@ function selectAnswer(answerIndex) {
             document.querySelector('.quiz-intro').style.display = 'none';
             document.querySelector('.progress-bar').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            fbq('track', 'Lead');
         }
     }, 400);
 }
@@ -817,15 +835,32 @@ function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Meta Pixel conversion events
+    if (pageId === 'page-checkout') {
+        fbq('track', 'ViewContent', {content_name: 'Noodprotocol', value: 17.00, currency: 'EUR'});
+    } else if (pageId === 'page-upsell') {
+        fbq('track', 'ViewContent', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
+    } else if (pageId === 'page-downsell') {
+        fbq('track', 'ViewContent', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
+    } else if (pageId === 'page-deliver-noodprotocol') {
+        fbq('track', 'Purchase', {content_name: 'Noodprotocol', value: 17.00, currency: 'EUR'});
+    } else if (pageId === 'page-deliver-protocol7') {
+        fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
+    } else if (pageId === 'page-deliver-crisiskaart') {
+        fbq('track', 'Purchase', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
+    }
 }
 
-// Handle URL-based page routing for delivery pages (wait for DOM so delivery divs exist)
-window.addEventListener('DOMContentLoaded', () => {
-    const hash = window.location.hash;
-    if (hash === '#toegang-np-8f3k2m') showPage('page-deliver-noodprotocol');
-    else if (hash === '#toegang-p7-4x9nw') showPage('page-deliver-protocol7');
-    else if (hash === '#toegang-ck-2j7mp') showPage('page-deliver-crisiskaart');
-});
+// Handle URL-based page routing for delivery pages
+const hash = window.location.hash;
+if (hash === '#toegang-np-8f3k2m') {
+    showPage('page-deliver-noodprotocol');
+} else if (hash === '#toegang-p7-4x9nw') {
+    showPage('page-deliver-protocol7');
+} else if (hash === '#toegang-ck-2j7mp') {
+    showPage('page-deliver-crisiskaart');
+}
 
 // Initialize
 renderQuestion(0);
