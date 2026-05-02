@@ -519,6 +519,78 @@
             font-size: 0.9rem;
             color: var(--text);
         }
+
+        /* ============ EMAIL CAPTURE ============ */
+        #page-email-capture .container {
+            max-width: 480px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        #page-email-capture h2 {
+            font-size: 32px;
+            color: #2C2C2C;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        #page-email-capture .subtitle {
+            font-size: 18px;
+            color: #2C2C2C;
+            opacity: 0.85;
+            margin-bottom: 36px;
+            line-height: 1.5;
+        }
+
+        #email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        #email-input {
+            padding: 16px 20px;
+            font-size: 16px;
+            border: 1px solid #B8A898;
+            border-radius: 8px;
+            background: #F5F2EE;
+            color: #2C2C2C;
+            font-family: inherit;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #email-input:focus {
+            outline: none;
+            border-color: #3D5A50;
+        }
+
+        #page-email-capture .btn-primary {
+            padding: 16px 32px;
+            font-size: 16px;
+            background: #3D5A50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        #page-email-capture .btn-primary:hover {
+            background: #2C2C2C;
+        }
+
+        #page-email-capture .privacy-note {
+            font-size: 13px;
+            color: #2C2C2C;
+            opacity: 0.6;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -560,7 +632,7 @@
                 <p class="strong">Maar het is niet normaal. Het is een lichaam dat vastzit in een alarmstand die niet meer uitgaat.</p>
                 <p class="strong">Het goede nieuws: het hoeft maar 3 stappen om dat systeem te resetten.</p>
                 <div class="section-space"></div>
-                <button class="btn-primary" onclick="showPage('page-checkout')">Laat me zien hoe →</button>
+                <button class="btn-primary" onclick="showPage('page-email-capture')">Laat me zien hoe →</button>
             </div>
         </div>
     </div>
@@ -651,6 +723,34 @@
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+    </div>
+</div>
+
+
+<!-- ================================ -->
+<!-- PAGE 2.5: EMAIL CAPTURE          -->
+<!-- ================================ -->
+<div class="page" id="page-email-capture">
+    <div class="container">
+        <h2>Je bent er bijna.</h2>
+        <p class="subtitle">
+            Vul je e-mailadres in om verder te gaan naar je persoonlijke protocol.
+        </p>
+        <form id="email-form" onsubmit="handleEmailSubmit(event)">
+            <input
+                type="email"
+                id="email-input"
+                placeholder="naam@voorbeeld.nl"
+                required
+                autocomplete="email"
+            />
+            <button type="submit" class="btn-primary">
+                Doorgaan →
+            </button>
+        </form>
+        <p class="privacy-note">
+            We sturen je alleen relevante informatie over je protocol. Geen spam, je kunt je altijd uitschrijven.
+        </p>
     </div>
 </div>
 
@@ -826,7 +926,7 @@ function selectAnswer(answerIndex) {
             document.querySelector('.quiz-intro').style.display = 'none';
             document.querySelector('.progress-bar').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            fbq('track', 'Lead');
+            // Lead event moved to handleEmailSubmit() — fires after email capture with Advanced Matching.
         }
     }, 400);
 }
@@ -850,6 +950,39 @@ function showPage(pageId) {
     } else if (pageId === 'page-deliver-crisiskaart') {
         fbq('track', 'Purchase', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
     }
+}
+
+function handleEmailSubmit(event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById('email-input');
+    const email = emailInput.value.trim().toLowerCase();
+
+    // Extra format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        emailInput.setCustomValidity('Voer een geldig e-mailadres in');
+        emailInput.reportValidity();
+        return;
+    }
+
+    emailInput.setCustomValidity('');
+
+    // Save email for later use (Brevo + Stripe checkout)
+    sessionStorage.setItem('userEmail', email);
+
+    // Fire Lead event with Advanced Matching (em parameter)
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead', {
+            content_name: 'Quiz Completed',
+            content_category: 'Email Capture'
+        }, {
+            em: email
+        });
+    }
+
+    // Advance to checkout
+    showPage('page-checkout');
 }
 
 // Handle URL-based page routing for delivery pages
