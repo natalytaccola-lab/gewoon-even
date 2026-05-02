@@ -981,6 +981,15 @@ function handleEmailSubmit(event) {
         });
     }
 
+    // Brevo integration — fire-and-forget, não bloqueia navegação
+    fetch('/api/brevo-add-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+    }).catch(err => {
+        console.error('[Brevo] Failed to add contact:', err);
+    });
+
     // Clear input value (Test 5.10) before navigating away.
     emailInput.value = '';
 
