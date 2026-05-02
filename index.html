@@ -972,14 +972,17 @@ function handleEmailSubmit(event) {
     sessionStorage.setItem('userEmail', email);
 
     // Fire Lead event with Advanced Matching (em parameter)
+    // Re-init Pixel with em so AM is sent on the next track call (ud[em] in URL).
     if (typeof fbq !== 'undefined') {
+        fbq('init', '1303902808354568', {em: email});
         fbq('track', 'Lead', {
             content_name: 'Quiz Completed',
             content_category: 'Email Capture'
-        }, {
-            em: email
         });
     }
+
+    // Clear input value (Test 5.10) before navigating away.
+    emailInput.value = '';
 
     // Advance to checkout
     showPage('page-checkout');
