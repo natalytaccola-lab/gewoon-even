@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noodprotocol — Gewoon Even</title>
+  <meta http-equiv="refresh" content="2; url=https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #FAF9F6;
+      color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container { max-width: 400px; }
+    p { line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1303902808354568');
+    fbq('track', 'PageView');
+    fbq('track', 'InitiateCheckout', {
+      value: 17.00,
+      currency: 'EUR',
+      content_name: 'Noodprotocol',
+      content_category: 'audio_protocol'
+    });
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1303902808354568&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+  <div class="container">
+    <p>Een moment...</p>
+    <p>Je wordt doorverwezen naar de beveiligde betaalpagina.</p>
+  </div>
+  <script>
+    setTimeout(function() {
+      window.location.href = "https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00";
+    }, 2000);
+  </script>
+</body>
+</html>
