@@ -18,16 +18,16 @@ async function buffer(readable) {
   return Buffer.concat(chunks);
 }
 
-// Identifica produto pelo nome no line_items (mais robusto que valor)
-function getProductTag(lineItems) {
-  if (!lineItems || lineItems.length === 0) return 'BUYER_UNKNOWN';
+// Identifica produto pelo nome do produto Stripe (mais robusto que description)
+function getProductTag(productName) {
+  if (!productName) return 'BUYER_UNKNOWN';
 
-  const productName = lineItems[0]?.description?.toLowerCase() || '';
+  const name = productName.toLowerCase();
 
-  if (productName.includes('noodprotocol')) return 'BUYER_NP';
-  if (productName.includes('protocol 7 dagen') || productName.includes('protocol7')) return 'BUYER_P7D';
-  if (productName.includes('crisiskaart')) return 'BUYER_CK';
-  if (productName.includes('slaapprotocol')) return 'BUYER_SLAAP';
+  if (name.includes('noodprotocol')) return 'BUYER_NP';
+  if (name.includes('protocol 7 dagen') || name.includes('protocol7') || name.includes('p7d')) return 'BUYER_P7D';
+  if (name.includes('crisiskaart')) return 'BUYER_CK';
+  if (name.includes('slaapprotocol')) return 'BUYER_SLAAP';
 
   return 'BUYER_UNKNOWN';
 }
@@ -78,21 +78,27 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true, noop: true, reason: 'brevo_env_missing', email: customerEmail });
   }
 
-  // 2. Buscar line_items para identificar produto pelo nome
-  let lineItems;
+  // 2. Buscar line_items COM expand do produto para pegar o nome real
+  let productName = '';
   try {
-    const lineItemsResponse = await stripe.checkout.sessions.listLineItems(session.id, { limit: 10 });
-    lineItems = lineItemsResponse.data;
+    const lineItemsResponse = await stripe.checkout.sessions.listLineItems(session.id, {
+      limit: 10,
+      expand: ['data.price.product']
+    });
+    const firstItem = lineItemsResponse.data[0];
+    productName = firstItem?.price?.product?.name || firstItem?.description || '';
+    console.log(`[Stripe Webhook] Product name detected: "${productName}"`);
   } catch (err) {
     console.error('[Stripe Webhook] Failed to fetch line items:', err.message);
-    lineItems = [];
   }
 
-  const productTag = getProductTag(lineItems);
+  const productTag = getProductTag(productName);
   const amountPaid = (session.amount_total / 100).toFixed(2);
   const currency = session.currency?.toUpperCase() || 'EUR';
 
-  // 3. Atualizar contato no Brevo: adiciona à lista Buyers, grava tag específica em BUYER_STATUS
+  console.log(`[Stripe Webhook] Mapped tag: ${productTag} for product: "${productName}"`);
+
+  // 3. Atualizar contato no Brevo
   try {
     const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(customerEmail)}`, {
       method: 'PUT',
@@ -137,7 +143,7 @@ export default async function handler(req, res) {
       }
 
       console.log(`[Stripe Webhook] Created ${customerEmail} as ${productTag}`);
-      return res.status(200).json({ ok: true, email: customerEmail, tag: productTag, action: 'created' });
+      return res.status(200).json({ ok: true, email: customerEmail, tag: productTag, productName, action: 'created' });
     }
 
     if (!response.ok) {
@@ -151,6 +157,7 @@ export default async function handler(req, res) {
       ok: true,
       email: customerEmail,
       tag: productTag,
+      productName,
       amount: amountPaid,
       action: 'updated'
     });
