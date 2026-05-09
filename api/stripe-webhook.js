@@ -1,6 +1,6 @@
 // Webhook do Stripe que escuta checkout.session.completed
 // e taggeia o comprador no Brevo na lista Buyers com tag específica do produto
-// Modo defensivo: noop se env vars não configuradas
+// Identificação por amount_total (mais fiável que listLineItems API call)
 
 import Stripe from 'stripe';
 
@@ -18,17 +18,12 @@ async function buffer(readable) {
   return Buffer.concat(chunks);
 }
 
-// Identifica produto pelo nome do produto Stripe (mais robusto que description)
-function getProductTag(productName) {
-  if (!productName) return 'BUYER_UNKNOWN';
-
-  const name = productName.toLowerCase();
-
-  if (name.includes('noodprotocol')) return 'BUYER_NP';
-  if (name.includes('protocol 7 dagen') || name.includes('protocol7') || name.includes('p7d')) return 'BUYER_P7D';
-  if (name.includes('crisiskaart')) return 'BUYER_CK';
-  if (name.includes('slaapprotocol')) return 'BUYER_SLAAP';
-
+// Identifica produto pelo amount_total (em cents) — vem direto no payload do webhook
+function getProductTag(amountTotal) {
+  if (amountTotal === 900)  return 'BUYER_CK';     // €9  Crisiskaart
+  if (amountTotal === 1700) return 'BUYER_NP';     // €17 Noodprotocol
+  if (amountTotal === 3700) return 'BUYER_P7D';    // €37 Protocol 7 Dagen
+  if (amountTotal === 6700) return 'BUYER_SLAAP';  // €67 Slaapprotocol
   return 'BUYER_UNKNOWN';
 }
 
@@ -78,25 +73,12 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true, noop: true, reason: 'brevo_env_missing', email: customerEmail });
   }
 
-  // 2. Buscar line_items COM expand do produto para pegar o nome real
-  let productName = '';
-  try {
-    const lineItemsResponse = await stripe.checkout.sessions.listLineItems(session.id, {
-      limit: 10,
-      expand: ['data.price.product']
-    });
-    const firstItem = lineItemsResponse.data[0];
-    productName = firstItem?.price?.product?.name || firstItem?.description || '';
-    console.log(`[Stripe Webhook] Product name detected: "${productName}"`);
-  } catch (err) {
-    console.error('[Stripe Webhook] Failed to fetch line items:', err.message);
-  }
-
-  const productTag = getProductTag(productName);
+  // 2. Identificar produto pelo amount_total (zero chamadas Stripe extras)
+  const productTag = getProductTag(session.amount_total);
   const amountPaid = (session.amount_total / 100).toFixed(2);
   const currency = session.currency?.toUpperCase() || 'EUR';
 
-  console.log(`[Stripe Webhook] Mapped tag: ${productTag} for product: "${productName}"`);
+  console.log(`[Stripe Webhook] Mapped tag: ${productTag} for amount: €${amountPaid}`);
 
   // 3. Atualizar contato no Brevo
   try {
@@ -143,7 +125,7 @@ export default async function handler(req, res) {
       }
 
       console.log(`[Stripe Webhook] Created ${customerEmail} as ${productTag}`);
-      return res.status(200).json({ ok: true, email: customerEmail, tag: productTag, productName, action: 'created' });
+      return res.status(200).json({ ok: true, email: customerEmail, tag: productTag, action: 'created' });
     }
 
     if (!response.ok) {
@@ -157,7 +139,6 @@ export default async function handler(req, res) {
       ok: true,
       email: customerEmail,
       tag: productTag,
-      productName,
       amount: amountPaid,
       action: 'updated'
     });
