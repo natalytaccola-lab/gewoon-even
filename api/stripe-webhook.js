@@ -1,17 +1,15 @@
 // Webhook do Stripe que escuta checkout.session.completed
-// e taggeia o comprador no Brevo como buyer (com produto específico)
+// e taggeia o comprador no Brevo na lista Buyers com tag específica do produto
 // Modo defensivo: noop se env vars não configuradas
 
 import Stripe from 'stripe';
 
-// Vercel precisa raw body pra signature verification
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Helper pra ler raw body do request stream
 async function buffer(readable) {
   const chunks = [];
   for await (const chunk of readable) {
@@ -20,19 +18,18 @@ async function buffer(readable) {
   return Buffer.concat(chunks);
 }
 
-// Mapeia Payment Link IDs ou Product Names pra tags Brevo
-// Ajustar conforme produtos reais do Stripe
-function getProductTag(session) {
-  const amount = session.amount_total; // em cents
+// Identifica produto pelo nome no line_items (mais robusto que valor)
+function getProductTag(lineItems) {
+  if (!lineItems || lineItems.length === 0) return 'BUYER_UNKNOWN';
 
-  // Mapping por valor (mais robusto que IDs específicos)
-  if (amount === 900) return 'buyer_crisiskaart';
-  if (amount === 1700) return 'buyer_noodprotocol';
-  if (amount === 2700) return 'buyer_noodprotocol'; // novo preço futuro
-  if (amount === 3700) return 'buyer_protocol7';
-  if (amount === 4700) return 'buyer_protocol7'; // novo preço futuro
+  const productName = lineItems[0]?.description?.toLowerCase() || '';
 
-  return 'buyer_unknown'; // fallback
+  if (productName.includes('noodprotocol')) return 'BUYER_NP';
+  if (productName.includes('protocol 7 dagen') || productName.includes('protocol7')) return 'BUYER_P7D';
+  if (productName.includes('crisiskaart')) return 'BUYER_CK';
+  if (productName.includes('slaapprotocol')) return 'BUYER_SLAAP';
+
+  return 'BUYER_UNKNOWN';
 }
 
 export default async function handler(req, res) {
@@ -43,9 +40,8 @@ export default async function handler(req, res) {
   const stripeSecret = process.env.STRIPE_SECRET_KEY;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   const brevoApiKey = process.env.BREVO_API_KEY;
-  const brevoListId = process.env.BREVO_LIST_ID;
+  const brevoBuyersListId = process.env.BREVO_BUYERS_LIST_ID;
 
-  // Modo noop se env vars críticas faltarem
   if (!stripeSecret || !webhookSecret) {
     console.log('[Stripe Webhook] Stripe env vars not configured, skipping');
     return res.status(200).json({ ok: true, noop: true, reason: 'stripe_env_missing' });
@@ -53,19 +49,17 @@ export default async function handler(req, res) {
 
   const stripe = new Stripe(stripeSecret);
 
-  // 1. Verificar signature (proteção contra webhook fake)
+  // 1. Verificar signature
   let event;
   try {
     const rawBody = await buffer(req);
     const signature = req.headers['stripe-signature'];
-
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
   } catch (err) {
     console.error('[Stripe Webhook] Signature verification failed:', err.message);
     return res.status(400).json({ error: 'Invalid signature' });
   }
 
-  // 2. Processar apenas checkout.session.completed
   if (event.type !== 'checkout.session.completed') {
     console.log(`[Stripe Webhook] Ignoring event type: ${event.type}`);
     return res.status(200).json({ ok: true, ignored: true });
@@ -79,18 +73,26 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: false, error: 'no_email' });
   }
 
-  // 3. Modo noop se Brevo não configurado
-  if (!brevoApiKey || !brevoListId) {
+  if (!brevoApiKey || !brevoBuyersListId) {
     console.log('[Stripe Webhook] Brevo env vars not configured, skipping tagging');
     return res.status(200).json({ ok: true, noop: true, reason: 'brevo_env_missing', email: customerEmail });
   }
 
-  // 4. Identificar produto comprado e gerar tag
-  const productTag = getProductTag(session);
+  // 2. Buscar line_items para identificar produto pelo nome
+  let lineItems;
+  try {
+    const lineItemsResponse = await stripe.checkout.sessions.listLineItems(session.id, { limit: 10 });
+    lineItems = lineItemsResponse.data;
+  } catch (err) {
+    console.error('[Stripe Webhook] Failed to fetch line items:', err.message);
+    lineItems = [];
+  }
+
+  const productTag = getProductTag(lineItems);
   const amountPaid = (session.amount_total / 100).toFixed(2);
   const currency = session.currency?.toUpperCase() || 'EUR';
 
-  // 5. Atualizar contato no Brevo com atributos de buyer
+  // 3. Atualizar contato no Brevo: adiciona à lista Buyers, grava tag específica em BUYER_STATUS
   try {
     const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(customerEmail)}`, {
       method: 'PUT',
@@ -101,20 +103,46 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         attributes: {
-          BUYER_STATUS: 'active',
-          LAST_PURCHASE_DATE: new Date().toISOString(),
-          LAST_PURCHASE_AMOUNT: amountPaid,
-          LAST_PURCHASE_CURRENCY: currency,
-          LAST_PRODUCT_TAG: productTag
+          BUYER_STATUS: productTag,
+          LAST_PURCHASE_DATE: new Date().toISOString().split('T')[0]
         },
-        listIds: [parseInt(brevoListId, 10)]
+        listIds: [parseInt(brevoBuyersListId, 10)]
       })
     });
+
+    // Se contato não existe, criar
+    if (response.status === 404) {
+      const createResponse = await fetch('https://api.brevo.com/v3/contacts', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'api-key': brevoApiKey,
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: customerEmail,
+          attributes: {
+            BUYER_STATUS: productTag,
+            LAST_PURCHASE_DATE: new Date().toISOString().split('T')[0]
+          },
+          listIds: [parseInt(brevoBuyersListId, 10)],
+          updateEnabled: true
+        })
+      });
+
+      if (!createResponse.ok) {
+        const errorBody = await createResponse.text();
+        console.error('[Stripe Webhook] Brevo create error:', createResponse.status, errorBody);
+        return res.status(200).json({ ok: false, error: 'brevo_create_failed' });
+      }
+
+      console.log(`[Stripe Webhook] Created ${customerEmail} as ${productTag}`);
+      return res.status(200).json({ ok: true, email: customerEmail, tag: productTag, action: 'created' });
+    }
 
     if (!response.ok) {
       const errorBody = await response.text();
       console.error('[Stripe Webhook] Brevo update error:', response.status, errorBody);
-      // Retorna 200 mesmo em erro pra Stripe não retentar
       return res.status(200).json({ ok: false, error: 'brevo_update_failed' });
     }
 
@@ -123,7 +151,8 @@ export default async function handler(req, res) {
       ok: true,
       email: customerEmail,
       tag: productTag,
-      amount: amountPaid
+      amount: amountPaid,
+      action: 'updated'
     });
 
   } catch (error) {
