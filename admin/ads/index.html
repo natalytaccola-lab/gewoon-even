@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Gewoon Even — Ads Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F2EE;
+            --bg-card: #FFFFFF;
+            --bg-soft: #FAF8F5;
+            --text: #2C2C2C;
+            --text-light: #888888;
+            --text-muted: #B8B0A6;
+            --green: #3D5A50;
+            --green-light: #4A6B5D;
+            --green-bg: rgba(61, 90, 80, 0.08);
+            --sand: #B8A898;
+            --terra: #D4836A;
+            --terra-hover: #C0745B;
+            --terra-bg: rgba(212, 131, 106, 0.12);
+            --border: #E5E0DA;
+            --border-soft: #EFEAE3;
+            --white: #FFFFFF;
+            --danger: #C04A3D;
+            --warning: #D49B3D;
+            --success: #3D8B5C;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'Outfit', -apple-system, sans-serif;
+            --font-mono: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ============ PASSWORD GATE ============ */
+        .gate-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .gate-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px 40px;
+            max-width: 420px;
+            width: calc(100% - 32px);
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        .gate-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 20px;
+            background: var(--green-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .gate-card h1 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .gate-card .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 28px;
+        }
+
+        .gate-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg-soft);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 12px;
+        }
+
+        .gate-input:focus { border-color: var(--green); }
+
+        .gate-button {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 500;
+            background: var(--green);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .gate-button:hover { background: var(--green-light); }
+        .gate-button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .gate-error {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 12px;
+            min-height: 1.2em;
+        }
+
+        /* ============ APP SHELL ============ */
+        .app {
+            display: none;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px 64px;
+        }
+
+        .app.active { display: block; }
+
+        /* ============ HEADER ============ */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .header-title h1 {
+            font-family: var(--font-display);
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 4px;
+        }
+
+        .header-title .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 100px;
+            background: var(--green-bg);
+            color: var(--green);
+        }
+
+        .status-pill::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+        }
+
+        .status-pill.paused { background: rgba(212, 155, 61, 0.15); color: var(--warning); }
+        .status-pill.paused::before { background: var(--warning); }
+        .status-pill.loading { background: var(--border-soft); color: var(--text-light); }
+        .status-pill.loading::before { background: var(--text-light); animation: pulse 1.4s ease-in-out infinite; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        .refresh-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 14px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover { border-color: var(--green); color: var(--green); }
+        .refresh-btn:disabled { opacity: 0.5; cursor: wait; }
+        .refresh-btn.spinning svg { animation: spin 1s linear infinite; }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============ STATUS BAR ============ */
+        .status-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .status-bar-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        .status-bar-item .check {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .status-bar-item .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        /* ============ CARD GRID ============ */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: border-color 0.2s;
+        }
+
+        .stat-card:hover { border-color: var(--sand); }
+
+        .stat-card .label {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-family: var(--font-display);
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.1;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-card .value.loading { color: var(--text-muted); }
+
+        .stat-card .meta {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .stat-card .meta.target {
+            color: var(--green);
+            font-weight: 500;
+        }
+
+        /* ============ SECTION ============ */
+        section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header .meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        /* ============ COACH CARD ============ */
+        .coach-card {
+            background: linear-gradient(135deg, var(--green-bg) 0%, var(--terra-bg) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 40px;
+        }
+
+        .coach-card h2 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .coach-card .lede {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .coach-card .lede strong { font-weight: 600; color: var(--green); }
+
+        .coach-rows {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        .coach-row {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 14px 18px;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 16px;
+            align-items: start;
+        }
+
+        @media (max-width: 700px) {
+            .coach-row { grid-template-columns: 1fr; gap: 4px; }
+        }
+
+        .coach-row .label {
+            font-weight: 600;
+            color: var(--green);
+            font-size: 0.9rem;
+        }
+
+        .coach-row .value {
+            font-weight: 500;
+            color: var(--text);
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .coach-row .desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* ============ CHECKLIST ============ */
+        .checklist-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .checklist-progress {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .checklist-progress .count {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .checklist-progress .bar {
+            flex: 1;
+            height: 4px;
+            background: var(--border-soft);
+            border-radius: 2px;
+            margin: 0 16px;
+            overflow: hidden;
+        }
+
+        .checklist-progress .bar-fill {
+            height: 100%;
+            background: var(--green);
+            transition: width 0.4s ease;
+        }
+
+        .checklist {
+            list-style: none;
+            display: grid;
+            gap: 10px;
+        }
+
+        .checklist li {
+            display: grid;
+            grid-template-columns: 24px 1fr;
+            gap: 10px;
+            font-size: 0.9rem;
+            align-items: start;
+            padding: 6px 0;
+        }
+
+        .checklist .icon {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .checklist .item-text strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .checklist .item-text .detail {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+
+        /* ============ ADSET CARDS ============ */
+        .adset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .adset-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .adset-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green);
+            margin-bottom: 4px;
+        }
+
+        .adset-card .adset-id {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .adset-card .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .adset-card .row:last-of-type { border-bottom: none; }
+        .adset-card .row .key { color: var(--text-light); }
+        .adset-card .row .val { color: var(--text); font-weight: 500; text-align: right; }
+
+        /* ============ TABLE ============ */
+        .table-wrap {
+            overflow-x: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        thead tr { background: var(--bg-soft); }
+
+        th {
+            text-align: left;
+            padding: 12px 14px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-soft);
+            color: var(--text);
+        }
+
+        tr:last-child td { border-bottom: none; }
+        td.num { font-variant-numeric: tabular-nums; font-family: var(--font-mono); font-size: 0.8rem; }
+        td .creative-title { font-weight: 500; }
+        td .creative-hook { font-size: 0.78rem; color: var(--text-light); margin-top: 2px; }
+
+        .verdict {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        .verdict.active { background: var(--green-bg); color: var(--green); }
+        .verdict.paused { background: rgba(212, 155, 61, 0.15); color: var(--warning); }
+        .verdict.scale { background: rgba(61, 139, 92, 0.15); color: var(--success); }
+        .verdict.kill { background: rgba(192, 74, 61, 0.12); color: var(--danger); }
+
+        .table-empty {
+            padding: 32px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .table-empty strong { color: var(--text); display: block; margin-bottom: 6px; font-weight: 600; }
+
+        /* ============ CREATIVE PREVIEWS ============ */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .preview-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+
+        .preview-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .preview-avatar {
+            width: 38px;
+            height: 38px;
+            background: var(--green);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            font-family: var(--font-display);
+            flex-shrink: 0;
+        }
+
+        .preview-meta .name { font-weight: 600; color: var(--text); font-size: 0.88rem; }
+        .preview-meta .sponsored { color: var(--text-light); font-size: 0.75rem; }
+
+        .preview-copy {
+            padding: 12px 14px;
+            color: var(--text);
+            line-height: 1.45;
+            font-size: 0.85rem;
+        }
+
+        .preview-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: var(--bg-soft);
+            background-size: cover;
+            background-position: center;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .preview-footer {
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-soft);
+            border-top: 1px solid var(--border-soft);
+        }
+
+        .preview-footer .domain {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .preview-footer .headline {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.85rem;
+            margin-top: 1px;
+        }
+
+        .preview-cta {
+            background: var(--terra);
+            color: var(--white);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.78rem;
+        }
+
+        .preview-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 10px 14px;
+            border-top: 1px solid var(--border-soft);
+            font-size: 0.75rem;
+        }
+
+        .preview-stats .stat { text-align: center; }
+        .preview-stats .stat .v { display: block; color: var(--text); font-weight: 600; font-size: 0.9rem; font-family: var(--font-display); }
+        .preview-stats .stat .k { color: var(--text-light); text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.05em; }
+
+        .preview-tag {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding: 6px 14px;
+            background: var(--bg);
+            font-family: var(--font-mono);
+            border-top: 1px solid var(--border-soft);
+        }
+
+        /* ============ HEATMAP ============ */
+        .heatmap-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .heatmap {
+            display: grid;
+            grid-template-columns: 32px repeat(7, 1fr);
+            gap: 3px;
+            min-width: 520px;
+        }
+
+        .heatmap .hour-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-align: right;
+            padding-right: 4px;
+            font-family: var(--font-mono);
+            line-height: 18px;
+        }
+
+        .heatmap .day-label {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            text-align: center;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding-bottom: 4px;
+        }
+
+        .heatmap .cell {
+            height: 14px;
+            border-radius: 2px;
+            background: var(--bg-soft);
+        }
+
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: flex-end;
+            margin-top: 14px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .heatmap-legend .scale {
+            display: flex;
+            gap: 2px;
+        }
+
+        .heatmap-legend .scale .cell {
+            width: 14px;
+            height: 14px;
+            border-radius: 2px;
+        }
+
+        /* ============ INFO GRID ============ */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .info-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card .body { font-size: 0.88rem; color: var(--text); line-height: 1.55; }
+        .info-card .body p { margin-bottom: 8px; }
+        .info-card .body ul { list-style: none; padding: 0; }
+        .info-card .body li { padding: 4px 0; padding-left: 16px; position: relative; font-size: 0.86rem; color: var(--text-light); }
+        .info-card .body li::before {
+            content: '·';
+            position: absolute;
+            left: 4px;
+            color: var(--green);
+            font-weight: 600;
+        }
+        .info-card .body code {
+            font-family: var(--font-mono);
+            background: var(--bg-soft);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--green);
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-soft);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .err-banner {
+            background: rgba(192, 74, 61, 0.08);
+            border: 1px solid rgba(192, 74, 61, 0.3);
+            color: var(--danger);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .app { padding: 20px 16px 48px; }
+            .header-title h1 { font-size: 1.5rem; }
+            .stat-card .value { font-size: 1.4rem; }
+            .coach-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============ PASSWORD GATE ============ -->
+<div class="gate-overlay" id="gate">
+    <div class="gate-card">
+        <div class="gate-icon">🔒</div>
+        <h1>Ads Command Center</h1>
+        <p class="subtitle">Enter password to access the dashboard</p>
+        <form id="gate-form" autocomplete="off">
+            <input type="password" id="gate-password" class="gate-input" placeholder="Password" autocomplete="off" required>
+            <button type="submit" class="gate-button" id="gate-submit">Enter →</button>
+        </form>
+        <div class="gate-error" id="gate-error"></div>
+    </div>
+</div>
+
+<!-- ============ APP ============ -->
+<main class="app" id="app">
+    <header class="header">
+        <div class="header-title">
+            <h1>Gewoon Even — Ads Command Center</h1>
+            <p class="subtitle">Meta Ads · Performance · Targeting · Launch Plan</p>
+        </div>
+        <div class="header-actions">
+            <span class="status-pill loading" id="campaign-pill">Loading…</span>
+            <button class="refresh-btn" id="refresh-btn" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Refresh
+            </button>
+        </div>
+    </header>
+
+    <div id="error-banner-container"></div>
+
+    <!-- Status bar -->
+    <div class="status-bar" id="status-bar">
+        <div class="status-bar-item"><span class="check">✓</span> Pixel live (PageView + Lead + Purchase)</div>
+        <div class="status-bar-item"><span class="dot"></span> <span id="optimization-event">OFFSITE_CONVERSIONS optimization</span></div>
+        <div class="status-bar-item"><span class="dot"></span> <span id="creatives-count">— creatives</span></div>
+        <div class="status-bar-item"><span class="dot"></span> <span id="token-expiry">Token: checking…</span></div>
+    </div>
+
+    <!-- Status cards -->
+    <div class="card-grid">
+        <div class="stat-card">
+            <div class="label">Campaign Status</div>
+            <div class="value loading" id="card-status">—</div>
+            <div class="meta" id="card-status-meta">Loading…</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Daily Budget</div>
+            <div class="value loading" id="card-budget">—</div>
+            <div class="meta" id="card-budget-meta">—</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Total Spend</div>
+            <div class="value loading" id="card-spend">—</div>
+            <div class="meta">Monthly cap €450</div>
+        </div>
+        <div class="stat-card">
+            <div class="label" id="card-conv-label">Conversions · Cost</div>
+            <div class="value loading" id="card-conv">— / —</div>
+            <div class="meta target">Target: &lt;€10 per conversion</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">CTR · CPC</div>
+            <div class="value loading" id="card-ctr">— / —</div>
+            <div class="meta target">Target: &gt;1.5% CTR · &lt;€1.50 CPC</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Impressions</div>
+            <div class="value loading" id="card-impr">—</div>
+            <div class="meta" id="card-clicks">Clicks: —</div>
+        </div>
+    </div>
+
+    <!-- Coach's Recommendation -->
+    <div class="coach-card">
+        <h2>🎯 Coach's Recommendation — Fire This Week</h2>
+        <p class="lede" id="coach-lede">Campaign status: <strong id="coach-days">checking…</strong>. Every paused day is lost pixel learning. Here's the plan that gives the cleanest signal fastest:</p>
+        <div class="coach-rows">
+            <div class="coach-row">
+                <div class="label">When to launch</div>
+                <div>
+                    <div class="value">Tuesday or Wednesday · 18:00–20:00 CET</div>
+                    <div class="desc">Starts serving right into Dutch evening traffic when people are unwinding and checking their phones. Avoid Mon (noisy) and Fri–Sun (higher CPMs, softer intent).</div>
+                </div>
+            </div>
+            <div class="coach-row">
+                <div class="label">Starting budget</div>
+                <div>
+                    <div class="value">€15/day → bump to €30/day on day 4</div>
+                    <div class="desc">€5/ad set is thin for Meta's conversion algo. Once you see any ad hit 3+ conversions in 48h, raise that ad set to €10/day. Hard cap: €30/day until week 2.</div>
+                </div>
+            </div>
+            <div class="coach-row">
+                <div class="label">How long to test</div>
+                <div>
+                    <div class="value">7 full days before any kill decision</div>
+                    <div class="desc">Meta needs ~50 conversion events per ad set per week to optimize. At €15/day expect 30–60 clicks/day across all ad sets. Don't panic on day 2.</div>
+                </div>
+            </div>
+            <div class="coach-row">
+                <div class="label">What to watch daily</div>
+                <div>
+                    <div class="value">CTR → Cost per Conversion → Quiz completion</div>
+                    <div class="desc">CTR &gt;1.5% = hook is working. CPC &lt;€10 = scale it. Quiz start → result rate should be ~60%+; if lower, the landing page is leaking.</div>
+                </div>
+            </div>
+            <div class="coach-row">
+                <div class="label">Day-parting</div>
+                <div>
+                    <div class="value">20:00 – 02:00 CET (Dutch nighttime)</div>
+                    <div class="desc">Anxiety and insomnia searches spike when people are actually awake in bed. Schedule via ad set → delivery → time of day (Europe/Amsterdam timezone).</div>
+                </div>
+            </div>
+            <div class="coach-row">
+                <div class="label">Expected week-1 result</div>
+                <div>
+                    <div class="value">15–30 conversions</div>
+                    <div class="desc">At €3–5 CPC and a 5–8% quiz-to-buy rate, €105 spend realistically yields ~20 conversions. That's enough to pick a winner creative.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pre-Launch Checklist -->
+    <section>
+        <div class="section-header">
+            <h2>Pre-Launch Checklist</h2>
+            <div class="meta" id="checklist-meta">—</div>
+        </div>
+        <div class="checklist-card">
+            <div class="checklist-progress">
+                <div class="count"><span id="checklist-done">—</span> of 11 done</div>
+                <div class="bar"><div class="bar-fill" id="checklist-bar" style="width: 0%"></div></div>
+            </div>
+            <ul class="checklist" id="checklist">
+                <!-- Populated via JS -->
+            </ul>
+        </div>
+    </section>
+
+    <!-- Ad Sets -->
+    <section>
+        <div class="section-header">
+            <h2>Ad Sets — Targeting &amp; Budget</h2>
+            <div class="meta" id="adset-meta">Loading…</div>
+        </div>
+        <div class="adset-grid" id="adset-grid">
+            <div class="table-empty" style="grid-column: 1/-1;"><strong>Loading ad sets…</strong>Connecting to Meta Graph API.</div>
+        </div>
+    </section>
+
+    <!-- Creative Performance Table -->
+    <section>
+        <div class="section-header">
+            <h2>Creative Performance</h2>
+            <div class="meta" id="creative-table-meta">Live data refreshes every page load.</div>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Creative</th>
+                        <th>Ad Set</th>
+                        <th>Spend</th>
+                        <th>Impr</th>
+                        <th>CTR</th>
+                        <th>CPC</th>
+                        <th>Conv</th>
+                        <th>CPA</th>
+                        <th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody id="creative-tbody">
+                    <tr><td colspan="9" class="table-empty"><strong>Loading creatives…</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Creative Previews -->
+    <section>
+        <div class="section-header">
+            <h2>Creative Previews — How People Will See Them</h2>
+            <div class="meta">Facebook feed mockup · Live metrics per ad</div>
+        </div>
+        <div class="preview-grid" id="preview-grid">
+            <div class="table-empty" style="grid-column: 1/-1;"><strong>Loading creative previews…</strong></div>
+        </div>
+    </section>
+
+    <!-- Heatmap -->
+    <section>
+        <div class="section-header">
+            <h2>Recommended Schedule — Dutch Nighttime</h2>
+            <div class="meta">Day-parting · Blue intensity = recommended ad delivery. Heaviest 20:00 – 02:00 CET — the window where anxiety is actually active. Secondary 18:00 – 20:00 (evening unwinding). Avoid 03:00 – 08:00 (deep sleep, low intent).</div>
+        </div>
+        <div class="heatmap-wrap">
+            <div class="heatmap" id="heatmap"></div>
+            <div class="heatmap-legend">
+                <span>Less</span>
+                <div class="scale" id="heatmap-scale"></div>
+                <span>More</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Targeting Strategy -->
+    <section>
+        <div class="section-header">
+            <h2>Targeting Strategy</h2>
+            <div class="meta">Who we're reaching</div>
+        </div>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>🌎 Geography</h3>
+                <div class="body">
+                    <p>Netherlands-only during testing. No metro restriction — let Meta find the pockets of demand.</p>
+                    <ul>
+                        <li>Include: Netherlands</li>
+                        <li>Exclude: none (keep audience wide for learning)</li>
+                        <li>Future phase: add BE-Flanders if CPC holds (Dutch-speaking Belgium)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>👥 Demographics</h3>
+                <div class="body" id="demographics-body">
+                    <p>Loading from API…</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>🎯 Interest Targeting</h3>
+                <div class="body" id="interests-body">
+                    <p>Loading from API…</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>📈 Audience Evolution</h3>
+                <div class="body">
+                    <p>Interest targeting is Phase 1. Once the pixel has data it gets sharper.</p>
+                    <ul>
+                        <li>Week 2–3: Website Custom Audiences (retargeters)</li>
+                        <li>Week 3–4: 1% Lookalike from Converters</li>
+                        <li>Month 2+: Advantage+ campaigns, broader lookalikes within NL</li>
+                        <li>Month 3+: Expand to BE-Flanders if CPC holds</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kill & Scale -->
+    <section>
+        <div class="section-header">
+            <h2>Kill &amp; Scale Rules</h2>
+            <div class="meta">Automatic decisions</div>
+        </div>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>🔴 Kill If</h3>
+                <div class="body">
+                    <ul>
+                        <li>Spent <code>&gt;€20</code> with <code>0</code> conversions</li>
+                        <li>CTR <code>&lt;0.5%</code> after <code>2,000+</code> impressions</li>
+                        <li>CPC <code>&gt;€4.50</code> after <code>500+</code> clicks (3× target)</li>
+                        <li>Running <code>7+ days</code> with consistently declining trend</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>🟢 Scale If</h3>
+                <div class="body">
+                    <ul>
+                        <li>CTR <code>&gt;2%</code> AND CPC <code>&lt;€1.50</code> for <code>3+ days</code></li>
+                        <li>Method: duplicate winning creative into other ad sets FIRST</li>
+                        <li>Then bump budget <code>+20%</code> max per day</li>
+                        <li>Never scale a creative running <code>&lt;3 days</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Troubleshooting -->
+    <section>
+        <div class="section-header">
+            <h2>Troubleshooting — Before You Panic</h2>
+            <div class="meta">Common issues</div>
+        </div>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>😕 "No clicks after 24h"</h3>
+                <div class="body"><p>Normal. Meta's learning phase takes ~48h. If still 0 by hour 48, pause the ad set and check: is the ad actually approved? (Ads Manager → Delivery column)</p></div>
+            </div>
+            <div class="info-card">
+                <h3>💸 "CPM is sky high (€40+)"</h3>
+                <div class="body"><p>Audience too narrow OR creative fatigued. Try broadening interests. If CPM &gt;€50 week 1 → likely a delivery issue, not creative.</p></div>
+            </div>
+            <div class="info-card">
+                <h3>📉 "CTR good, CPC bad"</h3>
+                <div class="body"><p>Hook works but landing page leaks. Check quiz start → completion rate. If &lt;50%, quiz is the problem, not the ad. Check upsell page conversion if quiz is fine.</p></div>
+            </div>
+            <div class="info-card">
+                <h3>🔥 "One ad crushing, others dying"</h3>
+                <div class="body"><p>Normal — it's why we test. Kill the losers, duplicate the winner into the other ad sets with small copy tweaks. Don't edit the winner — it resets learning.</p></div>
+            </div>
+            <div class="info-card">
+                <h3>🎯 "Clicks but no conversions"</h3>
+                <div class="body"><p>Clicks come cheap; conversions need trust. Check that quiz loads fast on mobile, upsell page loads under 3 seconds, and that Stripe checkout (iDEAL) is not broken (test it yourself from mobile with a real Dutch bank account).</p></div>
+            </div>
+            <div class="info-card">
+                <h3>⏱️ "Should I let it run overnight?"</h3>
+                <div class="body"><p>Yes — especially for this product. Late evening to early morning delivery (20:00 CET – 02:00 CET) is exactly when Dutch anxiety/insomnia sufferers are scrolling and susceptible. Don't day-part to daytime only.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Targets -->
+    <section>
+        <div class="section-header">
+            <h2>Performance Targets</h2>
+            <div class="meta">What "good" looks like</div>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Target</th>
+                        <th>Warning</th>
+                        <th>Kill</th>
+                        <th>What it tells you</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>CTR</strong> (click-through)</td><td class="num">&gt;1.5%</td><td class="num">0.8–1.5%</td><td class="num">&lt;0.5%</td><td>Is the hook grabbing attention?</td></tr>
+                    <tr><td><strong>CPC</strong> (cost per click)</td><td class="num">&lt;€1.50</td><td class="num">€1.50–3.00</td><td class="num">&gt;€4.50</td><td>How efficient is the click?</td></tr>
+                    <tr><td><strong>CPM</strong> (cost per 1,000 impressions)</td><td class="num">&lt;€15</td><td class="num">€15–30</td><td class="num">&gt;€50</td><td>Is the audience healthy?</td></tr>
+                    <tr><td><strong>Cost per Conversion</strong></td><td class="num">&lt;€10</td><td class="num">€10–20</td><td class="num">&gt;€30</td><td>Are conversions actually affordable?</td></tr>
+                    <tr><td><strong>ROAS</strong> (return on ad spend)</td><td class="num">&gt;2×</td><td class="num">1.2–2×</td><td class="num">&lt;1×</td><td>Are we making money?</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer class="footer">
+        Ads Command Center · Gewoon Even · Data refreshed from Meta Graph API v25.0
+    </footer>
+</main>
+
+<script>
+/* ============================================
+   Gewoon Even — Ads Command Center
+   ============================================ */
+
+const STORAGE_KEY = 'ge_admin_pw';
+const API_ENDPOINT = '/api/meta-ads-data';
+
+// ============ PASSWORD GATE ============
+function getPassword() {
+    return sessionStorage.getItem(STORAGE_KEY);
+}
+
+function setPassword(pw) {
+    sessionStorage.setItem(STORAGE_KEY, pw);
+}
+
+function clearPassword() {
+    sessionStorage.removeItem(STORAGE_KEY);
+}
+
+function showGate(errorMsg) {
+    document.getElementById('gate').style.display = 'flex';
+    document.getElementById('app').classList.remove('active');
+    if (errorMsg) document.getElementById('gate-error').textContent = errorMsg;
+    document.getElementById('gate-password').focus();
+}
+
+function hideGate() {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').classList.add('active');
+}
+
+document.getElementById('gate-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pw = document.getElementById('gate-password').value.trim();
+    if (!pw) return;
+    setPassword(pw);
+    document.getElementById('gate-error').textContent = '';
+    document.getElementById('gate-submit').disabled = true;
+    document.getElementById('gate-submit').textContent = 'Checking…';
+
+    const ok = await fetchAll();
+    document.getElementById('gate-submit').disabled = false;
+    document.getElementById('gate-submit').textContent = 'Enter →';
+    if (!ok) {
+        clearPassword();
+        showGate('Wrong password. Try again.');
+        document.getElementById('gate-password').value = '';
+    } else {
+        hideGate();
+    }
+});
+
+// ============ API CALL ============
+async function fetchEndpoint(endpoint) {
+    const pw = getPassword();
+    if (!pw) return null;
+    try {
+        const res = await fetch(`${API_ENDPOINT}?endpoint=${endpoint}`, {
+            headers: { 'Authorization': `Bearer ${pw}` }
+        });
+        if (res.status === 401) return { _unauthorized: true };
+        if (!res.ok) {
+            const txt = await res.text();
+            return { _error: `HTTP ${res.status}`, _detail: txt };
+        }
+        return await res.json();
+    } catch (err) {
+        return { _error: 'Network error', _detail: err.message };
+    }
+}
+
+// ============ DATA RENDER ============
+function fmtEur(v) {
+    if (v == null || isNaN(v)) return '—';
+    return '€' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function fmtNum(v) {
+    if (v == null || isNaN(v)) return '—';
+    return Number(v).toLocaleString('en-US');
+}
+
+function fmtPct(v) {
+    if (v == null || isNaN(v)) return '—';
+    return Number(v).toFixed(2) + '%';
+}
+
+function showErr(msg) {
+    document.getElementById('error-banner-container').innerHTML =
+        `<div class="err-banner">⚠ ${msg}</div>`;
+}
+
+function clearErr() {
+    document.getElementById('error-banner-container').innerHTML = '';
+}
+
+function renderCampaign(data) {
+    if (!data || data._error) {
+        document.getElementById('campaign-pill').textContent = 'No data';
+        document.getElementById('campaign-pill').className = 'status-pill paused';
+        return;
+    }
+    const c = data.campaign || {};
+    const ins = data.insights || {};
+    const status = (c.status || 'UNKNOWN').toUpperCase();
+    const effective = (c.effective_status || status).toUpperCase();
+
+    const pill = document.getElementById('campaign-pill');
+    pill.textContent = effective;
+    pill.className = 'status-pill ' + (effective === 'ACTIVE' ? '' : 'paused');
+
+    document.getElementById('card-status').textContent = effective;
+    document.getElementById('card-status').classList.remove('loading');
+    document.getElementById('card-status-meta').textContent = c.name || '—';
+
+    const budget = c.daily_budget ? (c.daily_budget / 100) : null;
+    document.getElementById('card-budget').textContent = budget ? fmtEur(budget) : '—';
+    document.getElementById('card-budget').classList.remove('loading');
+    document.getElementById('card-budget-meta').textContent = budget ? 'per day' : 'No budget set';
+
+    const spend = ins.spend ? parseFloat(ins.spend) : 0;
+    document.getElementById('card-spend').textContent = fmtEur(spend);
+    document.getElementById('card-spend').classList.remove('loading');
+
+    const conv = ins.conversions ? parseInt(ins.conversions, 10) : 0;
+    const cpa = ins.cost_per_conversion ? parseFloat(ins.cost_per_conversion) : null;
+    document.getElementById('card-conv').textContent =
+        fmtNum(conv) + ' / ' + (cpa ? fmtEur(cpa) : '—');
+    document.getElementById('card-conv').classList.remove('loading');
+
+    if (data.optimization_event) {
+        document.getElementById('card-conv-label').textContent = data.optimization_event + ' · Cost';
+        document.getElementById('optimization-event').textContent = data.optimization_event + ' optimization';
+    }
+
+    const ctr = ins.ctr ? parseFloat(ins.ctr) : null;
+    const cpc = ins.cpc ? parseFloat(ins.cpc) : null;
+    document.getElementById('card-ctr').textContent =
+        (ctr ? fmtPct(ctr) : '—') + ' / ' + (cpc ? fmtEur(cpc) : '—');
+    document.getElementById('card-ctr').classList.remove('loading');
+
+    document.getElementById('card-impr').textContent = fmtNum(ins.impressions || 0);
+    document.getElementById('card-impr').classList.remove('loading');
+    document.getElementById('card-clicks').textContent = 'Clicks: ' + fmtNum(ins.clicks || 0);
+
+    // Coach lede dynamic
+    if (c.created_time) {
+        const days = Math.floor((Date.now() - new Date(c.created_time).getTime()) / 86400000);
+        const statusWord = effective === 'ACTIVE' ? 'live for' : 'armed and idle for';
+        document.getElementById('coach-days').textContent = `${statusWord} ${days} day${days === 1 ? '' : 's'}`;
+    }
+}
+
+function renderAdSets(data) {
+    const grid = document.getElementById('adset-grid');
+    const meta = document.getElementById('adset-meta');
+    if (!data || data._error || !data.adsets) {
+        grid.innerHTML = '<div class="table-empty" style="grid-column: 1/-1;"><strong>No ad set data</strong>Either no ad sets exist yet, or the API call failed. Check Vercel env vars.</div>';
+        meta.textContent = '—';
+        return;
+    }
+    const adsets = data.adsets;
+    meta.textContent = `${adsets.length} ad set${adsets.length === 1 ? '' : 's'}`;
+    if (adsets.length === 0) {
+        grid.innerHTML = '<div class="table-empty" style="grid-column: 1/-1;"><strong>No ad sets yet</strong>Create ad sets in Meta Ads Manager and they will appear here.</div>';
+        return;
+    }
+    grid.innerHTML = adsets.map(a => {
+        const ins = a.insights || {};
+        const t = a.targeting || {};
+        const interests = (t.flexible_spec && t.flexible_spec[0] && t.flexible_spec[0].interests)
+            ? t.flexible_spec[0].interests.map(i => i.name).join(' · ')
+            : (t.interests ? t.interests.map(i => i.name).join(' · ') : '—');
+        const genders = (t.genders || []).map(g => g === 1 ? 'Men' : g === 2 ? 'Women' : 'All').join(' + ') || 'All';
+        const geo = (t.geo_locations && t.geo_locations.countries)
+            ? t.geo_locations.countries.join(', ')
+            : 'Netherlands';
+        const age = `${t.age_min || 18}–${t.age_max || 65}`;
+        const budget = a.daily_budget ? fmtEur(a.daily_budget / 100) + '/day' : '—';
+        const spend = ins.spend ? fmtEur(parseFloat(ins.spend)) : '€0';
+        const conv = ins.conversions || 0;
+        const ctr = ins.ctr ? fmtPct(parseFloat(ins.ctr)) : '—';
+        const cpc = ins.cpc ? fmtEur(parseFloat(ins.cpc)) : '—';
+        const cpa = ins.cost_per_conversion ? fmtEur(parseFloat(ins.cost_per_conversion)) : '—';
+        const status = (a.effective_status || a.status || 'UNKNOWN').toUpperCase();
+        const creatives = (a.ads_count || 0) + ' creative' + (a.ads_count === 1 ? '' : 's');
+
+        return `
+            <div class="adset-card">
+                <h3>${escapeHtml(a.name || 'Untitled')}</h3>
+                <div class="adset-id">Ad Set ${a.id}</div>
+                <div class="row"><span class="key">Spend / Conv</span><span class="val">${spend} / ${conv}</span></div>
+                <div class="row"><span class="key">CTR · CPC · CPA</span><span class="val">${ctr} · ${cpc} · ${cpa}</span></div>
+                <div class="row"><span class="key">Budget</span><span class="val">${budget}</span></div>
+                <div class="row"><span class="key">Age</span><span class="val">${age}</span></div>
+                <div class="row"><span class="key">Gender</span><span class="val">${genders}</span></div>
+                <div class="row"><span class="key">Country</span><span class="val">${geo}</span></div>
+                <div class="row"><span class="key">Interests</span><span class="val">${escapeHtml(interests)}</span></div>
+                <div class="row"><span class="key">Optimization</span><span class="val">${escapeHtml(a.optimization_goal || '—')}</span></div>
+                <div class="row"><span class="key">Creatives</span><span class="val">${creatives}</span></div>
+                <div class="row"><span class="key">Status</span><span class="val"><span class="verdict ${status === 'ACTIVE' ? 'active' : 'paused'}">${status}</span></span></div>
+            </div>
+        `;
+    }).join('');
+
+    // Populate Demographics + Interests info cards from first ad set
+    if (adsets[0]) {
+        const t = adsets[0].targeting || {};
+        const demo = document.getElementById('demographics-body');
+        const minAge = Math.min(...adsets.map(a => (a.targeting||{}).age_min || 18));
+        const maxAge = Math.max(...adsets.map(a => (a.targeting||{}).age_max || 65));
+        const allGenders = new Set();
+        adsets.forEach(a => ((a.targeting||{}).genders || [0]).forEach(g => allGenders.add(g)));
+        const genderText = allGenders.has(1) && allGenders.has(2) ? 'Mixed (Men + Women across ad sets)'
+            : allGenders.has(1) ? 'Men only'
+            : allGenders.has(2) ? 'Women only' : 'All';
+        demo.innerHTML = `
+            <p>Ages ${minAge}–${maxAge} across all ad sets. ${genderText}.</p>
+            <ul>
+                <li>${minAge}–${maxAge} is the anxiety/burnout sweet spot</li>
+                <li>Dutch women over-index on wellness + somatic content</li>
+                <li>Men convert through different angles — pattern/logic framing</li>
+            </ul>
+        `;
+
+        const interests = new Set();
+        adsets.forEach(a => {
+            const tt = a.targeting || {};
+            const ints = (tt.flexible_spec && tt.flexible_spec[0] && tt.flexible_spec[0].interests)
+                ? tt.flexible_spec[0].interests
+                : (tt.interests || []);
+            ints.forEach(i => interests.add(i.name));
+        });
+        const intBody = document.getElementById('interests-body');
+        if (interests.size > 0) {
+            intBody.innerHTML = `
+                <p>Kept broad and overlap-friendly — Meta's algo narrows it down.</p>
+                <ul>${[...interests].map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>
+            `;
+        } else {
+            intBody.innerHTML = '<p>No interest targeting detected. Either Advantage+ audience or interests not yet configured.</p>';
+        }
+    }
+}
+
+function renderAds(data) {
+    const tbody = document.getElementById('creative-tbody');
+    if (!data || data._error || !data.ads) {
+        tbody.innerHTML = '<tr><td colspan="9" class="table-empty"><strong>No creative data</strong>Either no ads exist yet, or the API call failed.</td></tr>';
+        return;
+    }
+    const ads = data.ads;
+    document.getElementById('creatives-count').textContent = `${ads.length} creative${ads.length === 1 ? '' : 's'}`;
+
+    if (ads.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="table-empty"><strong>No ads created yet</strong>Upload creatives in Meta Ads Manager. They will appear here once active.</td></tr>';
+        document.getElementById('preview-grid').innerHTML = '<div class="table-empty" style="grid-column: 1/-1;"><strong>No previews available</strong>Upload creatives to see them rendered here.</div>';
+        return;
+    }
+
+    // Sort by conversions desc, then by CPA asc
+    const sorted = [...ads].sort((a, b) => {
+        const ca = (a.insights || {}).conversions || 0;
+        const cb = (b.insights || {}).conversions || 0;
+        if (cb !== ca) return cb - ca;
+        const cpaA = parseFloat((a.insights || {}).cost_per_conversion || 999);
+        const cpaB = parseFloat((b.insights || {}).cost_per_conversion || 999);
+        return cpaA - cpaB;
+    });
+
+    tbody.innerHTML = sorted.map(ad => {
+        const ins = ad.insights || {};
+        const spend = ins.spend ? fmtEur(parseFloat(ins.spend)) : '€0';
+        const impr = ins.impressions ? fmtNum(parseInt(ins.impressions, 10)) : '0';
+        const ctr = ins.ctr ? fmtPct(parseFloat(ins.ctr)) : '—';
+        const cpc = ins.cpc ? fmtEur(parseFloat(ins.cpc)) : '—';
+        const conv = ins.conversions || 0;
+        const cpa = ins.cost_per_conversion ? fmtEur(parseFloat(ins.cost_per_conversion)) : '—';
+        const status = (ad.effective_status || ad.status || 'UNKNOWN').toUpperCase();
+        const verdict = verdictFor(ad);
+        const headline = ad.creative_body || ad.name || 'Untitled';
+        const hook = ad.creative_title || ad.adset_name || '—';
+
+        return `<tr>
+            <td><div class="creative-title">${escapeHtml(ad.name || 'Untitled')}</div><div class="creative-hook">${escapeHtml(hook)}</div></td>
+            <td>${escapeHtml(ad.adset_name || '—')}</td>
+            <td class="num">${spend}</td>
+            <td class="num">${impr}</td>
+            <td class="num">${ctr}</td>
+            <td class="num">${cpc}</td>
+            <td class="num">${fmtNum(conv)}</td>
+            <td class="num">${cpa}</td>
+            <td><span class="verdict ${verdict.cls}">${verdict.label}</span></td>
+        </tr>`;
+    }).join('');
+
+    // Render previews
+    renderPreviews(sorted);
+}
+
+function verdictFor(ad) {
+    const ins = ad.insights || {};
+    const spend = parseFloat(ins.spend || 0);
+    const ctr = parseFloat(ins.ctr || 0);
+    const cpc = parseFloat(ins.cpc || 0);
+    const conv = parseInt(ins.conversions || 0, 10);
+    const impr = parseInt(ins.impressions || 0, 10);
+    const status = (ad.effective_status || ad.status || '').toUpperCase();
+
+    if (status !== 'ACTIVE') return { cls: 'paused', label: status || 'PAUSED' };
+    if (spend > 20 && conv === 0) return { cls: 'kill', label: 'KILL' };
+    if (ctr < 0.5 && impr > 2000) return { cls: 'kill', label: 'KILL' };
+    if (ctr > 2 && cpc < 1.5 && conv >= 3) return { cls: 'scale', label: 'SCALE' };
+    return { cls: 'active', label: 'ACTIVE' };
+}
+
+function renderPreviews(ads) {
+    const grid = document.getElementById('preview-grid');
+    grid.innerHTML = ads.map(ad => {
+        const ins = ad.insights || {};
+        const ctr = ins.ctr ? fmtPct(parseFloat(ins.ctr)) : '—';
+        const cpc = ins.cpc ? fmtEur(parseFloat(ins.cpc)) : '—';
+        const conv = ins.conversions || 0;
+        const imgUrl = ad.image_url || '';
+        const imgStyle = imgUrl ? `background-image: url('${imgUrl.replace(/'/g, "\\'")}');` : '';
+        const imgFallback = imgUrl ? '' : '🖼️ No image yet';
+        const headline = ad.creative_title || ad.name || 'Gewoon Even';
+        const body = ad.creative_body || '—';
+        const cta = ad.cta_type ? ctaLabel(ad.cta_type) : 'Learn More';
+        const status = (ad.effective_status || ad.status || 'UNKNOWN').toUpperCase();
+
+        return `
+            <div class="preview-card">
+                <div class="preview-header">
+                    <div class="preview-avatar">GE</div>
+                    <div class="preview-meta">
+                        <div class="name">Gewoon Even</div>
+                        <div class="sponsored">Sponsored · 🌐</div>
+                    </div>
+                </div>
+                <div class="preview-copy">${escapeHtml(body)}</div>
+                <div class="preview-image" style="${imgStyle}">${imgFallback}</div>
+                <div class="preview-footer">
+                    <div>
+                        <div class="domain">gewoon-even.nl</div>
+                        <div class="headline">${escapeHtml(headline)}</div>
+                    </div>
+                    <span class="preview-cta">${escapeHtml(cta)}</span>
+                </div>
+                <div class="preview-stats">
+                    <div class="stat"><span class="v">${ctr}</span><span class="k">CTR</span></div>
+                    <div class="stat"><span class="v">${cpc}</span><span class="k">CPC</span></div>
+                    <div class="stat"><span class="v">${conv}</span><span class="k">Conv</span></div>
+                </div>
+                <div class="preview-tag">${status} · ${escapeHtml(ad.name || '')} · ${ad.id || ''}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function ctaLabel(type) {
+    const map = {
+        LEARN_MORE: 'Learn More',
+        SHOP_NOW: 'Shop Now',
+        SIGN_UP: 'Sign Up',
+        GET_OFFER: 'Get Offer',
+        DOWNLOAD: 'Download',
+        SUBSCRIBE: 'Subscribe',
+        BOOK_TRAVEL: 'Book Now',
+        WATCH_MORE: 'Watch More',
+        CONTACT_US: 'Contact Us',
+        APPLY_NOW: 'Apply Now',
+        BUY_NOW: 'Buy Now',
+        ORDER_NOW: 'Order Now'
+    };
+    return map[type] || 'Learn More';
+}
+
+function renderChecklist(state) {
+    const items = [
+        { done: state.pixelOk, text: '<strong>Meta Pixel installed</strong>', detail: 'PageView + Lead + Purchase firing on gewoon-even.nl' },
+        { done: state.optOk, text: '<strong>OFFSITE_CONVERSIONS optimization</strong>', detail: 'all ad sets optimize for the configured event' },
+        { done: state.budgetOk, text: '<strong>Budgets set</strong>', detail: `${state.dailyBudgetText}/day total (within €450/mo cap)` },
+        { done: true, text: '<strong>UTM tracking configured</strong>', detail: 'utm_source=meta, utm_medium=paid, utm_campaign=gewoon-even' },
+        { done: state.creativesOk, text: `<strong>${state.creativesText} creatives uploaded</strong>`, detail: '6 hooks × targeted images across ad sets' },
+        { done: true, text: '<strong>Facebook Page bio, category, website</strong>', detail: 'Gewoon Even / Health & wellness / gewoon-even.nl' },
+        { done: true, text: '<strong>Page name</strong>', detail: 'Gewoon Even' },
+        { done: state.tokenOk, text: '<strong>Access token</strong>', detail: `long-lived, expires ${state.tokenExpiryText}` },
+        { done: state.coverOk, text: '<strong>Cover photo</strong>', detail: state.coverOk ? 'uploaded' : 'banner saved locally, needs upload to FB Page' },
+        { done: state.profileOk, text: '<strong>Profile picture</strong>', detail: state.profileOk ? 'uploaded' : 'logo saved locally, needs upload' },
+        { done: false, text: '<strong>Nataly\'s "FIRE" command</strong>', detail: 'to activate campaign + ad sets simultaneously', forceIcon: '🔥' }
+    ];
+
+    const doneCount = items.filter(i => i.done).length;
+    document.getElementById('checklist-done').textContent = doneCount;
+    document.getElementById('checklist-bar').style.width = `${(doneCount / items.length) * 100}%`;
+    document.getElementById('checklist-meta').textContent = `${doneCount} of ${items.length} complete`;
+
+    document.getElementById('checklist').innerHTML = items.map(it => `
+        <li>
+            <span class="icon">${it.forceIcon || (it.done ? '✓' : '⏳')}</span>
+            <span class="item-text">${it.text} <span class="detail">— ${it.detail}</span></span>
+        </li>
+    `).join('');
+}
+
+function renderTokenInfo(data) {
+    if (data && data.token_info) {
+        const expires = data.token_info.expires_at;
+        if (expires) {
+            const d = new Date(expires * 1000);
+            const text = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            document.getElementById('token-expiry').textContent = `Token valid → ${text}`;
+            return { ok: true, text: text };
+        }
+    }
+    document.getElementById('token-expiry').textContent = 'Token: status unknown';
+    return { ok: false, text: 'unknown' };
+}
+
+// ============ HEATMAP ============
+function intensityFor(day, hour) {
+    // hour 20-23: peak (Dutch nighttime start)
+    // hour 0-2: peak (Dutch nighttime continued)
+    // hour 18-19: secondary
+    // hour 9-17: low
+    // hour 3-8: off (deep sleep)
+    // weekend slight uplift Fri-Sun nights (day=4,5,6 if Mon=0)
+    let base;
+    if (hour >= 20 || hour <= 2) base = 4;
+    else if (hour >= 18 && hour <= 19) base = 3;
+    else if (hour >= 9 && hour <= 17) base = 1;
+    else base = 0;
+    // Day adjustment: Tue/Wed (day=1,2) launch optimal; Fri-Sun (4,5,6) slight uplift for nights
+    if (base >= 3 && (day === 4 || day === 5 || day === 6)) base = Math.min(4, base + 0);
+    if (day === 0 && base === 4) base = 3; // Monday slightly lower (noisy)
+    return base;
+}
+
+function colorForIntensity(i) {
+    // green ramp matching brand
+    const colors = [
+        'var(--bg-soft)',           // 0 off
+        '#E8E5DD',                  // 1 low
+        '#A8B8AB',                  // 2 mid-low
+        '#6F9081',                  // 3 mid
+        '#3D5A50'                   // 4 peak (verde dique)
+    ];
+    return colors[i];
+}
+
+function renderHeatmap() {
+    const heatmap = document.getElementById('heatmap');
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let html = '<div></div>'; // top-left corner empty
+    days.forEach(d => html += `<div class="day-label">${d}</div>`);
+    for (let h = 0; h < 24; h++) {
+        const hourStr = h.toString().padStart(2, '0') + ':00';
+        html += `<div class="hour-label">${hourStr}</div>`;
+        for (let d = 0; d < 7; d++) {
+            const i = intensityFor(d, h);
+            html += `<div class="cell" style="background:${colorForIntensity(i)}" title="${days[d]} ${hourStr}"></div>`;
+        }
+    }
+    heatmap.innerHTML = html;
+
+    const scale = document.getElementById('heatmap-scale');
+    scale.innerHTML = [0,1,2,3,4].map(i => `<span class="cell" style="background:${colorForIntensity(i)}"></span>`).join('');
+}
+
+// ============ HELPERS ============
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+// ============ MAIN FETCH ============
+async function fetchAll() {
+    clearErr();
+    const btn = document.getElementById('refresh-btn');
+    btn.classList.add('spinning');
+    btn.disabled = true;
+
+    const [campaignData, adsetsData, adsData, tokenData] = await Promise.all([
+        fetchEndpoint('campaign'),
+        fetchEndpoint('adsets'),
+        fetchEndpoint('ads'),
+        fetchEndpoint('token')
+    ]);
+
+    btn.classList.remove('spinning');
+    btn.disabled = false;
+
+    // Check unauthorized
+    if ([campaignData, adsetsData, adsData, tokenData].some(d => d && d._unauthorized)) {
+        return false;
+    }
+
+    // Check for env-missing case (server returns noop:true)
+    if (campaignData && campaignData.noop) {
+        showErr(`Meta env vars not configured on server. Set META_ACCESS_TOKEN, META_AD_ACCOUNT_ID, META_PIXEL_ID, META_PAGE_ID in Vercel and redeploy. Reason: ${campaignData.reason || 'env_missing'}`);
+    }
+
+    renderCampaign(campaignData);
+    renderAdSets(adsetsData);
+    renderAds(adsData);
+    const tokenInfo = renderTokenInfo(tokenData);
+
+    // Update checklist with dynamic state
+    const c = (campaignData && campaignData.campaign) || {};
+    const adsets = (adsetsData && adsetsData.adsets) || [];
+    const ads = (adsData && adsData.ads) || [];
+    const totalDaily = adsets.reduce((s, a) => s + (a.daily_budget ? a.daily_budget / 100 : 0), 0);
+    renderChecklist({
+        pixelOk: true, // we know pixel is live in production
+        optOk: adsets.every(a => (a.optimization_goal || '').includes('CONVERSION') || (a.optimization_goal || '') === 'OFFSITE_CONVERSIONS'),
+        budgetOk: totalDaily > 0,
+        dailyBudgetText: totalDaily > 0 ? '€' + totalDaily.toFixed(0) : '€0',
+        creativesOk: ads.length > 0,
+        creativesText: ads.length,
+        tokenOk: tokenInfo.ok,
+        tokenExpiryText: tokenInfo.text,
+        coverOk: false,
+        profileOk: false
+    });
+
+    return true;
+}
+
+// ============ INIT ============
+renderHeatmap();
+
+// Try with stored password (page reload after successful auth)
+if (getPassword()) {
+    fetchAll().then(ok => {
+        if (ok) hideGate();
+        else showGate('Session expired. Re-enter password.');
+    });
+} else {
+    showGate();
+}
+
+// Refresh button
+document.getElementById('refresh-btn').addEventListener('click', () => {
+    fetchAll();
+});
+</script>
+
+</body>
+</html>
