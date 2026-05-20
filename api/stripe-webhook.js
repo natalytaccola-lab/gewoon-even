@@ -1,6 +1,6 @@
 // Webhook do Stripe que escuta checkout.session.completed
-// e taggeia o comprador no Brevo na lista Buyers com tag específica do produto
-// Identificação por amount_total (mais fiável que listLineItems API call)
+// Modelo aditivo: marca o boolean HAS_<PRODUCT> do contato no Brevo sem sobrescrever outros.
+// Permite cliente ter combinações (NP, NP+P7D, NP+CK, etc) sem perder histórico.
 
 import Stripe from 'stripe';
 
@@ -18,13 +18,14 @@ async function buffer(readable) {
   return Buffer.concat(chunks);
 }
 
-// Identifica produto pelo amount_total (em cents) — vem direto no payload do webhook
-function getProductTag(amountTotal) {
-  if (amountTotal === 900)  return 'BUYER_CK';     // €9  Crisiskaart
-  if (amountTotal === 1700) return 'BUYER_NP';     // €17 Noodprotocol
-  if (amountTotal === 3700) return 'BUYER_P7D';    // €37 Protocol 7 Dagen
-  if (amountTotal === 6700) return 'BUYER_SLAAP';  // €67 Slaapprotocol
-  return 'BUYER_UNKNOWN';
+// Identifica produto pelo amount_total (em cents)
+// Retorna objeto com nome do attribute Brevo a setar como true + tag legível.
+function getProductInfo(amountTotal) {
+  if (amountTotal === 900)  return { attr: 'HAS_CK',    tag: 'BUYER_CK',    name: 'Crisiskaart' };
+  if (amountTotal === 1700) return { attr: 'HAS_NP',    tag: 'BUYER_NP',    name: 'Innerlijk Noodplan' };
+  if (amountTotal === 3700) return { attr: 'HAS_P7D',   tag: 'BUYER_P7D',   name: '7-dagen herijking' };
+  if (amountTotal === 6700) return { attr: 'HAS_SLAAP', tag: 'BUYER_SLAAP', name: 'Slaapprotocol' };
+  return null;
 }
 
 export default async function handler(req, res) {
@@ -55,6 +56,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid signature' });
   }
 
+  // 2. Skip TEST mode events (livemode=false) pra não poluir Brevo de produção
+  if (event.livemode === false) {
+    console.log(`[Stripe Webhook] TEST mode event (type=${event.type}, id=${event.id}) — skipping Brevo`);
+    return res.status(200).json({ ok: true, noop: true, reason: 'test_mode_skipped', livemode: false });
+  }
+
   if (event.type !== 'checkout.session.completed') {
     console.log(`[Stripe Webhook] Ignoring event type: ${event.type}`);
     return res.status(200).json({ ok: true, ignored: true });
@@ -73,14 +80,30 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true, noop: true, reason: 'brevo_env_missing', email: customerEmail });
   }
 
-  // 2. Identificar produto pelo amount_total (zero chamadas Stripe extras)
-  const productTag = getProductTag(session.amount_total);
+  // 3. Identificar produto
+  const product = getProductInfo(session.amount_total);
+  if (!product) {
+    console.error(`[Stripe Webhook] Unknown amount_total: ${session.amount_total} for ${customerEmail}`);
+    return res.status(200).json({ ok: false, error: 'unknown_product', amount: session.amount_total });
+  }
+
   const amountPaid = (session.amount_total / 100).toFixed(2);
   const currency = session.currency?.toUpperCase() || 'EUR';
 
-  console.log(`[Stripe Webhook] Mapped tag: ${productTag} for amount: €${amountPaid}`);
+  console.log(`[Stripe Webhook] Mapped: ${product.name} (${product.attr}=true, ${product.tag}) for €${amountPaid}`);
 
-  // 3. Atualizar contato no Brevo
+  // 4. Build attributes payload — aditivo: só seta o boolean do produto comprado
+  // Brevo PUT/POST com partial attributes não destrói outros, apenas atualiza os enviados.
+  const today = new Date().toISOString().split('T')[0];
+  const attributes = {
+    [product.attr]: true,
+    BUYER_STATUS: product.tag,            // backward compat com legacy automations
+    LAST_PURCHASE_DATE: today,
+    LAST_PURCHASE_AMOUNT: parseFloat(amountPaid),
+    LAST_PRODUCT_NAME: product.name
+  };
+
+  // 5. Atualizar contato no Brevo (PUT) — se 404, cria via POST com updateEnabled
   try {
     const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(customerEmail)}`, {
       method: 'PUT',
@@ -90,15 +113,12 @@ export default async function handler(req, res) {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        attributes: {
-          BUYER_STATUS: productTag,
-          LAST_PURCHASE_DATE: new Date().toISOString().split('T')[0]
-        },
+        attributes,
         listIds: [parseInt(brevoBuyersListId, 10)]
       })
     });
 
-    // Se contato não existe, criar
+    // Se contato não existe (404), cria com POST
     if (response.status === 404) {
       const createResponse = await fetch('https://api.brevo.com/v3/contacts', {
         method: 'POST',
@@ -109,10 +129,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           email: customerEmail,
-          attributes: {
-            BUYER_STATUS: productTag,
-            LAST_PURCHASE_DATE: new Date().toISOString().split('T')[0]
-          },
+          attributes,
           listIds: [parseInt(brevoBuyersListId, 10)],
           updateEnabled: true
         })
@@ -124,8 +141,14 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: false, error: 'brevo_create_failed' });
       }
 
-      console.log(`[Stripe Webhook] Created ${customerEmail} as ${productTag}`);
-      return res.status(200).json({ ok: true, email: customerEmail, tag: productTag, action: 'created' });
+      console.log(`[Stripe Webhook] Created ${customerEmail} with ${product.attr}=true`);
+      return res.status(200).json({
+        ok: true,
+        email: customerEmail,
+        product: product.name,
+        attribute_set: product.attr,
+        action: 'created'
+      });
     }
 
     if (!response.ok) {
@@ -134,17 +157,18 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: false, error: 'brevo_update_failed' });
     }
 
-    console.log(`[Stripe Webhook] Tagged ${customerEmail} as ${productTag} (€${amountPaid})`);
+    console.log(`[Stripe Webhook] Updated ${customerEmail}: ${product.attr}=true (€${amountPaid})`);
     return res.status(200).json({
       ok: true,
       email: customerEmail,
-      tag: productTag,
+      product: product.name,
+      attribute_set: product.attr,
       amount: amountPaid,
       action: 'updated'
     });
 
   } catch (error) {
-    console.error('[Stripe Webhook] Network error:', error);
+    console.error('[Stripe Webhook] Network error:', error.message);
     return res.status(200).json({ ok: false, error: 'network_error' });
   }
 }
