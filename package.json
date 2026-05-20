@@ -1,7 +1,7 @@
 {
   "name": "gewoon-even",
   "version": "1.0.0",
-  "description": "Gewoon Even — Noodprotocol",
+  "description": "Gewoon Even — Innerlijk Noodplan + 7-dagen herijking",
   "private": true,
   "dependencies": {
     "stripe": "^22.1.0"
