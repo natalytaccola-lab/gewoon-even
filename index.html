@@ -797,7 +797,7 @@
                 <span class="price-new">€37</span>
             </div>
 
-            <a href="https://buy.stripe.com/3cI4gy5QI9ol8kcblofjG01" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik wil mijn zenuwstelsel hertrainen — €37</a>
+            <button class="btn-primary" onclick="fbq('track','ViewContent',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'}); showPage('page-upsell2');">Ja, ik wil mijn zenuwstelsel hertrainen — €37</button>
             <button class="btn-decline" onclick="showPage('page-downsell')">Nee bedankt, het Noodprotocol is genoeg</button>
         </div>
     </div>
@@ -949,6 +949,8 @@ function showPage(pageId) {
         fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
     } else if (pageId === 'page-deliver-crisiskaart') {
         fbq('track', 'Purchase', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
+    } else if (pageId === 'page-deliver-slaap') {
+        fbq('track', 'Purchase', {content_name: 'Slaapprotocol', value: 67.00, currency: 'EUR'});
     }
 }
 
@@ -1009,6 +1011,8 @@ document.addEventListener('DOMContentLoaded', () => {
         showPage('page-deliver-protocol7');
     } else if (hash === '#toegang-ck-2j7mp') {
         showPage('page-deliver-crisiskaart');
+    } else if (hash === '#toegang-sl-9m3kx7') {
+        showPage('page-deliver-slaap');
     }
 
     // Initialize
@@ -1213,6 +1217,90 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="section-space"></div>
     </div>
 
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+    </div>
+</div>
+
+
+<!-- ================================ -->
+<!-- PAGE 4: UPSELL 2 — SLAAPPROTOCOL -->
+<!-- ================================ -->
+<div class="page" id="page-upsell2">
+    <div class="container">
+        <div class="upsell-section">
+            <div class="upsell-badge">Eenmalig aanbod</div>
+            <h1>Slaap is de basis van alles.</h1>
+            <p>Je hebt net gekozen voor het Protocol van 7 Dagen. Goed gedaan.</p>
+            <p class="strong">Maar als je slaap niet herstelt, herstelt niets.</p>
+            <p style="font-size: 0.95rem; color: var(--text-light); font-style: italic;">Het Slaapprotocol — 's Nachts wakker — is ontworpen voor mensen die wakker liggen met een vol hoofd. Vier audio's die je zenuwstelsel voorbereidt op diepe slaap.</p>
+            <div class="section-space"></div>
+            <h2>Wat zit er in het Slaapprotocol?</h2>
+            <div class="day-list">
+                <div class="day-item"><strong>Intro</strong> Hoe het Slaapprotocol werkt</div>
+                <div class="day-item"><strong>Avondritueel</strong> Een ritueel dat je zenuwstelsel op slaap voorbereidt</div>
+                <div class="day-item"><strong>Inslapen</strong> Begeleide ontspanning voor als je niet kunt inslapen</div>
+                <div class="day-item"><strong>'s Nachts wakker</strong> Voor als je midden in de nacht wakker ligt</div>
+            </div>
+            <div class="divider-line"></div>
+            <p class="subtle">Je hebt net het Protocol van 7 Dagen gekocht. Daarom krijg je het Slaapprotocol nu voor een eenmalige prijs. Dit aanbod verschijnt één keer.</p>
+            <div style="padding: 16px 0;"><span class="price-new">€67</span></div>
+            <a href="STRIPE_SLAAP_LINK_PLACEHOLDER" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik wil het Slaapprotocol — €67</a>
+            <a href="https://buy.stripe.com/3cI4gy5QI9ol8kcblofjG01" class="btn-decline" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Nee bedankt, alleen het Protocol van 7 Dagen</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================ -->
+<!-- DELIVERY: SLAAPPROTOCOL          -->
+<!-- ================================ -->
+<div class="page" id="page-deliver-slaap">
+    <div class="banner">
+        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1200" height="400" fill="#F5F2EE"/>
+            <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
+            <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
+            <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#D4836A" opacity="0.7"/>
+        </svg>
+        <div class="brand-name">Gewoon Even</div>
+    </div>
+    <div class="container">
+        <div class="delivery-header">
+            <h1>Slaapprotocol — jouw toegang.</h1>
+            <p>4 audio's voor als je 's nachts wakker ligt met een vol hoofd. Luister ze wanneer je ze nodig hebt — voor het slapengaan of midden in de nacht.</p>
+            <div class="delivery-instruction">🎧 Gebruik oordopjes of koptelefoon. Dim het scherm en leg je telefoon neer. Laat de audio het werk doen.</div>
+        </div>
+        <div class="audio-track">
+            <div class="audio-track-title">Intro</div>
+            <div class="audio-track-subtitle">Hoe het Slaapprotocol werkt</div>
+            <audio controls preload="none"><source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Intro.MP3" type="audio/mpeg"></audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Intro.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+        <div class="audio-track">
+            <div class="audio-track-title">Avondritueel</div>
+            <div class="audio-track-subtitle">Een ritueel dat je zenuwstelsel op slaap voorbereidt</div>
+            <audio controls preload="none"><source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Avondritueel.MP3" type="audio/mpeg"></audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Avondritueel.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+        <div class="audio-track">
+            <div class="audio-track-title">Inslapen</div>
+            <div class="audio-track-subtitle">Begeleide ontspanning voor als je niet kunt inslapen</div>
+            <audio controls preload="none"><source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Inslapen.MP3" type="audio/mpeg"></audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Inslapen.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+        <div class="audio-track">
+            <div class="audio-track-title">'s Nachts wakker</div>
+            <div class="audio-track-subtitle">Voor als je midden in de nacht wakker ligt</div>
+            <audio controls preload="none"><source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/'s%20Nachts%20wakker.MP3" type="audio/mpeg"></audio>
+            <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/'s%20Nachts%20wakker.MP3" download class="download-link">↓ Download MP3</a>
+        </div>
+        <div class="section-space"></div>
+        <p class="subtle">Tip: download alle audio's en sla ze op je telefoon op. Zo heb je ze altijd bij de hand, ook zonder internet.</p>
+        <div class="divider-line"></div>
+        <p class="green-text strong" style="font-family: var(--font-display); font-size: 1.1rem; text-align: center;">Slaap is niet zwak. Slaap is herstel.</p>
+        <div class="section-space"></div>
+    </div>
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
     </div>
