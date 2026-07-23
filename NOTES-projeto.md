@@ -10,11 +10,15 @@ importante, um bug encontrado, ou um ponto pendente, regista aqui e faz commit.
 
 ## Estado do Git / autenticação
 
-- Autenticação GitHub resolvida: token `natalytaccola-lab` com scope `repo` configurado no remote.
-- Token antigo (sem permissões) foi substituído — **ainda por revogar manualmente no GitHub**
-  (Settings → Developer settings → Personal access tokens).
+- Autenticação GitHub resolvida: usar sempre o token classic chamado **"gewoon-even push"**
+  (scope completo `repo`, expira 22 Ago 2026) — os tokens "gewoon-even-cowork" e "gewoon-even"
+  têm scope `public_repo` ("public access") apenas e **não conseguem fazer push** (dão 403
+  mesmo sendo dona do repositório). Se o token expirar ou for revogado, regenerar especificamente
+  o "gewoon-even push" em github.com/settings/tokens, não criar um novo com scope diferente.
 - Histórico teve uma divergência entre local e remoto (commits feitos direto no GitHub via upload
   vs. commits locais) — foi reconciliado com um merge sem conflitos em `53311c5`.
+- **Ainda por revogar manualmente:** os tokens "gewoon-even-cowork" e "gewoon-even" (scope
+  `public_repo`, nunca usados) podem ser apagados com segurança — não são os que funcionam.
 
 ## Bugs estruturais encontrados no funil (index.html)
 
@@ -96,13 +100,15 @@ não ao nível da técnica clínica exata (não afirmamos que o áudio "é CBT-I
 
 ## Pendências / próximos passos
 
-- [ ] Implementar o gatilho em falta (`page-upsell`) — bug #1.
-- [ ] Adicionar saída de emergência na `page-thankyou` — bug #2.
+- [x] Construir o mini-quiz interativo na `page-upsell2` (3 perguntas + resultado/diagnóstico
+      hyperarousal + ponte/oferta com citações) — implementado, testado com Playwright (fluxo
+      completo: perguntas → diagnóstico → oferta, incluindo reset ao reentrar na página) e
+      publicado em produção (commit `dd48f5d`).
+- [ ] Implementar o gatilho em falta (`page-upsell`) — bug #1. Continua por fazer.
+- [ ] Adicionar saída de emergência na `page-thankyou` — bug #2. Continua por fazer.
 - [ ] Confirmar automação Brevo (ligar conector ou verificar manualmente).
-- [ ] Construir o mini-quiz interativo na `page-upsell2` (3 perguntas + resultado + ponte) — mais
-      trabalho de código do que uma simples troca de texto (precisa de estado/progresso tipo o
-      quiz principal).
-- [ ] Revogar o token GitHub antigo (sem permissões) nas definições do GitHub.
+- [ ] Apagar os tokens GitHub "gewoon-even-cowork" e "gewoon-even" (scope `public_repo`, nunca
+      usados, não funcionam para push) nas definições do GitHub — manter só "gewoon-even push".
 - [ ] Considerar rever a copy da `page-downsell` (Crisiskaart) também, já que só foi validada a
       `page-upsell2` até agora.
 
