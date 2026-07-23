@@ -941,6 +941,8 @@ function showPage(pageId) {
         fbq('track', 'ViewContent', {content_name: 'Noodprotocol', value: 17.00, currency: 'EUR'});
     } else if (pageId === 'page-upsell') {
         fbq('track', 'ViewContent', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
+    } else if (pageId === 'page-upsell2') {
+        if (typeof resetSleepQuiz === 'function') resetSleepQuiz();
     } else if (pageId === 'page-downsell') {
         fbq('track', 'ViewContent', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
     } else if (pageId === 'page-deliver-noodprotocol') {
@@ -999,6 +1001,82 @@ function handleEmailSubmit(event) {
     showPage('page-checkout');
 }
 
+// ============ SLEEP MINI-QUIZ (page-upsell2) ============
+const sleepQuestions = [
+    {
+        number: "Vraag 1 van 3",
+        text: "Lig je weleens rond 3 uur 's nachts klaarwakker, met gedachten die niet stoppen?",
+        answers: ["Nooit", "Soms", "Vaak", "Bijna elke nacht"]
+    },
+    {
+        number: "Vraag 2 van 3",
+        text: "Word je moe wakker, zelfs na 7-8 uur slaap?",
+        answers: ["Nooit", "Soms", "Vaak", "Bijna elke nacht"]
+    },
+    {
+        number: "Vraag 3 van 3",
+        text: "Voelt je lichaam 's avonds niet 'af te schakelen', ook al ben je uitgeput?",
+        answers: ["Nooit", "Soms", "Vaak", "Bijna elke nacht"]
+    }
+];
+
+let currentSleepQuestion = 0;
+
+function renderSleepQuestion(index) {
+    const q = sleepQuestions[index];
+    const container = document.getElementById('sleepquiz-container');
+
+    container.innerHTML = `
+        <div class="question-container">
+            <div class="question-number">${q.number}</div>
+            <div class="question-text">${q.text}</div>
+            <div class="answers">
+                ${q.answers.map((a, i) => `
+                    <button class="answer-btn" onclick="selectSleepAnswer(${i})">${a}</button>
+                `).join('')}
+            </div>
+        </div>
+    `;
+
+    document.getElementById('sleepquiz-progress-fill').style.width = `${(index / sleepQuestions.length) * 100}%`;
+}
+
+function selectSleepAnswer(answerIndex) {
+    const buttons = document.querySelectorAll('#sleepquiz-container .answer-btn');
+    buttons.forEach(b => b.classList.remove('selected'));
+    buttons[answerIndex].classList.add('selected');
+
+    setTimeout(() => {
+        currentSleepQuestion++;
+        if (currentSleepQuestion < sleepQuestions.length) {
+            renderSleepQuestion(currentSleepQuestion);
+        } else {
+            document.getElementById('sleepquiz-progress-fill').style.width = '100%';
+            document.getElementById('sleepquiz-container').style.display = 'none';
+            document.getElementById('sleepquiz-intro').style.display = 'none';
+            document.querySelector('#page-upsell2 .progress-bar').style.display = 'none';
+            document.getElementById('sleepquiz-result').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, 400);
+}
+
+function showSleepOffer() {
+    document.getElementById('sleepquiz-result').style.display = 'none';
+    document.getElementById('sleepquiz-offer').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetSleepQuiz() {
+    currentSleepQuestion = 0;
+    document.getElementById('sleepquiz-intro').style.display = 'block';
+    document.querySelector('#page-upsell2 .progress-bar').style.display = 'block';
+    document.getElementById('sleepquiz-container').style.display = 'block';
+    document.getElementById('sleepquiz-result').style.display = 'none';
+    document.getElementById('sleepquiz-offer').style.display = 'none';
+    renderSleepQuestion(0);
+}
+
 // Handle URL-based page routing for delivery pages
 // Wrapped in DOMContentLoaded because the delivery page divs are defined
 // later in the document; without this, getElementById would return null
@@ -1017,6 +1095,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize
     renderQuestion(0);
+    renderSleepQuestion(0);
 });
 </script>
 
@@ -1228,26 +1307,55 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- ================================ -->
 <div class="page" id="page-upsell2">
     <div class="container">
-        <div class="upsell-section">
-            <div class="upsell-badge">Eenmalig aanbod</div>
-            <h1>Slaap is de basis van alles.</h1>
-            <p>Je hebt net gekozen voor het Protocol van 7 Dagen. Goed gedaan.</p>
-            <p class="strong">Maar als je slaap niet herstelt, herstelt niets.</p>
-            <p style="font-size: 0.95rem; color: var(--text-light); font-style: italic;">Het Slaapprotocol — 's Nachts wakker — is ontworpen voor mensen die wakker liggen met een vol hoofd. Vier audio's die je zenuwstelsel voorbereidt op diepe slaap.</p>
-            <div class="section-space"></div>
-            <h2>Wat zit er in het Slaapprotocol?</h2>
-            <div class="day-list">
-                <div class="day-item"><strong>Intro</strong> Hoe het Slaapprotocol werkt</div>
-                <div class="day-item"><strong>Avondritueel</strong> Een ritueel dat je zenuwstelsel op slaap voorbereidt</div>
-                <div class="day-item"><strong>Inslapen</strong> Begeleide ontspanning voor als je niet kunt inslapen</div>
-                <div class="day-item"><strong>'s Nachts wakker</strong> Voor als je midden in de nacht wakker ligt</div>
-            </div>
-            <div class="divider-line"></div>
-            <p class="subtle">Je hebt net het Protocol van 7 Dagen gekocht. Daarom krijg je het Slaapprotocol nu voor een eenmalige prijs. Dit aanbod verschijnt één keer.</p>
-            <div style="padding: 16px 0;"><span class="price-new">€67</span></div>
-            <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik wil het Slaapprotocol — €67</a>
-            <a href="https://buy.stripe.com/3cI4gy5QI9ol8kcblofjG01" class="btn-decline" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Nee bedankt, alleen het Protocol van 7 Dagen</a>
+
+        <!-- Screen 1: mini-quiz -->
+        <div id="sleepquiz-intro" class="upsell-section">
+            <div class="upsell-badge">Even iets anders</div>
+            <h1>Voordat je verdergaat — 3 korte vragen.</h1>
+            <p>Dit duurt 20 seconden en zegt iets over hoe je zenuwstelsel 's nachts werkt.</p>
         </div>
+
+        <div id="sleepquiz-container"></div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="sleepquiz-progress-fill" style="width: 0%"></div>
+        </div>
+
+        <!-- Screen 2: diagnosis -->
+        <div id="sleepquiz-result" style="display: none;">
+            <div class="upsell-section">
+                <h2>Herkenbaar? Dit heeft een naam.</h2>
+                <div class="section-space"></div>
+                <p>Wat je beschrijft heet <strong>hyperarousal</strong> — je zenuwstelsel blijft 's nachts in een lichte staat van paraatheid, waardoor je brein de overgang naar diepe herstelslaap niet maakt.</p>
+                <p class="strong">Dit wordt in slaaponderzoek erkend als kernmechanisme bij aanhoudende slaapproblemen. Het is geen kwestie van 'niet moe genoeg zijn' — je systeem staat nog aan.</p>
+                <div class="section-space"></div>
+                <button class="btn-primary" onclick="showSleepOffer()">Bekijk wat hierbij helpt →</button>
+            </div>
+        </div>
+
+        <!-- Screen 3: bridge + offer -->
+        <div id="sleepquiz-offer" style="display: none;">
+            <div class="upsell-section">
+                <div class="upsell-badge">Eenmalig aanbod</div>
+                <h1>Slaap is de basis van alles.</h1>
+                <p>Het Slaapprotocol bestaat uit vier audio's, elk gericht op een ander moment waarop dit systeem vastloopt:</p>
+                <div class="section-space"></div>
+                <div class="day-list">
+                    <div class="day-item"><strong>Intro</strong> Hoe het protocol werkt, zodat je weet wat je kunt verwachten</div>
+                    <div class="day-item"><strong>Avondritueel</strong> Helpt je lichaam actief omschakelen van dag naar nacht, in plaats van van scherm naar bed te springen</div>
+                    <div class="day-item"><strong>Inslapen</strong> Begeleide ontspanning voor het moment dat je hoofd niet stil wil staan</div>
+                    <div class="day-item"><strong>'s Nachts wakker</strong> Voor als je midden in de nacht wakker ligt en niet meer wegzakt</div>
+                </div>
+                <p style="font-size: 0.95rem; color: var(--text-light); font-style: italic;">Vier audio's, inzetbaar op het moment dat je ze nodig hebt — geen programma om af te maken, maar gereedschap dat er is wanneer slaap het nodig heeft.</p>
+                <div class="divider-line"></div>
+                <p class="subtle">Dit aanbod verschijnt eenmalig, nu.</p>
+                <div style="padding: 16px 0;"><span class="price-new">€67</span></div>
+                <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik wil het Slaapprotocol — €67</a>
+                <a href="https://buy.stripe.com/3cI4gy5QI9ol8kcblofjG01" class="btn-decline" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Nee bedankt, alleen het Protocol van 7 Dagen</a>
+                <p class="subtle" style="margin-top: 16px; font-size: 0.8rem;">Bronnen: Dressle et al., <em>Journal of Sleep Research</em> (2023) — hyperarousal bij insomnia; Sleep Foundation, Cleveland Clinic — cognitieve gedragstherapie voor slapeloosheid (CBT-I).</p>
+            </div>
+        </div>
+
     </div>
 </div>
 
