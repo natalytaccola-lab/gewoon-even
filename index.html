@@ -949,6 +949,14 @@ function selectAnswer(answerIndex) {
 // (para saber se as pessoas realmente chegam a ver a oferta, não só assumir).
 const BREVO_TRACKED_PAGES = ['page-upsell', 'page-upsell2', 'page-downsell'];
 
+// True apenas quando page-upsell2 é aberta pelo redirect real do Stripe depois
+// de pagar o Protocol 7 Dagen (hash #upsell2-slaap-7n4kx9). Controla se o banner
+// de confirmação de compra é mostrado — outras entradas em page-upsell2 (ex: uma
+// futura sequência de email a vender o Slaapprotocol a quem não acabou de comprar
+// o 7 Dagen) devem chegar com isto a false, para não confirmar uma compra que a
+// pessoa não fez.
+let upsell2ConfirmedPurchaseEntry = false;
+
 function trackPageViewInBrevo(pageId) {
     if (!BREVO_TRACKED_PAGES.includes(pageId)) return;
     const email = sessionStorage.getItem('userEmail');
@@ -977,6 +985,10 @@ function showPage(pageId) {
         fbq('track', 'ViewContent', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
     } else if (pageId === 'page-upsell2') {
         if (typeof resetSleepQuiz === 'function') resetSleepQuiz();
+        const confirmBanner = document.querySelector('#sleepquiz-intro .purchase-confirm');
+        if (confirmBanner) {
+            confirmBanner.style.display = upsell2ConfirmedPurchaseEntry ? 'block' : 'none';
+        }
     } else if (pageId === 'page-downsell') {
         fbq('track', 'ViewContent', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
     } else if (pageId === 'page-deliver-noodprotocol') {
@@ -1118,10 +1130,22 @@ function resetSleepQuiz() {
 document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
     if (hash === '#upsell-p7-6h2mk9') {
+        // Entrada na page-upsell: tanto o redirect pós-Noodprotocol como o CTA do
+        // Email 1 do Funil 2 (recuperação de quem só tem o Noodprotocol) usam este
+        // hash — a página vende o Protocol 7 Dagen do zero em ambos os casos.
         showPage('page-upsell');
+    } else if (hash === '#downsell-ck-5r8mqz') {
+        // Entrada na page-downsell: usado pelo CTA do Email 2 do Funil 2 (Crisiskaart),
+        // em vez de ir direto ao checkout — mesma lógica do Email 1 acima.
+        showPage('page-downsell');
     } else if (hash === '#upsell2-slaap-7n4kx9') {
         // Redirect do Payment Link "Gewoon Even — Protocol 7 Dagen" (upsell) após compra
         // confirmada: mostra o upsell do Slaapprotocol como oferta pós-compra genuína.
+        // Este é o ÚNICO hash que deve confirmar a compra do 7 Dagen no banner —
+        // uma futura sequência de email a vender o Slaapprotocol (para quem já tem o
+        // 7 Dagen há dias, ou para quem só tem o Noodprotocol) deve usar um hash
+        // PRÓPRIO e diferente deste, para não herdar esta confirmação por engano.
+        upsell2ConfirmedPurchaseEntry = true;
         fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
         showPage('page-upsell2');
     } else if (hash === '#toegang-np-8f3k2m') {
@@ -1351,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <!-- Screen 1: mini-quiz -->
         <div id="sleepquiz-intro" class="upsell-section">
-            <p class="subtle">✓ Het Protocol van 7 Dagen is bevestigd. Je ontvangt het per e-mail.</p>
+            <p class="subtle purchase-confirm" style="display: none;">✓ Het Protocol van 7 Dagen is bevestigd. Je ontvangt het per e-mail.</p>
             <div class="upsell-badge">Even iets anders</div>
             <h1>Voordat je verdergaat — 3 korte vragen.</h1>
             <p>Dit duurt 20 seconden en zegt iets over hoe je zenuwstelsel 's nachts werkt.</p>
