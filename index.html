@@ -1083,7 +1083,9 @@ function resetSleepQuiz() {
 // and showPage() would throw before fbq('track','Purchase') ran.
 document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
-    if (hash === '#toegang-np-8f3k2m') {
+    if (hash === '#upsell-p7-6h2mk9') {
+        showPage('page-upsell');
+    } else if (hash === '#toegang-np-8f3k2m') {
         showPage('page-deliver-noodprotocol');
     } else if (hash === '#toegang-p7-4x9nw') {
         showPage('page-deliver-protocol7');
