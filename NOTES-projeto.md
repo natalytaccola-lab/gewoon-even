@@ -109,12 +109,15 @@ não ao nível da técnica clínica exata (não afirmamos que o áudio "é CBT-I
       ambas disparam ao entrar na lista "Gewoon Even - Leads - #3" e só enviam se `BUYER_STATUS`
       estiver vazio — são nutrição para quem NÃO comprou, não cobrem o pós-compra. Não existe
       rede de segurança por email para o upsell chain; depende só do redirect do Stripe acima.
-- [ ] Adicionar saída de emergência na `page-thankyou` — bug #2. Continua por fazer.
-- [ ] Confirmar automação Brevo (ligar conector ou verificar manualmente).
+- [x] Adicionar saída de emergência na `page-thankyou` — bug #2. Link direto "Direct naar mijn
+      Noodprotocol →" para `#toegang-np-8f3k2m`, testado com Playwright, publicado (commit `6302601`).
+- [x] Copy da `page-downsell` (Crisiskaart) reescrita ao mesmo nível da `page-upsell2` — detalhe
+      dos 5 passos, citação real (técnica de grounding 5-4-3-2-1 usada em CGT), preço/CTA mantidos
+      visíveis. Publicado (commit `6302601`).
+- [ ] Confirmar automação Brevo adicional (ligar conector ou verificar manualmente) — não é
+      urgente, já sabemos que as 2 existentes (Day 0/Day 3) são só nutrição de não-compradores.
 - [ ] Apagar os tokens GitHub "gewoon-even-cowork" e "gewoon-even" (scope `public_repo`, nunca
       usados, não funcionam para push) nas definições do GitHub — manter só "gewoon-even push".
-- [ ] Considerar rever a copy da `page-downsell` (Crisiskaart) também, já que só foi validada a
-      `page-upsell2` até agora.
 
 ## Autenticação / segurança (contexto adicional já discutido)
 
