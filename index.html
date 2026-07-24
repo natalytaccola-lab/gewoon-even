@@ -945,10 +945,30 @@ function selectAnswer(answerIndex) {
     }, 400);
 }
 
+// Páginas do funil cuja visualização real queremos confirmar no Brevo
+// (para saber se as pessoas realmente chegam a ver a oferta, não só assumir).
+const BREVO_TRACKED_PAGES = ['page-upsell', 'page-upsell2', 'page-downsell'];
+
+function trackPageViewInBrevo(pageId) {
+    if (!BREVO_TRACKED_PAGES.includes(pageId)) return;
+    const email = sessionStorage.getItem('userEmail');
+    if (!email) return; // sem email guardado, não há contato para marcar
+
+    fetch('/api/brevo-track-view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, page: pageId })
+    }).catch(err => {
+        console.error('[Brevo] Failed to track page view:', err);
+    });
+}
+
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    trackPageViewInBrevo(pageId);
 
     // Meta Pixel conversion events
     if (pageId === 'page-checkout') {
