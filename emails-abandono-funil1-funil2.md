@@ -3,10 +3,9 @@
 Duas sequências, para dois momentos diferentes de abandono no funil. Ambas usam os atributos
 Brevo que já existem no código (`api/brevo-add-contact.js` e `api/stripe-webhook.js`).
 
-**Aviso ativo:** o webhook do Stripe está a devolver 400 ("Invalid signature"), o que significa que
-`HAS_NP`/`BUYER_STATUS` não estão a ser escritos em produção neste momento. Não ligar nenhuma
-automação nova no Brevo (nem a do Funil 2, nem alterar a condição de saída do Funil 1) até isso
-estar confirmado como corrigido — ver `NOTES-projeto.md` para o estado da investigação.
+**Aviso resolvido:** o webhook do Stripe estava a devolver 400 ("Invalid signature"), o que
+impedia `HAS_NP`/`BUYER_STATUS` de serem escritos em produção. Corrigido e confirmado com 3x
+`200 OK` consecutivos no Stripe Dashboard — pode montar-se as automações abaixo com segurança.
 
 ---
 
@@ -154,6 +153,6 @@ Todas as automações devem sair assim que a condição deixar de ser verdadeira
 comprar entretanto) — no editor Brevo isso é a opção "Sair da automação se a condição já não for
 válida" na régua/regra do fluxo.
 
-**Não montar nada disto no Brevo até o webhook do Stripe estar confirmado como corrigido** — sem
-isso, os atributos que estas automações usam (`BUYER_STATUS`, `HAS_NP`, etc.) nunca mudam de
-valor, e o Funil 1 continua a vender a quem já comprou.
+**Webhook do Stripe confirmado corrigido** (3x `200 OK`, ver `NOTES-projeto.md`) — os atributos
+`BUYER_STATUS`, `HAS_NP`, `HAS_P7D`, `HAS_SLAAP`, `HAS_CK` já estão a ser escritos corretamente
+a cada compra. Pode avançar-se com a montagem das 2 automações abaixo no painel Brevo.

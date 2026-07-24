@@ -8,6 +8,15 @@ importante, um bug encontrado, ou um ponto pendente, regista aqui e faz commit.
 
 ---
 
+## Webhook do Stripe — RESOLVIDO
+
+O webhook (`/api/stripe-webhook`) esteve a devolver 400 "Invalid signature" (o `STRIPE_WEBHOOK_SECRET`
+no Vercel não correspondia ao signing secret do endpoint ativo no Stripe). Corrigido via Claude Code
+local (atualização da env var + redeploy `vercel --prod`) e confirmado com 3x `200 OK` consecutivos
+no Stripe Dashboard, incluindo reenvio manual de um evento de teste. `HAS_NP`/`HAS_P7D`/`HAS_SLAAP`/
+`HAS_CK`/`BUYER_STATUS` estão agora a ser escritos corretamente no Brevo a cada compra confirmada.
+Isto desbloqueia a montagem das automações Funil 1/Funil 2 (ver `emails-abandono-funil1-funil2.md`).
+
 ## Estado do Git / autenticação
 
 - Autenticação GitHub resolvida: usar sempre o token classic chamado **"gewoon-even push"**
