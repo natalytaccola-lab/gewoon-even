@@ -797,7 +797,7 @@
                 <span class="price-new">€37</span>
             </div>
 
-            <button class="btn-primary" onclick="fbq('track','ViewContent',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'}); showPage('page-upsell2');">Ja, ik wil mijn zenuwstelsel hertrainen — €37</button>
+            <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik wil mijn zenuwstelsel hertrainen — €37</a>
             <button class="btn-decline" onclick="showPage('page-downsell')">Nee bedankt, het Noodprotocol is genoeg</button>
         </div>
     </div>
@@ -1119,6 +1119,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
     if (hash === '#upsell-p7-6h2mk9') {
         showPage('page-upsell');
+    } else if (hash === '#upsell2-slaap-7n4kx9') {
+        // Redirect do Payment Link "Gewoon Even — Protocol 7 Dagen" (upsell) após compra
+        // confirmada: mostra o upsell do Slaapprotocol como oferta pós-compra genuína.
+        fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
+        showPage('page-upsell2');
     } else if (hash === '#toegang-np-8f3k2m') {
         showPage('page-deliver-noodprotocol');
     } else if (hash === '#toegang-p7-4x9nw') {
@@ -1346,6 +1351,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <!-- Screen 1: mini-quiz -->
         <div id="sleepquiz-intro" class="upsell-section">
+            <p class="subtle">✓ Het Protocol van 7 Dagen is bevestigd. Je ontvangt het per e-mail.</p>
             <div class="upsell-badge">Even iets anders</div>
             <h1>Voordat je verdergaat — 3 korte vragen.</h1>
             <p>Dit duurt 20 seconden en zegt iets over hoe je zenuwstelsel 's nachts werkt.</p>
@@ -1387,7 +1393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="subtle">Dit aanbod verschijnt eenmalig, nu.</p>
                 <div style="padding: 16px 0;"><span class="price-new">€67</span></div>
                 <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik wil het Slaapprotocol — €67</a>
-                <a href="https://buy.stripe.com/3cI4gy5QI9ol8kcblofjG01" class="btn-decline" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Nee bedankt, alleen het Protocol van 7 Dagen</a>
+                <button class="btn-decline" onclick="showPage('page-downsell')">Nee, dat is voor nu genoeg</button>
                 <p class="subtle" style="margin-top: 16px; font-size: 0.8rem;">Bronnen: Dressle et al., <em>Journal of Sleep Research</em> (2023) — hyperarousal bij insomnia; Sleep Foundation, Cleveland Clinic — cognitieve gedragstherapie voor slapeloosheid (CBT-I).</p>
             </div>
         </div>
