@@ -22,15 +22,16 @@ importante, um bug encontrado, ou um ponto pendente, regista aqui e faz commit.
 
 ## Bugs estruturais encontrados no funil (index.html)
 
-1. **`page-upsell` nunca é mostrada a ninguém.** Não existe nenhuma chamada `showPage('page-upsell')`
-   em lado nenhum do código. Isto significa que, depois de comprar o Noodprotocol (€17), o cliente
-   vai direto para a página de entrega — nunca vê a oferta do Protocol 7 Dagen (€37), nem por
-   consequência a do Slaapprotocol (€67, `page-upsell2`), nem o downsell do Crisiskaart (€9,
-   `page-downsell`). A ligação técnica entre downsell e Crisiskaart (Stripe link + hash de entrega)
-   está correta — só nunca é alcançada.
-   - **Correção proposta:** mudar o *success URL* do Payment Link do Noodprotocol no Stripe para um
-     hash novo (ex: `#upsell-p7-6h2mk9`) que dispare `showPage('page-upsell')` via hash routing no
-     `index.html`. Ainda não implementado — combinado fazer em branch/preview antes de produção.
+1. **`page-upsell` nunca é mostrada a ninguém — CÓDIGO CORRIGIDO, falta 1 passo manual no Stripe.**
+   O hash routing para `#upsell-p7-6h2mk9` → `showPage('page-upsell')` já está implementado e em
+   produção (commit `95ee2a2`). Testado com Playwright: acessar `index.html#upsell-p7-6h2mk9`
+   ativa corretamente a page-upsell.
+   - **Falta apenas:** mudar o *success URL* do Payment Link do Noodprotocol (`buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00`)
+     no Stripe Dashboard para apontar para `https://gewoon-even.vercel.app/#upsell-p7-6h2mk9`
+     (Stripe Dashboard → Payment Links → abrir o link do Noodprotocol → editar → "After payment" →
+     "Redirect customers to" → colar essa URL). Sem isto, o cliente que compra continua a ir para
+     a página de checkout do Stripe e a fechar a aba, sem nunca ver o upsell — o código está pronto
+     mas o gatilho real (o redirect pós-pagamento) só existe do lado do Stripe.
 
 2. **Beco sem saída na `page-thankyou`.** Quem recusa todos os upsells (Protocol 7 Dagen → Crisiskaart)
    cai nesta página, que diz "Je ontvangt binnen enkele minuten een email met toegang" mas não tem
@@ -104,7 +105,14 @@ não ao nível da técnica clínica exata (não afirmamos que o áudio "é CBT-I
       hyperarousal + ponte/oferta com citações) — implementado, testado com Playwright (fluxo
       completo: perguntas → diagnóstico → oferta, incluindo reset ao reentrar na página) e
       publicado em produção (commit `dd48f5d`).
-- [ ] Implementar o gatilho em falta (`page-upsell`) — bug #1. Continua por fazer.
+- [x] Implementar o gatilho em falta (`page-upsell`) — bug #1. Código pronto (commit `95ee2a2`).
+- [ ] **Ação manual da Nataly no Stripe:** mudar o success URL do Payment Link do Noodprotocol
+      para `https://gewoon-even.vercel.app/#upsell-p7-6h2mk9` (ver detalhes acima) — sem isto o
+      código novo nunca é acionado.
+- [x] Confirmado nas automações Brevo (Day 0 "Stille Verlies" e Day 3 "Functionele Klachten"):
+      ambas disparam ao entrar na lista "Gewoon Even - Leads - #3" e só enviam se `BUYER_STATUS`
+      estiver vazio — são nutrição para quem NÃO comprou, não cobrem o pós-compra. Não existe
+      rede de segurança por email para o upsell chain; depende só do redirect do Stripe acima.
 - [ ] Adicionar saída de emergência na `page-thankyou` — bug #2. Continua por fazer.
 - [ ] Confirmar automação Brevo (ligar conector ou verificar manualmente).
 - [ ] Apagar os tokens GitHub "gewoon-even-cowork" e "gewoon-even" (scope `public_repo`, nunca
