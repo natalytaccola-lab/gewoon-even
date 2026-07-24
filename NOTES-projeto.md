@@ -118,6 +118,15 @@ não ao nível da técnica clínica exata (não afirmamos que o áudio "é CBT-I
       urgente, já sabemos que as 2 existentes (Day 0/Day 3) são só nutrição de não-compradores.
 - [ ] Apagar os tokens GitHub "gewoon-even-cowork" e "gewoon-even" (scope `public_repo`, nunca
       usados, não funcionam para push) nas definições do GitHub — manter só "gewoon-even push".
+- [x] Copy de emails de abandono escrita para 2 sequências (Funil 1 — deu email mas não comprou
+      o Noodprotocol; Funil 2 — comprou o Noodprotocol mas não comprou nenhum upsell). Entregue
+      como ficheiro `emails-abandono-funil1-funil2.md`, com tabela de gatilhos Brevo para montar.
+      Ainda por criar manualmente no painel Brevo (a copy está pronta, a automação em si não).
+- [x] Tracking de visualização real da `page-upsell`/`page-upsell2`/`page-downsell` implementado
+      (endpoint `/api/brevo-track-view`, commit `b8fe311`) — marca `VIEWED_UPSELL`/`VIEWED_UPSELL2`/
+      `VIEWED_DOWNSELL` no contato Brevo quando a página é mesmo mostrada. Ver `BREVO_SETUP.md`
+      para como usar isto para medir a "fuga" do redirect do Stripe (compradores vs quem realmente
+      viu a oferta). Testado com Playwright — a chamada dispara corretamente com email + página.
 
 ## Autenticação / segurança (contexto adicional já discutido)
 

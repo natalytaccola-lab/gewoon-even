@@ -81,3 +81,34 @@ Mapping atual em `getProductTag()` é por valor (em cents):
 - 4700 (€47) → `buyer_protocol7` (preço futuro)
 
 Se adicionar produtos novos (ex: Slaapprotocol €67), adicionar caso no helper.
+
+---
+
+# Tracking de visualização real das páginas de upsell
+
+Endpoint `/api/brevo-track-view` (usa a mesma `BREVO_API_KEY`, nenhuma variável nova necessária).
+
+Sempre que alguém vê de facto a `page-upsell`, `page-upsell2` ou `page-downsell` (não só assume-se
+que viu), o `index.html` chama este endpoint fire-and-forget e marca no contato Brevo (identificado
+pelo email guardado em `sessionStorage`):
+
+- `VIEWED_UPSELL: true` + `VIEWED_UPSELL_DATE` — viu a oferta do Protocol 7 Dagen
+- `VIEWED_UPSELL2: true` + `VIEWED_UPSELL2_DATE` — viu a oferta do Slaapprotocol (mini-quiz)
+- `VIEWED_DOWNSELL: true` + `VIEWED_DOWNSELL_DATE` — viu a oferta da Crisiskaart
+
+**Para que serve:** hoje não há forma de saber quantos compradores do Noodprotocol realmente
+chegam a ver a `page-upsell` (o redirect do Stripe pode falhar, a aba pode fechar antes, etc.).
+Com este atributo dá para medir no Brevo:
+
+```
+Contatos com HAS_NP = true          → total de compradores do Noodprotocol
+Contatos com HAS_NP = true
+  e VIEWED_UPSELL = true            → quantos realmente viram a oferta
+```
+
+A diferença entre os dois números é a "fuga" do redirect (pessoas que compraram mas nunca
+chegaram a ver o upsell) — se for alta, é sinal de que o redirect do Stripe ou a ligação está a
+falhar tecnicamente, não que as pessoas estão a recusar a oferta.
+
+Se o contato ainda não existir no Brevo (ex: sessionStorage tinha um email nunca submetido), o
+endpoint não cria nada — só atualiza contatos já existentes, para não poluir a lista.
