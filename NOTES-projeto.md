@@ -53,6 +53,38 @@ Isto desbloqueia a montagem das automações Funil 1/Funil 2 (ver `emails-abando
      Stripe Dashboard (novo link) está mesmo a funcionar como configurado — só testei o roteamento
      do lado do site, não o round-trip completo pelo Stripe.
 
+   **Follow-up (24 jul 2026, commit `fc6f54f`): banner de confirmação tornado condicional.**
+   O banner "✓ Het Protocol van 7 Dagen is bevestigd" acima estava sempre visível em `page-upsell2`,
+   mas essa página tem três portas de entrada e só uma delas é uma compra real:
+   - `#upsell2-slaap-7n4kx9` → redirect real do Stripe pós-compra do Protocol 7 Dagen. **Único**
+     hash que deve confirmar a compra.
+   - Duas entradas futuras por email (ainda não construídas: sequência B/C do Slaapprotocol, para
+     quem já tem o 7 Dagen há dias, ou só tem o Noodprotocol) não devem herdar esta confirmação.
+   - Solução: flag global `upsell2ConfirmedPurchaseEntry` (default `false`), só posta a `true`
+     dentro do branch do hash `#upsell2-slaap-7n4kx9`; `showPage('page-upsell2')` lê a flag para
+     mostrar/esconder o banner (`display: none` por default no HTML). Testado com Playwright
+     (contexto novo por hash, simulando redirect externo real) para os 3 hashes relevantes.
+
+   **Follow-up (24 jul 2026): CTAs dos emails do Funil 2 mudados de Stripe direto para as páginas
+   do funil, em vez de `page-upsell2`, por decisão explícita:**
+   - Email 1 do Funil 2 (mensagem #7, "Het Noodprotocol helpt als het gebeurt") — CTA "Ja, ik wil
+     het Protocol van 7 Dagen →" agora aponta para `https://gewoon-even.vercel.app/#upsell-p7-6h2mk9`
+     (mostra `page-upsell` do zero) em vez do link direto do Stripe. Guardado no Brevo (Automação #4,
+     step #3).
+   - Email 2 do Funil 2 (mensagem #8, "Voor als een koptelefoon opzetten te veel is") — CTA "Ja, ik
+     neem de Crisiskaart mee →" agora aponta para `https://gewoon-even.vercel.app/#downsell-ck-5r8mqz`
+     (mostra `page-downsell`) em vez do link direto do Stripe. Guardado no Brevo (Automação #4, step #6).
+   - Novo hash `#downsell-ck-5r8mqz` adicionado ao roteamento só para isto (`showPage('page-downsell')`).
+   - Razão: pedir uma decisão de €37/€9 só a partir de um email obriga o email a vender sozinho; as
+     páginas têm a estrutura de venda completa (dique, garantia, etc.). `page-upsell2` continua
+     reservada para uma sequência de email futura (ainda não construída) que vende o Slaapprotocol
+     a quem já tem o Protocol 7 Dagen ou só tem o Noodprotocol — é aí que a confirmação condicional
+     acima passa a ser obrigatória.
+   - Nota operacional: ao editar mensagens no Brevo (code view), o editor por vezes captura uma tag
+     `<script src="chrome-extension://...">` injetada por uma extensão do browser no `<head>` do
+     documento, e o Brevo recusa salvar ("O modelo contém JavaScript"). Ver se aparece antes de
+     salvar qualquer mensagem editada em code view.
+
 1. **`page-upsell` nunca era mostrada a ninguém — RESOLVIDO POR COMPLETO.**
    Hash routing `#upsell-p7-6h2mk9` → `showPage('page-upsell')` implementado e em produção
    (commit `95ee2a2`, testado com Playwright). E o Payment Link do Noodprotocol
