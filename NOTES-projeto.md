@@ -31,6 +31,28 @@ Isto desbloqueia a montagem das automações Funil 1/Funil 2 (ver `emails-abando
 
 ## Bugs estruturais encontrados no funil (index.html)
 
+0. **O botão de €37 em `page-upsell` não cobrava nada — RESOLVIDO (24 jul 2026).**
+   Depois de o bug #1 abaixo tornar `page-upsell` visível, descobriu-se que o botão "Ja, ik wil
+   mijn zenuwstelsel hertrainen — €37" era um `<button onclick="showPage('page-upsell2')">` — só
+   navegava, nunca cobrava. O Payment Link real do Protocol 7 Dagen (`3cI4gy5QI9ol8kcblofjG01`)
+   estava em `page-upsell2`, disfarçado de "recusa" ("Nee bedankt, alleen het Protocol van 7
+   Dagen"). Corrigido (commit `2ac6333`):
+   - Novo Payment Link Stripe criado (`buy.stripe.com/aFa6oG0wo8kheIAexAfjG04`, mesmo produto/
+     preço €37) com success URL → `#upsell2-slaap-7n4kx9` (não reaproveitar o link antigo, que
+     continua a redirecionar direto para entrega — é usado no email do Funil 2 e deve continuar
+     a fazer isso).
+   - `page-upsell`: botão agora é `<a href>` para esse novo link.
+   - Novo hash `#upsell2-slaap-7n4kx9` no roteamento: mostra `page-upsell2` como upsell genuíno
+     do Slaapprotocol (€67) depois da compra real do Protocol 7 Dagen, disparando `fbq('track',
+     'Purchase', ...)` correto.
+   - `page-upsell2`: removido o CTA que reoferecia o Protocol 7 Dagen (já pago) como "recusa" —
+     agora é só um botão para `page-downsell` (Crisiskaart). Adicionada confirmação visual no
+     topo do mini-quiz ("✓ Het Protocol van 7 Dagen is bevestigd").
+   - Testado localmente com Playwright (navegação fresca simulando redirect real do Stripe).
+   - **Ainda por verificar em produção:** uma compra real de €37 vai confirmar que o redirect do
+     Stripe Dashboard (novo link) está mesmo a funcionar como configurado — só testei o roteamento
+     do lado do site, não o round-trip completo pelo Stripe.
+
 1. **`page-upsell` nunca era mostrada a ninguém — RESOLVIDO POR COMPLETO.**
    Hash routing `#upsell-p7-6h2mk9` → `showPage('page-upsell')` implementado e em produção
    (commit `95ee2a2`, testado com Playwright). E o Payment Link do Noodprotocol
