@@ -635,17 +635,11 @@
         }
 
         #page-checkout .np-banner {
-            position: relative;
             width: 100%;
             height: 210px;
+            background: var(--creme);
             flex-shrink: 0;
             overflow: hidden;
-        }
-
-        #page-checkout .np-banner svg {
-            display: block;
-            width: 100%;
-            height: 100%;
         }
 
         #page-checkout .np-wordmark {
@@ -722,12 +716,6 @@
             mask-image: linear-gradient(to bottom, #000 0%, #000 42%, rgba(0, 0, 0, 0) 96%);
         }
 
-        #page-checkout .np-breath svg {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
         #page-checkout .np-breath--a {
             height: 132px;
             margin: 4.5rem 0 4.5rem;
@@ -749,65 +737,58 @@
 
 
         /* ---- movimento: deriva lenta e contínua, camada a camada ---- */
-        /* Os caminhos da onda não são "tileáveis" (a altura em x=0 não bate
-           certo com a de x=1200), por isso um loop de translação daria um
-           salto visível na emenda. A deriva é uma oscilação com ease-in-out:
-           a velocidade chega a zero no ponto de inversão, o que a torna
-           imperceptível. Cada camada tem amplitude, duração e sentido
-           próprios — daí a leitura de profundidade. */
-        #page-checkout .wv {
-            transform-box: view-box;
-            transform-origin: 50% 50%;
-            transform: scaleX(1.18);
+        /* A animação vive em <div> HTML, não em elementos SVG: o WebKit trata
+           transform em SVG de forma inconsistente. Cada camada é um <div>
+           sobreposto, com o seu próprio SVG lá dentro — o browser só precisa
+           de animar um bloco HTML comum.
+           As amplitudes estão em px absolutos e não em unidades do viewBox,
+           para a velocidade aparente ser a mesma no telemóvel e no desktop. */
+        #page-checkout .np-banner,
+        #page-checkout .np-breath {
+            position: relative;
         }
 
-        #page-checkout .wv1 { animation: np-drift-1 30s ease-in-out infinite alternate; }
-        #page-checkout .wv2 { animation: np-drift-2 25s ease-in-out infinite alternate; }
-        #page-checkout .wv3 { animation: np-drift-3 21s ease-in-out infinite alternate; }
+        #page-checkout .wvl {
+            position: absolute;
+            inset: 0;
+            transform: scaleX(1.22);
+        }
+
+        #page-checkout .wvl svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #page-checkout .wvl1 { animation: np-drift-1 30s ease-in-out infinite alternate; }
+        #page-checkout .wvl2 { animation: np-drift-2 25s ease-in-out infinite alternate; }
+        #page-checkout .wvl3 { animation: np-drift-3 21s ease-in-out infinite alternate; }
 
         @keyframes np-drift-1 {
-            from { transform: scaleX(1.18) translateX(-20px); }
-            to   { transform: scaleX(1.18) translateX(20px); }
+            from { transform: scaleX(1.22) translateX(-14px); }
+            to   { transform: scaleX(1.22) translateX(14px); }
         }
 
         @keyframes np-drift-2 {
-            from { transform: scaleX(1.18) translateX(30px); }
-            to   { transform: scaleX(1.18) translateX(-30px); }
+            from { transform: scaleX(1.22) translateX(22px); }
+            to   { transform: scaleX(1.22) translateX(-22px); }
         }
 
         @keyframes np-drift-3 {
-            from { transform: scaleX(1.18) translateX(-40px); }
-            to   { transform: scaleX(1.18) translateX(40px); }
-        }
-
-        /* Em mobile o mesmo percurso em unidades do viewBox rende três vezes
-           menos pixels (390px de largura contra 1280), por isso a amplitude
-           sobe no breakpoint para a deriva se manter percetível. */
-        @keyframes np-drift-1m {
-            from { transform: scaleX(1.18) translateX(-40px); }
-            to   { transform: scaleX(1.18) translateX(40px); }
-        }
-
-        @keyframes np-drift-2m {
-            from { transform: scaleX(1.18) translateX(58px); }
-            to   { transform: scaleX(1.18) translateX(-58px); }
-        }
-
-        @keyframes np-drift-3m {
-            from { transform: scaleX(1.18) translateX(-76px); }
-            to   { transform: scaleX(1.18) translateX(76px); }
+            from { transform: scaleX(1.22) translateX(-32px); }
+            to   { transform: scaleX(1.22) translateX(32px); }
         }
 
         /* desfasamento por instância, para as quatro ondas não respirarem em uníssono */
-        #page-checkout .np-breath--a .wv1 { animation-delay: -6s; }
-        #page-checkout .np-breath--a .wv2 { animation-delay: -11s; }
-        #page-checkout .np-breath--a .wv3 { animation-delay: -4s; }
-        #page-checkout .np-breath--b .wv1 { animation-delay: -17s; }
-        #page-checkout .np-breath--b .wv2 { animation-delay: -3s; }
-        #page-checkout .np-breath--b .wv3 { animation-delay: -13s; }
-        #page-checkout .np-breath--c .wv1 { animation-delay: -9s; }
-        #page-checkout .np-breath--c .wv2 { animation-delay: -20s; }
-        #page-checkout .np-breath--c .wv3 { animation-delay: -8s; }
+        #page-checkout .np-breath--a .wvl1 { animation-delay: -6s; }
+        #page-checkout .np-breath--a .wvl2 { animation-delay: -11s; }
+        #page-checkout .np-breath--a .wvl3 { animation-delay: -4s; }
+        #page-checkout .np-breath--b .wvl1 { animation-delay: -17s; }
+        #page-checkout .np-breath--b .wvl2 { animation-delay: -3s; }
+        #page-checkout .np-breath--b .wvl3 { animation-delay: -13s; }
+        #page-checkout .np-breath--c .wvl1 { animation-delay: -9s; }
+        #page-checkout .np-breath--c .wvl2 { animation-delay: -20s; }
+        #page-checkout .np-breath--c .wvl3 { animation-delay: -8s; }
 
         /* ---- entrada dos blocos de áudio ao scroll ---- */
         /* o estado inicial só existe quando o JS acrescenta .np-anim, para que
@@ -828,9 +809,9 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            #page-checkout .wv {
+            #page-checkout .wvl {
                 animation: none !important;
-                transform: scaleX(1.18) !important;
+                transform: scaleX(1.22) !important;
             }
             #page-checkout .np-track { transition: none !important; }
             #page-checkout.np-anim .np-track {
@@ -1025,9 +1006,6 @@
             #page-checkout .np-breath--a { height: 96px; margin: 3.6rem 0; }
             #page-checkout .np-breath--b { height: 84px; margin: 4.2rem 0 3.2rem; }
             #page-checkout .np-breath--c { height: 68px; margin: 4.2rem 0 0; }
-            #page-checkout .wv1 { animation-name: np-drift-1m; }
-            #page-checkout .wv2 { animation-name: np-drift-2m; }
-            #page-checkout .wv3 { animation-name: np-drift-3m; }
         }
     </style>
 </head>
@@ -1090,10 +1068,7 @@
     <!-- ============ PRIMEIRO ECRÃ ============ -->
     <header class="np-hero">
         <div class="np-banner">
-            <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="1200" height="400" fill="#F2EDE6"/>
-                <g class="wv wv1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g><g class="wv wv2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g><g class="wv wv3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g>
-            </svg>
+<div class="wvl wvl1"><svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
             <div class="np-wordmark">Gewoon Even</div>
         </div>
 
@@ -1127,7 +1102,7 @@
 
     <!-- respiração 1 -->
     <div class="np-breath np-breath--a" aria-hidden="true">
-        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g class="wv wv1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g><g class="wv wv2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g><g class="wv wv3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g></svg>
+        <div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
     </div>
 
     <!-- ============ OS TRÊS ÁUDIOS ============ -->
@@ -1168,7 +1143,7 @@
 
     <!-- respiração 2 -->
     <div class="np-breath np-breath--b" aria-hidden="true">
-        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g class="wv wv1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g><g class="wv wv2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g><g class="wv wv3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g></svg>
+        <div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
     </div>
 
     <!-- ============ PREÇO + CTA ============ -->
@@ -1187,7 +1162,7 @@
 
     <!-- respiração 3 -->
     <div class="np-breath np-breath--c" aria-hidden="true">
-        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g class="wv wv1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g><g class="wv wv2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g><g class="wv wv3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g></svg>
+        <div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
     </div>
 
     <div class="footer">
