@@ -24,6 +24,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
+    <!-- page-checkout (Noodprotocol): Cormorant / Inter / IBM Plex Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #F5F2EE;
@@ -591,6 +593,421 @@
             opacity: 0.6;
             line-height: 1.5;
         }
+
+        /* ============================================================ */
+        /* PAGE-CHECKOUT — NOODPROTOCOL €17                             */
+        /* Sistema próprio, escopado a #page-checkout. Não afecta        */
+        /* nenhuma outra página do funil.                                */
+        /* ============================================================ */
+        #page-checkout {
+            --verde-dique: #3E4E43;
+            --sage: #9AA396;
+            --terracota: #C89078;
+            --terracota-cta: #A9694B;
+            --creme: #F2EDE6;
+            --taupe: #7A6B57;
+            --taupe-nota: #8A7B66;
+            --np-display: 'Cormorant', Georgia, serif;
+            --np-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --np-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+            --np-hairline: #CACCC2;
+
+            background: var(--creme);
+            color: var(--verde-dique);
+            font-family: var(--np-body);
+        }
+
+        #page-checkout .container {
+            max-width: 620px;
+        }
+
+        /* ---- primeiro ecrã: só wordmark, onda, headline, subheadline ---- */
+        #page-checkout .np-hero {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* containers do hero são flex items — sem width:100% encolhem
+           ao conteúdo e desalinham da margem esquerda do corpo */
+        #page-checkout .np-hero > .container,
+        #page-checkout .np-hero-copy > .container {
+            width: 100%;
+        }
+
+        #page-checkout .np-banner {
+            position: relative;
+            width: 100%;
+            height: 210px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        #page-checkout .np-banner svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #page-checkout .np-wordmark {
+            position: absolute;
+            top: 34px;
+            left: 40px;
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-hero-copy {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 240px 0 20px;
+        }
+
+        #page-checkout .np-headline {
+            font-family: var(--np-display);
+            font-size: clamp(2rem, 5.2vw, 3.4rem);
+            font-weight: 300;
+            line-height: 1.1;
+            text-wrap: balance;
+            letter-spacing: -0.015em;
+            color: var(--verde-dique);
+            margin: 0;
+        }
+
+        #page-checkout .np-headline span {
+            display: block;
+        }
+
+        #page-checkout .np-sub {
+            max-width: 31rem;
+            margin: 2rem 0 0;
+            font-size: 1.15rem;
+            font-weight: 300;
+            line-height: 1.8;
+            letter-spacing: 0.003em;
+            color: var(--verde-dique);
+        }
+
+        /* ---- corpo staccato ---- */
+        #page-checkout .np-body p {
+            max-width: 34rem;
+            margin: 0 0 1.35rem;
+            font-size: 1.125rem;
+            font-weight: 300;
+            line-height: 1.78;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-lift {
+            font-family: var(--np-display) !important;
+            font-size: clamp(1.8rem, 4.8vw, 2.75rem) !important;
+            font-weight: 300;
+            line-height: 1.3 !important;
+            letter-spacing: -0.01em;
+            color: var(--verde-dique);
+            margin: 4.6rem 0 4.6rem !important;
+            max-width: 32rem !important;
+        }
+
+        /* ---- assinatura: a onda a respirar entre secções ---- */
+        #page-checkout .np-breath {
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, rgba(0, 0, 0, 0) 96%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 42%, rgba(0, 0, 0, 0) 96%);
+        }
+
+        #page-checkout .np-breath svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #page-checkout .np-breath--a {
+            height: 132px;
+            margin: 4.5rem 0 4.5rem;
+            opacity: 0.55;
+        }
+
+        #page-checkout .np-breath--b {
+            height: 112px;
+            margin: 5.5rem 0 4rem;
+            opacity: 0.38;
+            transform: scaleX(-1);
+        }
+
+        #page-checkout .np-breath--c {
+            height: 92px;
+            margin: 5.5rem 0 0;
+            opacity: 0.2;
+        }
+
+
+        /* ---- movimento: deriva lenta e contínua, camada a camada ---- */
+        /* Os caminhos da onda não são "tileáveis" (a altura em x=0 não bate
+           certo com a de x=1200), por isso um loop de translação daria um
+           salto visível na emenda. A deriva é uma oscilação com ease-in-out:
+           a velocidade chega a zero no ponto de inversão, o que a torna
+           imperceptível. Cada camada tem amplitude, duração e sentido
+           próprios — daí a leitura de profundidade. */
+        #page-checkout .wv {
+            transform-box: view-box;
+            transform-origin: 50% 50%;
+            transform: scaleX(1.08);
+        }
+
+        #page-checkout .wv1 { animation: np-drift-1 30s ease-in-out infinite alternate; }
+        #page-checkout .wv2 { animation: np-drift-2 25s ease-in-out infinite alternate; }
+        #page-checkout .wv3 { animation: np-drift-3 21s ease-in-out infinite alternate; }
+
+        @keyframes np-drift-1 {
+            from { transform: scaleX(1.08) translateX(-14px); }
+            to   { transform: scaleX(1.08) translateX(14px); }
+        }
+
+        @keyframes np-drift-2 {
+            from { transform: scaleX(1.08) translateX(22px); }
+            to   { transform: scaleX(1.08) translateX(-22px); }
+        }
+
+        @keyframes np-drift-3 {
+            from { transform: scaleX(1.08) translateX(-30px); }
+            to   { transform: scaleX(1.08) translateX(30px); }
+        }
+
+        /* desfasamento por instância, para as quatro ondas não respirarem em uníssono */
+        #page-checkout .np-breath--a .wv1 { animation-delay: -6s; }
+        #page-checkout .np-breath--a .wv2 { animation-delay: -11s; }
+        #page-checkout .np-breath--a .wv3 { animation-delay: -4s; }
+        #page-checkout .np-breath--b .wv1 { animation-delay: -17s; }
+        #page-checkout .np-breath--b .wv2 { animation-delay: -3s; }
+        #page-checkout .np-breath--b .wv3 { animation-delay: -13s; }
+        #page-checkout .np-breath--c .wv1 { animation-delay: -9s; }
+        #page-checkout .np-breath--c .wv2 { animation-delay: -20s; }
+        #page-checkout .np-breath--c .wv3 { animation-delay: -8s; }
+
+        /* ---- entrada dos blocos de áudio ao scroll ---- */
+        /* o estado inicial só existe quando o JS acrescenta .np-anim, para que
+           sem JS os blocos apareçam já no estado final */
+        #page-checkout .np-track {
+            transition: opacity 460ms ease-out, transform 460ms ease-out;
+        }
+
+        #page-checkout.np-anim .np-track {
+            opacity: 0.7;
+            transform: scale(0.96);
+            transform-origin: left center;
+        }
+
+        #page-checkout.np-anim .np-track.is-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .wv {
+                animation: none !important;
+                transform: scaleX(1.08) !important;
+            }
+            #page-checkout .np-track { transition: none !important; }
+            #page-checkout.np-anim .np-track {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        /* ---- os três áudios: sem card, sem ícone, só tipografia ---- */
+        #page-checkout .np-track {
+            display: grid;
+            grid-template-columns: 3.75rem 1fr;
+            gap: 0 1.75rem;
+            padding: 2.9rem 0;
+            border-top: 1px solid var(--np-hairline);
+        }
+
+        #page-checkout .np-track:last-of-type {
+            border-bottom: 1px solid var(--np-hairline);
+        }
+
+        #page-checkout .np-track-num {
+            font-family: var(--np-display);
+            font-size: 2.2rem;
+            font-weight: 300;
+            line-height: 1;
+            color: var(--sage);
+            letter-spacing: 0.02em;
+        }
+
+        #page-checkout .np-track-name {
+            font-family: var(--np-display);
+            font-size: 1.9rem;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: 0.01em;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-track-name .np-sep {
+            color: var(--sage);
+            margin: 0 0.4em;
+            font-size: 0.7em;
+            vertical-align: 0.12em;
+        }
+
+        #page-checkout .np-track-name .np-num {
+            font-size: 0.56em;
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            color: var(--taupe);
+            vertical-align: 0.14em;
+        }
+
+        #page-checkout .np-track-sci {
+            margin: 1.1rem 0 0;
+            font-size: 0.97rem;
+            font-weight: 300;
+            line-height: 1.72;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-track-quote {
+            margin: 1.7rem 0 0;
+            font-family: var(--np-display);
+            font-style: italic;
+            font-size: 1.35rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--verde-dique);
+        }
+
+        /* ---- números: monoespaçada leve, só para o dado em si ---- */
+        #page-checkout .np-num {
+            font-family: var(--np-mono);
+            font-size: 0.9em;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        /* ---- fecho da ciência ---- */
+        #page-checkout .np-science {
+            max-width: 34rem;
+            margin: 3.2rem 0 0;
+            font-size: 0.97rem;
+            font-weight: 300;
+            line-height: 1.78;
+            color: var(--verde-dique);
+        }
+
+        /* ---- âncora de preço ---- */
+        #page-checkout .np-anchor {
+            max-width: 34rem;
+            margin: 0 0 0;
+            font-size: 1.0625rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-anchor-now {
+            margin: 1.8rem 0 0;
+            font-family: var(--np-display);
+            font-size: clamp(1.9rem, 4.6vw, 2.5rem);
+            font-weight: 300;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: var(--verde-dique);
+        }
+
+        /* ---- CTA ---- */
+        #page-checkout .btn-primary {
+            background: var(--terracota-cta);
+            color: #FFFFFF;
+            border-radius: 2px;
+            padding: 22px 28px;
+            margin: 3.2rem 0 1.1rem;
+            font-family: var(--np-body);
+            font-size: 1.05rem;
+            font-weight: 500;
+            letter-spacing: 0.005em;
+        }
+
+        #page-checkout .btn-primary:hover {
+            background: #94583D;
+            transform: none;
+            box-shadow: none;
+        }
+
+        #page-checkout .np-seal {
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 300;
+            letter-spacing: 0.04em;
+            color: var(--taupe);
+        }
+
+        #page-checkout .np-guarantee {
+            margin: 3.4rem 0 0;
+            padding-top: 2.1rem;
+            border-top: 1px solid var(--np-hairline);
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.78;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-disclaimer {
+            max-width: 34rem;
+            margin: 2.4rem 0 0;
+            font-size: 0.82rem;
+            font-weight: 300;
+            line-height: 1.7;
+            color: var(--taupe-nota);
+        }
+
+        #page-checkout .footer {
+            padding: 76px 0 64px;
+            font-family: var(--np-body);
+            font-size: 0.8125rem;
+            font-weight: 300;
+            line-height: 1.7;
+            letter-spacing: 0.025em;
+            color: var(--taupe);
+        }
+
+        #page-checkout .footer .container::before {
+            content: "";
+            display: block;
+            width: 28px;
+            height: 1px;
+            margin: 0 auto 22px;
+            background: var(--sage);
+        }
+
+        @media (max-width: 600px) {
+            #page-checkout .np-banner { height: 150px; }
+            #page-checkout .np-wordmark { top: 20px; left: 24px; font-size: 1.3rem; }
+            #page-checkout .np-hero-copy { padding: 240px 0 20px; }
+            #page-checkout .np-sub { margin-top: 1.75rem; font-size: 1rem; }
+            #page-checkout .footer { padding: 60px 0 52px; }
+            #page-checkout .np-body p { margin-bottom: 1.2rem; font-size: 1.08rem; }
+            #page-checkout .np-lift { margin: 3.8rem 0 3.8rem !important; }
+            #page-checkout .np-track {
+                grid-template-columns: 1fr;
+                gap: 0;
+                padding: 2.4rem 0;
+            }
+            #page-checkout .np-track-num { margin-bottom: 0.9rem; font-size: 1.9rem; }
+            #page-checkout .np-track-name { font-size: 1.7rem; }
+            #page-checkout .np-track-quote { font-size: 1.25rem; }
+            #page-checkout .np-breath--a { height: 96px; margin: 3.6rem 0; }
+            #page-checkout .np-breath--b { height: 84px; margin: 4.2rem 0 3.2rem; }
+            #page-checkout .np-breath--c { height: 68px; margin: 4.2rem 0 0; }
+        }
     </style>
 </head>
 <body>
@@ -647,78 +1064,118 @@
 <!-- PAGE 2: CHECKOUT                 -->
 <!-- ================================ -->
 <div class="page" id="page-checkout">
-    <div class="banner">
-        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="1200" height="400" fill="#F5F2EE"/>
-            <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
-            <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
-            <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#D4836A" opacity="0.7"/>
-        </svg>
-        <div class="brand-name">Gewoon Even</div>
+
+    <!-- onda em camadas, definida uma vez e reutilizada com recortes diferentes -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+            <!-- uma camada por g, para cada uma poder derivar ao seu ritmo -->
+            <g id="np-wave-1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g>
+            <g id="np-wave-2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g>
+            <g id="np-wave-3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g>
+        </defs>
+    </svg>
+
+    <!-- ============ PRIMEIRO ECRÃ ============ -->
+    <header class="np-hero">
+        <div class="np-banner">
+            <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="1200" height="400" fill="#F2EDE6"/>
+                <use class="wv wv1" href="#np-wave-1"/><use class="wv wv2" href="#np-wave-2"/><use class="wv wv3" href="#np-wave-3"/>
+            </svg>
+            <div class="np-wordmark">Gewoon Even</div>
+        </div>
+
+        <div class="np-hero-copy">
+            <div class="container">
+                <h1 class="np-headline">
+                    <span>Je huisarts noemt het stress.</span>
+                    <span>Je lijf weet wel beter.</span>
+                </h1>
+                <p class="np-sub">Het staat al maanden aan. Je borst. Je kaken. Je hoofd om 3 uur 's nachts.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ CORPO STACCATO ============ -->
+    <div class="container np-body">
+        <p>En iedereen zegt hetzelfde. "Rust wat uit." "Het gaat wel over." "Doe eens rustig aan."</p>
+
+        <p>Alsof je dat niet al geprobeerd hebt.</p>
+
+        <p>Je hebt geen tips nodig. Geen "even eruit" advies. En geen verwijzing naar een wachtlijst van drie maanden bij de GGZ.</p>
+
+        <p class="np-lift">Je hebt iets nodig dat werkt. Vanavond.</p>
+
+        <p>Geen therapeut, geen programma, geen abonnement. Niks om je voor aan te melden, niks om af te maken.</p>
+
+        <p>Een overbelast systeem heeft niet nóg een verplichting nodig.</p>
+
+        <p class="np-lift">Als het lichaam het alarm bewaart — in de adem, in de spieren, in het hoofd dat niet stopt — dan is het lichaam ook waar het weer leert stoppen.</p>
     </div>
 
+    <!-- respiração 1 -->
+    <div class="np-breath np-breath--a" aria-hidden="true">
+        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><use class="wv wv1" href="#np-wave-1"/><use class="wv wv2" href="#np-wave-2"/><use class="wv wv3" href="#np-wave-3"/></svg>
+    </div>
+
+    <!-- ============ OS TRÊS ÁUDIOS ============ -->
     <div class="container">
-        <div class="checkout-section">
-            <h1>Dit stopt niet vanzelf.</h1>
-            <p style="font-size: 1.2rem; font-weight: 400;">Maar het hoeft ook maar 3 stappen.</p>
-
-            <div class="section-space"></div>
-
-            <h2>Gewoon Even — Noodprotocol</h2>
-            <p>Je lichaam is de dijk geworden. Altijd alert. Altijd gespannen. Het weet niet meer hoe het moet stoppen.</p>
-            <p class="strong">Dit is niet jouw schuld. Het is een beschermingsmechanisme dat vastzit.</p>
-            <p class="strong">Het Noodprotocol is een systeem van 3 protocollen die je stap voor stap terugleiden naar je lichaam, naar de grond, naar rust.</p>
-
-            <div class="features" style="margin: 24px 0;">
-                <div class="feature" style="padding: 12px 0;">
-                    <span class="feature-check" style="font-size: 1.3rem;">①</span>
-                    <div>
-                        <span class="feature-text"><strong style="color: var(--green);">Noodstop</strong> · 8 minuten<br>Ademhalingstechniek (4-7-8) die je nervus vagus activeert en je zenuwstelsel direct omschakelt van alarm naar rust. Voor het acute moment. Klinisch onderzocht aan o.a. Leiden Universiteit en Stanford University.</span>
-                    </div>
-                </div>
-                <div class="feature" style="padding: 12px 0;">
-                    <span class="feature-check" style="font-size: 1.3rem;">②</span>
-                    <div>
-                        <span class="feature-text"><strong style="color: var(--green);">Reset</strong> · 8 minuten<br>Sensorische verankering die je uit de gedachtespiraal haalt en terug in je lichaam brengt. Focus op aanraking, gewicht en contact met de grond. Standaard in EMDR- en CGT-protocollen binnen de Nederlandse GGZ.</span>
-                    </div>
-                </div>
-                <div class="feature" style="padding: 12px 0;">
-                    <span class="feature-check" style="font-size: 1.3rem;">③</span>
-                    <div>
-                        <span class="feature-text"><strong style="color: var(--green);">Landing</strong> · 8 minuten<br>Progressieve spierontspanning van hoofd tot voeten die je hele lichaam terugbrengt naar de grond. Ontwikkeld door Dr. Edmund Jacobson, bewezen effectief sinds 1938, aanbevolen door het NHG.</span>
-                    </div>
-                </div>
-            </div>
-
-            <p>⏱ In crisis? Gebruik alleen Noodstop — 8 minuten, direct resultaat. Meer tijd? Luister alle 3 voor diepe regulatie. Direct te gebruiken op je telefoon, met je oortjes in, waar je ook bent.</p>
-
-            <div class="social-proof">
-                <p class="subtle" style="text-align: center; margin: 24px 0 8px;">Meer dan 15 klinische studies bevestigen de effectiviteit van deze technieken (Frontiers in Neuroscience, 2018 · Physiological Reports, 2022 · Cell Reports Medicine, 2023)</p>
-            </div>
-
-            <div class="price-compare">
-                <p class="old">Eén sessie bij een psycholoog: €100-150. Wachtlijst: 4-16 weken.</p>
-                <p class="new">3 protocollen: €17</p>
-                <p class="subtle" style="margin-top: 4px;">Eenmalige betaling. Direct toegang tot alle 3.</p>
-            </div>
-
-            <p style="font-size: 0.95rem; color: var(--text); text-align: center; font-style: italic; margin: 16px 0;">Je leest dit omdat je iets zoekt. Dat gevoel verdwijnt niet door deze pagina te sluiten.</p>
-
-            <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Nu direct toegang — €17</a>
-
-            <div class="guarantee">
-                <p class="strong">60 dagen niet-goed-geld-terug.</p>
-                <p>Luister de protocollen. Als het niet werkt, krijg je je geld terug. Geen vragen.</p>
-            </div>
-
-            <div class="trust-section">
-                <span class="trust-item">🔒 Veilig betalen via Stripe</span>
-                <span class="trust-item">🇳🇱 Gemaakt voor Nederland</span>
-                <span class="trust-item">Geen abonnement</span>
-            </div>
-
-            <p class="subtle" style="margin-top: 24px;">Gebaseerd op technieken gebruikt door meer dan 100.000 therapeuten in 80+ landen. Onderdeel van standaard GGZ-protocollen in Nederland en klinische richtlijnen van de WHO. Dit is geen medisch advies en geen vervanging voor professionele behandeling.</p>
+        <div class="np-body">
+            <p>Het Noodprotocol zijn drie stemopnames. 8 minuten elk. Je drukt op play — een stem neemt het over.</p>
         </div>
+
+        <section class="np-track">
+            <div class="np-track-num">01</div>
+            <div>
+                <h2 class="np-track-name">Noodstop<span class="np-sep">·</span><span class="np-num">8 min</span></h2>
+                <p class="np-track-sci">Ademhaling volgens de 4-7-8-methode. Een onderzoek van de Simon Fraser University volgde <span class="np-num">109</span> mensen <span class="np-num">8</span> weken lang en vond een significante afname van angst bij wie de techniek toepaste.</p>
+                <p class="np-track-quote">"Adem in... twee, drie, vier... Je doet het goed."</p>
+            </div>
+        </section>
+
+        <section class="np-track">
+            <div class="np-track-num">02</div>
+            <div>
+                <h2 class="np-track-name">Reset<span class="np-sep">·</span><span class="np-num">8 min</span></h2>
+                <p class="np-track-sci">Sensorische verankering via de vijf zintuigen — dezelfde aanpak die traumatherapeuten gebruiken om iemand terug te brengen naar het hier en nu.</p>
+                <p class="np-track-quote">"Je gedachten mogen er nog zijn. Maar nu ben jij er ook."</p>
+            </div>
+        </section>
+
+        <section class="np-track">
+            <div class="np-track-num">03</div>
+            <div>
+                <h2 class="np-track-name">Landing<span class="np-sep">·</span><span class="np-num">8 min</span></h2>
+                <p class="np-track-sci">Progressieve spierontspanning. Een analyse van <span class="np-num">27</span> wetenschappelijke studies bevestigde het effect op angst.</p>
+                <p class="np-track-quote">"Je kaken. De meeste mensen dragen hier de hele dag spanning zonder het te weten."</p>
+            </div>
+        </section>
+
+        <p class="np-science">Wat de drie verbindt: langzamer uitademen dan inademen activeert de nervus vagus — de rem van je zenuwstelsel. Bevestigd door onderzoekers van de Universiteit Leiden.</p>
+    </div>
+
+    <!-- respiração 2 -->
+    <div class="np-breath np-breath--b" aria-hidden="true">
+        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><use class="wv wv1" href="#np-wave-1"/><use class="wv wv2" href="#np-wave-2"/><use class="wv wv3" href="#np-wave-3"/></svg>
+    </div>
+
+    <!-- ============ PREÇO + CTA ============ -->
+    <div class="container">
+        <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de wachtlijst pas.</p>
+        <p class="np-anchor-now">Dit? <span class="np-num">€17</span>. Vanavond nog.</p>
+
+        <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik wil er vanavond bij zijn — €17</a>
+
+        <p class="np-seal">🔒 Veilig betalen via Stripe</p>
+
+        <p class="np-guarantee">Werkt het niet voor je? Dan krijg je je geld terug. We zijn ervan overtuigd dat het Noodprotocol je verlichting geeft — daarom 60 dagen garantie, zonder vragen.</p>
+
+        <p class="np-disclaimer">Geen medisch advies en geen vervanging voor professionele behandeling.</p>
+    </div>
+
+    <!-- respiração 3 -->
+    <div class="np-breath np-breath--c" aria-hidden="true">
+        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><use class="wv wv1" href="#np-wave-1"/><use class="wv wv2" href="#np-wave-2"/><use class="wv wv3" href="#np-wave-3"/></svg>
     </div>
 
     <div class="footer">
@@ -1497,6 +1954,33 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 </div>
 
+
+<!-- page-checkout: entrada dos blocos de áudio. Intersection Observer nativo,
+     sem biblioteca. Cada bloco dispara quando entra na viewport e deixa de
+     ser observado — nada fica ligado ao evento de scroll. -->
+<script>
+(function () {
+    var page = document.getElementById('page-checkout');
+    if (!page) return;
+    var tracks = page.querySelectorAll('.np-track');
+    if (!tracks.length) return;
+
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !('IntersectionObserver' in window)) return; // fica no estado final
+
+    page.classList.add('np-anim');
+
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-in');
+            io.unobserve(entry.target);
+        });
+    }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+
+    Array.prototype.forEach.call(tracks, function (t) { io.observe(t); });
+})();
+</script>
 
 </body>
 </html>
