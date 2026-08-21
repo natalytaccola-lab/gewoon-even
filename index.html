@@ -719,14 +719,14 @@
         /* ---- cartão de prevalência ---- */
         #page-checkout .np-stat {
             max-width: 34rem;
-            margin: 4.2rem 0 0;
-            padding: 1.6rem 0 0;
-            border-top: 1px solid var(--np-hairline);
+            margin: 2.8rem 0 0;
+            padding: 0 0 0 1.2rem;
+            border-left: 2px solid var(--np-hairline);
         }
 
         #page-checkout .np-stat-num {
             font-family: var(--np-mono);
-            font-size: 2.6rem;
+            font-size: 1.6rem;
             font-weight: 400;
             line-height: 1;
             letter-spacing: -0.02em;
@@ -740,15 +740,15 @@
         }
 
         #page-checkout .np-stat-txt {
-            margin: 0.9rem 0 0;
-            font-size: 1.0625rem;
+            margin: 0.5rem 0 0;
+            font-size: 1rem;
             font-weight: 300;
             line-height: 1.72;
             color: var(--verde-dique);
         }
 
         #page-checkout .np-stat-src {
-            margin: 0.9rem 0 0;
+            margin: 0.5rem 0 0;
             font-family: var(--np-body);
             font-size: 0.78rem;
             font-weight: 300;
@@ -757,8 +757,8 @@
         }
 
         @media (max-width: 600px) {
-            #page-checkout .np-stat { margin-top: 3.4rem; }
-            #page-checkout .np-stat-num { font-size: 2.2rem; }
+            #page-checkout .np-stat { margin-top: 2.4rem; }
+            #page-checkout .np-stat-num { font-size: 1.45rem; }
         }
 
         /* ---- assinatura: a onda a respirar entre secções ---- */
@@ -909,7 +909,7 @@
 
         #page-checkout .np-phone {
             position: relative;   /* contexto para a capa, que é absoluta */
-            width: 200px;
+            width: 264px;
             margin: 0 auto 3.2rem;
         }
 
@@ -929,12 +929,12 @@
             #page-checkout .np-stage-device {
                 grid-column: 3;
                 grid-row: 1;
-                padding-left: 48px;
+                padding-left: 40px;
             }
 
             #page-checkout .np-phone {
                 position: sticky;
-                top: max(26px, calc(50vh - 208px));
+                top: max(26px, calc(50vh - 274px));
                 margin: 0;
             }
         }
@@ -991,8 +991,8 @@
             position: absolute;
             top: 22px;
             left: 22px;
-            width: 156px;
-            height: 196px;
+            width: 220px;
+            height: 276px;
             border-radius: 3px;
             overflow: hidden;
             background: var(--creme);
@@ -1013,7 +1013,7 @@
         }
 
         #page-checkout .np-phone-screen {
-            padding-top: 209px;
+            padding-top: 289px;
         }
 
         #page-checkout .np-player-title {
@@ -1111,13 +1111,12 @@
 
         @media (max-width: 600px) {
             #page-checkout .np-phone {
-                top: 16px;
-                width: 168px;
+                width: 240px;
                 margin-bottom: 2.4rem;
             }
 
-            #page-checkout .np-cover { width: 124px; height: 150px; }
-            #page-checkout .np-phone-screen { padding-top: 163px; }
+            #page-checkout .np-cover { width: 196px; height: 245px; }
+            #page-checkout .np-phone-screen { padding-top: 264px; }
             #page-checkout .np-player-title { font-size: 1.28rem; }
             #page-checkout .np-player-sub { font-size: 0.82rem; }
             #page-checkout .np-pause { width: 40px; height: 40px; }
@@ -1348,23 +1347,31 @@
         }
 
         /* ---- âncora de preço ---- */
+        /* ---- clímax: a única faixa escura em verde, e a maior tipografia ---- */
+        #page-checkout .np-climax {
+            margin: 5rem 0 0;
+            padding: 4.2rem 0 4rem;
+            background: var(--verde-dique);
+        }
+
         #page-checkout .np-anchor {
             max-width: 34rem;
             margin: 0 0 0;
             font-size: 1.0625rem;
             font-weight: 300;
             line-height: 1.8;
-            color: var(--verde-dique);
+            color: rgba(242, 237, 230, 0.72);
         }
 
         #page-checkout .np-anchor-now {
-            margin: 1.8rem 0 0;
+            margin: 2.2rem 0 0;
             font-family: var(--np-display);
-            font-size: clamp(1.9rem, 4.6vw, 2.5rem);
+            font-size: clamp(2.6rem, 6.6vw, 4.4rem);
             font-weight: 300;
-            line-height: 1.25;
-            letter-spacing: -0.01em;
-            color: var(--verde-dique);
+            line-height: 1.12;
+            letter-spacing: -0.02em;
+            text-wrap: balance;
+            color: var(--creme);
         }
 
         /* ---- CTA ---- */
@@ -1402,7 +1409,7 @@
             font-size: 0.8rem;
             font-weight: 500;
             letter-spacing: 0.06em;
-            color: var(--verde-dique);
+            color: rgba(242, 237, 230, 0.78);
         }
 
         @keyframes np-halo {
@@ -1423,11 +1430,11 @@
             font-size: 0.82rem;
             font-weight: 300;
             letter-spacing: 0.04em;
-            color: var(--taupe);
+            color: rgba(242, 237, 230, 0.62);
         }
 
         #page-checkout .np-guarantee {
-            margin: 3.4rem 0 0;
+            margin: 3.6rem 0 0;
             padding-top: 2.1rem;
             border-top: 1px solid var(--np-hairline);
             font-size: 1rem;
@@ -1744,14 +1751,22 @@
 
     <!-- ============ PREÇO + CTA ============ -->
     <div class="container">
-        <p class="np-tag">Direct beschikbaar</p>
-        <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de wachtlijst pas.</p>
-        <p class="np-anchor-now">Dit? <span class="np-num">€17</span>. Vanavond nog.</p>
+    </div>
 
-        <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik wil er vanavond bij zijn — €17</a>
+    <!-- clímax: a decisão tem faixa própria, distinta de tudo o resto -->
+    <div class="np-climax">
+        <div class="container">
+            <p class="np-tag">Direct beschikbaar</p>
+            <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de wachtlijst pas.</p>
+            <p class="np-anchor-now">Dit? <span class="np-num">€17</span>. Vanavond nog.</p>
 
-        <p class="np-seal">🔒 Veilig betalen via Stripe</p>
+            <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik wil er vanavond bij zijn — €17</a>
 
+            <p class="np-seal">🔒 Veilig betalen via Stripe</p>
+        </div>
+    </div>
+
+    <div class="container">
         <p class="np-guarantee">Werkt het niet voor je? Dan krijg je je geld terug. We zijn ervan overtuigd dat het Noodprotocol je verlichting geeft — daarom 60 dagen garantie, zonder vragen.</p>
 
         <p class="np-disclaimer">Geen medisch advies en geen vervanging voor professionele behandeling.</p>
@@ -2669,20 +2684,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 150);
     }
 
-    // A escolha do bloco em foco passa a ser feita por geometria, num
-    // requestAnimationFrame ligado ao scroll, e não por limiares do
-    // IntersectionObserver. O observador fica só a ligar e desligar o cálculo
-    // quando o palco entra e sai do ecrã — assim não há margens negativas nem
-    // limiares a poder falhar em condições que não consigo reproduzir aqui.
+    // Escolha do bloco por geometria. A referência é o centro do próprio
+    // telefone quando ele está visível — em duas colunas o bloco "em foco" é o
+    // que está ao lado dele, não o que está a 62% da viewport.
+    //
+    // O listener é permanente e não é ligado por observador. Antes havia um
+    // addEventListener de segurança com { once: true } registado primeiro; como
+    // o browser deduplica por tipo, função e fase, a segunda inscrição sem
+    // "once" era ignorada e ficava a valer a primeira — o cálculo corria uma
+    // única vez, no primeiro scroll da página, com o palco ainda longe. Daí a
+    // capa ficar presa em Noodstop.
     var pedidoFaixa = false;
+    var palco = page.querySelector('.np-stage');
+    var telefone = page.querySelector('.np-phone');
 
     function calcularFaixa() {
         pedidoFaixa = false;
+        if (!palco) return;
+        var p = palco.getBoundingClientRect();
+        if (p.bottom < 0 || p.top > innerHeight) return;      // palco fora do ecrã
+
         var centro = innerHeight * 0.62;
+        if (telefone) {
+            var t = telefone.getBoundingClientRect();
+            if (t.height && t.bottom > 0 && t.top < innerHeight) {
+                centro = t.top + t.height / 2;
+            }
+        }
+
         var melhor = -1, dist = Infinity;
         for (var i = 0; i < tracks.length; i++) {
             var b = tracks[i].getBoundingClientRect();
-            if (b.bottom < 0 || b.top > innerHeight) continue;   // fora do ecrã
+            if (b.bottom < 0 || b.top > innerHeight) continue;
             var d = Math.abs(b.top + b.height / 2 - centro);
             if (d < dist) { dist = d; melhor = i; }
         }
@@ -2695,25 +2728,20 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(calcularFaixa);
     }
 
-    var palco = page.querySelector('.np-stage');
-    if (palco) {
-        var ioPalco = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    window.addEventListener('scroll', pedirFaixa, { passive: true });
-                    window.addEventListener('resize', pedirFaixa);
-                    pedirFaixa();
-                } else {
-                    window.removeEventListener('scroll', pedirFaixa);
-                    window.removeEventListener('resize', pedirFaixa);
-                }
-            });
-        }, { threshold: 0 });
-        ioPalco.observe(palco);
-        // rede de segurança: se o observador não disparar, o cálculo entra na
-        // mesma ao primeiro scroll da página
-        window.addEventListener('scroll', pedirFaixa, { passive: true, once: true });
+    window.addEventListener('scroll', pedirFaixa, { passive: true });
+    window.addEventListener('resize', pedirFaixa);
+    pedirFaixa();
+
+    // O cálculo é geométrico, portanto tem de correr outra vez sempre que a
+    // altura dos blocos mude: as fontes carregam depois do script e alteram-na.
+    window.addEventListener('load', pedirFaixa);
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(pedirFaixa);
     }
+    if (palco && window.ResizeObserver) {
+        new ResizeObserver(pedirFaixa).observe(palco);
+    }
+
 
 
     // ---- depoimentos: o cartão no centro fica cheio, os laterais recuam ----
