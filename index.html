@@ -712,27 +712,36 @@
             width: 100%;
             overflow: hidden;
             line-height: 0;
-            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, rgba(0, 0, 0, 0) 96%);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 42%, rgba(0, 0, 0, 0) 96%);
         }
+
+        #page-checkout .np-breath::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(242, 237, 230, 0) 42%, var(--creme) 96%);
+            pointer-events: none;
+        }
+
+        #page-checkout .np-breath--a .wvl { opacity: 0.55; }
 
         #page-checkout .np-breath--a {
             height: 132px;
             margin: 4.5rem 0 4.5rem;
-            opacity: 0.55;
         }
+
+        #page-checkout .np-breath--b .wvl { opacity: 0.38; }
 
         #page-checkout .np-breath--b {
             height: 112px;
             margin: 5.5rem 0 4rem;
-            opacity: 0.38;
             transform: scaleX(-1);
         }
+
+        #page-checkout .np-breath--c .wvl { opacity: 0.2; }
 
         #page-checkout .np-breath--c {
             height: 92px;
             margin: 5.5rem 0 0;
-            opacity: 0.2;
         }
 
 
@@ -750,8 +759,10 @@
 
         #page-checkout .wvl {
             position: absolute;
-            inset: 0;
-            transform: scaleX(1.22);
+            top: 0;
+            bottom: 0;
+            left: -11%;
+            width: 122%;
         }
 
         #page-checkout .wvl svg {
@@ -765,18 +776,18 @@
         #page-checkout .wvl3 { animation: np-drift-3 21s ease-in-out infinite alternate; }
 
         @keyframes np-drift-1 {
-            from { transform: scaleX(1.22) translateX(-14px); }
-            to   { transform: scaleX(1.22) translateX(14px); }
+            from { transform: translateX(-14px); }
+            to   { transform: translateX(14px); }
         }
 
         @keyframes np-drift-2 {
-            from { transform: scaleX(1.22) translateX(22px); }
-            to   { transform: scaleX(1.22) translateX(-22px); }
+            from { transform: translateX(22px); }
+            to   { transform: translateX(-22px); }
         }
 
         @keyframes np-drift-3 {
-            from { transform: scaleX(1.22) translateX(-32px); }
-            to   { transform: scaleX(1.22) translateX(32px); }
+            from { transform: translateX(-32px); }
+            to   { transform: translateX(32px); }
         }
 
         /* desfasamento por instância, para as quatro ondas não respirarem em uníssono */
@@ -811,7 +822,7 @@
         @media (prefers-reduced-motion: reduce) {
             #page-checkout .wvl {
                 animation: none !important;
-                transform: scaleX(1.22) !important;
+                transform: none !important;
             }
             #page-checkout .np-track { transition: none !important; }
             #page-checkout.np-anim .np-track {
