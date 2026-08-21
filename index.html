@@ -1203,14 +1203,70 @@
             letter-spacing: -0.01em;
         }
 
-        /* ---- depoimentos: carrossel horizontal, sem setas nem indicadores ---- */
+        /* ---- marca vertical: a mesma onda, reduzida e de pé ---- */
+        /* Em ecrãs largos vive na margem esquerda, que já está vazia; em
+           ecrãs estreitos entra no fluxo, entre os dois parágrafos. */
+        #page-checkout .np-glifo {
+            display: block;
+            width: 26px;
+            margin: 1.6rem 0;
+        }
+
+        #page-checkout .np-glifo svg {
+            display: block;
+            width: 100%;
+            height: 112px;
+        }
+
+        @media (min-width: 1100px) {
+            #page-checkout .np-body { position: relative; }
+
+            #page-checkout .np-glifo {
+                position: absolute;
+                left: -62px;
+                margin: 0;
+                transform: translateY(-46px);
+            }
+        }
+
+        /* ---- chevrons do carrossel ---- */
+        #page-checkout .np-chev {
+            position: absolute;
+            top: 50%;
+            z-index: 2;
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: none;
+            color: rgba(242, 237, 230, 0.78);   /* 3,5:1 sobre a faixa — controlos passam AA */
+            cursor: pointer;
+            transform: translateY(-50%);
+            transition: color 0.2s ease;
+        }
+
+        #page-checkout .np-chev:hover { color: var(--creme); }
+        #page-checkout .np-chev:focus-visible { outline: 1px solid rgba(242, 237, 230, 0.7); outline-offset: 2px; }
+        #page-checkout .np-chev svg { display: block; width: 100%; height: 100%; }
+        #page-checkout .np-chev--prev { left: 6px; }
+        #page-checkout .np-chev--next { right: 6px; }
+
+        @media (max-width: 600px) {
+            #page-checkout .np-chev { width: 26px; height: 26px; }
+            #page-checkout .np-chev--prev { left: 0; }
+            #page-checkout .np-chev--next { right: 0; }
+        }
+
+        /* ---- depoimentos: carrossel horizontal ---- */
         /* Sai do contentor de 620px para o cartão seguinte poder assomar na
            margem. O padding à esquerda replica a margem do texto, para o
            primeiro cartão alinhar com a coluna de leitura. */
         #page-checkout .np-voices-wrap {
+            position: relative;   /* contexto dos chevrons */
             margin: 4.6rem 0 0;
-            padding: 2.6rem 0 3.2rem;
-            background: rgba(154, 163, 150, 0.11);
+            padding: 3.2rem 0 3.8rem;
+            background: #9A5A3B;   /* creme a 4,6:1 — passa AA para texto normal */
         }
 
         #page-checkout .np-voices-mark {
@@ -1219,7 +1275,7 @@
             font-family: var(--np-display);
             font-size: 92px;
             line-height: 0.72;
-            color: rgba(154, 163, 150, 0.55);
+            color: rgba(251, 248, 244, 0.5);
         }
 
         #page-checkout .np-voices {
@@ -1251,7 +1307,7 @@
             width: clamp(256px, 72vw, 366px);
             margin: 0;
             padding: 1.5rem 0 0;
-            border-top: 1px solid var(--np-hairline);
+            border-top: 1px solid rgba(242, 237, 230, 0.3);
             scroll-snap-align: center;
             transform-origin: center center;
         }
@@ -1261,7 +1317,7 @@
             font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: 0.02em;
-            color: var(--verde-dique);
+            color: var(--creme);
         }
 
         #page-checkout .np-voice-quote {
@@ -1271,7 +1327,7 @@
             font-size: 1.18rem;
             font-weight: 400;
             line-height: 1.52;
-            color: var(--verde-dique);
+            color: var(--creme);
         }
 
         @media (max-width: 600px) {
@@ -1328,6 +1384,38 @@
             background: #94583D;
             transform: none;
             box-shadow: none;
+        }
+
+        /* ---- urgência honesta ---- */
+        /* o traço fica no sublinhado, não na cor do texto */
+        #page-checkout .np-vanavond {
+            text-decoration: underline;
+            text-decoration-color: var(--terracota);
+            text-decoration-thickness: 1.5px;
+            text-underline-offset: 0.2em;
+            text-decoration-skip-ink: none;
+        }
+
+        #page-checkout .np-tag {
+            margin: 0 0 1rem;
+            font-family: var(--np-body);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            color: var(--verde-dique);
+        }
+
+        @keyframes np-halo {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(200, 144, 120, 0); }
+            50%      { box-shadow: 0 0 24px 6px rgba(200, 144, 120, 0.15); }
+        }
+
+        #page-checkout .btn-primary {
+            animation: np-halo 3.6s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .btn-primary { animation: none !important; }
         }
 
         #page-checkout .np-seal {
@@ -1478,9 +1566,17 @@
 
         <p class="np-mark">Alsof je dat niet al geprobeerd hebt.</p>
 
+        <span class="np-glifo" aria-hidden="true">
+            <svg viewBox="0 0 26 112" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 2 Q0 30 5 56 Q10 82 5 110" fill="none" stroke="#3E4E43" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
+                <path d="M13 2 Q8 26 13 56 Q18 86 13 110" fill="none" stroke="#B3A48F" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
+                <path d="M21 2 Q16 34 21 56 Q26 78 21 110" fill="none" stroke="#C89078" stroke-width="2.2" stroke-linecap="round" opacity="0.75"/>
+            </svg>
+        </span>
+
         <p>Je hebt geen tips nodig. Geen "even eruit" advies. En geen verwijzing naar <span class="np-mark">een wachtlijst van drie maanden bij de GGZ</span>.</p>
 
-        <p class="np-lift">Je hebt iets nodig dat werkt. Vanavond.</p>
+        <p class="np-lift">Je hebt iets nodig dat werkt. <span class="np-vanavond">Vanavond</span>.</p>
 
         <p>Geen therapeut, geen programma, geen abonnement. Niks om je voor aan te melden, niks om af te maken.</p>
 
@@ -1584,7 +1680,14 @@
     <!-- ============ DEPOIMENTOS ============ -->
     <div class="np-voices-wrap">
         <div class="container"><span class="np-voices-mark" aria-hidden="true">“</span></div>
-            <div class="np-voices" tabindex="0" role="group" aria-label="Ervaringen van mensen die het Noodprotocol gebruikten">
+            <button class="np-chev np-chev--prev" type="button" aria-label="Vorige ervaring">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="np-chev np-chev--next" type="button" aria-label="Volgende ervaring">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="np-voices" tabindex="0" role="group" aria-label="Ervaringen van mensen die het Noodprotocol gebruikten">
             <div class="np-voices-track">
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Anna, 42</figcaption>
@@ -1641,6 +1744,7 @@
 
     <!-- ============ PREÇO + CTA ============ -->
     <div class="container">
+        <p class="np-tag">Direct beschikbaar</p>
         <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de wachtlijst pas.</p>
         <p class="np-anchor-now">Dit? <span class="np-num">€17</span>. Vanavond nog.</p>
 
@@ -2619,6 +2723,10 @@ document.addEventListener('DOMContentLoaded', () => {
     var pista = page.querySelector('.np-voices');
     if (pista && !reduced) {
         var cartoes = pista.querySelectorAll('.np-voice');
+        var citacoes = pista.querySelectorAll('.np-voice-quote');
+        var baseCitacao = citacoes.length
+            ? parseFloat(getComputedStyle(citacoes[0]).fontSize)
+            : 0;
         var agendado = false;
 
         function ajustarCartoes() {
@@ -2628,12 +2736,27 @@ document.addEventListener('DOMContentLoaded', () => {
             var passo = cartoes.length > 1
                 ? cartoes[1].getBoundingClientRect().left - cartoes[0].getBoundingClientRect().left
                 : r.width;
-            Array.prototype.forEach.call(cartoes, function (c) {
+            Array.prototype.forEach.call(cartoes, function (c, i) {
                 var b = c.getBoundingClientRect();
+                // fora de vista com folga: fixa no mínimo e não recalcula
+                if (b.right < -passo || b.left > r.right + passo) {
+                    if (c.dataset.fora !== '1') {
+                        c.dataset.fora = '1';
+                        c.style.transform = 'scale(0.92)';
+                        c.style.opacity = '0.65';
+                        if (baseCitacao) citacoes[i].style.fontSize = (baseCitacao * 0.95).toFixed(2) + 'px';
+                    }
+                    return;
+                }
+                c.dataset.fora = '0';
                 var d = Math.abs(b.left + b.width / 2 - centro);
                 var t = Math.min(1, d / passo);          // 0 no centro, 1 a um cartão de distância
                 c.style.transform = 'scale(' + (1 - 0.08 * t).toFixed(4) + ')';
                 c.style.opacity = (1 - 0.35 * t).toFixed(4);
+                // 1.1em ao centro, 0.95em nos lados — o texto cresce mesmo
+                if (baseCitacao) {
+                    citacoes[i].style.fontSize = (baseCitacao * (1.1 - 0.15 * t)).toFixed(2) + 'px';
+                }
             });
         }
 
@@ -2643,12 +2766,47 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(ajustarCartoes);
         }
 
+        function passoCartao() {
+            return cartoes.length > 1
+                ? cartoes[1].getBoundingClientRect().left - cartoes[0].getBoundingClientRect().left
+                : pista.clientWidth;
+        }
+
+        Array.prototype.forEach.call(page.querySelectorAll('.np-chev'), function (b) {
+            b.addEventListener('click', function () {
+                var dir = b.classList.contains('np-chev--next') ? 1 : -1;
+                pista.scrollBy({ left: dir * passoCartao(), behavior: 'smooth' });
+            });
+        });
+
+        // aceno de uma só vez por sessão, a sugerir que a faixa se arrasta
+        var acenou = false;
+        function acenar() {
+            if (acenou) return;
+            acenou = true;
+            try {
+                if (sessionStorage.getItem('np_voices_hint')) return;
+                sessionStorage.setItem('np_voices_hint', '1');
+            } catch (e) { /* sessão bloqueada: acena à mesma */ }
+
+            var inicio = pista.scrollLeft, amplitude = 25, dur = 600, t0 = null;
+            function passo(t) {
+                if (t0 === null) t0 = t;
+                var k = Math.min(1, (t - t0) / dur);
+                var e = 0.5 - Math.cos(k * 2 * Math.PI) / 2;   // vai e volta, suave
+                pista.scrollLeft = inicio + amplitude * e;
+                if (k < 1) requestAnimationFrame(passo);
+            }
+            requestAnimationFrame(passo);
+        }
+
         var ioPista = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
                     pista.addEventListener('scroll', pedirAjuste, { passive: true });
                     window.addEventListener('resize', pedirAjuste);
                     pedirAjuste();
+                    acenar();
                 } else {
                     pista.removeEventListener('scroll', pedirAjuste);
                     window.removeEventListener('resize', pedirAjuste);
