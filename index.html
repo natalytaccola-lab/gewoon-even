@@ -1980,64 +1980,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 </script>
 
-<!-- Sonda temporária: só aparece com ?probe=1 no URL. Invisível para quem
-     chega à página normalmente. Mede a camada real da onda em produção. -->
-<script>
-(function () {
-    if (!/[?&]probe/.test(location.search)) return;
 
-    var st = document.createElement('style');
-    st.textContent = '@keyframes np-probe{from{transform:translateX(0)}to{transform:translateX(140px)}}';
-    document.head.appendChild(st);
-
-    var box = document.createElement('div');
-    box.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#12151A;' +
-        'color:#E4E9ED;font:13px/1.5 ui-monospace,Menlo,monospace;padding:12px 14px;';
-    box.innerHTML =
-        '<div id="np-v" style="font-size:18px;font-weight:700;margin-bottom:8px">a medir\u2026</div>' +
-        '<div id="np-d"></div>' +
-        '<div style="margin-top:10px;height:16px;position:relative;' +
-        'background:repeating-linear-gradient(90deg,#4A5560 0 1px,transparent 1px 14px)">' +
-        '<div id="np-c" style="position:absolute;top:0;width:48px;height:16px;background:#4FC08D;' +
-        'border-radius:2px;animation:np-probe 3s ease-in-out infinite alternate"></div></div>' +
-        '<div style="color:#8A959E;margin-top:6px">verde = controlo HTML puro (3s por percurso)</div>';
-    document.body.appendChild(box);
-
-    function txOf(el) {
-        var m = getComputedStyle(el).transform;
-        if (!m || m === 'none') return null;
-        var n = m.replace(/matrix3d|matrix|\(|\)|\s/g, '').split(',');
-        return n.length === 16 ? parseFloat(n[12]) : (n.length === 6 ? parseFloat(n[4]) : null);
-    }
-
-    var onda = document.querySelector('#page-checkout .np-banner .wvl3');
-    var ctrl = document.getElementById('np-c');
-    var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var oMin = 1e9, oMax = -1e9, cMin = 1e9, cMax = -1e9, n = 0;
-
-    setInterval(function () {
-        n++;
-        var o = onda ? txOf(onda) : null, c = txOf(ctrl);
-        if (o !== null) { oMin = Math.min(oMin, o); oMax = Math.max(oMax, o); }
-        if (c !== null) { cMin = Math.min(cMin, c); cMax = Math.max(cMax, c); }
-        var oR = (oMax - oMin), cR = (cMax - cMin);
-        document.getElementById('np-d').innerHTML =
-            'reduced-motion .... ' + (reduced ? '<b>ATIVO</b>' : 'off') + '<br>' +
-            'play-state ....... ' + (onda ? getComputedStyle(onda).animationPlayState : '?') + '<br>' +
-            'animation-name ... ' + (onda ? getComputedStyle(onda).animationName : 'SEM ELEMENTO') + '<br>' +
-            'onda translateX .. ' + (o === null ? '-' : o.toFixed(1) + 'px') +
-            '   percurso ' + (oR < 0 ? 0 : oR).toFixed(1) + 'px<br>' +
-            'controlo ......... ' + (c === null ? '-' : c.toFixed(1) + 'px') +
-            '   percurso ' + (cR < 0 ? 0 : cR).toFixed(1) + 'px';
-        if (n < 40) return;
-        var v = document.getElementById('np-v');
-        if (reduced) { v.textContent = 'REDUCED-MOTION ATIVO no aparelho'; v.style.color = '#E4695E'; }
-        else if (cR <= 1) { v.textContent = 'SAFARI NAO ANIMA NADA (nem o controlo)'; v.style.color = '#E4695E'; }
-        else if (oR <= 1) { v.textContent = 'CONTROLO MEXE, ONDA PARADA'; v.style.color = '#E4695E'; }
-        else { v.textContent = 'ONDA MEXE — percurso ' + oR.toFixed(0) + 'px'; v.style.color = '#4FC08D'; }
-    }, 100);
-})();
-</script>
 
 </body>
 </html>
