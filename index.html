@@ -843,13 +843,17 @@
         /* O contentor da página tem 620px. Em ecrãs largos a maquete vai para
            a margem direita, que já existe vazia, em vez de estreitar a medida
            do texto. Abaixo disso entra no fluxo, sob o parágrafo. */
-        #page-checkout .np-intro {
+        #page-checkout .np-stage {
             position: relative;
         }
 
+        /* fixo no topo enquanto os três áudios passam por baixo */
         #page-checkout .np-phone {
-            width: 218px;
-            margin: 2.8rem 0 0;
+            position: sticky;
+            top: 26px;
+            z-index: 2;
+            width: 200px;
+            margin: 0 auto 3.2rem;
         }
 
         /* corpo em gradiente, para a aresta apanhar luz como metal escovado */
@@ -988,12 +992,39 @@
             height: 100%;
         }
 
-        @media (min-width: 1200px) {
+        /* troca de faixa: aparece e desaparece em vez de cortar */
+        #page-checkout .np-player-title,
+        #page-checkout .np-times {
+            transition: opacity 150ms ease;
+        }
+
+        #page-checkout .np-player-title.is-out,
+        #page-checkout .np-times.is-out {
+            opacity: 0;
+        }
+
+        #page-checkout .np-bar-fill {
+            transition: width 320ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (max-width: 600px) {
             #page-checkout .np-phone {
-                position: absolute;
-                top: -6px;
-                left: 100%;
-                margin: 0 0 0 48px;
+                top: 16px;
+                width: 168px;
+                margin-bottom: 2.4rem;
+            }
+
+            #page-checkout .np-cover svg { height: 150px; }
+            #page-checkout .np-player-title { font-size: 1.28rem; margin-top: 12px; }
+            #page-checkout .np-player-sub { font-size: 0.82rem; }
+            #page-checkout .np-pause { width: 40px; height: 40px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .np-player-title,
+            #page-checkout .np-times,
+            #page-checkout .np-bar-fill {
+                transition: none !important;
             }
         }
 
@@ -1067,6 +1098,84 @@
             font-size: 0.9em;
             font-weight: 400;
             letter-spacing: -0.01em;
+        }
+
+        /* ---- depoimentos: carrossel horizontal, sem setas nem indicadores ---- */
+        /* Sai do contentor de 620px para o cartão seguinte poder assomar na
+           margem. O padding à esquerda replica a margem do texto, para o
+           primeiro cartão alinhar com a coluna de leitura. */
+        #page-checkout .np-voices-wrap {
+            margin: 4.6rem 0 0;
+            padding: 2.6rem 0 3.2rem;
+            background: rgba(154, 163, 150, 0.11);
+        }
+
+        #page-checkout .np-voices-mark {
+            display: block;
+            margin: 0 0 -0.9rem;
+            font-family: var(--np-display);
+            font-size: 92px;
+            line-height: 0.72;
+            color: rgba(154, 163, 150, 0.55);
+        }
+
+        #page-checkout .np-voices {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        #page-checkout .np-voices::-webkit-scrollbar {
+            display: none;
+        }
+
+        #page-checkout .np-voices:focus-visible {
+            outline: 1px solid var(--sage);
+            outline-offset: 6px;
+        }
+
+        #page-checkout .np-voices-track {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            width: max-content;
+            padding: 0 24px 0 max(24px, calc((100% - 620px) / 2 + 24px));
+        }
+
+        #page-checkout .np-voice {
+            width: clamp(256px, 72vw, 366px);
+            margin: 0;
+            padding: 1.5rem 0 0;
+            border-top: 1px solid var(--np-hairline);
+            scroll-snap-align: center;
+            transform-origin: center center;
+        }
+
+        #page-checkout .np-voice-who {
+            font-family: var(--np-body);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-voice-quote {
+            margin: 1rem 0 0;
+            font-family: var(--np-display);
+            font-style: italic;
+            font-size: 1.18rem;
+            font-weight: 400;
+            line-height: 1.52;
+            color: var(--verde-dique);
+        }
+
+        @media (max-width: 600px) {
+            #page-checkout .np-voices-wrap { margin-top: 3.6rem; padding: 2rem 0 2.6rem; }
+            #page-checkout .np-voices-mark { font-size: 76px; }
+            #page-checkout .np-voices-track { gap: 24px; }
+            #page-checkout .np-voice-quote { font-size: 1.1rem; }
         }
 
         /* ---- fecho da ciência ---- */
@@ -1284,79 +1393,132 @@
 
     <!-- ============ OS TRÊS ÁUDIOS ============ -->
     <div class="container">
-        <div class="np-intro">
-            <div class="np-body">
-                <p>Het Noodprotocol zijn drie stemopnames. 8 minuten elk. Je drukt op play — een stem neemt het over.</p>
-            </div>
-
-            <!-- maquete decorativa do leitor; sem função, daí o aria-hidden -->
-            <div class="np-phone" aria-hidden="true">
-                <div class="np-phone-body">
-                    <span class="np-phone-cam"></span>
-                    <div class="np-phone-screen">
-                        <div class="np-cover">
-                            <svg viewBox="0 0 200 210" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="200" height="210" fill="#F2EDE6"/>
-                                <path d="M0 62 Q33 40 67 58 Q100 76 133 54 Q167 32 200 56 L200 210 L0 210 Z" fill="#3E4E43" opacity="0.9"/>
-                                <path d="M0 96 Q36 78 72 94 Q108 110 144 90 Q172 74 200 86 L200 210 L0 210 Z" fill="#F2EDE6" opacity="0.5"/>
-                                <path d="M0 108 Q40 88 80 106 Q120 124 160 102 Q180 92 200 100 L200 210 L0 210 Z" fill="#B3A48F" opacity="0.78"/>
-                                <path d="M0 154 Q47 135 94 152 Q141 169 200 147 L200 210 L0 210 Z" fill="#C89078" opacity="0.82"/>
-                            </svg>
-                        </div>
-
-                        <div class="np-player-title">Noodstop</div>
-                        <div class="np-player-sub">Gewoon Even</div>
-
-                        <div class="np-bar"><div class="np-bar-fill"></div></div>
-
-                        <div class="np-times"><span>02:14</span><span>08:00</span></div>
-
-                        <div class="np-controls">
-                            <span class="np-pause">
-                                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6"
-                                          fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                    <path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
-                                    <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/>
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                    <span class="np-phone-glare"></span>
-                </div>
-            </div>
+        <div class="np-body">
+            <p>Het Noodprotocol zijn drie stemopnames. 8 minuten elk. Je drukt op play — een stem neemt het over.</p>
         </div>
 
-        <section class="np-track">
+        <!-- palco: o telefone fica fixo no topo e os três áudios passam por baixo -->
+        <div class="np-stage">
+            <div class="np-phone" aria-hidden="true">
+            <div class="np-phone-body">
+            <span class="np-phone-cam"></span>
+            <div class="np-phone-screen">
+            <div class="np-cover">
+            <svg viewBox="0 0 200 210" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200" height="210" fill="#F2EDE6"/>
+            <path d="M0 62 Q33 40 67 58 Q100 76 133 54 Q167 32 200 56 L200 210 L0 210 Z" fill="#3E4E43" opacity="0.9"/>
+            <path d="M0 96 Q36 78 72 94 Q108 110 144 90 Q172 74 200 86 L200 210 L0 210 Z" fill="#F2EDE6" opacity="0.5"/>
+            <path d="M0 108 Q40 88 80 106 Q120 124 160 102 Q180 92 200 100 L200 210 L0 210 Z" fill="#B3A48F" opacity="0.78"/>
+            <path d="M0 154 Q47 135 94 152 Q141 169 200 147 L200 210 L0 210 Z" fill="#C89078" opacity="0.82"/>
+            </svg>
+            </div>
+
+            <div class="np-player-title" id="np-title">Noodstop</div>
+            <div class="np-player-sub">Gewoon Even</div>
+
+            <div class="np-bar"><div class="np-bar-fill" id="np-fill"></div></div>
+
+            <div class="np-times" id="np-times"><span id="np-now">02:14</span><span>08:00</span></div>
+
+            <div class="np-controls">
+            <span class="np-pause">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6"
+            fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
+            <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/>
+            </svg>
+            </span>
+            </div>
+            </div>
+            <span class="np-phone-glare"></span>
+            </div>
+            </div>
+
+            <section class="np-track">
             <div class="np-track-num">01</div>
             <div>
-                <h2 class="np-track-name">Noodstop<span class="np-sep">·</span><span class="np-num">8 min</span></h2>
-                <p class="np-track-sci">Ademhaling volgens de 4-7-8-methode. Een onderzoek van de Simon Fraser University volgde <span class="np-num">109</span> mensen <span class="np-num">8</span> weken lang en vond een significante afname van angst bij wie de techniek toepaste.</p>
-                <p class="np-track-quote">"Adem in... twee, drie, vier... Je doet het goed."</p>
+            <h2 class="np-track-name">Noodstop<span class="np-sep">·</span><span class="np-num">8 min</span></h2>
+            <p class="np-track-sci">Ademhaling volgens de 4-7-8-methode. Een onderzoek van de Simon Fraser University volgde <span class="np-num">109</span> mensen <span class="np-num">8</span> weken lang en vond een significante afname van angst bij wie de techniek toepaste.</p>
+            <p class="np-track-quote">"Adem in... twee, drie, vier... Je doet het goed."</p>
             </div>
-        </section>
+            </section>
 
-        <section class="np-track">
+            <section class="np-track">
             <div class="np-track-num">02</div>
             <div>
-                <h2 class="np-track-name">Reset<span class="np-sep">·</span><span class="np-num">8 min</span></h2>
-                <p class="np-track-sci">Sensorische verankering via de vijf zintuigen — dezelfde aanpak die traumatherapeuten gebruiken om iemand terug te brengen naar het hier en nu.</p>
-                <p class="np-track-quote">"Je gedachten mogen er nog zijn. Maar nu ben jij er ook."</p>
+            <h2 class="np-track-name">Reset<span class="np-sep">·</span><span class="np-num">8 min</span></h2>
+            <p class="np-track-sci">Sensorische verankering via de vijf zintuigen — dezelfde aanpak die traumatherapeuten gebruiken om iemand terug te brengen naar het hier en nu.</p>
+            <p class="np-track-quote">"Je gedachten mogen er nog zijn. Maar nu ben jij er ook."</p>
             </div>
-        </section>
+            </section>
 
-        <section class="np-track">
+            <section class="np-track">
             <div class="np-track-num">03</div>
             <div>
-                <h2 class="np-track-name">Landing<span class="np-sep">·</span><span class="np-num">8 min</span></h2>
-                <p class="np-track-sci">Progressieve spierontspanning. Een analyse van <span class="np-num">27</span> wetenschappelijke studies bevestigde het effect op angst.</p>
-                <p class="np-track-quote">"Je kaken. De meeste mensen dragen hier de hele dag spanning zonder het te weten."</p>
+            <h2 class="np-track-name">Landing<span class="np-sep">·</span><span class="np-num">8 min</span></h2>
+            <p class="np-track-sci">Progressieve spierontspanning. Een analyse van <span class="np-num">27</span> wetenschappelijke studies bevestigde het effect op angst.</p>
+            <p class="np-track-quote">"Je kaken. De meeste mensen dragen hier de hele dag spanning zonder het te weten."</p>
             </div>
-        </section>
+            </section>
+        </div>
 
         <p class="np-science">Wat de drie verbindt: langzamer uitademen dan inademen activeert de nervus vagus — de rem van je zenuwstelsel. Bevestigd door onderzoekers van de Universiteit Leiden.</p>
     </div>
 
+    <!-- ============ DEPOIMENTOS ============ -->
+    <div class="np-voices-wrap">
+        <div class="container"><span class="np-voices-mark" aria-hidden="true">“</span></div>
+            <div class="np-voices" tabindex="0" role="group" aria-label="Ervaringen van mensen die het Noodprotocol gebruikten">
+            <div class="np-voices-track">
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Anna, 42</figcaption>
+                    <blockquote class="np-voice-quote">"Ik heb al therapie geprobeerd, ademhalingsoefeningen, apps, podcasts… noem maar op. Dus eerlijk gezegd verwachtte ik er niet veel van. Maar tijdens een avond waarop mijn hart maar bleef razen, heb ik het Noodprotocol opgezet. Na acht minuten was mijn leven natuurlijk niet ineens opgelost. Maar mijn lichaam stond niet meer op scherp. En precies dát had ik op dat moment nodig. Voor mij was het verschil dat ik niets hoefde te leren of te begrijpen. Ik hoefde alleen maar te luisteren."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Sandra, 36</figcaption>
+                    <blockquote class="np-voice-quote">"Mijn hoofd maakt overuren. Zelfs als ik probeer te ontspannen, ben ik ondertussen mijn boodschappenlijst, mijn werk en een gesprek van drie dagen geleden aan het analyseren. Daarom haakte ik bij meditatie meestal na twee minuten af. Bij Reset hoefde ik mijn gedachten helemaal niet stil te maken. Ik kreeg gewoon iets anders om mijn aandacht aan te geven. Mijn voeten, mijn handen, geluiden om me heen… Voor het eerst voelde het niet alsof ik moest vechten tegen mijn eigen hoofd."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Marieke, 49</figcaption>
+                    <blockquote class="np-voice-quote">"Ik heb een telefoon vol apps waar ik ooit enthousiast aan begon en na een week nooit meer naar keek. Ik wilde echt niet nóg iets waar ik dagelijks aan moest denken. Dat vond ik juist fijn aan Noodprotocol: ik hoefde niets te installeren, geen account aan te maken en nergens aan vast te zitten. Ik pak mijn telefoon, luister wanneer ik het nodig heb en daarna ben ik klaar. Dat past veel beter bij mijn leven."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Eline, 39</figcaption>
+                    <blockquote class="np-voice-quote">"Mijn moeilijkste momenten zijn 's nachts. Iedereen slaapt en ik lig wakker met een lijf dat blijkbaar denkt dat er iets verschrikkelijks staat te gebeuren. De eerste keer dat ik Noodprotocol gebruikte was rond drie uur 's nachts. Ik hoefde niemand te bellen, geen scherm te bekijken en geen ingewikkelde oefening te doen. Alleen mijn oortjes in en luisteren. Ik viel niet magisch meteen in slaap, maar de paniek uit mijn lichaam zakte genoeg om weer te kunnen liggen."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Femke, 31</figcaption>
+                    <blockquote class="np-voice-quote">"Ik vond het eerlijk gezegd best gênant dat ik soms zo overstuur raakte zonder dat ik precies kon uitleggen waarom. Het laatste wat ik wilde was iemand moeten vertellen wat er allemaal in mijn hoofd speelde. Met Noodprotocol hoefde ik niets uit te leggen. Niemand hoefde iets van mij te weten. Ik kon gewoon op mijn bed gaan liggen en luisteren. Dat maakte de eerste stap naar hulp voor mij veel kleiner."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Laura, 44</figcaption>
+                    <blockquote class="np-voice-quote">"Met twee kinderen en een drukke baan heb ik geen zin in een zelfzorgprogramma van dertig minuten per dag. Alleen het idee daarvan maakt me al moe. Acht minuten kon ik mezelf wel geven. Soms luister ik in de auto voordat ik de kinderen ga ophalen. Soms op de wc, omdat dat de enige plek is waar niemand me nodig heeft. Het klinkt misschien klein, maar acht minuten waarin mijn lichaam even niet hoeft te presteren maken een verrassend groot verschil."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Ingrid, 52</figcaption>
+                    <blockquote class="np-voice-quote">"Mijn huisarts noemde het stress. Misschien had hij gelijk, maar dat maakte het niet minder echt op het moment dat ik trillend op de bank zat. Ik had geen behoefte aan nog een uitleg over wat stress met je lichaam doet. Ik wilde iets kunnen doen toen het gebeurde. Voor €17 verwachtte ik geen therapie en dat kreeg ik ook niet. Ik kreeg iets veel concreters: een stem die me door die acht minuten heen hielp."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Sophie, 58</figcaption>
+                    <blockquote class="np-voice-quote">"Ik weet inmiddels best veel over ademhaling en ontspanning. Het probleem was nooit dat ik niet wist wat ik moest doen. Het probleem was dat ik het op het moment zelf niet deed. Als mijn lichaam eenmaal in alarm staat, heb ik iemand nodig die me er stap voor stap doorheen leidt. Dat is precies wat deze stem voor mij doet. Ik hoef even niet degene te zijn die alles onder controle houdt."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Charlotte, 34</figcaption>
+                    <blockquote class="np-voice-quote">"Ik heb geen paniekaanvallen. Dat dacht ik tenminste. Ik was gewoon altijd gespannen. Kaken op elkaar, schouders omhoog, buik aangespannen, zelfs als ik op de bank zat. Ik kocht het eigenlijk omdat ik wilde weten of het iets voor me zou doen. Landing liet me pas merken hoeveel spanning ik de hele dag ongemerkt vasthield. Dat vond ik misschien nog waardevoller dan het moment waarop ik gestrest ben."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Tom, 47</figcaption>
+                    <blockquote class="np-voice-quote">"Ik ben niet iemand die normaal gesproken naar meditatie-audio's luistert. Ik vond het eerlijk gezegd allemaal een beetje zweverig klinken. Maar de stem is juist heel nuchter. Geen manifesteren, geen 'denk positief', geen spirituele verhalen. Gewoon: doe dit, voel dat, adem hierheen. Ik merkte vooral dat ik niet hoefde te geloven dat het zou werken. Ik hoefde het alleen maar te volgen."</blockquote>
+                </figure>
+                <figure class="np-voice">
+                    <figcaption class="np-voice-who">Jeroen, 41</figcaption>
+                    <blockquote class="np-voice-quote">"Mijn werk was niet ineens minder druk. Mijn relatieproblemen waren er de volgende ochtend nog steeds. En mijn to-do-lijst was ook niet verdwenen. Maar ik begon te begrijpen dat ik niet elk probleem hoef op te lossen terwijl mijn lichaam volledig in de alarmstand staat. Na Noodprotocol kon ik weer even normaal zitten, denken en ademhalen. Daarna kon ik pas beslissen wat ik met de rest moest doen. Dat verschil klinkt klein, maar voor mij was het groot."</blockquote>
+                </figure>
+            </div>
+        </div>
+
+    </div>
     <!-- respiração 2 -->
     <div class="np-breath np-breath--b" aria-hidden="true">
         <div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
@@ -2247,6 +2409,96 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
 
     Array.prototype.forEach.call(tracks, function (t) { io.observe(t); });
+
+    // ---- o leitor acompanha o áudio que está em foco ----
+    var faixas = [
+        { titulo: 'Noodstop', agora: '02:14', pct: 27.9 },
+        { titulo: 'Reset',    agora: '01:40', pct: 20.8 },
+        { titulo: 'Landing',  agora: '03:48', pct: 47.5 }
+    ];
+    var elTitulo = document.getElementById('np-title');
+    var elTempos = document.getElementById('np-times');
+    var elAgora = document.getElementById('np-now');
+    var elBarra = document.getElementById('np-fill');
+    var faixaAtual = 0;
+
+    function mostrarFaixa(i) {
+        if (i === faixaAtual || !elTitulo) return;
+        faixaAtual = i;
+        var f = faixas[i];
+
+        function aplicar() {
+            elTitulo.textContent = f.titulo;
+            elAgora.textContent = f.agora;
+            elBarra.style.width = f.pct + '%';
+        }
+
+        if (reduced) { aplicar(); return; }
+
+        elTitulo.classList.add('is-out');
+        elTempos.classList.add('is-out');
+        setTimeout(function () {
+            aplicar();
+            elTitulo.classList.remove('is-out');
+            elTempos.classList.remove('is-out');
+        }, 150);
+    }
+
+    // faixa de deteção logo abaixo do telefone, onde o texto está a ser lido
+    var ioFaixa = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = Array.prototype.indexOf.call(tracks, entry.target);
+            if (i > -1) mostrarFaixa(i);
+        });
+    }, { rootMargin: '-62% 0px -16% 0px', threshold: 0 });
+    Array.prototype.forEach.call(tracks, function (t) { ioFaixa.observe(t); });
+
+    // ---- depoimentos: o cartão no centro fica cheio, os laterais recuam ----
+    // O IntersectionObserver dispara em limiares, não continuamente; serve aqui
+    // para ligar e desligar o cálculo conforme a secção entra e sai do ecrã, e a
+    // proporção em si é recalculada por frame durante o arrasto.
+    var pista = page.querySelector('.np-voices');
+    if (pista && !reduced) {
+        var cartoes = pista.querySelectorAll('.np-voice');
+        var agendado = false;
+
+        function ajustarCartoes() {
+            agendado = false;
+            var r = pista.getBoundingClientRect();
+            var centro = r.left + r.width / 2;
+            var passo = cartoes.length > 1
+                ? cartoes[1].getBoundingClientRect().left - cartoes[0].getBoundingClientRect().left
+                : r.width;
+            Array.prototype.forEach.call(cartoes, function (c) {
+                var b = c.getBoundingClientRect();
+                var d = Math.abs(b.left + b.width / 2 - centro);
+                var t = Math.min(1, d / passo);          // 0 no centro, 1 a um cartão de distância
+                c.style.transform = 'scale(' + (1 - 0.08 * t).toFixed(4) + ')';
+                c.style.opacity = (1 - 0.35 * t).toFixed(4);
+            });
+        }
+
+        function pedirAjuste() {
+            if (agendado) return;
+            agendado = true;
+            requestAnimationFrame(ajustarCartoes);
+        }
+
+        var ioPista = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    pista.addEventListener('scroll', pedirAjuste, { passive: true });
+                    window.addEventListener('resize', pedirAjuste);
+                    pedirAjuste();
+                } else {
+                    pista.removeEventListener('scroll', pedirAjuste);
+                    window.removeEventListener('resize', pedirAjuste);
+                }
+            });
+        }, { threshold: 0 });
+        ioPista.observe(pista);
+    }
 
     var ondas = page.querySelectorAll('.np-breath');
     var ioOndas = new IntersectionObserver(function (entries) {
