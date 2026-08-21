@@ -1397,6 +1397,32 @@ function saveQuizAnswer(questionIndex, answerIndex) {
     }
 }
 
+// ============ CHECKOUT: SUBHEADLINE CONFORME O QUIZ ============
+// Lê np_quiz_score e troca a subheadline do primeiro ecrã. Sem pontuação
+// guardada — link direto, e-mail, sessão nova — fica o texto que está no
+// HTML, que continua a ser o fallback.
+const SUB_QUIZ_BAIXO = "Je merkt het nog niet elke dag. Maar het komt vaker terug dan vroeger, en het zakt minder makkelijk weg.";
+const SUB_QUIZ_ALTO = "Dit is niet nieuw voor je. Je lijf staat al zo lang aan dat je bijna vergeten bent hoe stilte voelt.";
+
+function applyCheckoutSubheadline() {
+    const el = document.querySelector('#page-checkout .np-sub');
+    if (!el) return;
+
+    let score = null;
+    try {
+        const bruto = sessionStorage.getItem(QUIZ_SCORE_KEY);
+        if (bruto !== null && bruto !== '') {
+            const n = Number(bruto);
+            if (Number.isFinite(n)) score = n;
+        }
+    } catch (e) {
+        // sessionStorage bloqueado; fica o fallback
+    }
+
+    if (score === null) return;
+    el.textContent = score <= 7 ? SUB_QUIZ_BAIXO : SUB_QUIZ_ALTO;
+}
+
 function renderQuestion(index) {
     const q = questions[index];
     const container = document.getElementById('quiz-container');
@@ -1475,6 +1501,7 @@ function showPage(pageId) {
 
     // Meta Pixel conversion events
     if (pageId === 'page-checkout') {
+        applyCheckoutSubheadline();
         fbq('track', 'ViewContent', {content_name: 'Noodprotocol', value: 17.00, currency: 'EUR'});
     } else if (pageId === 'page-upsell') {
         fbq('track', 'ViewContent', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
