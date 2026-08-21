@@ -722,14 +722,14 @@
             pointer-events: none;
         }
 
-        #page-checkout .np-breath--a .wvl { opacity: 0.55; }
+        #page-checkout .np-breath--a .wvl svg { opacity: 0.55; }
 
         #page-checkout .np-breath--a {
             height: 132px;
             margin: 4.5rem 0 4.5rem;
         }
 
-        #page-checkout .np-breath--b .wvl { opacity: 0.38; }
+        #page-checkout .np-breath--b .wvl svg { opacity: 0.38; }
 
         #page-checkout .np-breath--b {
             height: 112px;
@@ -737,7 +737,7 @@
             transform: scaleX(-1);
         }
 
-        #page-checkout .np-breath--c .wvl { opacity: 0.2; }
+        #page-checkout .np-breath--c .wvl svg { opacity: 0.2; }
 
         #page-checkout .np-breath--c {
             height: 92px;
@@ -771,9 +771,16 @@
             height: 100%;
         }
 
-        #page-checkout .wvl1 { animation: np-drift-1 15s ease-in-out infinite alternate; }
-        #page-checkout .wvl2 { animation: np-drift-2 13s ease-in-out infinite alternate; }
-        #page-checkout .wvl3 { animation: np-drift-3 11s ease-in-out infinite alternate; }
+        /* A onda do topo está visível ao carregar e anima logo. As três de
+           baixo arrancam fora do ecrã, e o WebKit deixa congelada uma
+           animação iniciada fora da viewport — por isso só recebem a
+           animação quando o observador as vê entrar. */
+        #page-checkout .np-banner .wvl1,
+        #page-checkout .np-breath.is-live .wvl1 { animation: np-drift-1 15s ease-in-out infinite alternate; }
+        #page-checkout .np-banner .wvl2,
+        #page-checkout .np-breath.is-live .wvl2 { animation: np-drift-2 13s ease-in-out infinite alternate; }
+        #page-checkout .np-banner .wvl3,
+        #page-checkout .np-breath.is-live .wvl3 { animation: np-drift-3 11s ease-in-out infinite alternate; }
 
         @keyframes np-drift-1 {
             from { transform: translateX(-34px); }
@@ -1964,7 +1971,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!tracks.length) return;
 
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced || !('IntersectionObserver' in window)) return; // fica no estado final
+    if (reduced) return; // ondas estáticas e blocos no estado final
+    if (!('IntersectionObserver' in window)) {
+        Array.prototype.forEach.call(page.querySelectorAll('.np-breath'), function (o) {
+            o.classList.add('is-live');
+        });
+        return; // blocos de áudio ficam no estado final
+    }
 
     page.classList.add('np-anim');
 
@@ -1977,6 +1990,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
 
     Array.prototype.forEach.call(tracks, function (t) { io.observe(t); });
+
+    var ondas = page.querySelectorAll('.np-breath');
+    var ioOndas = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-live');
+            ioOndas.unobserve(entry.target);
+        });
+    }, { threshold: 0.01 });
+    Array.prototype.forEach.call(ondas, function (o) { ioOndas.observe(o); });
 })();
 </script>
 
