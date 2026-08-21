@@ -2565,33 +2565,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 150);
     }
 
-    // Faixa de deteção na zona onde o texto está a ser lido. Quando mais do
-    // que um bloco cai lá dentro — ecrãs baixos, blocos curtos — escolhe-se o
-    // que está mais perto do centro da faixa, em vez do último a disparar.
-    var naFaixa = [];
+    // A escolha do bloco em foco passa a ser feita por geometria, num
+    // requestAnimationFrame ligado ao scroll, e não por limiares do
+    // IntersectionObserver. O observador fica só a ligar e desligar o cálculo
+    // quando o palco entra e sai do ecrã — assim não há margens negativas nem
+    // limiares a poder falhar em condições que não consigo reproduzir aqui.
+    var pedidoFaixa = false;
 
-    function escolherFaixa() {
-        if (!naFaixa.length) return;
-        var centro = innerHeight * 0.73;
-        var melhor = naFaixa[0], dist = Infinity;
-        naFaixa.forEach(function (bloco) {
-            var b = bloco.getBoundingClientRect();
+    function calcularFaixa() {
+        pedidoFaixa = false;
+        var centro = innerHeight * 0.62;
+        var melhor = -1, dist = Infinity;
+        for (var i = 0; i < tracks.length; i++) {
+            var b = tracks[i].getBoundingClientRect();
+            if (b.bottom < 0 || b.top > innerHeight) continue;   // fora do ecrã
             var d = Math.abs(b.top + b.height / 2 - centro);
-            if (d < dist) { dist = d; melhor = bloco; }
-        });
-        var i = Array.prototype.indexOf.call(tracks, melhor);
-        if (i > -1) mostrarFaixa(i);
+            if (d < dist) { dist = d; melhor = i; }
+        }
+        if (melhor > -1) mostrarFaixa(melhor);
     }
 
-    var ioFaixa = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            var k = naFaixa.indexOf(entry.target);
-            if (entry.isIntersecting) { if (k < 0) naFaixa.push(entry.target); }
-            else if (k > -1) naFaixa.splice(k, 1);
-        });
-        escolherFaixa();
-    }, { rootMargin: '-62% 0px -16% 0px', threshold: 0 });
-    Array.prototype.forEach.call(tracks, function (t) { ioFaixa.observe(t); });
+    function pedirFaixa() {
+        if (pedidoFaixa) return;
+        pedidoFaixa = true;
+        requestAnimationFrame(calcularFaixa);
+    }
+
+    var palco = page.querySelector('.np-stage');
+    if (palco) {
+        var ioPalco = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    window.addEventListener('scroll', pedirFaixa, { passive: true });
+                    window.addEventListener('resize', pedirFaixa);
+                    pedirFaixa();
+                } else {
+                    window.removeEventListener('scroll', pedirFaixa);
+                    window.removeEventListener('resize', pedirFaixa);
+                }
+            });
+        }, { threshold: 0 });
+        ioPalco.observe(palco);
+        // rede de segurança: se o observador não disparar, o cálculo entra na
+        // mesma ao primeiro scroll da página
+        window.addEventListener('scroll', pedirFaixa, { passive: true, once: true });
+    }
+
 
     // ---- depoimentos: o cartão no centro fica cheio, os laterais recuam ----
     // O IntersectionObserver dispara em limiares, não continuamente; serve aqui
