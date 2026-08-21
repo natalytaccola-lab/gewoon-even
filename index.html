@@ -664,7 +664,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            padding: 240px 0 20px;
+            padding: clamp(180px, 30dvh, 260px) 0 20px;
         }
 
         #page-checkout .np-headline {
@@ -758,7 +758,7 @@
         #page-checkout .wv {
             transform-box: view-box;
             transform-origin: 50% 50%;
-            transform: scaleX(1.08);
+            transform: scaleX(1.18);
         }
 
         #page-checkout .wv1 { animation: np-drift-1 30s ease-in-out infinite alternate; }
@@ -766,18 +766,36 @@
         #page-checkout .wv3 { animation: np-drift-3 21s ease-in-out infinite alternate; }
 
         @keyframes np-drift-1 {
-            from { transform: scaleX(1.08) translateX(-14px); }
-            to   { transform: scaleX(1.08) translateX(14px); }
+            from { transform: scaleX(1.18) translateX(-20px); }
+            to   { transform: scaleX(1.18) translateX(20px); }
         }
 
         @keyframes np-drift-2 {
-            from { transform: scaleX(1.08) translateX(22px); }
-            to   { transform: scaleX(1.08) translateX(-22px); }
+            from { transform: scaleX(1.18) translateX(30px); }
+            to   { transform: scaleX(1.18) translateX(-30px); }
         }
 
         @keyframes np-drift-3 {
-            from { transform: scaleX(1.08) translateX(-30px); }
-            to   { transform: scaleX(1.08) translateX(30px); }
+            from { transform: scaleX(1.18) translateX(-40px); }
+            to   { transform: scaleX(1.18) translateX(40px); }
+        }
+
+        /* Em mobile o mesmo percurso em unidades do viewBox rende três vezes
+           menos pixels (390px de largura contra 1280), por isso a amplitude
+           sobe no breakpoint para a deriva se manter percetível. */
+        @keyframes np-drift-1m {
+            from { transform: scaleX(1.18) translateX(-40px); }
+            to   { transform: scaleX(1.18) translateX(40px); }
+        }
+
+        @keyframes np-drift-2m {
+            from { transform: scaleX(1.18) translateX(58px); }
+            to   { transform: scaleX(1.18) translateX(-58px); }
+        }
+
+        @keyframes np-drift-3m {
+            from { transform: scaleX(1.18) translateX(-76px); }
+            to   { transform: scaleX(1.18) translateX(76px); }
         }
 
         /* desfasamento por instância, para as quatro ondas não respirarem em uníssono */
@@ -812,7 +830,7 @@
         @media (prefers-reduced-motion: reduce) {
             #page-checkout .wv {
                 animation: none !important;
-                transform: scaleX(1.08) !important;
+                transform: scaleX(1.18) !important;
             }
             #page-checkout .np-track { transition: none !important; }
             #page-checkout.np-anim .np-track {
@@ -991,7 +1009,7 @@
         @media (max-width: 600px) {
             #page-checkout .np-banner { height: 150px; }
             #page-checkout .np-wordmark { top: 20px; left: 24px; font-size: 1.3rem; }
-            #page-checkout .np-hero-copy { padding: 240px 0 20px; }
+            #page-checkout .np-hero-copy { padding: clamp(36px, 6dvh, 60px) 0 20px; }
             #page-checkout .np-sub { margin-top: 1.75rem; font-size: 1rem; }
             #page-checkout .footer { padding: 60px 0 52px; }
             #page-checkout .np-body p { margin-bottom: 1.2rem; font-size: 1.08rem; }
@@ -1007,6 +1025,9 @@
             #page-checkout .np-breath--a { height: 96px; margin: 3.6rem 0; }
             #page-checkout .np-breath--b { height: 84px; margin: 4.2rem 0 3.2rem; }
             #page-checkout .np-breath--c { height: 68px; margin: 4.2rem 0 0; }
+            #page-checkout .wv1 { animation-name: np-drift-1m; }
+            #page-checkout .wv2 { animation-name: np-drift-2m; }
+            #page-checkout .wv3 { animation-name: np-drift-3m; }
         }
     </style>
 </head>
@@ -1065,22 +1086,13 @@
 <!-- ================================ -->
 <div class="page" id="page-checkout">
 
-    <!-- onda em camadas, definida uma vez e reutilizada com recortes diferentes -->
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-        <defs>
-            <!-- uma camada por g, para cada uma poder derivar ao seu ritmo -->
-            <g id="np-wave-1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g>
-            <g id="np-wave-2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g>
-            <g id="np-wave-3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g>
-        </defs>
-    </svg>
 
     <!-- ============ PRIMEIRO ECRÃ ============ -->
     <header class="np-hero">
         <div class="np-banner">
             <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect width="1200" height="400" fill="#F2EDE6"/>
-                <use class="wv wv1" href="#np-wave-1"/><use class="wv wv2" href="#np-wave-2"/><use class="wv wv3" href="#np-wave-3"/>
+                <g class="wv wv1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g><g class="wv wv2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g><g class="wv wv3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g>
             </svg>
             <div class="np-wordmark">Gewoon Even</div>
         </div>
@@ -1115,7 +1127,7 @@
 
     <!-- respiração 1 -->
     <div class="np-breath np-breath--a" aria-hidden="true">
-        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><use class="wv wv1" href="#np-wave-1"/><use class="wv wv2" href="#np-wave-2"/><use class="wv wv3" href="#np-wave-3"/></svg>
+        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g class="wv wv1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g><g class="wv wv2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g><g class="wv wv3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g></svg>
     </div>
 
     <!-- ============ OS TRÊS ÁUDIOS ============ -->
@@ -1156,7 +1168,7 @@
 
     <!-- respiração 2 -->
     <div class="np-breath np-breath--b" aria-hidden="true">
-        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><use class="wv wv1" href="#np-wave-1"/><use class="wv wv2" href="#np-wave-2"/><use class="wv wv3" href="#np-wave-3"/></svg>
+        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g class="wv wv1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g><g class="wv wv2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g><g class="wv wv3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g></svg>
     </div>
 
     <!-- ============ PREÇO + CTA ============ -->
@@ -1175,7 +1187,7 @@
 
     <!-- respiração 3 -->
     <div class="np-breath np-breath--c" aria-hidden="true">
-        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><use class="wv wv1" href="#np-wave-1"/><use class="wv wv2" href="#np-wave-2"/><use class="wv wv3" href="#np-wave-3"/></svg>
+        <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g class="wv wv1"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></g><g class="wv wv2"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></g><g class="wv wv3"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></g></svg>
     </div>
 
     <div class="footer">
