@@ -1367,6 +1367,36 @@ const questions = [
 
 let currentQuestion = 0;
 
+// ============ QUIZ: PERSISTÊNCIA DAS RESPOSTAS ============
+// Guarda o índice de cada resposta (0-3) e, no fim, a soma (0-15).
+// Fica em sessionStorage porque o funil é todo o mesmo documento — a
+// navegação entre page-quiz, page-email-capture e page-checkout é feita
+// por showPage(), sem recarregar, portanto a sessão nunca é reiniciada.
+const QUIZ_ANSWERS_KEY = 'np_quiz_answers';
+const QUIZ_SCORE_KEY = 'np_quiz_score';
+
+let quizAnswers = [];
+
+function saveQuizAnswer(questionIndex, answerIndex) {
+    if (questionIndex === 0) quizAnswers = [];  // recomeço do quiz
+    quizAnswers[questionIndex] = answerIndex;
+
+    const completo = quizAnswers.length === questions.length &&
+                     quizAnswers.every(v => typeof v === 'number');
+
+    try {
+        sessionStorage.setItem(QUIZ_ANSWERS_KEY, JSON.stringify(quizAnswers));
+        if (completo) {
+            const score = quizAnswers.reduce((total, v) => total + v, 0);
+            sessionStorage.setItem(QUIZ_SCORE_KEY, String(score));
+        }
+    } catch (e) {
+        // Safari em navegação privada pode recusar escrever. O quiz continua
+        // a funcionar; só não há persistência.
+        console.warn('[quiz] sessionStorage indisponível:', e);
+    }
+}
+
 function renderQuestion(index) {
     const q = questions[index];
     const container = document.getElementById('quiz-container');
@@ -1387,6 +1417,8 @@ function renderQuestion(index) {
 }
 
 function selectAnswer(answerIndex) {
+    saveQuizAnswer(currentQuestion, answerIndex);
+
     const buttons = document.querySelectorAll('.answer-btn');
     buttons.forEach(b => b.classList.remove('selected'));
     buttons[answerIndex].classList.add('selected');
