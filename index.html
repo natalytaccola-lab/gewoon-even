@@ -707,6 +707,60 @@
             max-width: 32rem !important;
         }
 
+        /* ---- pontos de paragem no corpo ---- */
+        /* o seletor do parágrafo do corpo tem mais especificidade, por isso
+           a marca precisa de o igualar para o peso pegar */
+        #page-checkout .np-mark,
+        #page-checkout .np-body p.np-mark {
+            font-weight: 600;
+            color: var(--verde-dique);
+        }
+
+        /* ---- cartão de prevalência ---- */
+        #page-checkout .np-stat {
+            max-width: 34rem;
+            margin: 4.2rem 0 0;
+            padding: 1.6rem 0 0;
+            border-top: 1px solid var(--np-hairline);
+        }
+
+        #page-checkout .np-stat-num {
+            font-family: var(--np-mono);
+            font-size: 2.6rem;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: var(--verde-dique);
+        }
+
+        /* a vírgula em monoespaçada ocupa uma célula inteira e abre um buraco
+           a este tamanho; puxa-se para dentro sem sair da mono */
+        #page-checkout .np-stat-virg {
+            margin: 0 -0.22em;
+        }
+
+        #page-checkout .np-stat-txt {
+            margin: 0.9rem 0 0;
+            font-size: 1.0625rem;
+            font-weight: 300;
+            line-height: 1.72;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-stat-src {
+            margin: 0.9rem 0 0;
+            font-family: var(--np-body);
+            font-size: 0.78rem;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            color: var(--taupe);
+        }
+
+        @media (max-width: 600px) {
+            #page-checkout .np-stat { margin-top: 3.4rem; }
+            #page-checkout .np-stat-num { font-size: 2.2rem; }
+        }
+
         /* ---- assinatura: a onda a respirar entre secções ---- */
         #page-checkout .np-breath {
             width: 100%;
@@ -843,17 +897,46 @@
         /* O contentor da página tem 620px. Em ecrãs largos a maquete vai para
            a margem direita, que já existe vazia, em vez de estreitar a medida
            do texto. Abaixo disso entra no fluxo, sob o parágrafo. */
-        #page-checkout .np-stage {
-            position: relative;
+        /* Em coluna única, "centrado" e "não sobrepor o texto" excluem-se.
+           A partir de 1200px o telefone passa a ter coluna própria à direita
+           e a coluna de leitura mantém exatamente a posição e a medida do
+           resto da página. Abaixo disso fica estático, acima dos três áudios. */
+        #page-checkout .np-stage-copy {
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
-        /* fixo no topo enquanto os três áudios passam por baixo */
         #page-checkout .np-phone {
-            position: sticky;
-            top: 26px;
-            z-index: 2;
+            position: relative;   /* contexto para a capa, que é absoluta */
             width: 200px;
             margin: 0 auto 3.2rem;
+        }
+
+        @media (min-width: 1200px) {
+            #page-checkout .np-stage {
+                display: grid;
+                grid-template-columns: 1fr 620px 1fr;
+                align-items: start;
+            }
+
+            #page-checkout .np-stage-copy {
+                grid-column: 2;
+                grid-row: 1;
+                margin: 0;
+            }
+
+            #page-checkout .np-stage-device {
+                grid-column: 3;
+                grid-row: 1;
+                padding-left: 48px;
+            }
+
+            #page-checkout .np-phone {
+                position: sticky;
+                top: max(26px, calc(50vh - 208px));
+                margin: 0;
+            }
         }
 
         /* corpo em gradiente, para a aresta apanhar luz como metal escovado */
@@ -1393,17 +1476,27 @@
     <div class="container np-body">
         <p>En iedereen zegt hetzelfde. "Rust wat uit." "Het gaat wel over." "Doe eens rustig aan."</p>
 
-        <p>Alsof je dat niet al geprobeerd hebt.</p>
+        <p class="np-mark">Alsof je dat niet al geprobeerd hebt.</p>
 
-        <p>Je hebt geen tips nodig. Geen "even eruit" advies. En geen verwijzing naar een wachtlijst van drie maanden bij de GGZ.</p>
+        <p>Je hebt geen tips nodig. Geen "even eruit" advies. En geen verwijzing naar <span class="np-mark">een wachtlijst van drie maanden bij de GGZ</span>.</p>
 
         <p class="np-lift">Je hebt iets nodig dat werkt. Vanavond.</p>
 
         <p>Geen therapeut, geen programma, geen abonnement. Niks om je voor aan te melden, niks om af te maken.</p>
 
-        <p>Een overbelast systeem heeft niet nóg een verplichting nodig.</p>
+        <p class="np-mark">Een overbelast systeem heeft niet nóg een verplichting nodig.</p>
 
         <p class="np-lift">Als het lichaam het alarm bewaart — in de adem, in de spieren, in het hoofd dat niet stopt — dan is het lichaam ook waar het weer leert stoppen.</p>
+    </div>
+
+    <!-- prevalência: o cartão isolado antes da onda, para o número assentar
+         antes de a página passar à apresentação dos áudios -->
+    <div class="container">
+        <figure class="np-stat">
+            <div class="np-stat-num">23<span class="np-stat-virg">,</span>5%</div>
+            <figcaption class="np-stat-txt">van de Nederlandse werkende vrouwen heeft burn-outklachten — meer dan mannen (<span class="np-num">18%</span>).</figcaption>
+            <div class="np-stat-src">RIVM / CBS / TNO, 2025.</div>
+        </figure>
     </div>
 
     <!-- respiração 1 -->
@@ -1416,9 +1509,12 @@
         <div class="np-body">
             <p>Het Noodprotocol zijn drie stemopnames. 8 minuten elk. Je drukt op play — een stem neemt het over.</p>
         </div>
+    </div>
 
-        <!-- palco: o telefone fica fixo no topo e os três áudios passam por baixo -->
-        <div class="np-stage">
+    <!-- palco: em ecrãs largos o telefone fica numa coluna própria à direita,
+         fixo, sem nunca passar por cima da coluna de leitura -->
+    <div class="np-stage">
+        <div class="np-stage-device">
             <div class="np-phone" aria-hidden="true">
             <div class="np-phone-body">
             <span class="np-phone-cam"></span>
@@ -1443,13 +1539,15 @@
             </div>
             <span class="np-phone-glare"></span>
             </div>
-                <div class="np-cover">
-                    <img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop.jpg" alt="">
-                    <img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" alt="">
-                    <img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" alt="">
-                </div>
+            <div class="np-cover">
+            <img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop.jpg" alt="">
+            <img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" alt="">
+            <img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" alt="">
             </div>
+            </div>
+        </div>
 
+        <div class="np-stage-copy">
             <section class="np-track">
             <div class="np-track-num">01</div>
             <div>
@@ -1477,7 +1575,9 @@
             </div>
             </section>
         </div>
+    </div>
 
+    <div class="container">
         <p class="np-science">Wat de drie verbindt: langzamer uitademen dan inademen activeert de nervus vagus — de rem van je zenuwstelsel. Bevestigd door onderzoekers van de Universiteit Leiden.</p>
     </div>
 
@@ -2465,13 +2565,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 150);
     }
 
-    // faixa de deteção logo abaixo do telefone, onde o texto está a ser lido
+    // Faixa de deteção na zona onde o texto está a ser lido. Quando mais do
+    // que um bloco cai lá dentro — ecrãs baixos, blocos curtos — escolhe-se o
+    // que está mais perto do centro da faixa, em vez do último a disparar.
+    var naFaixa = [];
+
+    function escolherFaixa() {
+        if (!naFaixa.length) return;
+        var centro = innerHeight * 0.73;
+        var melhor = naFaixa[0], dist = Infinity;
+        naFaixa.forEach(function (bloco) {
+            var b = bloco.getBoundingClientRect();
+            var d = Math.abs(b.top + b.height / 2 - centro);
+            if (d < dist) { dist = d; melhor = bloco; }
+        });
+        var i = Array.prototype.indexOf.call(tracks, melhor);
+        if (i > -1) mostrarFaixa(i);
+    }
+
     var ioFaixa = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            var i = Array.prototype.indexOf.call(tracks, entry.target);
-            if (i > -1) mostrarFaixa(i);
+            var k = naFaixa.indexOf(entry.target);
+            if (entry.isIntersecting) { if (k < 0) naFaixa.push(entry.target); }
+            else if (k > -1) naFaixa.splice(k, 1);
         });
+        escolherFaixa();
     }, { rootMargin: '-62% 0px -16% 0px', threshold: 0 });
     Array.prototype.forEach.call(tracks, function (t) { ioFaixa.observe(t); });
 
@@ -2519,49 +2637,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }, { threshold: 0 });
         ioPista.observe(pista);
-    }
-
-    // ---- o telefone recua enquanto o texto lhe passa por trás ----
-    var telefone = page.querySelector('.np-phone');
-    var corpo = page.querySelector('.np-phone-body');
-    var palco = page.querySelector('.np-stage');
-    if (telefone && corpo && palco) {
-        var pedido = false;
-
-        function ajustarTelefone() {
-            pedido = false;
-            var t = telefone.getBoundingClientRect();
-            if (!t.height) return;
-            var coberto = 0;
-            Array.prototype.forEach.call(tracks, function (bloco) {
-                var b = bloco.getBoundingClientRect();
-                var sobrepoe = Math.min(b.bottom, t.bottom) - Math.max(b.top, t.top);
-                if (sobrepoe > coberto) coberto = sobrepoe;
-            });
-            var r = Math.max(0, Math.min(1, coberto / t.height));
-            corpo.style.opacity = (1 - 0.6 * r).toFixed(3);
-        }
-
-        function pedirTelefone() {
-            if (pedido) return;
-            pedido = true;
-            requestAnimationFrame(ajustarTelefone);
-        }
-
-        var ioPalco = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    window.addEventListener('scroll', pedirTelefone, { passive: true });
-                    window.addEventListener('resize', pedirTelefone);
-                    pedirTelefone();
-                } else {
-                    window.removeEventListener('scroll', pedirTelefone);
-                    window.removeEventListener('resize', pedirTelefone);
-                    corpo.style.opacity = '';
-                }
-            });
-        }, { threshold: 0 });
-        ioPalco.observe(palco);
     }
 
     var ondas = page.querySelectorAll('.np-breath');
