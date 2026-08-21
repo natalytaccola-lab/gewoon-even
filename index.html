@@ -902,20 +902,39 @@
                 rgba(255, 255, 255, 0) 50%);
         }
 
+        /* a capa vive fora do corpo do telefone: assim nunca herda a
+           opacidade da passagem do texto e a foto nunca fica translúcida */
         #page-checkout .np-cover {
+            position: absolute;
+            top: 22px;
+            left: 22px;
+            width: 156px;
+            height: 196px;
             border-radius: 3px;
             overflow: hidden;
-            line-height: 0;
+            background: var(--creme);
         }
 
-        #page-checkout .np-cover svg {
-            display: block;
+        #page-checkout .np-cover-img {
+            position: absolute;
+            inset: 0;
             width: 100%;
-            height: 196px;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 300ms ease;
+        }
+
+        #page-checkout .np-cover-img.is-on {
+            opacity: 1;
+        }
+
+        #page-checkout .np-phone-screen {
+            padding-top: 209px;
         }
 
         #page-checkout .np-player-title {
-            margin: 15px 0 0;
+            margin: 0;
             font-family: var(--np-display);
             font-size: 1.5rem;
             font-weight: 400;
@@ -1014,8 +1033,9 @@
                 margin-bottom: 2.4rem;
             }
 
-            #page-checkout .np-cover svg { height: 150px; }
-            #page-checkout .np-player-title { font-size: 1.28rem; margin-top: 12px; }
+            #page-checkout .np-cover { width: 124px; height: 150px; }
+            #page-checkout .np-phone-screen { padding-top: 163px; }
+            #page-checkout .np-player-title { font-size: 1.28rem; }
             #page-checkout .np-player-sub { font-size: 0.82rem; }
             #page-checkout .np-pause { width: 40px; height: 40px; }
         }
@@ -1403,16 +1423,6 @@
             <div class="np-phone-body">
             <span class="np-phone-cam"></span>
             <div class="np-phone-screen">
-            <div class="np-cover">
-            <svg viewBox="0 0 200 210" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="200" height="210" fill="#F2EDE6"/>
-            <path d="M0 62 Q33 40 67 58 Q100 76 133 54 Q167 32 200 56 L200 210 L0 210 Z" fill="#3E4E43" opacity="0.9"/>
-            <path d="M0 96 Q36 78 72 94 Q108 110 144 90 Q172 74 200 86 L200 210 L0 210 Z" fill="#F2EDE6" opacity="0.5"/>
-            <path d="M0 108 Q40 88 80 106 Q120 124 160 102 Q180 92 200 100 L200 210 L0 210 Z" fill="#B3A48F" opacity="0.78"/>
-            <path d="M0 154 Q47 135 94 152 Q141 169 200 147 L200 210 L0 210 Z" fill="#C89078" opacity="0.82"/>
-            </svg>
-            </div>
-
             <div class="np-player-title" id="np-title">Noodstop</div>
             <div class="np-player-sub">Gewoon Even</div>
 
@@ -1433,6 +1443,11 @@
             </div>
             <span class="np-phone-glare"></span>
             </div>
+                <div class="np-cover">
+                    <img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop.jpg" alt="">
+                    <img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" alt="">
+                    <img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" alt="">
+                </div>
             </div>
 
             <section class="np-track">
@@ -2420,6 +2435,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var elTempos = document.getElementById('np-times');
     var elAgora = document.getElementById('np-now');
     var elBarra = document.getElementById('np-fill');
+    var capas = page.querySelectorAll('.np-cover-img');
     var faixaAtual = 0;
 
     function mostrarFaixa(i) {
@@ -2431,6 +2447,11 @@ document.addEventListener('DOMContentLoaded', () => {
             elTitulo.textContent = f.titulo;
             elAgora.textContent = f.agora;
             elBarra.style.width = f.pct + '%';
+        }
+
+        // a capa faz o seu próprio crossfade: as três estão empilhadas
+        for (var k = 0; k < capas.length; k++) {
+            capas[k].classList.toggle('is-on', k === i);
         }
 
         if (reduced) { aplicar(); return; }
@@ -2498,6 +2519,49 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }, { threshold: 0 });
         ioPista.observe(pista);
+    }
+
+    // ---- o telefone recua enquanto o texto lhe passa por trás ----
+    var telefone = page.querySelector('.np-phone');
+    var corpo = page.querySelector('.np-phone-body');
+    var palco = page.querySelector('.np-stage');
+    if (telefone && corpo && palco) {
+        var pedido = false;
+
+        function ajustarTelefone() {
+            pedido = false;
+            var t = telefone.getBoundingClientRect();
+            if (!t.height) return;
+            var coberto = 0;
+            Array.prototype.forEach.call(tracks, function (bloco) {
+                var b = bloco.getBoundingClientRect();
+                var sobrepoe = Math.min(b.bottom, t.bottom) - Math.max(b.top, t.top);
+                if (sobrepoe > coberto) coberto = sobrepoe;
+            });
+            var r = Math.max(0, Math.min(1, coberto / t.height));
+            corpo.style.opacity = (1 - 0.6 * r).toFixed(3);
+        }
+
+        function pedirTelefone() {
+            if (pedido) return;
+            pedido = true;
+            requestAnimationFrame(ajustarTelefone);
+        }
+
+        var ioPalco = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    window.addEventListener('scroll', pedirTelefone, { passive: true });
+                    window.addEventListener('resize', pedirTelefone);
+                    pedirTelefone();
+                } else {
+                    window.removeEventListener('scroll', pedirTelefone);
+                    window.removeEventListener('resize', pedirTelefone);
+                    corpo.style.opacity = '';
+                }
+            });
+        }, { threshold: 0 });
+        ioPalco.observe(palco);
     }
 
     var ondas = page.querySelectorAll('.np-breath');
