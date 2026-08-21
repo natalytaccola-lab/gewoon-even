@@ -838,6 +838,165 @@
             }
         }
 
+
+        /* ---- maquete do leitor, decorativa ---- */
+        /* O contentor da página tem 620px. Em ecrãs largos a maquete vai para
+           a margem direita, que já existe vazia, em vez de estreitar a medida
+           do texto. Abaixo disso entra no fluxo, sob o parágrafo. */
+        #page-checkout .np-intro {
+            position: relative;
+        }
+
+        #page-checkout .np-phone {
+            width: 218px;
+            margin: 2.8rem 0 0;
+        }
+
+        /* corpo em gradiente, para a aresta apanhar luz como metal escovado */
+        #page-checkout .np-phone-body {
+            position: relative;
+            padding: 9px;
+            border-radius: 30px;
+            background: linear-gradient(148deg,
+                #EFEBE3 0%, #C9C3B7 14%, #F5F2EC 30%,
+                #B8B2A5 52%, #EDE9E1 70%, #C2BCAF 86%, #E7E2D9 100%);
+            box-shadow:
+                0 22px 38px -16px rgba(62, 78, 67, 0.34),
+                0 6px 14px -6px rgba(62, 78, 67, 0.22),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+        }
+
+        #page-checkout .np-phone-cam {
+            position: absolute;
+            top: 3.5px;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 34% 30%, #6B756F 0%, #232B27 62%, #101411 100%);
+            transform: translateX(-50%);
+        }
+
+        #page-checkout .np-phone-screen {
+            position: relative;
+            border-radius: 22px;
+            background: #FBF8F4;
+            padding: 13px 13px 17px;
+            overflow: hidden;
+        }
+
+        /* reflexo diagonal no vidro */
+        #page-checkout .np-phone-glare {
+            position: absolute;
+            inset: 9px;
+            border-radius: 22px;
+            pointer-events: none;
+            background: linear-gradient(116deg,
+                rgba(255, 255, 255, 0.78) 0%,
+                rgba(255, 255, 255, 0.34) 20%,
+                rgba(255, 255, 255, 0.08) 36%,
+                rgba(255, 255, 255, 0) 50%);
+        }
+
+        #page-checkout .np-cover {
+            border-radius: 3px;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        #page-checkout .np-cover svg {
+            display: block;
+            width: 100%;
+            height: 196px;
+        }
+
+        #page-checkout .np-player-title {
+            margin: 15px 0 0;
+            font-family: var(--np-display);
+            font-size: 1.5rem;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: 0.005em;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-player-sub {
+            margin: 2px 0 0;
+            font-family: var(--np-display);
+            font-size: 0.92rem;
+            font-style: italic;
+            font-weight: 400;
+            color: var(--taupe);
+        }
+
+        #page-checkout .np-bar {
+            position: relative;
+            height: 3px;
+            margin: 16px 0 0;
+            border-radius: 2px;
+            background: #E4E1DA;
+        }
+
+        #page-checkout .np-bar-fill {
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 28%;
+            border-radius: 2px;
+            background: var(--verde-dique);
+        }
+
+        #page-checkout .np-bar-fill::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -3.5px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--verde-dique);
+            transform: translateY(-50%);
+        }
+
+        #page-checkout .np-times {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0 0;
+            font-family: var(--np-mono);
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            color: var(--taupe);
+        }
+
+        #page-checkout .np-controls {
+            display: flex;
+            justify-content: center;
+            margin: 14px 0 2px;
+        }
+
+        /* pausa desenhada à mão: círculo aberto e dois traços com pincelada */
+        #page-checkout .np-pause {
+            display: block;
+            width: 46px;
+            height: 46px;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-pause svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (min-width: 1200px) {
+            #page-checkout .np-phone {
+                position: absolute;
+                top: -6px;
+                left: 100%;
+                margin: 0 0 0 48px;
+            }
+        }
+
         /* ---- os três áudios: sem card, sem ícone, só tipografia ---- */
         #page-checkout .np-track {
             display: grid;
@@ -1125,8 +1284,47 @@
 
     <!-- ============ OS TRÊS ÁUDIOS ============ -->
     <div class="container">
-        <div class="np-body">
-            <p>Het Noodprotocol zijn drie stemopnames. 8 minuten elk. Je drukt op play — een stem neemt het over.</p>
+        <div class="np-intro">
+            <div class="np-body">
+                <p>Het Noodprotocol zijn drie stemopnames. 8 minuten elk. Je drukt op play — een stem neemt het over.</p>
+            </div>
+
+            <!-- maquete decorativa do leitor; sem função, daí o aria-hidden -->
+            <div class="np-phone" aria-hidden="true">
+                <div class="np-phone-body">
+                    <span class="np-phone-cam"></span>
+                    <div class="np-phone-screen">
+                        <div class="np-cover">
+                            <svg viewBox="0 0 200 210" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="200" height="210" fill="#F2EDE6"/>
+                                <path d="M0 62 Q33 40 67 58 Q100 76 133 54 Q167 32 200 56 L200 210 L0 210 Z" fill="#3E4E43" opacity="0.9"/>
+                                <path d="M0 96 Q36 78 72 94 Q108 110 144 90 Q172 74 200 86 L200 210 L0 210 Z" fill="#F2EDE6" opacity="0.5"/>
+                                <path d="M0 108 Q40 88 80 106 Q120 124 160 102 Q180 92 200 100 L200 210 L0 210 Z" fill="#B3A48F" opacity="0.78"/>
+                                <path d="M0 154 Q47 135 94 152 Q141 169 200 147 L200 210 L0 210 Z" fill="#C89078" opacity="0.82"/>
+                            </svg>
+                        </div>
+
+                        <div class="np-player-title">Noodstop</div>
+                        <div class="np-player-sub">Gewoon Even</div>
+
+                        <div class="np-bar"><div class="np-bar-fill"></div></div>
+
+                        <div class="np-times"><span>02:14</span><span>08:00</span></div>
+
+                        <div class="np-controls">
+                            <span class="np-pause">
+                                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6"
+                                          fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
+                                    <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <span class="np-phone-glare"></span>
+                </div>
+            </div>
         </div>
 
         <section class="np-track">
