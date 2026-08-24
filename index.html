@@ -716,49 +716,7 @@
             color: var(--verde-dique);
         }
 
-        /* ---- cartão de prevalência ---- */
-        #page-checkout .np-stat {
-            max-width: 34rem;
-            margin: 2.8rem 0 0;
-            padding: 0 0 0 1.2rem;
-            border-left: 2px solid var(--np-hairline);
-        }
-
-        #page-checkout .np-stat-num {
-            font-family: var(--np-mono);
-            font-size: 1.6rem;
-            font-weight: 400;
-            line-height: 1;
-            letter-spacing: -0.02em;
-            color: var(--verde-dique);
-        }
-
-        /* a vírgula em monoespaçada ocupa uma célula inteira e abre um buraco
-           a este tamanho; puxa-se para dentro sem sair da mono */
-        #page-checkout .np-stat-virg {
-            margin: 0 -0.22em;
-        }
-
-        #page-checkout .np-stat-txt {
-            margin: 0.5rem 0 0;
-            font-size: 1rem;
-            font-weight: 300;
-            line-height: 1.72;
-            color: var(--verde-dique);
-        }
-
-        #page-checkout .np-stat-src {
-            margin: 0.5rem 0 0;
-            font-family: var(--np-body);
-            font-size: 0.78rem;
-            font-weight: 300;
-            letter-spacing: 0.02em;
-            color: var(--taupe);
-        }
-
         @media (max-width: 600px) {
-            #page-checkout .np-stat { margin-top: 2.4rem; }
-            #page-checkout .np-stat-num { font-size: 1.45rem; }
         }
 
         /* ---- assinatura: a onda a respirar entre secções ---- */
@@ -1202,32 +1160,6 @@
             letter-spacing: -0.01em;
         }
 
-        /* ---- marca vertical: a mesma onda, reduzida e de pé ---- */
-        /* Em ecrãs largos vive na margem esquerda, que já está vazia; em
-           ecrãs estreitos entra no fluxo, entre os dois parágrafos. */
-        #page-checkout .np-glifo {
-            display: block;
-            width: 26px;
-            margin: 1.6rem 0;
-        }
-
-        #page-checkout .np-glifo svg {
-            display: block;
-            width: 100%;
-            height: 112px;
-        }
-
-        @media (min-width: 1100px) {
-            #page-checkout .np-body { position: relative; }
-
-            #page-checkout .np-glifo {
-                position: absolute;
-                left: -62px;
-                margin: 0;
-                transform: translateY(-46px);
-            }
-        }
-
         /* ---- chevrons do carrossel ---- */
         #page-checkout .np-chev {
             position: absolute;
@@ -1317,6 +1249,12 @@
             font-weight: 600;
             letter-spacing: 0.02em;
             color: var(--creme);
+        }
+
+        /* mesmo tratamento das linhas-chave do corpo: só o peso muda, a cor
+           mantém-se em creme cheio para não perder o contraste sobre a faixa */
+        #page-checkout .np-voice-mark {
+            font-weight: 600;
         }
 
         #page-checkout .np-voice-quote {
@@ -1573,14 +1511,6 @@
 
         <p class="np-mark">Alsof je dat niet al geprobeerd hebt.</p>
 
-        <span class="np-glifo" aria-hidden="true">
-            <svg viewBox="0 0 26 112" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 2 Q0 30 5 56 Q10 82 5 110" fill="none" stroke="#3E4E43" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
-                <path d="M13 2 Q8 26 13 56 Q18 86 13 110" fill="none" stroke="#B3A48F" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
-                <path d="M21 2 Q16 34 21 56 Q26 78 21 110" fill="none" stroke="#C89078" stroke-width="2.2" stroke-linecap="round" opacity="0.75"/>
-            </svg>
-        </span>
-
         <p>Je hebt geen tips nodig. Geen "even eruit" advies. En geen verwijzing naar <span class="np-mark">een wachtlijst van drie maanden bij de GGZ</span>.</p>
 
         <p class="np-lift">Je hebt iets nodig dat werkt. <span class="np-vanavond">Vanavond</span>.</p>
@@ -1590,16 +1520,6 @@
         <p class="np-mark">Een overbelast systeem heeft niet nóg een verplichting nodig.</p>
 
         <p class="np-lift">Als het lichaam het alarm bewaart — in de adem, in de spieren, in het hoofd dat niet stopt — dan is het lichaam ook waar het weer leert stoppen.</p>
-    </div>
-
-    <!-- prevalência: o cartão isolado antes da onda, para o número assentar
-         antes de a página passar à apresentação dos áudios -->
-    <div class="container">
-        <figure class="np-stat">
-            <div class="np-stat-num">23<span class="np-stat-virg">,</span>5%</div>
-            <figcaption class="np-stat-txt">van de Nederlandse werkende vrouwen heeft burn-outklachten — meer dan mannen (<span class="np-num">18%</span>).</figcaption>
-            <div class="np-stat-src">RIVM / CBS / TNO, 2025.</div>
-        </figure>
     </div>
 
     <!-- respiração 1 -->
@@ -1698,47 +1618,47 @@
             <div class="np-voices-track">
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Anna, 42</figcaption>
-                    <blockquote class="np-voice-quote">"Ik heb al therapie geprobeerd, ademhalingsoefeningen, apps, podcasts… noem maar op. Dus eerlijk gezegd verwachtte ik er niet veel van. Maar tijdens een avond waarop mijn hart maar bleef razen, heb ik het Noodprotocol opgezet. Na acht minuten was mijn leven natuurlijk niet ineens opgelost. Maar mijn lichaam stond niet meer op scherp. En precies dát had ik op dat moment nodig. Voor mij was het verschil dat ik niets hoefde te leren of te begrijpen. Ik hoefde alleen maar te luisteren."</blockquote>
+                    <blockquote class="np-voice-quote">"Ik heb al therapie geprobeerd, ademhalingsoefeningen, apps, podcasts… noem maar op. Dus eerlijk gezegd verwachtte ik er niet veel van. Maar tijdens een avond waarop mijn hart maar bleef razen, heb ik het Noodprotocol opgezet. Na acht minuten was mijn leven natuurlijk niet ineens opgelost. <span class="np-voice-mark">Maar mijn lichaam stond niet meer op scherp.</span> En precies dát had ik op dat moment nodig. Voor mij was het verschil dat ik niets hoefde te leren of te begrijpen. Ik hoefde alleen maar te luisteren."</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Sandra, 36</figcaption>
-                    <blockquote class="np-voice-quote">"Mijn hoofd maakt overuren. Zelfs als ik probeer te ontspannen, ben ik ondertussen mijn boodschappenlijst, mijn werk en een gesprek van drie dagen geleden aan het analyseren. Daarom haakte ik bij meditatie meestal na twee minuten af. Bij Reset hoefde ik mijn gedachten helemaal niet stil te maken. Ik kreeg gewoon iets anders om mijn aandacht aan te geven. Mijn voeten, mijn handen, geluiden om me heen… Voor het eerst voelde het niet alsof ik moest vechten tegen mijn eigen hoofd."</blockquote>
+                    <blockquote class="np-voice-quote">"Mijn hoofd maakt overuren. Zelfs als ik probeer te ontspannen, ben ik ondertussen mijn boodschappenlijst, mijn werk en een gesprek van drie dagen geleden aan het analyseren. Daarom haakte ik bij meditatie meestal na twee minuten af. Bij Reset hoefde ik mijn gedachten helemaal niet stil te maken. Ik kreeg gewoon iets anders om mijn aandacht aan te geven. Mijn voeten, mijn handen, geluiden om me heen… <span class="np-voice-mark">Voor het eerst voelde het niet alsof ik moest vechten tegen mijn eigen hoofd.</span>"</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Marieke, 49</figcaption>
-                    <blockquote class="np-voice-quote">"Ik heb een telefoon vol apps waar ik ooit enthousiast aan begon en na een week nooit meer naar keek. Ik wilde echt niet nóg iets waar ik dagelijks aan moest denken. Dat vond ik juist fijn aan Noodprotocol: ik hoefde niets te installeren, geen account aan te maken en nergens aan vast te zitten. Ik pak mijn telefoon, luister wanneer ik het nodig heb en daarna ben ik klaar. Dat past veel beter bij mijn leven."</blockquote>
+                    <blockquote class="np-voice-quote">"Ik heb een telefoon vol apps waar ik ooit enthousiast aan begon en na een week nooit meer naar keek. Ik wilde echt niet nóg iets waar ik dagelijks aan moest denken. Dat vond ik juist fijn aan Noodprotocol: <span class="np-voice-mark">ik hoefde niets te installeren, geen account aan te maken en nergens aan vast te zitten.</span> Ik pak mijn telefoon, luister wanneer ik het nodig heb en daarna ben ik klaar. Dat past veel beter bij mijn leven."</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Eline, 39</figcaption>
-                    <blockquote class="np-voice-quote">"Mijn moeilijkste momenten zijn 's nachts. Iedereen slaapt en ik lig wakker met een lijf dat blijkbaar denkt dat er iets verschrikkelijks staat te gebeuren. De eerste keer dat ik Noodprotocol gebruikte was rond drie uur 's nachts. Ik hoefde niemand te bellen, geen scherm te bekijken en geen ingewikkelde oefening te doen. Alleen mijn oortjes in en luisteren. Ik viel niet magisch meteen in slaap, maar de paniek uit mijn lichaam zakte genoeg om weer te kunnen liggen."</blockquote>
+                    <blockquote class="np-voice-quote">"Mijn moeilijkste momenten zijn 's nachts. Iedereen slaapt en ik lig wakker met een lijf dat blijkbaar denkt dat er iets verschrikkelijks staat te gebeuren. De eerste keer dat ik Noodprotocol gebruikte was rond drie uur 's nachts. <span class="np-voice-mark">Ik hoefde niemand te bellen, geen scherm te bekijken en geen ingewikkelde oefening te doen.</span> Alleen mijn oortjes in en luisteren. Ik viel niet magisch meteen in slaap, maar de paniek uit mijn lichaam zakte genoeg om weer te kunnen liggen."</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Femke, 31</figcaption>
-                    <blockquote class="np-voice-quote">"Ik vond het eerlijk gezegd best gênant dat ik soms zo overstuur raakte zonder dat ik precies kon uitleggen waarom. Het laatste wat ik wilde was iemand moeten vertellen wat er allemaal in mijn hoofd speelde. Met Noodprotocol hoefde ik niets uit te leggen. Niemand hoefde iets van mij te weten. Ik kon gewoon op mijn bed gaan liggen en luisteren. Dat maakte de eerste stap naar hulp voor mij veel kleiner."</blockquote>
+                    <blockquote class="np-voice-quote">"Ik vond het eerlijk gezegd best gênant dat ik soms zo overstuur raakte zonder dat ik precies kon uitleggen waarom. Het laatste wat ik wilde was iemand moeten vertellen wat er allemaal in mijn hoofd speelde. <span class="np-voice-mark">Met Noodprotocol hoefde ik niets uit te leggen.</span> Niemand hoefde iets van mij te weten. Ik kon gewoon op mijn bed gaan liggen en luisteren. Dat maakte de eerste stap naar hulp voor mij veel kleiner."</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Laura, 44</figcaption>
-                    <blockquote class="np-voice-quote">"Met twee kinderen en een drukke baan heb ik geen zin in een zelfzorgprogramma van dertig minuten per dag. Alleen het idee daarvan maakt me al moe. Acht minuten kon ik mezelf wel geven. Soms luister ik in de auto voordat ik de kinderen ga ophalen. Soms op de wc, omdat dat de enige plek is waar niemand me nodig heeft. Het klinkt misschien klein, maar acht minuten waarin mijn lichaam even niet hoeft te presteren maken een verrassend groot verschil."</blockquote>
+                    <blockquote class="np-voice-quote">"Met twee kinderen en een drukke baan heb ik geen zin in een zelfzorgprogramma van dertig minuten per dag. Alleen het idee daarvan maakt me al moe. <span class="np-voice-mark">Acht minuten kon ik mezelf wel geven.</span> Soms luister ik in de auto voordat ik de kinderen ga ophalen. Soms op de wc, omdat dat de enige plek is waar niemand me nodig heeft. Het klinkt misschien klein, maar acht minuten waarin mijn lichaam even niet hoeft te presteren maken een verrassend groot verschil."</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Ingrid, 52</figcaption>
-                    <blockquote class="np-voice-quote">"Mijn huisarts noemde het stress. Misschien had hij gelijk, maar dat maakte het niet minder echt op het moment dat ik trillend op de bank zat. Ik had geen behoefte aan nog een uitleg over wat stress met je lichaam doet. Ik wilde iets kunnen doen toen het gebeurde. Voor €17 verwachtte ik geen therapie en dat kreeg ik ook niet. Ik kreeg iets veel concreters: een stem die me door die acht minuten heen hielp."</blockquote>
+                    <blockquote class="np-voice-quote">"<span class="np-voice-mark">Mijn huisarts noemde het stress.</span> Misschien had hij gelijk, maar dat maakte het niet minder echt op het moment dat ik trillend op de bank zat. Ik had geen behoefte aan nog een uitleg over wat stress met je lichaam doet. Ik wilde iets kunnen doen toen het gebeurde. Voor €17 verwachtte ik geen therapie en dat kreeg ik ook niet. Ik kreeg iets veel concreters: een stem die me door die acht minuten heen hielp."</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Sophie, 58</figcaption>
-                    <blockquote class="np-voice-quote">"Ik weet inmiddels best veel over ademhaling en ontspanning. Het probleem was nooit dat ik niet wist wat ik moest doen. Het probleem was dat ik het op het moment zelf niet deed. Als mijn lichaam eenmaal in alarm staat, heb ik iemand nodig die me er stap voor stap doorheen leidt. Dat is precies wat deze stem voor mij doet. Ik hoef even niet degene te zijn die alles onder controle houdt."</blockquote>
+                    <blockquote class="np-voice-quote">"Ik weet inmiddels best veel over ademhaling en ontspanning. Het probleem was nooit dat ik niet wist wat ik moest doen. Het probleem was dat ik het op het moment zelf niet deed. Als mijn lichaam eenmaal in alarm staat, heb ik iemand nodig die me er stap voor stap doorheen leidt. Dat is precies wat deze stem voor mij doet. <span class="np-voice-mark">Ik hoef even niet degene te zijn die alles onder controle houdt.</span>"</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Charlotte, 34</figcaption>
-                    <blockquote class="np-voice-quote">"Ik heb geen paniekaanvallen. Dat dacht ik tenminste. Ik was gewoon altijd gespannen. Kaken op elkaar, schouders omhoog, buik aangespannen, zelfs als ik op de bank zat. Ik kocht het eigenlijk omdat ik wilde weten of het iets voor me zou doen. Landing liet me pas merken hoeveel spanning ik de hele dag ongemerkt vasthield. Dat vond ik misschien nog waardevoller dan het moment waarop ik gestrest ben."</blockquote>
+                    <blockquote class="np-voice-quote">"Ik heb geen paniekaanvallen. Dat dacht ik tenminste. Ik was gewoon altijd gespannen. Kaken op elkaar, schouders omhoog, buik aangespannen, zelfs als ik op de bank zat. Ik kocht het eigenlijk omdat ik wilde weten of het iets voor me zou doen. <span class="np-voice-mark">Landing liet me pas merken hoeveel spanning ik de hele dag ongemerkt vasthield.</span> Dat vond ik misschien nog waardevoller dan het moment waarop ik gestrest ben."</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Tom, 47</figcaption>
-                    <blockquote class="np-voice-quote">"Ik ben niet iemand die normaal gesproken naar meditatie-audio's luistert. Ik vond het eerlijk gezegd allemaal een beetje zweverig klinken. Maar de stem is juist heel nuchter. Geen manifesteren, geen 'denk positief', geen spirituele verhalen. Gewoon: doe dit, voel dat, adem hierheen. Ik merkte vooral dat ik niet hoefde te geloven dat het zou werken. Ik hoefde het alleen maar te volgen."</blockquote>
+                    <blockquote class="np-voice-quote">"Ik ben niet iemand die normaal gesproken naar meditatie-audio's luistert. Ik vond het eerlijk gezegd allemaal een beetje zweverig klinken. Maar de stem is juist heel nuchter. Geen manifesteren, geen 'denk positief', geen spirituele verhalen. Gewoon: doe dit, voel dat, adem hierheen. Ik merkte vooral dat ik niet hoefde te geloven dat het zou werken. <span class="np-voice-mark">Ik hoefde het alleen maar te volgen.</span>"</blockquote>
                 </figure>
                 <figure class="np-voice">
                     <figcaption class="np-voice-who">Jeroen, 41</figcaption>
-                    <blockquote class="np-voice-quote">"Mijn werk was niet ineens minder druk. Mijn relatieproblemen waren er de volgende ochtend nog steeds. En mijn to-do-lijst was ook niet verdwenen. Maar ik begon te begrijpen dat ik niet elk probleem hoef op te lossen terwijl mijn lichaam volledig in de alarmstand staat. Na Noodprotocol kon ik weer even normaal zitten, denken en ademhalen. Daarna kon ik pas beslissen wat ik met de rest moest doen. Dat verschil klinkt klein, maar voor mij was het groot."</blockquote>
+                    <blockquote class="np-voice-quote">"Mijn werk was niet ineens minder druk. Mijn relatieproblemen waren er de volgende ochtend nog steeds. En mijn to-do-lijst was ook niet verdwenen. Maar ik begon te begrijpen dat ik niet elk probleem hoef op te lossen terwijl mijn lichaam volledig in de alarmstand staat. <span class="np-voice-mark">Na Noodprotocol kon ik weer even normaal zitten, denken en ademhalen.</span> Daarna kon ik pas beslissen wat ik met de rest moest doen. Dat verschil klinkt klein, maar voor mij was het groot."</blockquote>
                 </figure>
             </div>
         </div>
