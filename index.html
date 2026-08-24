@@ -1295,6 +1295,8 @@
 
         @media (max-width: 600px) {
             #page-checkout .np-voices-wrap { margin-top: 3.6rem; padding: 2rem 0 2.6rem; }
+            #page-checkout .np-climax { padding-top: 7rem; }
+            #page-checkout .np-climax-onda { top: -9px; height: 97px; }
             #page-checkout .np-voices-mark { font-size: 76px; }
             #page-checkout .np-voices-track { gap: 24px; }
             #page-checkout .np-voice-quote { font-size: 1.02rem; line-height: 1.42; }
@@ -1313,9 +1315,30 @@
         /* ---- âncora de preço ---- */
         /* ---- clímax: a única faixa escura em verde, e a maior tipografia ---- */
         #page-checkout .np-climax {
-            margin: 5rem 0 0;
-            padding: 4.2rem 0 4.4rem;
+            position: relative;
+            overflow: hidden;
+            margin: 0;
+            padding: 9.5rem 0 4.4rem;
             background: var(--verde-dique);
+        }
+
+        /* A onda deixou de ter bloco creme próprio: vive dentro do verde, com a
+           massa na cor da faixa de cima, de modo que a aresta entre as duas
+           superfícies seja ela própria a transição. */
+        #page-checkout .np-climax-onda {
+            position: absolute;
+            top: -12px;      /* a crista da onda não toca o topo do recorte */
+            left: 0;
+            right: 0;
+            height: 140px;
+            transform: scaleY(-1);
+            pointer-events: none;
+        }
+
+        #page-checkout .np-climax-onda svg {
+            display: block;
+            width: 100%;
+            height: 100%;
         }
 
         #page-checkout .np-anchor {
@@ -1694,17 +1717,15 @@
         </div>
 
     </div>
-    <!-- respiração 2 -->
-    <div class="np-breath np-breath--b" aria-hidden="true">
-        <div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
-    </div>
-
-    <!-- ============ PREÇO + CTA ============ -->
-    <div class="container">
-    </div>
-
     <!-- clímax: a decisão tem faixa própria, distinta de tudo o resto -->
     <div class="np-climax">
+        <div class="np-climax-onda" aria-hidden="true">
+            <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#8B5A3C"/>
+                <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#8B5A3C" opacity="0.5"/>
+                <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#F2EDE6" opacity="0.07"/>
+            </svg>
+        </div>
         <div class="container">
             <p class="np-tag">Direct beschikbaar</p>
             <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de wachtlijst pas.</p>
