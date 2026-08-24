@@ -878,9 +878,13 @@
                 align-items: start;
             }
 
-            #page-checkout .np-stage-copy {
+            /* o item da grelha é o scroller, que em desktop é só um invólucro */
+            #page-checkout .np-stage-scroller {
                 grid-column: 2;
                 grid-row: 1;
+            }
+
+            #page-checkout .np-stage-copy {
                 margin: 0;
             }
 
@@ -1159,6 +1163,100 @@
             font-weight: 400;
             letter-spacing: -0.01em;
         }
+
+        /* ---- telefone dentro de cada bloco: só existe em mobile ---- */
+        #page-checkout .np-track-phone { display: none; }
+
+        /* ---- mobile: os três áudios passam a carrossel ---- */
+        @media (max-width: 900px) {
+            /* o telefone único e a sua sincronização deixam de fazer sentido */
+            #page-checkout .np-stage-device { display: none; }
+
+            #page-checkout .np-stage {
+                position: relative;
+            }
+
+            #page-checkout .np-stage-copy {
+                display: flex;
+                align-items: flex-start;
+                gap: 24px;
+                max-width: none;
+                margin: 0;
+                padding: 0 24px;
+                width: max-content;
+                overflow: visible;
+            }
+
+            #page-checkout .np-stage-scroller {
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            #page-checkout .np-stage-scroller::-webkit-scrollbar { display: none; }
+
+            #page-checkout .np-stage-scroller:focus-visible {
+                outline: 1px solid var(--sage);
+                outline-offset: 6px;
+            }
+
+            /* o cartão perde a grelha de duas colunas e passa a coluna única */
+            #page-checkout .np-track {
+                display: block;
+                width: clamp(256px, 76vw, 340px);
+                padding: 1.6rem 0 0;
+                scroll-snap-align: center;
+                transform-origin: center center;
+            }
+
+            #page-checkout .np-track:last-of-type { border-bottom: 0; }
+
+            #page-checkout .np-track-num { margin-bottom: 0.6rem; }
+
+            /* o zoom vertical de entrada sai: quem manda no cartão é o foco
+               horizontal do carrossel */
+            #page-checkout.np-anim .np-track,
+            #page-checkout.np-anim .np-track.is-in {
+                opacity: 1;
+                transform: none;
+            }
+
+            #page-checkout .np-track-phone {
+                display: block;
+                position: relative;
+                width: 190px;
+                margin: 1.8rem auto 0.4rem;
+            }
+
+            #page-checkout .np-track-phone .np-phone-body {
+                padding: 8px;
+                border-radius: 26px;
+            }
+
+            #page-checkout .np-track-phone .np-phone-screen {
+                padding: 11px 11px 14px;
+                padding-top: 212px;
+                border-radius: 19px;
+            }
+
+            #page-checkout .np-track-phone .np-cover {
+                top: 19px;
+                left: 19px;
+                width: 152px;
+                height: 190px;
+            }
+
+            #page-checkout .np-track-phone .np-player-title { font-size: 1.2rem; }
+            #page-checkout .np-track-phone .np-player-sub { font-size: 0.8rem; }
+            #page-checkout .np-track-phone .np-pause { width: 38px; height: 38px; }
+
+            #page-checkout .np-chev--audio { display: block; color: var(--sage); }
+            #page-checkout .np-chev--audio:hover { color: var(--verde-dique); }
+        }
+
+        #page-checkout .np-chev--audio { display: none; }
 
         /* ---- chevrons do carrossel ---- */
         #page-checkout .np-chev {
@@ -1619,6 +1717,14 @@
             </div>
         </div>
 
+        <button class="np-chev np-chev--audio np-chev--prev" type="button" aria-label="Vorige opname">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="np-chev np-chev--audio np-chev--next" type="button" aria-label="Volgende opname">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="np-stage-scroller" tabindex="0" role="group" aria-label="De drie opnames">
         <div class="np-stage-copy">
             <section class="np-track">
             <div class="np-track-num">01</div>
@@ -1627,6 +1733,26 @@
             <p class="np-track-sci">Ademhaling volgens de 4-7-8-methode. Een onderzoek van de Simon Fraser University volgde <span class="np-num">109</span> mensen <span class="np-num">8</span> weken lang en vond een significante afname van angst bij wie de techniek toepaste.</p>
             <p class="np-track-quote">"Adem in... twee, drie, vier... Je doet het goed."</p>
             </div>
+                            <div class="np-track-phone" aria-hidden="true">
+                    <div class="np-phone-body">
+                        <span class="np-phone-cam"></span>
+                        <div class="np-phone-screen">
+                            <div class="np-player-title">Noodstop</div>
+                            <div class="np-player-sub">Gewoon Even</div>
+                            <div class="np-bar"><div class="np-bar-fill" style="width:27.9%"></div></div>
+                            <div class="np-times"><span>02:14</span><span>08:00</span></div>
+                            <div class="np-controls"><span class="np-pause">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
+                            <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/>
+                        </svg>
+                    </span></div>
+                        </div>
+                        <span class="np-phone-glare"></span>
+                    </div>
+                    <div class="np-cover"><img class="np-cover-img is-on" src="img/noodstop.jpg" alt=""></div>
+                </div>
             </section>
 
             <section class="np-track">
@@ -1636,6 +1762,26 @@
             <p class="np-track-sci">Sensorische verankering via de vijf zintuigen — dezelfde aanpak die traumatherapeuten gebruiken om iemand terug te brengen naar het hier en nu.</p>
             <p class="np-track-quote">"Je gedachten mogen er nog zijn. Maar nu ben jij er ook."</p>
             </div>
+                            <div class="np-track-phone" aria-hidden="true">
+                    <div class="np-phone-body">
+                        <span class="np-phone-cam"></span>
+                        <div class="np-phone-screen">
+                            <div class="np-player-title">Reset</div>
+                            <div class="np-player-sub">Gewoon Even</div>
+                            <div class="np-bar"><div class="np-bar-fill" style="width:20.8%"></div></div>
+                            <div class="np-times"><span>01:40</span><span>08:00</span></div>
+                            <div class="np-controls"><span class="np-pause">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
+                            <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/>
+                        </svg>
+                    </span></div>
+                        </div>
+                        <span class="np-phone-glare"></span>
+                    </div>
+                    <div class="np-cover"><img class="np-cover-img is-on" src="img/reset.jpg" alt=""></div>
+                </div>
             </section>
 
             <section class="np-track">
@@ -1645,7 +1791,28 @@
             <p class="np-track-sci">Progressieve spierontspanning. Een analyse van <span class="np-num">27</span> wetenschappelijke studies bevestigde het effect op angst.</p>
             <p class="np-track-quote">"Je kaken. De meeste mensen dragen hier de hele dag spanning zonder het te weten."</p>
             </div>
+                            <div class="np-track-phone" aria-hidden="true">
+                    <div class="np-phone-body">
+                        <span class="np-phone-cam"></span>
+                        <div class="np-phone-screen">
+                            <div class="np-player-title">Landing</div>
+                            <div class="np-player-sub">Gewoon Even</div>
+                            <div class="np-bar"><div class="np-bar-fill" style="width:47.5%"></div></div>
+                            <div class="np-times"><span>03:48</span><span>08:00</span></div>
+                            <div class="np-controls"><span class="np-pause">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
+                            <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/>
+                        </svg>
+                    </span></div>
+                        </div>
+                        <span class="np-phone-glare"></span>
+                    </div>
+                    <div class="np-cover"><img class="np-cover-img is-on" src="img/landing.jpg" alt=""></div>
+                </div>
             </section>
+        </div>
         </div>
     </div>
 
@@ -2669,7 +2836,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function calcularFaixa() {
         pedidoFaixa = false;
-        if (!palco) return;
+        if (!palco || !telefone) return;
+        // em mobile o telefone único está escondido e cada cartão traz o seu
+        if (!telefone.getClientRects().length) return;
         var p = palco.getBoundingClientRect();
         if (p.bottom < 0 || p.top > innerHeight) return;      // palco fora do ecrã
 
@@ -2713,55 +2882,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // ---- depoimentos: o cartão no centro fica cheio, os laterais recuam ----
-    // O IntersectionObserver dispara em limiares, não continuamente; serve aqui
-    // para ligar e desligar o cálculo conforme a secção entra e sai do ecrã, e a
-    // proporção em si é recalculada por frame durante o arrasto.
-    var pista = page.querySelector('.np-voices');
-    if (pista && !reduced) {
-        var cartoes = pista.querySelectorAll('.np-voice');
-        var citacoes = pista.querySelectorAll('.np-voice-quote');
-        var baseCitacao = citacoes.length
-            ? parseFloat(getComputedStyle(citacoes[0]).fontSize)
-            : 0;
+    // ---- carrossel: o cartão no centro fica cheio, os laterais recuam ----
+    // Serve os depoimentos e, em mobile, os três áudios. O IntersectionObserver
+    // dispara em limiares e não daria continuidade durante o arrasto; fica só a
+    // ligar e desligar o cálculo, e a proporção é recalculada por frame.
+    function montarCarrossel(pista, selCartao, selTexto, selChev, chave) {
+        if (!pista || reduced) return;
+        var cartoes = pista.querySelectorAll(selCartao);
+        if (!cartoes.length) return;
+        var textos = selTexto ? pista.querySelectorAll(selTexto) : [];
+        var base = textos.length ? parseFloat(getComputedStyle(textos[0]).fontSize) : 0;
         var agendado = false;
-
-        function ajustarCartoes() {
-            agendado = false;
-            var r = pista.getBoundingClientRect();
-            var centro = r.left + r.width / 2;
-            var passo = cartoes.length > 1
-                ? cartoes[1].getBoundingClientRect().left - cartoes[0].getBoundingClientRect().left
-                : r.width;
-            Array.prototype.forEach.call(cartoes, function (c, i) {
-                var b = c.getBoundingClientRect();
-                // fora de vista com folga: fixa no mínimo e não recalcula
-                if (b.right < -passo || b.left > r.right + passo) {
-                    if (c.dataset.fora !== '1') {
-                        c.dataset.fora = '1';
-                        c.style.transform = 'scale(0.92)';
-                        c.style.opacity = '0.65';
-                        if (baseCitacao) citacoes[i].style.fontSize = (baseCitacao * 0.95).toFixed(2) + 'px';
-                    }
-                    return;
-                }
-                c.dataset.fora = '0';
-                var d = Math.abs(b.left + b.width / 2 - centro);
-                var t = Math.min(1, d / passo);          // 0 no centro, 1 a um cartão de distância
-                c.style.transform = 'scale(' + (1 - 0.08 * t).toFixed(4) + ')';
-                c.style.opacity = (1 - 0.35 * t).toFixed(4);
-                // 1.1em ao centro, 0.95em nos lados — o texto cresce mesmo
-                if (baseCitacao) {
-                    citacoes[i].style.fontSize = (baseCitacao * (1.1 - 0.15 * t)).toFixed(2) + 'px';
-                }
-            });
-        }
-
-        function pedirAjuste() {
-            if (agendado) return;
-            agendado = true;
-            requestAnimationFrame(ajustarCartoes);
-        }
 
         function passoCartao() {
             return cartoes.length > 1
@@ -2769,49 +2900,90 @@ document.addEventListener('DOMContentLoaded', () => {
                 : pista.clientWidth;
         }
 
-        Array.prototype.forEach.call(page.querySelectorAll('.np-chev'), function (b) {
+        function ajustar() {
+            agendado = false;
+            var r = pista.getBoundingClientRect();
+            if (!r.width) return;                       // escondido neste breakpoint
+            var centro = r.left + r.width / 2;
+            var passo = passoCartao();
+            Array.prototype.forEach.call(cartoes, function (c, i) {
+                var b = c.getBoundingClientRect();
+                if (b.right < -passo || b.left > r.right + passo) {
+                    if (c.dataset.fora !== '1') {
+                        c.dataset.fora = '1';
+                        c.style.transform = 'scale(0.92)';
+                        c.style.opacity = '0.65';
+                        if (base && textos[i]) textos[i].style.fontSize = (base * 0.95).toFixed(2) + 'px';
+                    }
+                    return;
+                }
+                c.dataset.fora = '0';
+                var d = Math.abs(b.left + b.width / 2 - centro);
+                var t = Math.min(1, d / passo);
+                c.style.transform = 'scale(' + (1 - 0.08 * t).toFixed(4) + ')';
+                c.style.opacity = (1 - 0.35 * t).toFixed(4);
+                if (base && textos[i]) {
+                    textos[i].style.fontSize = (base * (1.1 - 0.15 * t)).toFixed(2) + 'px';
+                }
+            });
+        }
+
+        function pedir() {
+            if (agendado) return;
+            agendado = true;
+            requestAnimationFrame(ajustar);
+        }
+
+        Array.prototype.forEach.call(page.querySelectorAll(selChev), function (b) {
             b.addEventListener('click', function () {
                 var dir = b.classList.contains('np-chev--next') ? 1 : -1;
                 pista.scrollBy({ left: dir * passoCartao(), behavior: 'smooth' });
             });
         });
 
-        // aceno de uma só vez por sessão, a sugerir que a faixa se arrasta
         var acenou = false;
         function acenar() {
             if (acenou) return;
             acenou = true;
             try {
-                if (sessionStorage.getItem('np_voices_hint')) return;
-                sessionStorage.setItem('np_voices_hint', '1');
+                if (sessionStorage.getItem(chave)) return;
+                sessionStorage.setItem(chave, '1');
             } catch (e) { /* sessão bloqueada: acena à mesma */ }
-
             var inicio = pista.scrollLeft, amplitude = 25, dur = 600, t0 = null;
             function passo(t) {
                 if (t0 === null) t0 = t;
                 var k = Math.min(1, (t - t0) / dur);
-                var e = 0.5 - Math.cos(k * 2 * Math.PI) / 2;   // vai e volta, suave
+                var e = 0.5 - Math.cos(k * 2 * Math.PI) / 2;
                 pista.scrollLeft = inicio + amplitude * e;
                 if (k < 1) requestAnimationFrame(passo);
             }
             requestAnimationFrame(passo);
         }
 
-        var ioPista = new IntersectionObserver(function (entries) {
+        var io = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    pista.addEventListener('scroll', pedirAjuste, { passive: true });
-                    window.addEventListener('resize', pedirAjuste);
-                    pedirAjuste();
+                    pista.addEventListener('scroll', pedir, { passive: true });
+                    window.addEventListener('resize', pedir);
+                    pedir();
                     acenar();
                 } else {
-                    pista.removeEventListener('scroll', pedirAjuste);
-                    window.removeEventListener('resize', pedirAjuste);
+                    pista.removeEventListener('scroll', pedir);
+                    window.removeEventListener('resize', pedir);
                 }
             });
         }, { threshold: 0 });
-        ioPista.observe(pista);
+        io.observe(pista);
+
+        // o breakpoint pode mudar as medidas depois das fontes carregarem
+        window.addEventListener('load', pedir);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(pedir);
     }
+
+    montarCarrossel(page.querySelector('.np-voices'), '.np-voice', '.np-voice-quote',
+                    '.np-chev:not(.np-chev--audio)', 'np_voices_hint');
+    montarCarrossel(page.querySelector('.np-stage-scroller'), '.np-track', null,
+                    '.np-chev--audio', 'np_audio_hint');
 
     var ondas = page.querySelectorAll('.np-breath');
     var ioOndas = new IntersectionObserver(function (entries) {
