@@ -719,6 +719,43 @@
         @media (max-width: 600px) {
         }
 
+        /* ---- relógio: line-art atrás da frase do alarme ---- */
+        /* Fica no fundo, sem caixa e sem captura de rato. A frase mantém-se
+           por cima, com o texto na cor normal — o relógio é só atmosfera. */
+        #page-checkout .np-alarme {
+            position: relative;
+        }
+
+        #page-checkout .np-relogio {
+            position: absolute;
+            z-index: 0;
+            top: 50%;
+            left: -52px;
+            width: 268px;
+            color: var(--sage);
+            opacity: 0.1;
+            pointer-events: none;
+            transform: translateY(-50%);
+        }
+
+        #page-checkout .np-relogio svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        #page-checkout .np-lift {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 600px) {
+            #page-checkout .np-relogio {
+                left: -26px;
+                width: 196px;
+            }
+        }
+
         /* ---- assinatura: a onda a respirar entre secções ---- */
         #page-checkout .np-breath {
             width: 100%;
@@ -1666,7 +1703,18 @@
 
         <p class="np-mark">Een overbelast systeem heeft niet nóg een verplichting nodig.</p>
 
-        <p class="np-lift">Als het lichaam het alarm bewaart — in de adem, in de spieren, in het hoofd dat niet stopt — dan is het lichaam ook waar het weer leert stoppen.</p>
+        <div class="np-alarme">
+                <div class="np-relogio" aria-hidden="true">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
+                         fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+                        <circle cx="50" cy="50" r="46"/>
+                        <g stroke-width="0.9"><line x1="50.0" y1="4.0" x2="50.0" y2="10.0"/><line x1="73.0" y1="10.2" x2="71.5" y2="12.8"/><line x1="89.8" y1="27.0" x2="87.2" y2="28.5"/><line x1="96.0" y1="50.0" x2="90.0" y2="50.0"/><line x1="89.8" y1="73.0" x2="87.2" y2="71.5"/><line x1="73.0" y1="89.8" x2="71.5" y2="87.2"/><line x1="50.0" y1="96.0" x2="50.0" y2="90.0"/><line x1="27.0" y1="89.8" x2="28.5" y2="87.2"/><line x1="10.2" y1="73.0" x2="12.8" y2="71.5"/><line x1="4.0" y1="50.0" x2="10.0" y2="50.0"/><line x1="10.2" y1="27.0" x2="12.8" y2="28.5"/><line x1="27.0" y1="10.2" x2="28.5" y2="12.8"/></g>
+                        <path d="M50 50 L32 38"/>
+                        <path d="M50 50 L67 33"/>
+                    </svg>
+                </div>
+            <p class="np-lift">Als het lichaam het alarm bewaart — in de adem, in de spieren, in het hoofd dat niet stopt — dan is het lichaam ook waar het weer leert stoppen.</p>
+        </div>
     </div>
 
     <!-- respiração 1 -->
