@@ -1205,6 +1205,9 @@
         #page-checkout .np-track-phone { display: none; }
 
         /* ---- mobile: os três áudios passam a carrossel ---- */
+        /* omissao primeiro: a media query abaixo e' que os mostra em ecra estreito */
+        #page-checkout .np-chev--audio { display: none; }
+
         @media (max-width: 900px) {
             /* o telefone único e a sua sincronização deixam de fazer sentido */
             #page-checkout .np-stage-device { display: none; }
@@ -1289,11 +1292,9 @@
             #page-checkout .np-track-phone .np-player-sub { font-size: 0.8rem; }
             #page-checkout .np-track-phone .np-pause { width: 38px; height: 38px; }
 
-            #page-checkout .np-chev--audio { display: block; color: var(--sage); }
+            #page-checkout .np-chev--audio { display: block; color: var(--taupe); }
             #page-checkout .np-chev--audio:hover { color: var(--verde-dique); }
         }
-
-        #page-checkout .np-chev--audio { display: none; }
 
         /* ---- chevrons do carrossel ---- */
         #page-checkout .np-chev {
@@ -1306,14 +1307,14 @@
             border: 0;
             border-radius: 50%;
             background: none;
-            color: rgba(242, 237, 230, 0.78);   /* 3,5:1 sobre a faixa — controlos passam AA */
+            color: var(--taupe);   /* 4,4:1 sobre o creme — controlos passam AA */
             cursor: pointer;
             transform: translateY(-50%);
             transition: color 0.2s ease;
         }
 
-        #page-checkout .np-chev:hover { color: var(--creme); }
-        #page-checkout .np-chev:focus-visible { outline: 1px solid rgba(242, 237, 230, 0.7); outline-offset: 2px; }
+        #page-checkout .np-chev:hover { color: var(--verde-dique); }
+        #page-checkout .np-chev:focus-visible { outline: 1px solid var(--sage); outline-offset: 2px; }
         #page-checkout .np-chev svg { display: block; width: 100%; height: 100%; }
         #page-checkout .np-chev--prev { left: 6px; }
         #page-checkout .np-chev--next { right: 6px; }
@@ -1332,33 +1333,7 @@
             position: relative;   /* contexto dos chevrons */
             margin: 4.6rem 0 0;
             padding: 3.2rem 0 3.8rem;
-            background: #8B5A3C;   /* creme a 4,97:1 */
-        }
-
-        /* textura: o mesmo motivo da onda, muito ténue, para o bloco não ser
-           uma superfície lisa e ficar ligado à identidade do resto da página */
-        #page-checkout .np-voices-textura {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            opacity: 0.09;
-            pointer-events: none;
-        }
-
-        #page-checkout .np-voices-textura svg {
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 46%;
-        }
-
-        #page-checkout .np-textura--topo {
-            top: 0;
-            transform: scaleY(-1) scaleX(-1);
-        }
-
-        #page-checkout .np-textura--base {
-            bottom: 0;
+            background: rgba(154, 163, 150, 0.11);   /* véu de sage sobre o creme */
         }
 
         #page-checkout .np-voices-mark {
@@ -1367,7 +1342,7 @@
             font-family: var(--np-display);
             font-size: 92px;
             line-height: 0.72;
-            color: rgba(251, 248, 244, 0.5);
+            color: rgba(154, 163, 150, 0.55);
         }
 
         #page-checkout .np-voices {
@@ -1399,7 +1374,7 @@
             width: clamp(256px, 72vw, 366px);
             margin: 0;
             padding: 1.5rem 0 0;
-            border-top: 1px solid rgba(242, 237, 230, 0.3);
+            border-top: 1px solid var(--np-hairline);
             scroll-snap-align: center;
             transform-origin: center center;
         }
@@ -1409,11 +1384,10 @@
             font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: 0.02em;
-            color: var(--creme);
+            color: var(--verde-dique);
         }
 
-        /* mesmo tratamento das linhas-chave do corpo: só o peso muda, a cor
-           mantém-se em creme cheio para não perder o contraste sobre a faixa */
+        /* mesmo tratamento das linhas-chave do corpo: só o peso muda */
         #page-checkout .np-voice-mark {
             font-weight: 600;
         }
@@ -1425,7 +1399,7 @@
             font-size: 1.18rem;
             font-weight: 400;
             line-height: 1.52;
-            color: var(--creme);
+            color: var(--verde-dique);
         }
 
         @media (max-width: 600px) {
@@ -1870,10 +1844,6 @@
 
     <!-- ============ DEPOIMENTOS ============ -->
     <div class="np-voices-wrap">
-        <div class="np-voices-textura" aria-hidden="true">
-            <svg class="np-textura--topo" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#F2EDE6" opacity="1"/><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#F2EDE6" opacity="0.75"/><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#F2EDE6" opacity="0.55"/></svg>
-            <svg class="np-textura--base" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#F2EDE6" opacity="1"/><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#F2EDE6" opacity="0.75"/><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#F2EDE6" opacity="0.55"/></svg>
-        </div>
         <div class="container"><span class="np-voices-mark" aria-hidden="true">“</span></div>
             <button class="np-chev np-chev--prev" type="button" aria-label="Vorige ervaring">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1936,8 +1906,8 @@
     <div class="np-climax">
         <div class="np-climax-onda" aria-hidden="true">
             <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#8B5A3C"/>
-                <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#8B5A3C" opacity="0.5"/>
+                <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#E8E5DD"/>
+                <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#E8E5DD" opacity="0.5"/>
                 <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#F2EDE6" opacity="0.07"/>
             </svg>
         </div>
