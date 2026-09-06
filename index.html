@@ -1539,6 +1539,21 @@
             color: rgba(242, 237, 230, 0.82);
         }
 
+        /* fecho reflexivo: um degrau abaixo da garantia (4,67:1) e acima do
+           disclaimer, sem peso nem cor propria — e' um remate, nao um argumento */
+        #page-checkout .np-fecho {
+            max-width: 34rem;
+            margin: 2.6rem 0 0;
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(242, 237, 230, 0.7);
+        }
+
+        #page-checkout .np-fecho + .np-fecho {
+            margin-top: 1.15rem;
+        }
+
         #page-checkout .np-disclaimer {
             max-width: 34rem;
             margin: 2.4rem 0 0;
@@ -1921,6 +1936,10 @@
             <p class="np-seal">🔒 Veilig betalen via Stripe</p>
 
             <p class="np-guarantee">Werkt het niet voor je? Dan krijg je je geld terug. We zijn ervan overtuigd dat het Noodprotocol je verlichting geeft — daarom 60 dagen garantie, zonder vragen.</p>
+
+            <p class="np-fecho">Vanavond leer je wat je lichaam nodig heeft om te stoppen.</p>
+
+            <p class="np-fecho">Waarom het steeds terugkomt — dat leer je wanneer je er klaar voor bent.</p>
 
             <p class="np-disclaimer">Geen medisch advies en geen vervanging voor professionele behandeling.</p>
         </div>
