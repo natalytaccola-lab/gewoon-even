@@ -623,23 +623,77 @@
 
         /* ---- primeiro ecrã: só wordmark, onda, headline, subheadline ---- */
         #page-checkout .np-hero {
+            position: relative;
             display: flex;
             flex-direction: column;
+            min-height: 100dvh;
+            background: var(--verde-dique);
+            overflow: hidden;
         }
 
         /* containers do hero são flex items — sem width:100% encolhem
            ao conteúdo e desalinham da margem esquerda do corpo */
-        #page-checkout .np-hero > .container,
-        #page-checkout .np-hero-copy > .container {
-            width: 100%;
-        }
-
+        /* Primeiro ecra: faixa cheia em verde-dique. A cor e' que compete com a
+           energia do anuncio; a foto entra em tamanho grande mas sem tratamento
+           — cor original, enquadramento natural, nenhum filtro. */
         #page-checkout .np-banner {
+            position: relative;
             width: 100%;
-            height: 210px;
-            background: var(--creme);
+            height: 96px;
             flex-shrink: 0;
             overflow: hidden;
+        }
+
+        #page-checkout .np-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.6rem;
+            align-items: center;
+            width: 100%;
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        #page-checkout .np-hero-foto {
+            margin: 0;
+            border-radius: 3px;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        #page-checkout .np-hero-foto img {
+            display: block;
+            width: 100%;
+            height: auto;
+            /* sem filter, sem contraste forcado: a cena le-se como e' */
+        }
+
+        /* remate para o creme do corpo, no mesmo motivo de onda do resto */
+        #page-checkout .np-hero-onda {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 92px;
+            pointer-events: none;
+        }
+
+        #page-checkout .np-hero-onda svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (min-width: 901px) {
+            #page-checkout .np-hero-grid {
+                grid-template-columns: 1fr 380px;
+                gap: 3.5rem;
+                max-width: 1160px;
+            }
+            /* o disticо tem de caber em duas linhas, uma frase por linha */
+            #page-checkout .np-hero .np-headline { font-size: clamp(2rem, 4vw, 3.05rem); }
+            #page-checkout .np-hero-foto { width: 100%; justify-self: end; }
         }
 
         #page-checkout .np-wordmark {
@@ -650,15 +704,15 @@
             font-size: 1.8rem;
             font-weight: 400;
             letter-spacing: -0.02em;
-            color: var(--verde-dique);
+            color: var(--creme);
         }
 
         #page-checkout .np-hero-copy {
-            flex: 0 0 auto;
+            flex: 1 1 auto;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            padding: clamp(180px, 30dvh, 260px) 0 20px;
+            justify-content: center;
+            padding: 1.5rem 0 7rem;
         }
 
         #page-checkout .np-headline {
@@ -668,7 +722,7 @@
             line-height: 1.1;
             text-wrap: balance;
             letter-spacing: -0.015em;
-            color: var(--verde-dique);
+            color: var(--creme);
             margin: 0;
         }
 
@@ -683,7 +737,7 @@
             font-weight: 300;
             line-height: 1.8;
             letter-spacing: 0.003em;
-            color: var(--verde-dique);
+            color: rgba(242, 237, 230, 0.86);
         }
 
         /* ---- corpo staccato ---- */
@@ -1583,9 +1637,11 @@
         }
 
         @media (max-width: 600px) {
-            #page-checkout .np-banner { height: 150px; }
+            #page-checkout .np-banner { height: 76px; }
             #page-checkout .np-wordmark { top: 20px; left: 24px; font-size: 1.3rem; }
-            #page-checkout .np-hero-copy { padding: clamp(36px, 6dvh, 60px) 0 20px; }
+            #page-checkout .np-hero-copy { padding: 0.5rem 0 6rem; }
+            #page-checkout .np-hero-grid { gap: 2rem; padding: 0 24px; }
+            #page-checkout .np-hero-onda { height: 64px; }
             #page-checkout .np-sub { margin-top: 1.75rem; font-size: 1rem; }
             #page-checkout .footer { padding: 60px 0 52px; }
             #page-checkout .np-body p { margin-bottom: 1.2rem; font-size: 1.08rem; }
@@ -1663,19 +1719,29 @@
     <!-- ============ PRIMEIRO ECRÃ ============ -->
     <header class="np-hero">
         <div class="np-banner">
-<div class="wvl wvl1"><svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
             <div class="np-wordmark">Gewoon Even</div>
         </div>
 
         <div class="np-hero-copy">
-            <div class="container">
-                <h1 class="np-headline">
-                    <span>Je huisarts noemt het stress.</span>
-                    <span>Je lijf weet wel beter.</span>
-                </h1>
-                <p class="np-sub">Het staat al maanden aan. Je borst. Je kaken. Je hoofd om 3 uur 's nachts.</p>
+            <div class="np-hero-grid">
+                <div>
+                    <h1 class="np-headline">
+                        <span>Je huisarts noemt het stress.</span>
+                        <span>Je lijf weet wel beter.</span>
+                    </h1>
+                    <p class="np-sub">Het staat al maanden aan. Je borst. Je kaken. Je hoofd om 3 uur 's nachts.</p>
+                </div>
+                <figure class="np-hero-foto">
+                    <img src="img/noodstop.jpg"
+                         srcset="img/noodstop.jpg 480w, img/noodstop@2x.jpg 960w"
+                         sizes="(min-width: 901px) 400px, calc(100vw - 48px)"
+                         width="480" height="603"
+                         alt="Iemand in de trein met een koptelefoon in de hand.">
+                </figure>
             </div>
         </div>
+
+        <div class="np-hero-onda" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#F2EDE6"/><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#F2EDE6" opacity="0.5"/><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#F2EDE6" opacity="0.22"/></svg></div>
     </header>
 
     <!-- ============ CORPO STACCATO ============ -->
