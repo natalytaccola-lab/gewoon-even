@@ -626,7 +626,6 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            min-height: 100dvh;
             background: var(--verde-dique);
             overflow: hidden;
         }
@@ -635,15 +634,9 @@
            ao conteúdo e desalinham da margem esquerda do corpo */
         /* Primeiro ecra: faixa cheia em verde-dique. A cor e' que compete com a
            energia do anuncio; a foto entra em tamanho grande mas sem tratamento
-           — cor original, enquadramento natural, nenhum filtro. */
-        #page-checkout .np-banner {
-            position: relative;
-            width: 100%;
-            height: 96px;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-
+           — cor original, enquadramento natural, nenhum filtro. O hook e' o
+           primeiro elemento da pagina: nao ha marca antes dele. A marca vive no
+           rodape, que ja diz "Gewoon Even — Voor als gewoon even niet meer lukt." */
         #page-checkout .np-hero-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -675,7 +668,7 @@
             left: 0;
             right: 0;
             bottom: -1px;
-            height: 92px;
+            height: 130px;
             pointer-events: none;
         }
 
@@ -685,26 +678,32 @@
             height: 100%;
         }
 
-        @media (min-width: 901px) {
-            #page-checkout .np-hero-grid {
-                grid-template-columns: 1fr 380px;
-                gap: 3.5rem;
-                max-width: 1160px;
-            }
-            /* o disticо tem de caber em duas linhas, uma frase por linha */
-            #page-checkout .np-hero .np-headline { font-size: clamp(2rem, 4vw, 3.05rem); }
-            #page-checkout .np-hero-foto { width: 100%; justify-self: end; }
+        /* a massa creme e' a divisao; por cima dela correm as tres fitas do
+           motivo original, translucidas, como no topo da pagina */
+        #page-checkout .np-onda-massa {
+            position: absolute;
+            inset: 0;
         }
 
-        #page-checkout .np-wordmark {
-            position: absolute;
-            top: 34px;
-            left: 40px;
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 400;
-            letter-spacing: -0.02em;
-            color: var(--creme);
+        #page-checkout .np-hero-onda .wvl svg { opacity: 0.5; }
+
+        @media (min-width: 901px) {
+            #page-checkout .np-hero-grid {
+                grid-template-columns: 1fr 350px;
+                gap: 3.5rem;
+                max-width: 1160px;
+                /* o texto e' curto e a foto alta: centrado contra ela, o vao fica
+                   repartido em vez de ficar todo por baixo do texto */
+                align-items: center;
+            }
+            #page-checkout .np-hero-foto img {
+                height: 380px;
+                object-fit: cover;
+                object-position: center 42%;
+            }
+            /* o disticо tem de caber em duas linhas, uma frase por linha */
+            #page-checkout .np-hero .np-headline { font-size: clamp(2rem, 4.2vw, 3.25rem); }
+            #page-checkout .np-hero-foto { width: 100%; justify-self: end; }
         }
 
         #page-checkout .np-hero-copy {
@@ -712,7 +711,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 1.5rem 0 7rem;
+            padding: 2.6rem 0 8.5rem;
         }
 
         #page-checkout .np-headline {
@@ -855,7 +854,6 @@
            de animar um bloco HTML comum.
            As amplitudes estão em px absolutos e não em unidades do viewBox,
            para a velocidade aparente ser a mesma no telemóvel e no desktop. */
-        #page-checkout .np-banner,
         #page-checkout .np-breath {
             position: relative;
         }
@@ -878,11 +876,8 @@
            baixo arrancam fora do ecrã, e o WebKit deixa congelada uma
            animação iniciada fora da viewport — por isso só recebem a
            animação quando o observador as vê entrar. */
-        #page-checkout .np-banner .wvl1,
         #page-checkout .np-breath.is-live .wvl1 { animation: np-drift-1 15s ease-in-out infinite alternate; }
-        #page-checkout .np-banner .wvl2,
         #page-checkout .np-breath.is-live .wvl2 { animation: np-drift-2 13s ease-in-out infinite alternate; }
-        #page-checkout .np-banner .wvl3,
         #page-checkout .np-breath.is-live .wvl3 { animation: np-drift-3 11s ease-in-out infinite alternate; }
 
         @keyframes np-drift-1 {
@@ -1637,11 +1632,21 @@
         }
 
         @media (max-width: 600px) {
-            #page-checkout .np-banner { height: 76px; }
-            #page-checkout .np-wordmark { top: 20px; left: 24px; font-size: 1.3rem; }
-            #page-checkout .np-hero-copy { padding: 0.5rem 0 6rem; }
-            #page-checkout .np-hero-grid { gap: 2rem; padding: 0 24px; }
-            #page-checkout .np-hero-onda { height: 64px; }
+            /* o hero mede o conteudo: o hook no topo, a foto a seguir e a onda
+               logo abaixo dela, sem vao morto em lado nenhum */
+            #page-checkout .np-hero-copy { justify-content: flex-start; padding: 2.2rem 0 8.5rem; }
+            /* o hook e' agora o primeiro elemento: precisa de peso proprio */
+            #page-checkout .np-hero .np-headline { font-size: 2.35rem; line-height: 1.08; }
+            #page-checkout .np-hero .np-sub { font-size: 1.06rem; color: rgba(242, 237, 230, 0.9); }
+            #page-checkout .np-hero-grid { gap: 1.8rem; padding: 0 24px; }
+            /* a foto acompanha o texto, nao o domina: altura fixa e recorte
+               centrado nas maos e no headphone */
+            #page-checkout .np-hero-foto img {
+                height: 330px;
+                object-fit: cover;
+                object-position: center 42%;
+            }
+            #page-checkout .np-hero-onda { height: 132px; }
             #page-checkout .np-sub { margin-top: 1.75rem; font-size: 1rem; }
             #page-checkout .footer { padding: 60px 0 52px; }
             #page-checkout .np-body p { margin-bottom: 1.2rem; font-size: 1.08rem; }
@@ -1718,10 +1723,6 @@
 
     <!-- ============ PRIMEIRO ECRÃ ============ -->
     <header class="np-hero">
-        <div class="np-banner">
-            <div class="np-wordmark">Gewoon Even</div>
-        </div>
-
         <div class="np-hero-copy">
             <div class="np-hero-grid">
                 <div>
@@ -1741,7 +1742,7 @@
             </div>
         </div>
 
-        <div class="np-hero-onda" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#F2EDE6"/><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#F2EDE6" opacity="0.5"/><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#F2EDE6" opacity="0.22"/></svg></div>
+        <div class="np-hero-onda" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#F2EDE6"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
     </header>
 
     <!-- ============ CORPO STACCATO ============ -->
