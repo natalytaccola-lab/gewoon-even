@@ -655,6 +655,18 @@
             line-height: 0;
         }
 
+        /* entrada da foto: desliza da direita com fade, ao carregar. Comeca
+           rapido e desacelera no fim; 'both' mantem o estado inicial antes de
+           arrancar, para nao haver um salto visivel. */
+        @keyframes np-foto-entra {
+            from { opacity: 0; transform: translateX(var(--np-foto-desloc, 56px)); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        #page-checkout .np-hero-foto {
+            animation: np-foto-entra 660ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
         #page-checkout .np-hero-foto img {
             display: block;
             width: 100%;
@@ -703,7 +715,11 @@
             }
             /* o disticо tem de caber em duas linhas, uma frase por linha */
             #page-checkout .np-hero .np-headline { font-size: clamp(2rem, 4.2vw, 3.25rem); }
-            #page-checkout .np-hero-foto { width: 100%; justify-self: end; }
+            #page-checkout .np-hero-foto { width: 100%; justify-self: end; --np-foto-desloc: 96px; }
+            /* com preserveAspectRatio="none" a onda estica na horizontal e a
+               amplitude fica na mesma: em ecras largos parecia quase recta.
+               A altura passa a acompanhar a largura. */
+            #page-checkout .np-hero-onda { height: clamp(130px, 9.2vw, 205px); }
         }
 
         #page-checkout .np-hero-copy {
@@ -740,6 +756,10 @@
         }
 
         /* ---- corpo staccato ---- */
+        #page-checkout .np-body {
+            padding-top: clamp(2.2rem, 3.4vw, 4.2rem);
+        }
+
         #page-checkout .np-body p {
             max-width: 34rem;
             margin: 0 0 1.35rem;
@@ -1617,12 +1637,114 @@
             #page-checkout .btn-primary { animation: none !important; }
         }
 
+        /* citacao curta junto ao CTA: pequena e em Cormorant, para nao
+           competir nem com a lista nem com o botao */
+        #page-checkout .np-cta-quote {
+            max-width: 30rem;
+            margin: 2.2rem 0 0;
+            font-family: var(--np-display);
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: rgba(242, 237, 230, 0.74);   /* 5,03:1 sobre o verde */
+        }
+
+        #page-checkout .np-cta-quote cite {
+            display: block;
+            margin-top: 0.4rem;
+            font-family: var(--np-body);
+            font-style: normal;
+            font-size: 0.78rem;
+            letter-spacing: 0.02em;
+            color: rgba(242, 237, 230, 0.6);
+        }
+
+        /* factos secos antes do botao */
+        #page-checkout .np-feiten {
+            margin: 1.8rem 0 0;
+            padding: 0;
+            list-style: none;
+            font-family: var(--np-body);
+            font-size: 0.88rem;
+            font-weight: 300;
+            line-height: 1.5;
+            color: rgba(242, 237, 230, 0.78);   /* 5,36:1 sobre o verde */
+        }
+
+        #page-checkout .np-feiten li {
+            position: relative;
+            padding-left: 1.05rem;
+            margin-top: 0.5rem;
+        }
+
+        #page-checkout .np-feiten li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.62em;
+            width: 5px;
+            height: 1px;
+            background: rgba(242, 237, 230, 0.5);
+        }
+
+        /* barra fixa em mobile, depois do hero e ate' o bloco de preco aparecer */
+        #page-checkout .np-sticky {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 30;
+            display: none;
+            padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+            background: rgba(62, 78, 67, 0.96);
+            backdrop-filter: blur(6px);
+            transform: translateY(100%);
+            transition: transform 0.28s ease;
+        }
+
+        #page-checkout .np-sticky.is-visivel {
+            transform: translateY(0);
+        }
+
+        #page-checkout .np-sticky a {
+            display: block;
+            padding: 13px 18px;
+            border-radius: 12px;
+            background: #C1541D;
+            color: #FFFFFF;
+            font-family: var(--np-body);
+            font-size: 0.98rem;
+            font-weight: 500;
+            letter-spacing: 0.005em;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+            #page-checkout .np-sticky { display: block; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .np-sticky { transition: none; }
+            #page-checkout .np-hero-foto { animation: none !important; }
+        }
+
         #page-checkout .np-seal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
             text-align: center;
             font-size: 0.82rem;
             font-weight: 300;
             letter-spacing: 0.04em;
             color: rgba(242, 237, 230, 0.62);
+        }
+
+        #page-checkout .np-seal-logo {
+            display: block;
+            width: auto;
+            height: 42px;
         }
 
         #page-checkout .np-guarantee {
@@ -1693,7 +1815,9 @@
                 object-fit: cover;
                 object-position: center 42%;
             }
-            #page-checkout .np-hero-onda { height: 132px; }
+            /* mais fina no ecra pequeno: 132px ocupavam um sexto da dobra.
+               A curvatura mantem-se, so' a caixa encolhe. */
+            #page-checkout .np-hero-onda { height: clamp(66px, 21vw, 96px); }
             #page-checkout .np-sub { margin-top: 1.75rem; font-size: 1rem; }
             #page-checkout .footer { padding: 60px 0 52px; }
             #page-checkout .np-body p { margin-bottom: 1.2rem; font-size: 1.08rem; }
@@ -2049,9 +2173,17 @@
             <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de wachtlijst pas.</p>
             <p class="np-anchor-now">Dit? <span class="np-num">€17</span>. Vanavond nog.</p>
 
+            <blockquote class="np-cta-quote">"Mijn huisarts noemde het stress. … Ik wilde iets kunnen doen toen het gebeurde."<cite>Ingrid, 52</cite></blockquote>
+
+            <ul class="np-feiten">
+                <li>Drie audio's van <span class="np-num">8</span> minuten</li>
+                <li>Direct toegang na betaling</li>
+                <li>Geen account nodig</li>
+            </ul>
+
             <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary np-cta-final" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik doe dit nu — €17</a>
 
-            <p class="np-seal">🔒 Veilig betalen via Stripe</p>
+            <p class="np-seal"><img class="np-seal-logo" src="img/ideal.webp" width="143" height="126" alt="iDEAL" loading="lazy"><span>Veilig betalen via Stripe</span></p>
 
             <p class="np-guarantee">Werkt het niet voor je? Dan krijg je je geld terug. We zijn ervan overtuigd dat het Noodprotocol je verlichting geeft — daarom 60 dagen garantie, zonder vragen.</p>
 
@@ -2070,6 +2202,10 @@
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+    </div>
+
+    <div class="np-sticky">
+        <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">€17 — Nu doen</a>
     </div>
 </div>
 
@@ -3134,6 +3270,26 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('load', pedir);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(pedir);
     }
+
+    // ---- barra fixa em mobile ----
+    (function () {
+        var barra = page.querySelector('.np-sticky');
+        var hero = page.querySelector('.np-hero');
+        var alvo = page.querySelector('#checkout-btn');
+        if (!barra || !hero || !alvo || !window.IntersectionObserver) return;
+        var heroVisivel = true, botaoVisivel = false;
+        function actualizar() {
+            // entre o fim do hero e o momento em que o botao verdadeiro entra
+            // no ecra: ao pe' dele a barra sai da frente
+            barra.classList.toggle('is-visivel', !heroVisivel && !botaoVisivel);
+        }
+        new IntersectionObserver(function (es) {
+            heroVisivel = es[0].isIntersecting; actualizar();
+        }, { threshold: 0 }).observe(hero);
+        new IntersectionObserver(function (es) {
+            botaoVisivel = es[0].isIntersecting; actualizar();
+        }, { threshold: 0 }).observe(alvo);
+    })();
 
     montarCarrossel(page.querySelector('.np-voices'), '.np-voice', '.np-voice-quote',
                     '.np-chev:not(.np-chev--audio)', 'np_voices_hint');
