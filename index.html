@@ -847,8 +847,8 @@
         #page-checkout .np-breath--a .wvl svg { opacity: 0.55; }
 
         #page-checkout .np-breath--a {
-            height: 132px;
-            margin: 4.5rem 0 4.5rem;
+            height: 104px;
+            margin: 0.4rem 0;
         }
 
         #page-checkout .np-breath--b .wvl svg { opacity: 0.38; }
@@ -859,12 +859,6 @@
             transform: scaleX(-1);
         }
 
-        #page-checkout .np-breath--c .wvl svg { opacity: 0.2; }
-
-        #page-checkout .np-breath--c {
-            height: 92px;
-            margin: 0;
-        }
 
 
         /* ---- movimento: deriva lenta e contínua, camada a camada ---- */
@@ -898,12 +892,15 @@
            animação quando o observador as vê entrar. */
         #page-checkout .np-breath.is-live .wvl1,
         #page-checkout .np-hero-onda .wvl1,
+        #page-checkout .np-climax-onda .wvl1,
         #page-checkout .np-climax-fim .wvl1 { animation: np-drift-1 15s ease-in-out infinite alternate; }
         #page-checkout .np-breath.is-live .wvl2,
         #page-checkout .np-hero-onda .wvl2,
+        #page-checkout .np-climax-onda .wvl2,
         #page-checkout .np-climax-fim .wvl2 { animation: np-drift-2 13s ease-in-out infinite alternate; }
         #page-checkout .np-breath.is-live .wvl3,
         #page-checkout .np-hero-onda .wvl3,
+        #page-checkout .np-climax-onda .wvl3,
         #page-checkout .np-climax-fim .wvl3 { animation: np-drift-3 11s ease-in-out infinite alternate; }
 
         @keyframes np-drift-1 {
@@ -928,9 +925,6 @@
         #page-checkout .np-breath--b .wvl1 { animation-delay: -11s; }
         #page-checkout .np-breath--b .wvl2 { animation-delay: -2s; }
         #page-checkout .np-breath--b .wvl3 { animation-delay: -8s; }
-        #page-checkout .np-breath--c .wvl1 { animation-delay: -6s; }
-        #page-checkout .np-breath--c .wvl2 { animation-delay: -13s; }
-        #page-checkout .np-breath--c .wvl3 { animation-delay: -5s; }
 
         /* ---- entrada dos blocos de áudio ao scroll ---- */
         /* o estado inicial só existe quando o JS acrescenta .np-anim, para que
@@ -1479,8 +1473,6 @@
 
         @media (max-width: 600px) {
             #page-checkout .np-voices-wrap { margin-top: 3.6rem; padding: 2rem 0 2.6rem; }
-            #page-checkout .np-climax { padding-top: 7rem; }
-            #page-checkout .np-climax-onda { top: -9px; height: 97px; }
             #page-checkout .np-voices-mark { font-size: 76px; }
             #page-checkout .np-voices-track { gap: 24px; }
             #page-checkout .np-voice-quote { font-size: 1.02rem; line-height: 1.42; }
@@ -1533,19 +1525,43 @@
             position: relative;
             overflow: hidden;
             margin: 0;
-            padding: 9.5rem 0 5.6rem;
+            padding: 5.6rem 0 5.6rem;
             background: var(--verde-dique);
         }
 
         /* A onda deixou de ter bloco creme próprio: vive dentro do verde, com a
            massa na cor da faixa de cima, de modo que a aresta entre as duas
            superfícies seja ela própria a transição. */
+        /* o creme da faixa de cima dissolve-se no verde antes da onda: a
+           aresta deixa de ser um corte e passa a ser um degrade' */
+        #page-checkout .np-climax::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: clamp(120px, 16vw, 260px);
+            background: linear-gradient(to bottom,
+                #E8E5DD 0%,
+                rgba(232, 229, 221, 0.72) 26%,
+                rgba(232, 229, 221, 0.34) 58%,
+                rgba(232, 229, 221, 0) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #page-checkout .np-climax > .container {
+            position: relative;
+            z-index: 2;
+        }
+
         #page-checkout .np-climax-onda {
+            z-index: 1;
             position: absolute;
             top: -12px;      /* a crista da onda não toca o topo do recorte */
             left: 0;
             right: 0;
-            height: 140px;
+            height: 104px;
             transform: scaleY(-1);
             pointer-events: none;
         }
@@ -1567,12 +1583,20 @@
             height: 100%;
         }
 
-        #page-checkout .np-climax-fim .wvl svg { opacity: 0.5; }
+        #page-checkout .np-climax-fim .wvl svg,
+        #page-checkout .np-climax-onda .wvl svg { opacity: 0.5; }
 
         #page-checkout .np-climax-onda svg {
             display: block;
             width: 100%;
             height: 100%;
+        }
+
+        /* estes dois viviam num @media anterior as regras-base e, com a mesma
+           especificidade, nunca chegavam a ganhar */
+        @media (max-width: 600px) {
+            #page-checkout .np-climax { padding-top: 4rem; }
+            #page-checkout .np-climax-onda { top: -9px; height: 72px; }
         }
 
         #page-checkout .np-anchor {
@@ -1807,7 +1831,7 @@
         }
 
         #page-checkout .footer {
-            padding: 76px 0 64px;
+            padding: 28px 0 64px;
             font-family: var(--np-body);
             font-size: 0.8125rem;
             font-weight: 300;
@@ -1846,7 +1870,7 @@
             #page-checkout .np-hero-onda { height: clamp(52px, 15.5vw, 74px); }
             #page-checkout .np-sub { margin-top: 1.75rem; font-size: 1rem; }
             /* folga para a barra fixa nao tapar a ultima linha */
-            #page-checkout .footer { padding: 60px 0 118px; }
+            #page-checkout .footer { padding: 24px 0 92px; }
             #page-checkout .np-body p { margin-bottom: 1.2rem; font-size: 1.08rem; }
             #page-checkout .np-lift { margin: 3.8rem 0 3.8rem !important; }
             #page-checkout .np-track {
@@ -1857,9 +1881,8 @@
             #page-checkout .np-track-num { margin-bottom: 0.9rem; font-size: 1.9rem; }
             #page-checkout .np-track-name { font-size: 1.7rem; }
             #page-checkout .np-track-quote { font-size: 1.25rem; }
-            #page-checkout .np-breath--a { height: 96px; margin: 3.6rem 0; }
+            #page-checkout .np-breath--a { height: 72px; margin: 0.2rem 0; }
             #page-checkout .np-breath--b { height: 84px; margin: 4.2rem 0 3.2rem; }
-            #page-checkout .np-breath--c { height: 68px; margin: 0; }
         }
     </style>
 </head>
@@ -2188,13 +2211,7 @@
     </div>
     <!-- clímax: a decisão tem faixa própria, distinta de tudo o resto -->
     <div class="np-climax">
-        <div class="np-climax-onda" aria-hidden="true">
-            <svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#E8E5DD"/>
-                <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#E8E5DD" opacity="0.5"/>
-                <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#F2EDE6" opacity="0.07"/>
-            </svg>
-        </div>
+        <div class="np-climax-onda" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#E8E5DD"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
         <div class="container">
             <p class="np-tag">Direct beschikbaar</p>
             <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de wachtlijst pas.</p>
@@ -2225,10 +2242,6 @@
     </div>
 
     <!-- respiração 3 -->
-    <div class="np-breath np-breath--c" aria-hidden="true">
-        <div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
-    </div>
-
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
     </div>
