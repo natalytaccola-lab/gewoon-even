@@ -1461,6 +1461,37 @@
         }
 
         /* ---- fecho da ciência ---- */
+        /* CTA a meio da pagina, depois dos audios: o mesmo botao, mas contido
+           para nao competir com o do climax — sem halo, menos alto, largura do
+           proprio texto em ecras largos */
+        #page-checkout .np-cta-meio-wrap {
+            margin-top: 2.6rem;
+        }
+
+        #page-checkout .btn-primary.np-cta-meio {
+            display: inline-block;
+            width: auto;
+            margin: 0;
+            padding: 16px 26px;
+            font-size: 0.98rem;
+            background: #9E6044;   /* branco a 4,99:1 — o #A9694B dava 4,37 */
+            /* sinal de vida, nao de urgencia: um terco da intensidade do halo do
+               CTA final e um ciclo bem mais longo */
+            animation: np-halo-suave 5.6s ease-in-out infinite;
+        }
+
+        #page-checkout .btn-primary.np-cta-meio:hover {
+            background: #875038;   /* 6,49:1 */
+        }
+
+        @media (max-width: 600px) {
+            #page-checkout .btn-primary.np-cta-meio {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+        }
+
         #page-checkout .np-science {
             max-width: 34rem;
             margin: 3.2rem 0 0;
@@ -1523,7 +1554,7 @@
         #page-checkout .btn-primary {
             background: var(--terracota-cta);
             color: #FFFFFF;
-            border-radius: 2px;
+            border-radius: 12px;
             padding: 22px 28px;
             margin: 3.2rem 0 1.1rem;
             font-family: var(--np-body);
@@ -1536,6 +1567,17 @@
             background: #94583D;
             transform: none;
             box-shadow: none;
+        }
+
+        /* So o CTA final: o terracota levado a mais saturacao (mesmo matiz, 20°,
+           S 39% -> 74%). Branco a 4,61:1, acima do AA — o #A9694B dava 4,37:1.
+           O botao do meio fica no terracota contido. */
+        #page-checkout .btn-primary.np-cta-final {
+            background: #C1541D;
+        }
+
+        #page-checkout .btn-primary.np-cta-final:hover {
+            background: #A44719;
         }
 
         /* ---- urgência honesta ---- */
@@ -1558,8 +1600,13 @@
         }
 
         @keyframes np-halo {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(200, 144, 120, 0); }
-            50%      { box-shadow: 0 0 24px 6px rgba(200, 144, 120, 0.15); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(193, 84, 29, 0); }
+            50%      { box-shadow: 0 0 24px 6px rgba(193, 84, 29, 0.2); }
+        }
+
+        @keyframes np-halo-suave {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(158, 96, 68, 0); }
+            50%      { box-shadow: 0 0 18px 3px rgba(158, 96, 68, 0.07); }
         }
 
         #page-checkout .btn-primary {
@@ -1924,6 +1971,10 @@
         <p class="np-science">Wat de drie verbindt: langzamer uitademen dan inademen activeert de nervus vagus — de rem van je zenuwstelsel. Bevestigd door onderzoekers van de Universiteit Leiden.</p>
     </div>
 
+    <div class="container np-cta-meio-wrap">
+        <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary np-cta-meio" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ik wil het proberen</a>
+    </div>
+
     <!-- ============ DEPOIMENTOS ============ -->
     <div class="np-voices-wrap">
         <div class="container"><span class="np-voices-mark" aria-hidden="true">“</span></div>
@@ -1998,7 +2049,7 @@
             <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de wachtlijst pas.</p>
             <p class="np-anchor-now">Dit? <span class="np-num">€17</span>. Vanavond nog.</p>
 
-            <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik wil er vanavond bij zijn — €17</a>
+            <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary np-cta-final" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik doe dit nu — €17</a>
 
             <p class="np-seal">🔒 Veilig betalen via Stripe</p>
 
