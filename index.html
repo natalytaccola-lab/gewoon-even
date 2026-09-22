@@ -659,12 +659,12 @@
            rapido e desacelera no fim; 'both' mantem o estado inicial antes de
            arrancar, para nao haver um salto visivel. */
         @keyframes np-foto-entra {
-            from { opacity: 0; transform: translateX(var(--np-foto-desloc, 56px)); }
+            from { opacity: 0; transform: translateX(var(--np-foto-desloc, 96px)); }
             to   { opacity: 1; transform: translateX(0); }
         }
 
         #page-checkout .np-hero-foto {
-            animation: np-foto-entra 660ms cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation: np-foto-entra 700ms ease-out both;
         }
 
         #page-checkout .np-hero-foto img {
@@ -715,7 +715,7 @@
             }
             /* o disticо tem de caber em duas linhas, uma frase por linha */
             #page-checkout .np-hero .np-headline { font-size: clamp(2rem, 4.2vw, 3.25rem); }
-            #page-checkout .np-hero-foto { width: 100%; justify-self: end; --np-foto-desloc: 96px; }
+            #page-checkout .np-hero-foto { width: 100%; justify-self: end; --np-foto-desloc: 150px; }
             /* com preserveAspectRatio="none" a onda estica na horizontal e a
                amplitude fica na mesma: em ecras largos parecia quase recta.
                A altura passa a acompanhar a largura. */
@@ -863,7 +863,7 @@
 
         #page-checkout .np-breath--c {
             height: 92px;
-            margin: 5.5rem 0 0;
+            margin: 0;
         }
 
 
@@ -896,9 +896,15 @@
            baixo arrancam fora do ecrã, e o WebKit deixa congelada uma
            animação iniciada fora da viewport — por isso só recebem a
            animação quando o observador as vê entrar. */
-        #page-checkout .np-breath.is-live .wvl1 { animation: np-drift-1 15s ease-in-out infinite alternate; }
-        #page-checkout .np-breath.is-live .wvl2 { animation: np-drift-2 13s ease-in-out infinite alternate; }
-        #page-checkout .np-breath.is-live .wvl3 { animation: np-drift-3 11s ease-in-out infinite alternate; }
+        #page-checkout .np-breath.is-live .wvl1,
+        #page-checkout .np-hero-onda .wvl1,
+        #page-checkout .np-climax-fim .wvl1 { animation: np-drift-1 15s ease-in-out infinite alternate; }
+        #page-checkout .np-breath.is-live .wvl2,
+        #page-checkout .np-hero-onda .wvl2,
+        #page-checkout .np-climax-fim .wvl2 { animation: np-drift-2 13s ease-in-out infinite alternate; }
+        #page-checkout .np-breath.is-live .wvl3,
+        #page-checkout .np-hero-onda .wvl3,
+        #page-checkout .np-climax-fim .wvl3 { animation: np-drift-3 11s ease-in-out infinite alternate; }
 
         @keyframes np-drift-1 {
             from { transform: translateX(-34px); }
@@ -1527,7 +1533,7 @@
             position: relative;
             overflow: hidden;
             margin: 0;
-            padding: 9.5rem 0 4.4rem;
+            padding: 9.5rem 0 5.6rem;
             background: var(--verde-dique);
         }
 
@@ -1543,6 +1549,25 @@
             transform: scaleY(-1);
             pointer-events: none;
         }
+
+        /* fecho do bloco escuro: a mesma onda do hero, agora a descer para o
+           creme. Ocupa os 67px que estavam em creme vazio. */
+        #page-checkout .np-climax-fim {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: clamp(58px, 9.2vw, 205px);
+            pointer-events: none;
+        }
+
+        #page-checkout .np-climax-fim svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #page-checkout .np-climax-fim .wvl svg { opacity: 0.5; }
 
         #page-checkout .np-climax-onda svg {
             display: block;
@@ -1803,7 +1828,8 @@
         @media (max-width: 600px) {
             /* o hero mede o conteudo: o hook no topo, a foto a seguir e a onda
                logo abaixo dela, sem vao morto em lado nenhum */
-            #page-checkout .np-hero-copy { justify-content: flex-start; padding: 2.2rem 0 8.5rem; }
+            /* o fundo do bloco e' exactamente a altura da onda: a foto encosta-lhe */
+            #page-checkout .np-hero-copy { justify-content: flex-start; padding: 2.2rem 0 clamp(52px, 15.5vw, 74px); }
             /* o hook e' agora o primeiro elemento: precisa de peso proprio */
             #page-checkout .np-hero .np-headline { font-size: 2.35rem; line-height: 1.08; }
             #page-checkout .np-hero .np-sub { font-size: 1.06rem; color: rgba(242, 237, 230, 0.9); }
@@ -1817,9 +1843,10 @@
             }
             /* mais fina no ecra pequeno: 132px ocupavam um sexto da dobra.
                A curvatura mantem-se, so' a caixa encolhe. */
-            #page-checkout .np-hero-onda { height: clamp(66px, 21vw, 96px); }
+            #page-checkout .np-hero-onda { height: clamp(52px, 15.5vw, 74px); }
             #page-checkout .np-sub { margin-top: 1.75rem; font-size: 1rem; }
-            #page-checkout .footer { padding: 60px 0 52px; }
+            /* folga para a barra fixa nao tapar a ultima linha */
+            #page-checkout .footer { padding: 60px 0 118px; }
             #page-checkout .np-body p { margin-bottom: 1.2rem; font-size: 1.08rem; }
             #page-checkout .np-lift { margin: 3.8rem 0 3.8rem !important; }
             #page-checkout .np-track {
@@ -1832,7 +1859,7 @@
             #page-checkout .np-track-quote { font-size: 1.25rem; }
             #page-checkout .np-breath--a { height: 96px; margin: 3.6rem 0; }
             #page-checkout .np-breath--b { height: 84px; margin: 4.2rem 0 3.2rem; }
-            #page-checkout .np-breath--c { height: 68px; margin: 4.2rem 0 0; }
+            #page-checkout .np-breath--c { height: 68px; margin: 0; }
         }
     </style>
 </head>
@@ -2193,6 +2220,8 @@
 
             <p class="np-disclaimer">Geen medisch advies en geen vervanging voor professionele behandeling.</p>
         </div>
+
+        <div class="np-climax-fim" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#F2EDE6"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
     </div>
 
     <!-- respiração 3 -->
