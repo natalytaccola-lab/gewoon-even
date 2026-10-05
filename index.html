@@ -828,6 +828,7 @@
         }
 
         #page-checkout .np-hero-foto {
+            position: relative;
             margin: 0;
             border-radius: 3px;
             overflow: hidden;
@@ -836,65 +837,54 @@
 
 
 
-        /* Os conselhos que toda a gente da'. Vivem no verde do hero, nao sobre
-           a foto: sobre a fotografia nenhuma posicao chegava aos 4,5:1 sem um
-           veu, e o veu estragava a imagem. Em mobile ficam debaixo da foto,
-           antes da onda; em desktop na coluna da esquerda, por baixo da
-           subheadline, onde havia um vao vazio. */
-        #page-checkout .np-dito-bloco {
-            margin: 2.1rem 0 0;
+        /* Os conselhos, dentro da foto. Sem caixa, veu, sombra nem contorno.
+           Duas variantes para escolher a olho, trocadas por ?legenda=1 ou
+           ?legenda=2 — o interruptor e' so' da previa.
+             .leg-v1  canto superior direito, vermelho-tijolo
+             .leg-v2  canto inferior direito, creme sobre o jeans */
+        #page-checkout .np-foto-legenda {
+            position: absolute;
+            right: 12px;
+            width: max-content;
+            max-width: calc(100% - 24px);
+            text-align: right;
+            line-height: 1.2;
         }
 
-        #page-checkout .np-dito-traco {
+        #page-checkout.leg-v1 .np-foto-legenda { top: 12px; color: #8F2E1B; }
+        #page-checkout.leg-v2 .np-foto-legenda { bottom: 12px; color: #F2EDE6; }
+
+        #page-checkout .np-legenda-traco {
             display: block;
-            width: 40px;
+            width: 32px;
             height: 2px;
-            margin: 0 0 1rem;
-            background: var(--terracota);
+            margin: 0 0 0.5rem auto;
+            background: currentColor;
         }
 
-        #page-checkout .np-dito-intro {
-            margin: 0 0 0.75rem;
+        #page-checkout .np-legenda-intro {
+            display: block;
+            margin: 0 0 0.4rem;
             font-family: var(--np-body);
             font-size: 12px;
-            font-weight: 600;
-            line-height: 1.3;
+            font-weight: 700;
+            line-height: 1.2;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: #C9CFC6;
+            letter-spacing: 0.1em;
         }
 
-        #page-checkout .np-dito {
-            margin: 0 0 0.35rem;
+        #page-checkout .np-legenda-dito {
+            display: block;
             font-family: var(--np-display);
             font-style: italic;
             font-weight: 600;
             font-size: 24px;
-            line-height: 1.25;
-            color: #F2EDE6;
+            line-height: 1.2;
         }
 
-        #page-checkout .np-dito:last-child { margin-bottom: 0; }
-
-        /* entrada escalonada, no padrao do resto da pagina: o estado escondido
-           so' existe com .np-anim, que o JS so' poe quando nao ha
-           prefers-reduced-motion. Sem JS, o texto esta' la' na mesma. */
-        #page-checkout.np-anim .np-dito-bloco > * {
-            opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 520ms ease, transform 520ms ease;
+        @media (min-width: 901px) {
+            #page-checkout .np-legenda-dito { font-size: 26px; }
         }
-
-        #page-checkout.np-anim .np-dito-bloco.is-in > * {
-            opacity: 1;
-            transform: none;
-        }
-
-        #page-checkout.np-anim .np-dito-bloco.is-in > *:nth-child(1) { transition-delay: 0ms; }
-        #page-checkout.np-anim .np-dito-bloco.is-in > *:nth-child(2) { transition-delay: 100ms; }
-        #page-checkout.np-anim .np-dito-bloco.is-in > *:nth-child(3) { transition-delay: 200ms; }
-        #page-checkout.np-anim .np-dito-bloco.is-in > *:nth-child(4) { transition-delay: 300ms; }
-        #page-checkout.np-anim .np-dito-bloco.is-in > *:nth-child(5) { transition-delay: 400ms; }
 
         /* entrada da foto: desliza da direita com fade, ao carregar. Comeca
            rapido e desacelera no fim; 'both' mantem o estado inicial antes de
@@ -956,14 +946,7 @@
             }
             /* o disticо tem de caber em duas linhas, uma frase por linha */
             #page-checkout .np-hero .np-headline { font-size: clamp(2rem, 4.2vw, 3.25rem); }
-            #page-checkout .np-hero-foto {
-                width: 100%; justify-self: end; --np-foto-desloc: 150px;
-                grid-column: 2; grid-row: 1 / span 2; align-self: center;
-            }
-            /* o bloco dos ditados fica debaixo do texto, nao debaixo da foto */
-            #page-checkout .np-hero-grid > div:first-child { grid-column: 1; grid-row: 1; }
-            #page-checkout .np-dito-bloco { grid-column: 1; grid-row: 2; }
-            #page-checkout .np-hero-grid { row-gap: 0; align-items: start; }
+            #page-checkout .np-hero-foto { width: 100%; justify-self: end; --np-foto-desloc: 150px; }
             /* com preserveAspectRatio="none" a onda estica na horizontal e a
                amplitude fica na mesma: em ecras largos parecia quase recta.
                A altura passa a acompanhar a largura. */
@@ -2323,15 +2306,10 @@
             #page-checkout .np-hero-grid { gap: 1.8rem; padding: 0 24px; }
             /* a foto acompanha o texto, nao o domina: altura fixa e recorte
                centrado nas maos e no headphone */
-            /* Variante L: a foto baixa de 330 para 250px para o hero nao
-               crescer tanto com os ditados por baixo. Com a janela mais curta,
-               o enquadramento a 42% cortava as maos pela base — o motivo esta'
-               entre y 260 e 470 da fonte, e a 250px de altura e' preciso 77%
-               para o centrar. */
             #page-checkout .np-hero-foto img {
-                height: 250px;
+                height: 330px;
                 object-fit: cover;
-                object-position: center 77%;
+                object-position: center 42%;
             }
             /* mais fina no ecra pequeno: 132px ocupavam um sexto da dobra.
                A curvatura mantem-se, so' a caixa encolhe. */
@@ -2429,14 +2407,14 @@
                          sizes="(min-width: 901px) 400px, calc(100vw - 48px)"
                          width="480" height="603"
                          alt="Iemand in de trein met een koptelefoon in de hand.">
+                    <figcaption class="np-foto-legenda">
+                        <span class="np-legenda-traco" aria-hidden="true"></span>
+                        <span class="np-legenda-intro">En iedereen zegt hetzelfde.</span>
+                        <span class="np-legenda-dito">"Rust wat uit."</span>
+                        <span class="np-legenda-dito">"Het gaat wel over."</span>
+                        <span class="np-legenda-dito">"Doe eens rustig aan."</span>
+                    </figcaption>
                 </figure>
-                <div class="np-dito-bloco">
-                    <span class="np-dito-traco" aria-hidden="true"></span>
-                    <p class="np-dito-intro">En iedereen zegt hetzelfde.</p>
-                    <p class="np-dito">"Rust wat uit."</p>
-                    <p class="np-dito">"Het gaat wel over."</p>
-                    <p class="np-dito">"Doe eens rustig aan."</p>
-                </div>
             </div>
         </div>
 
@@ -3622,8 +3600,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
 
         Array.prototype.forEach.call(tracks, function (t) { io.observe(t); });
-        var ditos = page.querySelector('.np-dito-bloco');
-        if (ditos) io.observe(ditos);
     }
 
     // ---- o leitor acompanha o áudio que está em foco ----
@@ -4034,6 +4010,12 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('load', pedir);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(pedir);
     }
+
+    // ---- interruptor das duas variantes da legenda (so' na previa) ----
+    (function () {
+        var v = new URLSearchParams(location.search).get('legenda');
+        page.classList.add(v === '2' ? 'leg-v2' : 'leg-v1');
+    })();
 
     // ---- barra fixa em mobile ----
     (function () {
