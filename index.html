@@ -1924,10 +1924,11 @@
             box-shadow: 0 0 34px 9px rgba(193, 84, 29, 0.55);
         }
 
-        /* o do meio: mais contido e mais lento, para nao competir com o final */
+        /* O do meio continua mais contido e mais lento que o final, mas sobre o
+           creme a 0.2 quase nao se via: sobe a 0.38 e alarga para 28/6. */
         #page-checkout .np-cta-meio::after {
-            box-shadow: 0 0 24px 5px rgba(158, 96, 68, 0.2);
-            animation-duration: 5.6s;
+            box-shadow: 0 0 28px 6px rgba(158, 96, 68, 0.38);
+            animation-duration: 4.4s;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1937,6 +1938,8 @@
                 animation: none;
                 opacity: 0.7;
             }
+
+            #page-checkout .np-cta-meio::after { opacity: 0.5; }
         }
 
         /* citacao curta junto ao CTA: pequena e em Cormorant, para nao
