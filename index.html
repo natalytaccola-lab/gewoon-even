@@ -4,23 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gewoon Even — Noodprotocol</title>
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel: NADA do Meta carrega antes do consentimento.
+         O fbq definido aqui e' so' uma fila em memoria. O fbevents.js so' e'
+         pedido depois do "Accepteren"; com "Weigeren" a fila e' deitada fora e
+         nunca sai um pedido. O <noscript> com a imagem de rastreio foi
+         removido: disparava sem consentimento e sem maneira de o impedir. -->
     <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1303902808354568');
-    fbq('track', 'PageView');
+    (function () {
+        var PIXEL = '1303902808354568';
+        var CHAVE = 'ge_consent';
+        var MESES = 6;
+        var fila = [];
+        var carregado = false;
+
+        // Substituto do fbq: enquanto nao ha consentimento, so' guarda.
+        // Todas as ~19 chamadas espalhadas pela pagina passam por aqui sem
+        // precisarem de ser alteradas uma a uma.
+        window.fbq = function () { fila.push(Array.prototype.slice.call(arguments)); };
+
+        function escolha() {
+            try {
+                var v = JSON.parse(localStorage.getItem(CHAVE));
+                if (!v || !v.data || !v.estado) return null;
+                var limite = new Date(v.data);
+                limite.setMonth(limite.getMonth() + MESES);
+                if (new Date() > limite) return null;   // caducou: perguntar de novo
+                return v.estado;
+            } catch (e) { return null; }
+        }
+
+        function guardar(estado) {
+            try {
+                localStorage.setItem(CHAVE, JSON.stringify({
+                    estado: estado, data: new Date().toISOString()
+                }));
+            } catch (e) { /* armazenamento bloqueado: a escolha vale so' nesta visita */ }
+        }
+
+        function carregarPixel() {
+            if (carregado) return;
+            carregado = true;
+            !function (f, b, e, v, n, t, s) {
+                if (f.fbq && f.fbq.loaded) return;
+                n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+                if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+                n.queue = []; t = b.createElement(e); t.async = !0; t.src = v;
+                s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+            }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+            fbq('init', PIXEL);
+            fbq('track', 'PageView');          // PageView da pagina onde a pessoa esta'
+
+            // esvazia a fila; o init sem parametros e o PageView acabaram de
+            // ser feitos, so' se repete o init com Advanced Matching
+            fila.forEach(function (a) {
+                if (a[0] === 'init') { if (a[2]) window.fbq('init', PIXEL, a[2]); return; }
+                if (a[0] === 'track' && a[1] === 'PageView') return;
+                window.fbq.apply(null, a);
+            });
+            fila.length = 0;
+        }
+
+        window.geConsent = {
+            estado: escolha,
+            aceitar: function () { guardar('aceite'); carregarPixel(); fechar(); },
+            recusar: function () { guardar('recusado'); fila.length = 0; fechar(); },
+            reabrir: function () { abrir(); }
+        };
+
+        var caixa = null;
+
+        function fechar() {
+            if (!caixa) return;
+            caixa.remove(); caixa = null;
+            document.documentElement.style.removeProperty('--ge-banner');
+        }
+
+        function abrir() {
+            if (caixa) return;
+            caixa = document.createElement('div');
+            caixa.className = 'ge-consent';
+            caixa.setAttribute('role', 'dialog');
+            caixa.setAttribute('aria-label', 'Cookies');
+            caixa.innerHTML =
+                '<p class="ge-consent-txt">We gebruiken cookies van Meta om onze advertenties te meten. Mag dat?</p>' +
+                '<div class="ge-consent-bts">' +
+                '<button type="button" class="ge-consent-bt" data-ge="ok">Accepteren</button>' +
+                '<button type="button" class="ge-consent-bt" data-ge="no">Weigeren</button>' +
+                '</div>';
+            document.body.appendChild(caixa);
+            caixa.querySelector('[data-ge="ok"]').addEventListener('click', window.geConsent.aceitar);
+            caixa.querySelector('[data-ge="no"]').addEventListener('click', window.geConsent.recusar);
+            // a barra fixa sobe o que o banner ocupa, para nao ficar tapada
+            var medir = function () {
+                // ceil da altura real: o offsetHeight arredonda para baixo e
+                // deixava a barra fixa a sobrepor o banner por 1 ou 2px
+                // +4px de folga: o arredondamento sub-pixel da barra deixava-a
+                // encostada ao banner por cerca de 1px
+                if (caixa) document.documentElement.style.setProperty(
+                    '--ge-banner', (Math.ceil(caixa.getBoundingClientRect().height) + 4) + 'px');
+            };
+            medir();
+            window.addEventListener('resize', medir);
+            // O banner cresce quando as fontes trocam e quando o texto reflui:
+            // sem isto a medida ficava presa no valor do primeiro instante e a
+            // barra fixa sobrepunha-o por 2px.
+            if (window.ResizeObserver) new ResizeObserver(medir).observe(caixa);
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(medir);
+        }
+
+        function arrancar() {
+            var e = escolha();
+            if (e === 'aceite') { carregarPixel(); return; }
+            if (e === 'recusado') return;          // nada carrega, nada se pergunta
+            abrir();                               // sem escolha: perguntar
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arrancar);
+        else arrancar();
+    })();
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1303902808354568&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
@@ -453,6 +556,82 @@
             padding: 32px 0;
             font-size: 0.8rem;
             color: var(--text-light);
+        }
+
+        /* ============ BANNER DE CONSENTIMENTO ============ */
+        /* Fora de #page-checkout, logo sem acesso as variaveis da marca:
+           os valores vao literais. Verde-dique #3E4E43, creme #F2EDE6,
+           terracota do CTA final #C1541D. */
+        .ge-consent {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 60;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px 20px;
+            padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 0px));
+            background: #3E4E43;
+            color: #F2EDE6;
+            box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.18);
+        }
+
+        .ge-consent-txt {
+            margin: 0;
+            max-width: 32rem;
+            font-family: 'Cormorant', Georgia, serif;
+            font-style: italic;
+            font-size: 1.14rem;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .ge-consent-bts {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* os dois botoes sao iguais: mesmo tamanho, cor e peso, sem
+           pre-seleccao — a escolha e' da pessoa, nao do desenho */
+        .ge-consent-bt {
+            flex: 0 0 auto;
+            min-width: 136px;
+            padding: 11px 18px;
+            border: 0;
+            border-radius: 10px;
+            background: #C1541D;
+            color: #FFFFFF;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.005em;
+            cursor: pointer;
+        }
+
+        .ge-consent-bt:hover { background: #A44719; }
+
+        .ge-consent-bt:focus-visible {
+            outline: 2px solid #F2EDE6;
+            outline-offset: 3px;
+        }
+
+        .footer-link {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: 0.18em;
+            background: none;
+            border: 0;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        @media (max-width: 420px) {
+            .ge-consent-bt { min-width: 0; flex: 1 1 0; }
+            .ge-consent-bts { width: 100%; }
         }
 
         /* ============ SEPARATOR ============ */
@@ -1997,7 +2176,8 @@
             position: fixed;
             left: 0;
             right: 0;
-            bottom: 0;
+            /* sobe o que o banner de consentimento ocupar, para nao ficar tapada */
+            bottom: var(--ge-banner, 0px);
             z-index: 30;
             display: none;
             padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
@@ -2193,6 +2373,7 @@
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -2533,6 +2714,7 @@
     <!-- respiração 3 -->
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 
     <div class="np-sticky">
@@ -2683,6 +2865,7 @@
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -3116,6 +3299,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -3220,6 +3404,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -3251,6 +3436,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -3367,6 +3553,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
