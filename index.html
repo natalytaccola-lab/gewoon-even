@@ -2124,11 +2124,17 @@
             box-shadow: 0 0 34px 9px rgba(193, 84, 29, 0.55);
         }
 
-        /* O do meio continua mais contido e mais lento que o final, mas sobre o
-           creme a 0.2 quase nao se via: sobe a 0.38 e alarga para 28/6. */
+        /* O do meio continua mais lento que o final, mas sobre o creme precisa
+           de mais corpo: pico a 0.55 e uma respiracao de escala alem do fade.
+           So' opacity e transform — nada de box-shadow animado. */
+        @keyframes np-halo-respira {
+            0%, 100% { opacity: 0; transform: scale(0.96); }
+            50%      { opacity: 1; transform: scale(1.04); }
+        }
+
         #page-checkout .np-cta-meio::after {
-            box-shadow: 0 0 28px 6px rgba(158, 96, 68, 0.38);
-            animation-duration: 4.4s;
+            box-shadow: 0 0 28px 6px rgba(158, 96, 68, 0.55);
+            animation: np-halo-respira 4.4s ease-in-out infinite;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -2139,7 +2145,7 @@
                 opacity: 0.7;
             }
 
-            #page-checkout .np-cta-meio::after { opacity: 0.5; }
+            #page-checkout .np-cta-meio::after { opacity: 0.5; transform: none; }
         }
 
         /* citacao curta junto ao CTA: pequena e em Cormorant, para nao
@@ -4035,14 +4041,16 @@ document.addEventListener('DOMContentLoaded', () => {
         var alvo = page.querySelector('#checkout-btn');
         if (!barra || !hero || !alvo || !window.IntersectionObserver) return;
         var palco = page.querySelector('.np-stage');
-        var heroVisivel = true, botaoVisivel = false, palcoVisivel = false;
+        var ctaMeio = page.querySelector('.np-cta-meio');
+        var heroVisivel = true, botaoVisivel = false, palcoVisivel = false, meioVisivel = false;
         function actualizar() {
             // Regra de base, inalterada: so' depois do hero e so' ate' o CTA
             // final entrar no ecra.
             // Duas excepcoes novas: enquanto o palco dos audios esta' a' vista
             // a barra tapava o telefone do Noodstop e roubava-lhe os toques; e
             // enquanto a amostra toca nao deve haver nada a competir com ela.
-            var mostrar = !heroVisivel && !botaoVisivel && !palcoVisivel && !amostraATocar;
+            var mostrar = !heroVisivel && !botaoVisivel && !palcoVisivel
+                          && !meioVisivel && !amostraATocar;
             barra.classList.toggle('is-visivel', mostrar);
         }
         new IntersectionObserver(function (es) {
@@ -4056,6 +4064,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 palcoVisivel = es[0].isIntersecting && es[0].intersectionRatio >= 0.25;
                 actualizar();
             }, { threshold: [0, 0.25, 0.5] }).observe(palco);
+        }
+        // o CTA do meio: com ele no ecra os dois botoes apareceriam empilhados
+        if (ctaMeio) {
+            new IntersectionObserver(function (es) {
+                meioVisivel = es[0].isIntersecting; actualizar();
+            }, { threshold: 0 }).observe(ctaMeio);
         }
         ouvintesAmostra.push(function () { actualizar(); });
     })();
