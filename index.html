@@ -1023,6 +1023,34 @@
         @media (max-width: 600px) {
         }
 
+        /* As duas cenas no corpo staccato. Largura da coluna de leitura, sem
+           sombra. O width/height no HTML e o aspect-ratio reservam o espaco
+           antes de a imagem chegar, por isso nao ha salto de layout. */
+        #page-checkout .np-cena {
+            max-width: 34rem;
+            margin: 2rem 0;
+        }
+
+        #page-checkout .np-cena img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 14px;
+        }
+
+        #page-checkout.np-anim .np-cena {
+            opacity: 0;
+            transition: opacity 500ms ease;
+        }
+
+        #page-checkout.np-anim .np-cena.is-in { opacity: 1; }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .np-cena { opacity: 1; transition: none; }
+        }
+
         /* ---- relógio: line-art atrás da frase do alarme ---- */
         /* Fica no fundo, sem caixa e sem captura de rato. A frase mantém-se
            por cima, com o texto na cor normal — o relógio é só atmosfera. */
@@ -2427,11 +2455,23 @@
 
         <p>Je hebt geen tips nodig. Geen "even eruit" advies. En geen verwijzing naar <span class="np-mark">een wachtlijst van drie maanden bij de GGZ</span>.</p>
 
+        <figure class="np-cena">
+            <img src="img/cena-3h-quarto-4x3.jpg" width="560" height="420"
+                 alt="Een telefoon op het nachtkastje toont 03:00 in een donkere slaapkamer."
+                 loading="lazy" decoding="async">
+        </figure>
+
         <p class="np-lift">Je hebt iets nodig dat werkt. <span class="np-vanavond">Vanavond</span>.</p>
 
         <p>Geen therapeut, geen programma, geen abonnement. Niks om je voor aan te melden, niks om af te maken.</p>
 
         <p class="np-mark">Jouw overbelast systeem heeft niet nóg een verplichting nodig.</p>
+
+        <figure class="np-cena">
+            <img src="img/cena-mesa-fim-do-dia-4x3.jpg" width="640" height="480"
+                 alt="Een tafel aan het einde van de dag met een mok, een notitieboek, sleutels en een telefoon."
+                 loading="lazy" decoding="async">
+        </figure>
 
         <div class="np-alarme">
                 <div class="np-relogio" aria-hidden="true">
@@ -3600,6 +3640,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
 
         Array.prototype.forEach.call(tracks, function (t) { io.observe(t); });
+        Array.prototype.forEach.call(page.querySelectorAll('.np-cena'), function (c) { io.observe(c); });
     }
 
     // ---- o leitor acompanha o áudio que está em foco ----
