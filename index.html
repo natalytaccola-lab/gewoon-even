@@ -869,16 +869,12 @@
             font-family: var(--np-display);
             font-style: italic;
             font-weight: 600;
-            font-size: 26px;
+            font-size: 24px;
             line-height: 1.25;
             color: #F2EDE6;
         }
 
         #page-checkout .np-dito:last-child { margin-bottom: 0; }
-
-        @media (min-width: 901px) {
-            #page-checkout .np-dito { font-size: 28px; }
-        }
 
         /* entrada escalonada, no padrao do resto da pagina: o estado escondido
            so' existe com .np-anim, que o JS so' poe quando nao ha
@@ -2327,10 +2323,15 @@
             #page-checkout .np-hero-grid { gap: 1.8rem; padding: 0 24px; }
             /* a foto acompanha o texto, nao o domina: altura fixa e recorte
                centrado nas maos e no headphone */
+            /* Variante L: a foto baixa de 330 para 250px para o hero nao
+               crescer tanto com os ditados por baixo. Com a janela mais curta,
+               o enquadramento a 42% cortava as maos pela base — o motivo esta'
+               entre y 260 e 470 da fonte, e a 250px de altura e' preciso 77%
+               para o centrar. */
             #page-checkout .np-hero-foto img {
-                height: 330px;
+                height: 250px;
                 object-fit: cover;
-                object-position: center 42%;
+                object-position: center 77%;
             }
             /* mais fina no ecra pequeno: 132px ocupavam um sexto da dobra.
                A curvatura mantem-se, so' a caixa encolhe. */
