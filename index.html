@@ -128,7 +128,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
     <!-- page-checkout (Noodprotocol): Cormorant / Inter / IBM Plex Mono -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #F5F2EE;
@@ -796,9 +796,8 @@
             --np-quadro-borda: rgba(62, 78, 67, 0.14);
             --np-icone: #3E4E43;
             --np-risco-cartao: #B5704F;
-            --np-botao: 'Montserrat', var(--np-body);
-            --np-grad-final: linear-gradient(90deg, #A9421C 0%, #D9602B 100%);
-            --np-grad-meio:  linear-gradient(90deg, #8A4A32 0%, #B97555 100%);
+            --np-grad-final: linear-gradient(90deg, #A9421C 0%, #C25020 100%);   /* ponta clara 4,71:1 */
+            --np-grad-meio:  linear-gradient(90deg, #8A4A32 0%, #9E5F42 100%);   /* ponta clara 5,04:1 */
             /* A barra fixa tem 17px, abaixo dos 18,66px que fazem "texto
                grande": precisa de 4,5:1 e nao de 3:1. A ponta clara desce de
                #D9602B (3,71:1) para #C25020 (4,71:1). */
@@ -2224,21 +2223,21 @@
             padding: 18px 34px;
             border: 0;
             border-radius: 999px;
-            font-family: var(--np-botao);
-            font-size: 19px;
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
+            font-family: var(--np-body);
+            font-size: 1.05rem;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: 0.005em;
+            text-transform: none;
             color: #FFFFFF;
         }
 
         #page-checkout .btn-primary.np-cta-final { background: var(--np-grad-final); }
-        #page-checkout .btn-primary.np-cta-meio { background: var(--np-grad-meio); }
+        #page-checkout .btn-primary.np-cta-meio { background: var(--np-grad-meio); font-size: 0.98rem; }
 
         #page-checkout .np-sticky a[href] {
             min-height: 52px;
-            font-size: 17px;
+            font-size: 0.98rem;
             border-radius: 999px;
             background: var(--np-grad-barra);
         }
@@ -2252,8 +2251,6 @@
         @media (max-width: 420px) {
             #page-checkout .btn-primary.np-cta-final,
             #page-checkout .btn-primary.np-cta-meio {
-                letter-spacing: 0.02em;
-                font-size: 17px;
                 padding: 18px 20px;
             }
         }
