@@ -1838,6 +1838,138 @@
             }
         }
 
+        /* ---- Wat onderzoek zegt: seccao clara, vocabulario do painel ---- */
+        #page-checkout .np-onderzoek {
+            margin: 3.4rem auto 0;
+        }
+
+        #page-checkout .np-onderzoek h2 {
+            margin: 0;
+            font-family: var(--np-display);
+            font-size: 38px;
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-onderzoek-traco {
+            display: block;
+            width: 40px;
+            height: 2px;
+            margin: 1.4rem 0 0.9rem;
+            background: var(--terracota);
+        }
+
+        #page-checkout .np-onderzoek-sub {
+            margin: 0 0 1.8rem;
+            max-width: 34rem;
+            font-family: var(--np-body);
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.45;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-onderzoek-lista {
+            padding: 28px 24px;
+            border: 1px solid rgba(62, 78, 67, 0.16);
+            border-radius: 14px;
+        }
+
+        #page-checkout .np-onderzoek-linha {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 16px;
+            align-items: start;
+            padding: 20px 0;
+            border-top: 1px solid rgba(62, 78, 67, 0.12);
+        }
+
+        #page-checkout .np-onderzoek-linha:first-child { padding-top: 0; border-top: 0; }
+        #page-checkout .np-onderzoek-linha:last-child { padding-bottom: 0; }
+
+        #page-checkout .np-anel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            margin-top: 1px;
+            border: 1px solid rgba(62, 78, 67, 0.30);
+            border-radius: 50%;
+        }
+
+        #page-checkout .np-icone-claro {
+            width: 24px;
+            height: 24px;
+            color: #3E4E43;
+        }
+
+        #page-checkout .np-onderzoek-rotulo {
+            margin: 0 0 0.45rem;
+            font-family: var(--np-body);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #3E4E43;
+        }
+
+        #page-checkout .np-onderzoek-texto {
+            margin: 0;
+            font-family: var(--np-body);
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #3E4E43;
+        }
+
+        #page-checkout .np-onderzoek-fonte {
+            margin: 0.6rem 0 0;
+            font-family: var(--np-body);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.45;
+            color: #5E6E63;
+        }
+
+        /* a regua: o unico grafico, e so' na linha C */
+        #page-checkout .np-regua {
+            margin: 1.1rem 0 0;
+            max-width: 22rem;
+        }
+
+        #page-checkout .np-regua svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        #page-checkout .np-regua figcaption {
+            margin: 0.35rem 0 0;
+            font-family: var(--np-body);
+            font-size: 14px;
+            line-height: 1.45;
+            color: #5E6E63;
+        }
+
+        #page-checkout.np-anim .np-regua {
+            opacity: 0;
+            transition: opacity 520ms ease;
+        }
+
+        #page-checkout.np-anim .np-regua.is-in { opacity: 1; }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .np-regua { opacity: 1; transition: none; }
+        }
+
+        @media (min-width: 901px) {
+            #page-checkout .np-onderzoek h2 { font-size: 44px; }
+            #page-checkout .np-onderzoek-lista { padding: 40px; }
+            #page-checkout .np-onderzoek-texto { font-size: 18px; }
+        }
+
         /* "Herken je dit?" — cada sintoma e' um paragrafo curto: ritmo de
            lista sem caixas de seleccao */
         #page-checkout .np-herken {
@@ -2677,7 +2809,7 @@
             <div>
             <h2 class="np-track-name">Noodstop</h2>
             <p class="np-track-voor">Voor wanneer het ineens allemaal te veel wordt.</p>
-            <p class="np-track-sci">Langer uitademen dan inademen, volgens de <span class="np-num">4-7-8</span>-methode — dat is het signaal waarmee je lichaam zichzelf gerust stelt. Getest bij <span class="np-num">109</span> mensen, <span class="np-num">8</span> weken lang, aan de Simon Fraser University: significante afname van angst.</p>
+            <p class="np-track-sci">Langer uitademen dan inademen, volgens de <span class="np-num">4-7-8</span>-methode — dat is het signaal waarmee je lichaam zichzelf gerust stelt.</p>
             <p class="np-track-quote">"Adem in... twee, drie, vier... Je doet het goed."</p>
             </div>
                             <div class="np-track-phone np-amostra" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
@@ -2740,7 +2872,7 @@
             <div>
             <h2 class="np-track-name">Landing</h2>
             <p class="np-track-voor">Voor wanneer de dag voorbij is, maar je lijf nog niet loslaat.</p>
-            <p class="np-track-sci">Spier voor spier, van je kaken tot je buik — tot je lichaam voelt dat het los mag. Progressieve ontspanning, bevestigd in een analyse van <span class="np-num">27</span> wetenschappelijke studies naar het effect op angst.</p>
+            <p class="np-track-sci">Spier voor spier, van je kaken tot je buik — tot je lichaam voelt dat het los mag. Ontspanningstraining, waaronder progressieve spierontspanning: een analyse van <span class="np-num">27</span> studies laat een gemiddeld tot groot effect op angst zien.</p>
             <p class="np-track-quote">"Je kaken. De meeste mensen dragen hier de hele dag spanning zonder het te weten."</p>
             </div>
                             <div class="np-track-phone" aria-hidden="true">
@@ -2770,7 +2902,58 @@
     </div>
 
     <div class="container">
-        <p class="np-science">Wat de drie verbindt: langzamer uitademen dan inademen activeert de nervus vagus — de rem van je zenuwstelsel. Bevestigd door onderzoekers van de Universiteit Leiden.</p>
+    <div class="container np-onderzoek">
+        <h2>Wat onderzoek zegt</h2>
+        <span class="np-onderzoek-traco" aria-hidden="true"></span>
+        <p class="np-onderzoek-sub">Onderzoek naar de technieken achter het Noodprotocol, niet naar Gewoon Even zelf.</p>
+
+        <div class="np-onderzoek-lista">
+            <div class="np-onderzoek-linha">
+                <span class="np-anel" aria-hidden="true"><svg class="np-icone-claro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2.5-4 5-4 7.5 0s5 4 7.5 0 3.5-2 5-1"/></svg></span>
+                <div>
+                    <p class="np-onderzoek-rotulo">Ademen</p>
+                    <p class="np-onderzoek-texto">Langzaam ademen verhoogt de hartslagvariabiliteit, een maat voor de activiteit van de nervus vagus. Dat blijkt uit een analyse van 223 studies.</p>
+                    <p class="np-onderzoek-fonte">Laborde e.a., 2022, Neuroscience &amp; Biobehavioral Reviews</p>
+                </div>
+            </div>
+
+            <div class="np-onderzoek-linha">
+                <span class="np-anel" aria-hidden="true"><svg class="np-icone-claro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.2a4.6 4.6 0 0 0 7 0"/><path d="M9 9.5h.01"/><path d="M15 9.5h.01"/></svg></span>
+                <div>
+                    <p class="np-onderzoek-rotulo">Stemming</p>
+                    <p class="np-onderzoek-texto">Vijf minuten per dag, vier weken lang: ademhaling met een lange uitademing verbeterde de stemming meer dan mindfulness-meditatie.</p>
+                    <p class="np-onderzoek-fonte">Balban e.a., 2023, Cell Reports Medicine (Stanford)</p>
+                </div>
+            </div>
+
+            <div class="np-onderzoek-linha">
+                <span class="np-anel" aria-hidden="true"><svg class="np-icone-claro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4c0 8-4.5 13-12 13"/><path d="M20 4C9 4 4 8.5 4 15a5 5 0 0 0 4 4.9"/><path d="M5 20c1-2.5 2.6-4.5 4.6-6"/></svg></span>
+                <div>
+                    <p class="np-onderzoek-rotulo">Ontspanning</p>
+                    <p class="np-onderzoek-texto">Ontspanningstraining verminderde angstklachten met een gemiddeld tot groot effect, volgens een analyse van 27 studies.</p>
+                    <figure class="np-regua">
+                        <svg viewBox="0 0 300 64" role="img" aria-label="Tamanho do efeito: 0,57, entre gemiddeld en groot" preserveAspectRatio="xMidYMid meet">
+                            <line x1="12" y1="42" x2="288" y2="42" stroke="#3E4E43" stroke-width="1.5" stroke-linecap="round" opacity="0.45"/>
+                            <g stroke="#3E4E43" stroke-width="1.5" stroke-linecap="round" opacity="0.45">
+                                <line x1="67" y1="38" x2="67" y2="46"/>
+                                <line x1="150" y1="38" x2="150" y2="46"/>
+                                <line x1="233" y1="38" x2="233" y2="46"/>
+                            </g>
+                            <g fill="#5E6E63" font-family="Inter, sans-serif" font-size="11" text-anchor="middle">
+                                <text x="67" y="60">klein</text>
+                                <text x="150" y="60">gemiddeld</text>
+                                <text x="233" y="60">groot</text>
+                            </g>
+                            <circle cx="162" cy="42" r="5.5" fill="#B5704F"/>
+                            <text x="162" y="26" fill="#3E4E43" font-family="Inter, sans-serif" font-size="13" font-weight="600" text-anchor="middle">0,57</text>
+                        </svg>
+                        <figcaption>Effect op angstklachten (Cohen's d).</figcaption>
+                    </figure>
+                    <p class="np-onderzoek-fonte">Manzoni e.a., 2008, BMC Psychiatry</p>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
     <div class="container np-herken">
@@ -3762,6 +3945,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
 
         Array.prototype.forEach.call(tracks, function (t) { io.observe(t); });
+        var regua = page.querySelector('.np-regua');
+        if (regua) io.observe(regua);
         var feiten = page.querySelector('.np-feiten');
         if (feiten) io.observe(feiten);
     }
