@@ -799,10 +799,14 @@
             --taupe-nota: #8A7B66;
             --np-display: 'Cormorant', Georgia, serif;
             --np-seta: #C42B24;
-            --np-relogio-cor: #8A9585;
+            --np-relogio-cor: #9AA396;
             --np-relogio-opacidade: 0.30;
-            --np-relogio-traco: 2.5;
-            --np-relogio-tamanho: 340px;
+            --np-relogio-ponteiro: #B5704F;
+            /* 0,55 dava 3,61:1 contra o texto, por causa dos pontos onde o
+               ponteiro cruza o mostrador. Oito passos de 0,03 ate' passar. */
+            --np-relogio-ponteiro-opacidade: 0.31;
+            --np-relogio-tamanho: 300px;
+            --np-relogio-ciclo: 60s;
             --np-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --np-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
             --np-hairline: #CACCC2;
@@ -1010,8 +1014,6 @@
             left: -26px;
             width: var(--np-relogio-tamanho);
             max-width: calc(100% + 26px);
-            color: var(--np-relogio-cor);
-            opacity: var(--np-relogio-opacidade);
             pointer-events: none;
             transform: translateY(-50%);
         }
@@ -1020,12 +1022,68 @@
             display: block;
             width: 100%;
             height: auto;
-            stroke-width: var(--np-relogio-traco);
+            overflow: visible;
         }
 
-        /* os tracinhos das horas mantem a proporcao que tinham (0,9 / 1,1) */
-        #page-checkout .np-relogio svg g {
-            stroke-width: calc(var(--np-relogio-traco) * 0.82);
+        /* As duas opacidades sao independentes, nao multiplicadas: se a do
+           ponteiro vivesse dentro de um contentor ja' a 0,30, dava 0,165 e o
+           ponteiro dos segundos desaparecia. */
+        #page-checkout .np-relogio-mostrador {
+            stroke: var(--np-relogio-cor);
+            opacity: var(--np-relogio-opacidade);
+        }
+
+        #page-checkout .np-relogio-ponteiros {
+            stroke: var(--np-relogio-ponteiro);
+            color: var(--np-relogio-ponteiro);
+            opacity: var(--np-relogio-ponteiro-opacidade);
+        }
+
+        /* um tique por segundo: 60 passos numa volta, so' transform */
+        @keyframes np-relogio-tique {
+            to { transform: rotate(360deg); }
+        }
+
+        #page-checkout .np-relogio-seg {
+            transform-box: view-box;
+            transform-origin: 100px 100px;
+            animation: np-relogio-tique var(--np-relogio-ciclo) steps(60, end) infinite;
+        }
+
+        #page-checkout .np-relogio.is-fora .np-relogio-seg { animation-play-state: paused; }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .np-relogio-seg { animation: none; }
+        }
+
+        #page-checkout .np-lift {
+            font-family: var(--np-display) !important;
+            font-size: clamp(1.8rem, 4.8vw, 2.75rem) !important;
+            font-weight: 300;
+            line-height: 1.3 !important;
+            letter-spacing: -0.01em;
+            color: var(--verde-dique);
+            margin: 4.6rem 0 4.6rem !important;
+            max-width: 32rem !important;
+        }
+
+        /* ---- pontos de paragem no corpo ---- */
+        /* o seletor do parágrafo do corpo tem mais especificidade, por isso
+           a marca precisa de o igualar para o peso pegar */
+        #page-checkout .np-mark,
+        #page-checkout .np-body p.np-mark {
+            font-weight: 600;
+            color: var(--verde-dique);
+        }
+
+        @media (max-width: 600px) {
+        }
+
+        /* ---- relógio: line-art atrás da frase do alarme ---- */
+        /* Fica no fundo, sem caixa e sem captura de rato. A frase mantém-se
+           por cima, com o texto na cor normal — o relógio é só atmosfera. */
+        #page-checkout .np-alarme {
+            position: relative;
         }
 
         #page-checkout .np-lift {
@@ -1034,7 +1092,7 @@
         }
 
         @media (min-width: 901px) {
-            #page-checkout .np-relogio { --np-relogio-tamanho: 460px; }
+            #page-checkout .np-relogio { --np-relogio-tamanho: 420px; }
         }
 
         /* ---- assinatura: a onda a respirar entre secções ---- */
@@ -2993,12 +3051,18 @@
 
         <div class="np-alarme">
                 <div class="np-relogio" aria-hidden="true">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
-                         fill="none" stroke="currentColor" stroke-linecap="round">
-                        <circle cx="50" cy="50" r="46"/>
-                        <g><line x1="50.0" y1="4.0" x2="50.0" y2="10.0"/><line x1="73.0" y1="10.2" x2="71.5" y2="12.8"/><line x1="89.8" y1="27.0" x2="87.2" y2="28.5"/><line x1="96.0" y1="50.0" x2="90.0" y2="50.0"/><line x1="89.8" y1="73.0" x2="87.2" y2="71.5"/><line x1="73.0" y1="89.8" x2="71.5" y2="87.2"/><line x1="50.0" y1="96.0" x2="50.0" y2="90.0"/><line x1="27.0" y1="89.8" x2="28.5" y2="87.2"/><line x1="10.2" y1="73.0" x2="12.8" y2="71.5"/><line x1="4.0" y1="50.0" x2="10.0" y2="50.0"/><line x1="10.2" y1="27.0" x2="12.8" y2="28.5"/><line x1="27.0" y1="10.2" x2="28.5" y2="12.8"/></g>
-                        <path d="M50 50 L32 38"/>
-                        <path d="M50 50 L67 33"/>
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round">
+                        <g class="np-relogio-mostrador">
+                            <circle cx="100" cy="100" r="96" stroke-width="1.1"/>
+                            <g stroke-width="1.4"><line x1="100.0" y1="8.0" x2="100.0" y2="16.0"/><line x1="192.0" y1="100.0" x2="184.0" y2="100.0"/><line x1="100.0" y1="192.0" x2="100.0" y2="184.0"/><line x1="8.0" y1="100.0" x2="16.0" y2="100.0"/></g>
+                            <g stroke-width="1"><line x1="146.0" y1="20.3" x2="144.0" y2="23.8"/><line x1="179.7" y1="54.0" x2="176.2" y2="56.0"/><line x1="179.7" y1="146.0" x2="176.2" y2="144.0"/><line x1="146.0" y1="179.7" x2="144.0" y2="176.2"/><line x1="54.0" y1="179.7" x2="56.0" y2="176.2"/><line x1="20.3" y1="146.0" x2="23.8" y2="144.0"/><line x1="20.3" y1="54.0" x2="23.8" y2="56.0"/><line x1="54.0" y1="20.3" x2="56.0" y2="23.8"/></g>
+                            <line x1="100" y1="100" x2="148" y2="100" stroke-width="2.2"/>
+                            <line x1="100" y1="100" x2="100" y2="30" stroke-width="1.6"/>
+                        </g>
+                        <g class="np-relogio-ponteiros">
+                            <line class="np-relogio-seg" x1="100" y1="114" x2="100" y2="22" stroke-width="0.9"/>
+                            <circle cx="100" cy="100" r="2.6" stroke-width="0" fill="currentColor"/>
+                        </g>
                     </svg>
                 </div>
             <p class="np-lift">Als het lichaam het alarm bewaart — in de adem, in de spieren, in het hoofd dat niet stopt — dan is het lichaam ook waar het weer leert stoppen.</p>
@@ -4672,6 +4736,15 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('load', pedir);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(pedir);
     }
+
+    // ---- o relogio so' anda enquanto esta' no ecra ----
+    (function () {
+        var r = page.querySelector('.np-relogio');
+        if (!r || !window.IntersectionObserver) return;
+        new IntersectionObserver(function (es) {
+            r.classList.toggle('is-fora', !es[0].isIntersecting);
+        }, { threshold: 0 }).observe(r);
+    })();
 
     // ---- botao da amostra: reaproveita o click do proprio cartao ----
     // O play() tem de ser sincrono dentro do handler do toque. Em vez de
