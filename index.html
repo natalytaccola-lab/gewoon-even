@@ -1308,6 +1308,56 @@
             background: var(--up-creme);
         }
 
+        /* ---- faixa de confirmacao, no topo ---- */
+        #page-upsell .up-confirma {
+            display: grid;
+            grid-template-columns: 28px 1fr;
+            gap: 12px;
+            align-items: start;
+            margin: 0 0 1.35rem;
+            padding: 14px 18px;
+            background: rgba(242, 237, 230, 0.08);
+            border: 1px solid rgba(242, 237, 230, 0.22);
+            border-radius: 14px;
+        }
+
+        #page-upsell .up-confirma-ico {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            color: var(--up-creme);
+        }
+
+        #page-upsell .up-confirma-ico svg { width: 22px; height: 22px; }
+
+        #page-upsell p.up-confirma-tit {
+            margin: 0;
+            font-family: var(--np-body);
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.35;
+            color: var(--up-creme);
+        }
+
+        #page-upsell p.up-confirma-sub {
+            margin: 2px 0 0;
+            font-family: var(--np-body);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.35;
+            color: rgba(242, 237, 230, 0.85);
+        }
+
+        /* sem animacao de entrada: esta faixa confirma um facto, nao e' cena */
+        #page-upsell.np-anim .up-confirma,
+        #page-upsell.is-in .up-confirma {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
+
         /* ---- abertura em verde-dique ---- */
         #page-upsell .up-abertura {
             position: relative;
@@ -4089,6 +4139,14 @@
 <div class="page" id="page-upsell">
     <section class="up-abertura">
         <div class="container">
+            <div class="up-confirma">
+                <span class="up-confirma-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span>
+                <div class="up-confirma-txt">
+                    <p class="up-confirma-tit">Je betaling is gelukt. Je Noodprotocol staat klaar in je e-mail.</p>
+                    <p class="up-confirma-sub">Zie je niets? Kijk in je spam.</p>
+                </div>
+            </div>
+
             <p class="up-etiqueta">Voor wie het Noodprotocol heeft</p>
             <p class="up-linha">Er is iets dat je nog niet hardop hebt gezegd.</p>
             <p class="up-linha">Je weet het al. Niemand heeft ooit de juiste vraag gesteld.</p>
