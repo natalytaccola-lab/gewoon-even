@@ -787,6 +787,7 @@
             --taupe: #7A6B57;
             --taupe-nota: #8A7B66;
             --np-display: 'Cormorant', Georgia, serif;
+            --np-seta: #C42B24;
             --np-relogio-cor: #8A9585;
             --np-relogio-opacidade: 0.30;
             --np-relogio-traco: 2.5;
@@ -1176,10 +1177,11 @@
             padding: 0 24px;
         }
 
-        #page-checkout .np-phone {
-            position: relative;   /* contexto para a capa, que é absoluta */
-            width: 264px;
-            margin: 0 auto 3.2rem;
+        #page-checkout .np-fio-card {
+            position: relative;
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto 2.4rem;
         }
 
         @media (min-width: 1200px) {
@@ -1205,68 +1207,19 @@
                 padding-left: 40px;
             }
 
-            #page-checkout .np-phone {
+            #page-checkout .np-fio-card {
                 position: sticky;
                 top: max(26px, calc(50vh - 274px));
+                max-width: 380px;
                 margin: 0;
             }
         }
 
-        /* corpo em gradiente, para a aresta apanhar luz como metal escovado */
-        #page-checkout .np-phone-body {
+        /* ---- cartao do audio: foto, faixa creme e o fio ---- */
+        #page-checkout .np-fio-foto {
             position: relative;
-            padding: 9px;
-            border-radius: 30px;
-            background: linear-gradient(148deg,
-                #EFEBE3 0%, #C9C3B7 14%, #F5F2EC 30%,
-                #B8B2A5 52%, #EDE9E1 70%, #C2BCAF 86%, #E7E2D9 100%);
-            box-shadow:
-                0 22px 38px -16px rgba(62, 78, 67, 0.34),
-                0 6px 14px -6px rgba(62, 78, 67, 0.22),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-        }
-
-        #page-checkout .np-phone-cam {
-            position: absolute;
-            top: 3.5px;
-            left: 50%;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 34% 30%, #6B756F 0%, #232B27 62%, #101411 100%);
-            transform: translateX(-50%);
-        }
-
-        #page-checkout .np-phone-screen {
-            position: relative;
-            border-radius: 22px;
-            background: #FBF8F4;
-            padding: 13px 13px 17px;
-            overflow: hidden;
-        }
-
-        /* reflexo diagonal no vidro */
-        #page-checkout .np-phone-glare {
-            position: absolute;
-            inset: 9px;
-            border-radius: 22px;
-            pointer-events: none;
-            background: linear-gradient(116deg,
-                rgba(255, 255, 255, 0.78) 0%,
-                rgba(255, 255, 255, 0.34) 20%,
-                rgba(255, 255, 255, 0.08) 36%,
-                rgba(255, 255, 255, 0) 50%);
-        }
-
-        /* a capa vive fora do corpo do telefone: assim nunca herda a
-           opacidade da passagem do texto e a foto nunca fica translúcida */
-        #page-checkout .np-cover {
-            position: absolute;
-            top: 22px;
-            left: 22px;
-            width: 220px;
-            height: 276px;
-            border-radius: 3px;
+            aspect-ratio: 4 / 5;
+            border-radius: 20px 20px 0 0;
             overflow: hidden;
             background: var(--creme);
         }
@@ -1281,122 +1234,121 @@
             transition: opacity 300ms ease;
         }
 
-        #page-checkout .np-cover-img.is-on {
-            opacity: 1;
+        #page-checkout .np-cover-img.is-on { opacity: 1; }
+
+        #page-checkout .np-fio-faixa {
+            padding: 16px 18px;
+            background: #F2EDE6;
+            border: 1px solid rgba(62, 78, 67, 0.14);
+            border-radius: 0 0 20px 20px;
         }
 
-        #page-checkout .np-phone-screen {
-            padding-top: 289px;
+        #page-checkout .np-fio-topo {
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: 14px;
+            align-items: center;
         }
 
-        #page-checkout .np-player-title {
-            margin: 0;
-            font-family: var(--np-display);
-            font-size: 1.5rem;
-            font-weight: 400;
-            line-height: 1.1;
-            letter-spacing: 0.005em;
-            color: var(--verde-dique);
+        /* sem botao (Reset e Landing) a coluna do play desaparece */
+        #page-checkout .np-fio-card.is-inerte .np-fio-topo {
+            grid-template-columns: 1fr;
         }
 
-        #page-checkout .np-player-sub {
-            margin: 2px 0 0;
-            font-family: var(--np-display);
-            font-size: 0.92rem;
-            font-style: italic;
-            font-weight: 400;
-            color: var(--taupe);
-        }
-
-        #page-checkout .np-bar {
+        #page-checkout .np-fio-play {
             position: relative;
-            height: 3px;
-            margin: 16px 0 0;
-            border-radius: 2px;
-            background: #E4E1DA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9E5F42, #B5704F);
         }
 
-        #page-checkout .np-bar-fill {
-            position: absolute;
-            inset: 0 auto 0 0;
-            width: 28%;
-            border-radius: 2px;
-            background: var(--verde-dique);
-        }
-
-        #page-checkout .np-bar-fill::after {
+        /* a area tocavel do play nunca desce dos 44px, mesmo que o circulo encolha */
+        #page-checkout .np-fio-play::after {
             content: "";
             position: absolute;
+            left: 50%;
             top: 50%;
-            right: -3.5px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--verde-dique);
-            transform: translateY(-50%);
+            width: max(44px, 100%);
+            height: max(44px, 100%);
+            transform: translate(-50%, -50%);
         }
 
-        #page-checkout .np-times {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0 0;
-            font-family: var(--np-mono);
-            font-size: 0.62rem;
-            font-weight: 400;
-            letter-spacing: 0.02em;
-            color: var(--taupe);
+        #page-checkout .np-fio-play svg { display: block; width: 26px; height: 26px; }
+
+        #page-checkout .np-fio-titulo {
+            margin: 0;
+            font-family: var(--np-display);
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 1.1;
+            color: #1A1A18;
         }
 
-        #page-checkout .np-controls {
-            display: flex;
-            justify-content: center;
-            margin: 14px 0 2px;
+        #page-checkout .np-fio-convite {
+            display: none;
+            align-items: center;
+            gap: 7px;
+            margin: 3px 0 0;
+            font-family: var(--np-display);
+            font-style: italic;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: #1A1A18;
+            transition: opacity 220ms ease;
         }
 
-        /* pausa desenhada à mão: círculo aberto e dois traços com pincelada */
-        /* o play so' e' accionavel no estado Noodstop; nos outros fica inerte */
-        #page-checkout .np-track-phone .np-pause.is-ativo { cursor: pointer; }
-        #page-checkout .np-track-phone .np-pause:not(.is-ativo) { cursor: default; pointer-events: none; }
+        #page-checkout .np-fio-convite.is-on { display: flex; }
 
-        #page-checkout #np-play.is-ativo { cursor: pointer; }
-        #page-checkout #np-play:not(.is-ativo) { cursor: default; pointer-events: none; }
-
-        #page-checkout .np-pause {
-            display: block;
-            width: 46px;
-            height: 46px;
-            color: var(--verde-dique);
+        #page-checkout .np-fio-seta {
+            flex: 0 0 auto;
+            width: 30px;
+            height: 21px;
+            animation: np-seta-pulso 1.6s ease-in-out infinite;
         }
 
-        #page-checkout .np-pause svg {
+        @keyframes np-seta-pulso {
+            0%, 100% { opacity: 1; }
+            50%      { opacity: 0.65; }
+        }
+
+        /* a tocar: o convite perde a seta e fica so' com "Voorproefje" */
+        #page-checkout .np-fio-card.is-a-tocar .np-fio-convite { display: flex; }
+        #page-checkout .np-fio-card.is-a-tocar .np-fio-seta { display: none; }
+
+        /* ---- o fio ---- */
+        #page-checkout .np-fio {
             display: block;
             width: 100%;
-            height: 100%;
+            height: 56px;
+            margin-top: 12px;
+            overflow: visible;
         }
 
-        /* nada esta' a tocar ate' alguem carregar: o icone de origem e' o play.
-           A pausa so' aparece com .is-a-tocar, posta pelo JS da amostra. */
-        #page-checkout .np-pause .np-ico-pause { display: none; }
-        #page-checkout .np-pause .np-ico-play { display: inline; }
-        #page-checkout .np-pause.is-a-tocar .np-ico-pause { display: inline; }
-        #page-checkout .np-pause.is-a-tocar .np-ico-play { display: none; }
-
-        /* ---------- amostra do Noodstop: o telefone inteiro e' o alvo ---------- */
-        /* So' transform: nenhuma propriedade de layout, para o texto a' volta
-           nao se mexer nem haver salto. A escala vem de --np-escala, que o JS
-           calcula em mobile a partir da largura do cartao. */
-        #page-checkout .np-amostra {
-            --np-escala: 1.12;
-            transform-origin: center center;
-            transition: transform 450ms ease-out;
-            cursor: pointer;
+        #page-checkout .np-fio-base {
+            fill: none;
+            stroke: rgba(62, 78, 67, 0.22);
+            stroke-width: 2;
         }
 
-        #page-checkout .np-amostra.is-grande {
-            transform: scale(var(--np-escala));
+        #page-checkout .np-fio-prog {
+            fill: none;
+            stroke: #B5432A;
+            stroke-width: 2.25;
+            stroke-linecap: round;
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
         }
 
-        /* inerte: Reset e Landing, e o telefone do desktop fora do Noodstop */
+        #page-checkout .np-fio-defs { position: absolute; width: 0; height: 0; }
+
+        /* ---------- amostra do Noodstop: o cartao inteiro e' o alvo ---------- */
+        #page-checkout .np-amostra { cursor: pointer; }
+
         #page-checkout .np-amostra.is-inerte {
             cursor: default;
             pointer-events: none;
@@ -1405,95 +1357,17 @@
         #page-checkout .np-amostra:focus-visible {
             outline: 2px solid var(--terracota-cta);
             outline-offset: 6px;
-            border-radius: 28px;
+            border-radius: 24px;
         }
 
-        /* area tocavel: o botao do cartao tem 38px, abaixo dos 44 minimos */
-        #page-checkout .np-pause { position: relative; }
-
-        #page-checkout .np-pause::after {
-            content: "";
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 44px;
-            height: 44px;
-            transform: translate(-50%, -50%);
-        }
-
-        /* anel que respira: so' opacity e scale, sem box-shadow animado e sem
-           z-index negativo (foi assim que a tentativa dos halos falhou) */
-        @keyframes np-anel {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50%      { opacity: 1;   transform: scale(1.16); }
-        }
-
-        #page-checkout .np-amostra.np-convida .np-pause::before {
-            content: "";
-            position: absolute;
-            inset: -7px;
-            border-radius: 50%;
-            border: 2px solid rgba(158, 96, 68, 0.55);
-            pointer-events: none;
-            animation: np-anel 2.4s ease-in-out infinite;
-        }
-
-        #page-checkout .np-convite {
-            display: none;
-            margin: 12px 0 0;
-            font-family: var(--np-display);
-            font-style: italic;
-            font-size: 1.05rem;
-            line-height: 1.3;
-            color: var(--taupe-nota);
-            text-align: center;
-        }
-
-        #page-checkout .np-convite.is-on { display: block; }
+        /* troca de faixa: o titulo aparece e desaparece em vez de cortar */
+        #page-checkout .np-fio-titulo { transition: opacity 150ms ease; }
+        #page-checkout .np-fio-titulo.is-out { opacity: 0; }
 
         @media (prefers-reduced-motion: reduce) {
-            #page-checkout .np-amostra { transition: none; }
-            #page-checkout .np-amostra.is-grande { transform: none; }
-            #page-checkout .np-amostra.np-convida .np-pause::before {
-                animation: none;
-                opacity: 0.6;
-            }
-        }
-
-        /* troca de faixa: aparece e desaparece em vez de cortar */
-        #page-checkout .np-player-title,
-        #page-checkout .np-times {
-            transition: opacity 150ms ease;
-        }
-
-        #page-checkout .np-player-title.is-out,
-        #page-checkout .np-times.is-out {
-            opacity: 0;
-        }
-
-        #page-checkout .np-bar-fill {
-            transition: width 320ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @media (max-width: 600px) {
-            #page-checkout .np-phone {
-                width: 240px;
-                margin-bottom: 2.4rem;
-            }
-
-            #page-checkout .np-cover { width: 196px; height: 245px; }
-            #page-checkout .np-phone-screen { padding-top: 264px; }
-            #page-checkout .np-player-title { font-size: 1.28rem; }
-            #page-checkout .np-player-sub { font-size: 0.82rem; }
-            #page-checkout .np-pause { width: 40px; height: 40px; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            #page-checkout .np-player-title,
-            #page-checkout .np-times,
-            #page-checkout .np-bar-fill {
-                transition: none !important;
-            }
+            #page-checkout .np-fio-seta { animation: none; }
+            #page-checkout .np-fio-convite { transition: none; }
+            #page-checkout .np-fio-titulo { transition: none !important; }
         }
 
         /* ---- os três áudios: sem card, sem ícone, só tipografia ---- */
@@ -1609,9 +1483,6 @@
             letter-spacing: -0.01em;
         }
 
-        /* ---- telefone dentro de cada bloco: só existe em mobile ---- */
-        #page-checkout .np-track-phone { display: none; }
-
         /* ---- mobile: os três áudios passam a carrossel ---- */
         /* omissao primeiro: a media query abaixo e' que os mostra em ecra estreito */
         #page-checkout .np-chev--audio { display: none; }
@@ -1671,34 +1542,15 @@
                 transform: none;
             }
 
-            #page-checkout .np-track-phone {
-                display: block;
-                position: relative;
-                width: 190px;
-                margin: 1.8rem auto 0.4rem;
+            #page-checkout .np-fio-card {
+                margin: 1.4rem auto 0;
             }
 
-            #page-checkout .np-track-phone .np-phone-body {
-                padding: 8px;
-                border-radius: 26px;
-            }
-
-            #page-checkout .np-track-phone .np-phone-screen {
-                padding: 11px 11px 14px;
-                padding-top: 212px;
-                border-radius: 19px;
-            }
-
-            #page-checkout .np-track-phone .np-cover {
-                top: 19px;
-                left: 19px;
-                width: 152px;
-                height: 190px;
-            }
-
-            #page-checkout .np-track-phone .np-player-title { font-size: 1.2rem; }
-            #page-checkout .np-track-phone .np-player-sub { font-size: 0.8rem; }
-            #page-checkout .np-track-phone .np-pause { width: 38px; height: 38px; }
+            /* o carrossel deixa de ter a altura do cartao mais alto: o JS
+               poe a altura do cartao em foco e a transicao evita o salto */
+            #page-checkout .np-stage-scroller { transition: height 250ms ease; }
+            #page-checkout .np-stage-copy { align-items: flex-start; }
+            #page-checkout .np-track { transform-origin: top center; }
 
             #page-checkout .np-chev--audio { display: block; color: var(--taupe); }
             #page-checkout .np-chev--audio:hover { color: var(--verde-dique); }
@@ -2728,40 +2580,19 @@
 
     <!-- palco: em ecrãs largos o telefone fica numa coluna própria à direita,
          fixo, sem nunca passar por cima da coluna de leitura -->
+    <svg class="np-fio-defs" aria-hidden="true" focusable="false" width="0" height="0">
+        <defs><path id="np-fio-d" pathLength="1" d="M0.0 25.8C0.3 30.0 1.0 47.0 1.5 51.0C2.0 54.9 2.5 52.9 3.0 49.4C3.5 45.9 4.0 37.5 4.5 29.9C5.0 22.3 5.5 7.9 6.0 3.9C6.5 -0.1 7.0 1.9 7.5 5.8C8.0 9.7 8.5 20.1 9.0 27.2C9.5 34.2 10.1 43.6 10.6 48.2C11.1 52.7 11.6 56.3 12.1 54.3C12.6 52.3 13.1 43.7 13.6 36.2C14.1 28.7 14.6 15.2 15.1 9.4C15.6 3.6 16.1 0.4 16.6 1.5C17.1 2.6 17.6 10.0 18.1 16.1C18.6 22.1 19.1 31.6 19.6 37.9C20.1 44.2 20.6 52.2 21.1 53.7C21.6 55.1 22.1 50.2 22.6 46.6C23.1 43.1 23.6 38.6 24.1 32.5C24.6 26.5 25.1 14.9 25.6 10.2C26.1 5.5 26.6 4.3 27.1 4.4C27.6 4.5 28.1 6.2 28.6 10.8C29.1 15.4 29.6 26.1 30.2 32.0C30.7 37.8 31.2 42.5 31.7 46.0C32.2 49.5 32.7 54.0 33.2 52.8C33.7 51.7 34.2 43.8 34.7 39.1C35.2 34.4 35.7 29.8 36.2 24.7C36.7 19.6 37.2 11.9 37.7 8.7C38.2 5.4 38.7 4.3 39.2 5.1C39.7 6.0 40.2 9.2 40.7 13.7C41.2 18.2 41.7 27.2 42.2 32.4C42.7 37.5 43.2 41.4 43.7 44.7C44.2 48.0 44.7 52.1 45.2 52.3C45.7 52.5 46.2 48.9 46.7 45.7C47.2 42.6 47.7 38.2 48.2 33.4C48.7 28.5 49.2 21.1 49.7 16.6C50.3 12.0 50.8 7.7 51.3 6.1C51.8 4.5 52.3 5.3 52.8 6.9C53.3 8.4 53.8 11.7 54.3 15.4C54.8 19.1 55.3 24.9 55.8 29.0C56.3 33.1 56.8 36.4 57.3 40.0C57.8 43.6 58.3 49.2 58.8 50.6C59.3 52.1 59.8 50.3 60.3 48.6C60.8 46.8 61.3 43.0 61.8 40.0C62.3 37.1 62.8 34.9 63.3 30.8C63.8 26.7 64.3 18.9 64.8 15.4C65.3 12.0 65.8 11.2 66.3 9.9C66.8 8.5 67.3 7.1 67.8 7.2C68.3 7.3 68.8 8.0 69.3 10.5C69.8 12.9 70.4 18.1 70.9 21.9C71.4 25.6 71.9 29.6 72.4 33.0C72.9 36.3 73.4 39.8 73.9 42.1C74.4 44.5 74.9 46.4 75.4 47.1C75.9 47.8 76.4 47.2 76.9 46.4C77.4 45.6 77.9 44.6 78.4 42.3C78.9 39.9 79.4 35.4 79.9 32.2C80.4 29.0 80.9 26.0 81.4 23.0C81.9 20.0 82.4 16.7 82.9 14.4C83.4 12.2 83.9 10.6 84.4 9.6C84.9 8.6 85.4 8.2 85.9 8.5C86.4 8.8 86.9 9.7 87.4 11.4C87.9 13.1 88.4 16.2 88.9 18.8C89.4 21.4 89.9 24.3 90.5 27.1C91.0 29.8 91.5 32.6 92.0 35.4C92.5 38.2 93.0 42.3 93.5 43.9C94.0 45.6 94.5 45.3 95.0 45.5C95.5 45.7 96.0 45.7 96.5 45.3C97.0 44.9 97.5 44.4 98.0 43.0C98.5 41.5 99.0 39.0 99.5 36.5C100.0 34.0 100.5 30.6 101.0 28.1C101.5 25.7 102.0 23.9 102.5 21.7C103.0 19.6 103.5 17.1 104.0 15.2C104.5 13.3 105.0 10.9 105.5 10.2C106.0 9.4 106.5 10.4 107.0 10.7C107.5 11.0 108.0 11.2 108.5 12.1C109.0 13.0 109.5 14.5 110.1 16.1C110.6 17.8 111.1 19.9 111.6 22.0C112.1 24.1 112.6 26.4 113.1 28.6C113.6 30.9 114.1 33.5 114.6 35.5C115.1 37.4 115.6 39.1 116.1 40.4C116.6 41.8 117.1 42.6 117.6 43.4C118.1 44.3 118.6 45.5 119.1 45.6C119.6 45.7 120.1 45.1 120.6 44.2C121.1 43.4 121.6 42.0 122.1 40.5C122.6 39.1 123.1 37.1 123.6 35.3C124.1 33.6 124.6 31.9 125.1 30.2C125.6 28.4 126.1 26.7 126.6 24.9C127.1 23.1 127.6 21.0 128.1 19.4C128.6 17.9 129.1 16.5 129.6 15.3C130.2 14.2 130.7 13.0 131.2 12.5C131.7 12.0 132.2 12.4 132.7 12.4C133.2 12.5 133.7 12.4 134.2 12.9C134.7 13.4 135.2 14.5 135.7 15.6C136.2 16.7 136.7 18.1 137.2 19.5C137.7 20.8 138.2 22.2 138.7 23.8C139.2 25.3 139.7 27.2 140.2 28.8C140.7 30.4 141.2 31.9 141.7 33.4C142.2 34.8 142.7 36.2 143.2 37.4C143.7 38.6 144.2 39.7 144.7 40.5C145.2 41.3 145.7 41.8 146.2 42.2C146.7 42.6 147.2 42.8 147.7 42.8C148.2 42.7 148.7 42.4 149.2 41.9C149.7 41.4 150.3 40.7 150.8 39.9C151.3 39.1 151.8 38.0 152.3 36.9C152.8 35.8 153.3 34.5 153.8 33.3C154.3 32.0 154.8 30.6 155.3 29.3C155.8 28.0 156.3 26.6 156.8 25.3C157.3 24.1 157.8 22.8 158.3 21.7C158.8 20.5 159.3 19.5 159.8 18.6C160.3 17.7 160.8 16.9 161.3 16.3C161.8 15.7 162.3 15.2 162.8 14.9C163.3 14.6 163.8 14.5 164.3 14.5C164.8 14.5 165.3 14.7 165.8 15.1C166.3 15.4 166.8 15.9 167.3 16.5C167.8 17.2 168.3 17.9 168.8 18.8C169.3 19.6 169.8 20.5 170.4 21.5C170.9 22.5 171.4 23.6 171.9 24.6C172.4 25.7 172.9 26.8 173.4 27.9C173.9 29.0 174.4 30.1 174.9 31.1C175.4 32.1 175.9 33.1 176.4 34.0C176.9 34.9 177.4 35.7 177.9 36.5C178.4 37.2 178.9 37.8 179.4 38.3C179.9 38.9 180.4 39.3 180.9 39.6C181.4 39.9 181.9 40.0 182.4 40.1C182.9 40.2 183.4 40.1 183.9 39.9C184.4 39.7 184.9 39.5 185.4 39.1C185.9 38.7 186.4 38.2 186.9 37.6C187.4 37.1 187.9 36.4 188.4 35.7C188.9 35.0 189.4 34.3 189.9 33.5C190.5 32.7 191.0 31.8 191.5 31.0C192.0 30.1 192.5 29.2 193.0 28.4C193.5 27.5 194.0 26.7 194.5 25.9C195.0 25.0 195.5 24.2 196.0 23.5C196.5 22.8 197.0 22.1 197.5 21.4C198.0 20.8 198.5 20.2 199.0 19.7C199.5 19.2 200.0 18.8 200.5 18.5C201.0 18.1 201.5 17.9 202.0 17.7C202.5 17.5 203.0 17.4 203.5 17.4C204.0 17.4 204.5 17.4 205.0 17.6C205.5 17.7 206.0 17.9 206.5 18.2C207.0 18.5 207.5 18.9 208.0 19.3C208.5 19.7 209.0 20.2 209.5 20.7C210.1 21.2 210.6 21.7 211.1 22.3C211.6 22.9 212.1 23.5 212.6 24.2C213.1 24.8 213.6 25.5 214.1 26.1C214.6 26.8 215.1 27.5 215.6 28.1C216.1 28.8 216.6 29.4 217.1 30.0C217.6 30.6 218.1 31.3 218.6 31.8C219.1 32.4 219.6 32.9 220.1 33.4C220.6 33.9 221.1 34.3 221.6 34.7C222.1 35.1 222.6 35.5 223.1 35.8C223.6 36.1 224.1 36.3 224.6 36.5C225.1 36.7 225.6 36.8 226.1 36.9C226.6 37.0 227.1 37.0 227.6 37.0C228.1 37.0 228.6 36.9 229.1 36.8C229.6 36.6 230.2 36.4 230.7 36.2C231.2 36.0 231.7 35.7 232.2 35.4C232.7 35.1 233.2 34.8 233.7 34.4C234.2 34.0 234.7 33.6 235.2 33.2C235.7 32.8 236.2 32.3 236.7 31.9C237.2 31.4 237.7 30.9 238.2 30.5C238.7 30.0 239.2 29.5 239.7 29.0C240.2 28.5 240.7 28.0 241.2 27.6C241.7 27.1 242.2 26.6 242.7 26.2C243.2 25.7 243.7 25.3 244.2 24.9C244.7 24.5 245.2 24.1 245.7 23.7C246.2 23.4 246.7 23.1 247.2 22.8C247.7 22.5 248.2 22.2 248.7 21.9C249.2 21.7 249.7 21.5 250.3 21.3C250.8 21.2 251.3 21.0 251.8 20.9C252.3 20.8 252.8 20.8 253.3 20.7C253.8 20.7 254.3 20.7 254.8 20.7C255.3 20.8 255.8 20.8 256.3 20.9C256.8 21.0 257.3 21.2 257.8 21.3C258.3 21.5 258.8 21.7 259.3 21.9C259.8 22.1 260.3 22.3 260.8 22.5C261.3 22.8 261.8 23.1 262.3 23.4C262.8 23.6 263.3 23.9 263.8 24.3C264.3 24.6 264.8 24.9 265.3 25.2C265.8 25.5 266.3 25.9 266.8 26.2C267.3 26.5 267.8 26.9 268.3 27.2C268.8 27.6 269.3 27.9 269.8 28.2C270.4 28.5 270.9 28.9 271.4 29.2C271.9 29.5 272.4 29.8 272.9 30.1C273.4 30.4 273.9 30.6 274.4 30.9C274.9 31.2 275.4 31.4 275.9 31.6C276.4 31.9 276.9 32.1 277.4 32.3C277.9 32.4 278.4 32.6 278.9 32.8C279.4 32.9 279.9 33.0 280.4 33.2C280.9 33.3 281.4 33.4 281.9 33.4C282.4 33.5 282.9 33.5 283.4 33.6C283.9 33.6 284.4 33.6 284.9 33.6C285.4 33.6 285.9 33.6 286.4 33.5C286.9 33.5 287.4 33.4 287.9 33.3C288.4 33.2 288.9 33.1 289.4 33.0C289.9 32.9 290.5 32.8 291.0 32.6C291.5 32.5 292.0 32.3 292.5 32.2C293.0 32.0 293.5 31.8 294.0 31.6C294.5 31.4 295.0 31.2 295.5 31.0C296.0 30.8 296.5 30.6 297.0 30.4C297.5 30.2 298.0 30.0 298.5 29.8C299.0 29.6 299.7 29.2 300.0 29.1"/></defs>
+    </svg>
+
     <div class="np-stage">
         <div class="np-stage-device">
-            <div class="np-phone np-amostra" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
-            <div class="np-phone-body">
-            <span class="np-phone-cam"></span>
-            <div class="np-phone-screen">
-            <div class="np-player-title" id="np-title">Noodstop</div>
-            <div class="np-player-sub">Gewoon Even</div>
-
-            <div class="np-bar"><div class="np-bar-fill" id="np-fill"></div></div>
-
-            <div class="np-times" id="np-times"><span id="np-now">02:14</span><span>07:01</span></div>
-
-            <div class="np-controls">
-            <span class="np-pause" id="np-play" role="button" tabindex="0" aria-label="Voorproefje afspelen">
-            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6"
-            fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <g class="np-ico-pause"><path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
-            <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/></g>
-            <path class="np-ico-play" d="M26.8 21.6c0-1.5 1.1-2.2 2.4-1.4l14.6 9.3c1.2.8 1.2 2.2 0 3l-14.6 9.3c-1.3.8-2.4.1-2.4-1.4V21.6Z" fill="currentColor"/>
-            </svg>
-            </span>
-            </div>
-            </div>
-            <span class="np-phone-glare"></span>
-            </div>
-            <div class="np-cover">
-            <img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop.jpg" alt="">
-            <img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" alt="">
-            <img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" alt="">
-            </div>
-            <p class="np-convite">▶ Luister 22 seconden</p>
-            </div>
+                <div class="np-fio-card np-amostra" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop.jpg" alt=""><img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" alt=""><img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" alt=""></div>
+                    <div class="np-fio-faixa">
+                        <div class="np-fio-topo"><span class="np-fio-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="#FFFFFF"/></svg></span><div class="np-fio-txt"><p class="np-fio-titulo" id="np-title">Noodstop</p><p class="np-fio-convite"><svg class="np-fio-seta" viewBox="0 0 34 24" aria-hidden="true" fill="none" stroke="var(--np-seta)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M31 5C24 3 12 5 6 14"/><path d="M6 14 6.4 8"/><path d="M6 14 11.3 11.3"/></svg><span class="np-fio-convite-txt">Luister 22 seconden</span></p></div></div>
+                        <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
+                    </div>
+                </div>
         </div>
 
         <button class="np-chev np-chev--audio np-chev--prev" type="button" aria-label="Vorige opname">
@@ -2781,27 +2612,12 @@
             <p class="np-track-sci">Langer uitademen dan inademen, volgens de <span class="np-num">4-7-8</span>-methode — dat is het signaal waarmee je lichaam zichzelf gerust stelt.</p>
             <p class="np-track-quote">"Adem in... twee, drie, vier... Je doet het goed."</p>
             </div>
-                            <div class="np-track-phone np-amostra" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
-                    <div class="np-phone-body">
-                        <span class="np-phone-cam"></span>
-                        <div class="np-phone-screen">
-                            <div class="np-player-title">Noodstop</div>
-                            <div class="np-player-sub">Gewoon Even</div>
-                            <div class="np-bar"><div class="np-bar-fill" style="width:31.8%"></div></div>
-                            <div class="np-times"><span>02:14</span><span>07:01</span></div>
-                            <div class="np-controls"><span class="np-pause">
-                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <g class="np-ico-pause"><path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
-                            <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/></g>
-                            <path class="np-ico-play" d="M26.8 21.6c0-1.5 1.1-2.2 2.4-1.4l14.6 9.3c1.2.8 1.2 2.2 0 3l-14.6 9.3c-1.3.8-2.4.1-2.4-1.4V21.6Z" fill="currentColor"/>
-                        </svg>
-                    </span></div>
-                        </div>
-                        <span class="np-phone-glare"></span>
+                <div class="np-fio-card np-amostra" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/noodstop.jpg" alt=""></div>
+                    <div class="np-fio-faixa">
+                        <div class="np-fio-topo"><span class="np-fio-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="#FFFFFF"/></svg></span><div class="np-fio-txt"><p class="np-fio-titulo">Noodstop</p><p class="np-fio-convite"><svg class="np-fio-seta" viewBox="0 0 34 24" aria-hidden="true" fill="none" stroke="var(--np-seta)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M31 5C24 3 12 5 6 14"/><path d="M6 14 6.4 8"/><path d="M6 14 11.3 11.3"/></svg><span class="np-fio-convite-txt">Luister 22 seconden</span></p></div></div>
+                        <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
                     </div>
-                    <div class="np-cover"><img class="np-cover-img is-on" src="img/noodstop.jpg" alt=""></div>
-                    <p class="np-convite">▶ Luister 22 seconden</p>
                 </div>
             </section>
 
@@ -2813,26 +2629,12 @@
             <p class="np-track-sci">Je hoeft je gedachten niet te stoppen — dat lukt toch niet. Je zintuigen wel. Dezelfde verankering die traumatherapeuten gebruiken om iemand terug te halen naar het hier en nu.</p>
             <p class="np-track-quote">"Je gedachten mogen er nog zijn. Maar nu ben jij er ook."</p>
             </div>
-                            <div class="np-track-phone" aria-hidden="true">
-                    <div class="np-phone-body">
-                        <span class="np-phone-cam"></span>
-                        <div class="np-phone-screen">
-                            <div class="np-player-title">Reset</div>
-                            <div class="np-player-sub">Gewoon Even</div>
-                            <div class="np-bar"><div class="np-bar-fill" style="width:37.3%"></div></div>
-                            <div class="np-times"><span>01:40</span><span>04:28</span></div>
-                            <div class="np-controls"><span class="np-pause">
-                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <g class="np-ico-pause"><path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
-                            <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/></g>
-                            <path class="np-ico-play" d="M26.8 21.6c0-1.5 1.1-2.2 2.4-1.4l14.6 9.3c1.2.8 1.2 2.2 0 3l-14.6 9.3c-1.3.8-2.4.1-2.4-1.4V21.6Z" fill="currentColor"/>
-                        </svg>
-                    </span></div>
-                        </div>
-                        <span class="np-phone-glare"></span>
+                <div class="np-fio-card is-inerte" aria-hidden="true">
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/reset.jpg" alt=""></div>
+                    <div class="np-fio-faixa">
+                        <div class="np-fio-topo"><div class="np-fio-txt"><p class="np-fio-titulo">Reset</p></div></div>
+                        <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
                     </div>
-                    <div class="np-cover"><img class="np-cover-img is-on" src="img/reset.jpg" alt=""></div>
                 </div>
             </section>
 
@@ -2844,26 +2646,12 @@
             <p class="np-track-sci">Spier voor spier, van je kaken tot je buik — tot je lichaam voelt dat het los mag. Ontspanningstraining, waaronder progressieve spierontspanning: een analyse van <span class="np-num">27</span> studies laat een gemiddeld tot groot effect op angst zien.</p>
             <p class="np-track-quote">"Je kaken. De meeste mensen dragen hier de hele dag spanning zonder het te weten."</p>
             </div>
-                            <div class="np-track-phone" aria-hidden="true">
-                    <div class="np-phone-body">
-                        <span class="np-phone-cam"></span>
-                        <div class="np-phone-screen">
-                            <div class="np-player-title">Landing</div>
-                            <div class="np-player-sub">Gewoon Even</div>
-                            <div class="np-bar"><div class="np-bar-fill" style="width:40.7%"></div></div>
-                            <div class="np-times"><span>03:48</span><span>09:20</span></div>
-                            <div class="np-controls"><span class="np-pause">
-                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.5 33.4C8.2 19.6 19.4 8.4 33 8.1c13.4-.3 23.3 10.4 22.4 24-.8 13.1-10.6 23.6-23.6 23.3C19.4 55.1 9.9 45.6 9.2 32.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <g class="np-ico-pause"><path d="M25.6 21.3c1.9-.5 2.7.3 2.6 2.3-.2 5.5-.4 11-.9 16.5-.2 1.9-1.1 2.6-2.8 2.1-1.3-.4-1.6-1.3-1.5-2.6.4-5.3.7-10.7 1-16 .1-1.3.5-2 1.6-2.3Z" fill="currentColor"/>
-                            <path d="M37.4 21.4c1.9-.4 2.7.4 2.7 2.4-.2 5.4-.5 10.9-1 16.3-.2 1.9-1.2 2.6-2.9 2.1-1.2-.4-1.5-1.3-1.4-2.5.3-5.4.7-10.8 1-16.2.1-1.3.5-1.9 1.6-2.1Z" fill="currentColor"/></g>
-                            <path class="np-ico-play" d="M26.8 21.6c0-1.5 1.1-2.2 2.4-1.4l14.6 9.3c1.2.8 1.2 2.2 0 3l-14.6 9.3c-1.3.8-2.4.1-2.4-1.4V21.6Z" fill="currentColor"/>
-                        </svg>
-                    </span></div>
-                        </div>
-                        <span class="np-phone-glare"></span>
+                <div class="np-fio-card is-inerte" aria-hidden="true">
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/landing.jpg" alt=""></div>
+                    <div class="np-fio-faixa">
+                        <div class="np-fio-topo"><div class="np-fio-txt"><p class="np-fio-titulo">Landing</p></div></div>
+                        <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
                     </div>
-                    <div class="np-cover"><img class="np-cover-img is-on" src="img/landing.jpg" alt=""></div>
                 </div>
             </section>
         </div>
@@ -3895,9 +3683,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { titulo: 'Landing',  agora: '03:48', pct: 40.7, fim: '09:20' }
     ];
     var elTitulo = document.getElementById('np-title');
-    var elTempos = document.getElementById('np-times');
-    var elAgora = document.getElementById('np-now');
-    var elBarra = document.getElementById('np-fill');
     var capas = page.querySelectorAll('.np-cover-img');
     var faixaAtual = 0;
 
@@ -3906,13 +3691,7 @@ document.addEventListener('DOMContentLoaded', () => {
         faixaAtual = i;
         var f = faixas[i];
 
-        function aplicar() {
-            elTitulo.textContent = f.titulo;
-            elAgora.textContent = f.agora;
-            elBarra.style.width = f.pct + '%';
-            var elFim = elTempos.querySelector('span:last-child');
-            if (elFim) elFim.textContent = f.fim;
-        }
+        function aplicar() { elTitulo.textContent = f.titulo; }
 
         // a capa faz o seu próprio crossfade: as três estão empilhadas
         for (var k = 0; k < capas.length; k++) {
@@ -3922,11 +3701,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (reduced) { aplicar(); return; }
 
         elTitulo.classList.add('is-out');
-        elTempos.classList.add('is-out');
         setTimeout(function () {
             aplicar();
             elTitulo.classList.remove('is-out');
-            elTempos.classList.remove('is-out');
         }, 150);
     }
 
@@ -3950,6 +3727,33 @@ document.addEventListener('DOMContentLoaded', () => {
     function anunciarAmostra(v) {
         amostraATocar = v;
         ouvintesAmostra.forEach(function (f) { f(v); });
+    }
+
+    // O fio nao e' desenhado em runtime: o path e' estatico, gerado fora do
+    // browser. Aqui so' se move o stroke-dashoffset da copia de progresso.
+    function ligarFio(som, prog) {
+        if (!prog) return;
+        var pedido = 0;
+        function pintar() {
+            var d = som.duration || 0;
+            prog.style.strokeDashoffset = 1 - (d ? Math.min(1, som.currentTime / d) : 0);
+        }
+        function laco() {
+            pintar();
+            if (!som.paused && !som.ended) pedido = requestAnimationFrame(laco);
+        }
+        som.addEventListener('play', function () {
+            cancelAnimationFrame(pedido);
+            pedido = requestAnimationFrame(laco);
+        });
+        ['pause', 'seeked'].forEach(function (ev) {
+            som.addEventListener(ev, function () { cancelAnimationFrame(pedido); pintar(); });
+        });
+        som.addEventListener('ended', function () {
+            cancelAnimationFrame(pedido);
+            prog.style.strokeDashoffset = 1;
+        });
+        prog.style.strokeDashoffset = 1;
     }
 
     function montarAmostra(cfg) {
@@ -3978,7 +3782,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function visual(tocando) {
             if (cfg.botao) cfg.botao.classList.toggle('is-a-tocar', tocando);
-            cfg.fone.classList.toggle('is-grande', tocando);
+            cfg.fone.classList.toggle('is-a-tocar', tocando);
             cfg.fone.setAttribute('aria-pressed', tocando ? 'true' : 'false');
             anunciarAmostra(tocando);
         }
@@ -4071,15 +3875,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---- telefone fixo do desktop ----
     (function () {
-        var fone = page.querySelector('.np-stage-device .np-phone');
+        var fone = page.querySelector('.np-stage-device .np-fio-card');
         if (!fone || !elTitulo) return;
+        // cfg.titulo e' a linha-convite, nao o titulo do cartao: e' esse o
+        // texto que vira "Voorproefje" enquanto toca. O titulo do cartao
+        // continua a ser trocado por mostrarFaixa.
         var am = montarAmostra({
-            fone: fone, titulo: elTitulo, agora: elAgora, barra: elBarra,
-            fim: elTempos ? elTempos.querySelector('span:last-child') : null,
-            botao: fone.querySelector('.np-pause'),
-            convite: fone.querySelector('.np-convite')
+            fone: fone,
+            titulo: fone.querySelector('.np-fio-convite-txt'),
+            botao: fone.querySelector('.np-fio-play'),
+            convite: fone.querySelector('.np-fio-convite')
         });
-        fone.style.setProperty('--np-escala', '1.14');
+        ligarFio(am.som, fone.querySelector('.np-fio-prog'));
 
         function estado(i) {
             var noodstop = (i === 0);
@@ -4098,36 +3905,15 @@ document.addEventListener('DOMContentLoaded', () => {
     (function () {
         var cartao = page.querySelectorAll('.np-track')[0];
         if (!cartao) return;
-        var fone = cartao.querySelector('.np-track-phone');
+        var fone = cartao.querySelector('.np-fio-card');
         if (!fone) return;
-        var tempos = fone.querySelectorAll('.np-times span');
         var am = montarAmostra({
             fone: fone,
-            titulo: fone.querySelector('.np-player-title'),
-            agora: tempos[0], fim: tempos[1],
-            barra: fone.querySelector('.np-bar-fill'),
-            botao: fone.querySelector('.np-pause'),
-            convite: fone.querySelector('.np-convite')
+            titulo: fone.querySelector('.np-fio-convite-txt'),
+            botao: fone.querySelector('.np-fio-play'),
+            convite: fone.querySelector('.np-fio-convite')
         });
-
-        // os outros dois telefones ficam inertes e sem convite
-        Array.prototype.slice.call(page.querySelectorAll('.np-track')).slice(1).forEach(function (c) {
-            var f = c.querySelector('.np-track-phone');
-            if (f) f.classList.add('is-inerte');
-        });
-
-        // escala maxima que cabe: largura do cartao menos 16px de cada lado,
-        // travada em 1.12
-        function calcularEscala() {
-            var lc = cartao.getBoundingClientRect().width;
-            var lf = fone.getBoundingClientRect().width / (fone.classList.contains('is-grande')
-                     ? parseFloat(getComputedStyle(fone).getPropertyValue('--np-escala')) || 1 : 1);
-            if (!lf) return;
-            var max = (lc - 32) / lf;
-            fone.style.setProperty('--np-escala', Math.max(1, Math.min(1.12, max)).toFixed(3));
-        }
-        calcularEscala();
-        window.addEventListener('resize', calcularEscala);
+        ligarFio(am.som, fone.querySelector('.np-fio-prog'));
 
         // sai do ecra: pausa (e volta a scale(1) pelo visual())
         if (window.IntersectionObserver) {
@@ -4135,6 +3921,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 es.forEach(function (e) { if (!e.isIntersecting) am.pausar(); });
             }, { threshold: 0.2 }).observe(cartao);
         }
+    })();
+
+    // ---- altura do carrossel: a do cartao em foco, nao a do mais alto ----
+    // Com flex, o contentor ficava com a altura do cartao mais alto (Landing) e
+    // sobrava um vao por baixo do Noodstop. Aqui a altura e' posta a cada
+    // mudanca de foco, com transicao, para nao haver salto ao arrastar.
+    (function () {
+        var sc = page.querySelector('.np-stage-scroller');
+        var cartoes = page.querySelectorAll('.np-track');
+        if (!sc || !cartoes.length) return;
+
+        function emCarrossel() { return getComputedStyle(sc).overflowX === 'auto'; }
+
+        function ajustar() {
+            if (!emCarrossel()) { sc.style.height = ''; return; }
+            var meio = sc.getBoundingClientRect().left + sc.clientWidth / 2;
+            var melhor = cartoes[0], dist = Infinity;
+            for (var i = 0; i < cartoes.length; i++) {
+                var b = cartoes[i].getBoundingClientRect();
+                var d = Math.abs(b.left + b.width / 2 - meio);
+                if (d < dist) { dist = d; melhor = cartoes[i]; }
+            }
+            sc.style.height = Math.ceil(melhor.getBoundingClientRect().height) + 'px';
+        }
+
+        var pedido = false;
+        function pedir() {
+            if (pedido) return;
+            pedido = true;
+            requestAnimationFrame(function () { pedido = false; ajustar(); });
+        }
+
+        sc.addEventListener('scroll', pedir, { passive: true });
+        window.addEventListener('resize', pedir);
+        if (window.ResizeObserver) {
+            var ro = new ResizeObserver(pedir);
+            Array.prototype.forEach.call(cartoes, function (c) { ro.observe(c); });
+        }
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(pedir);
+        ajustar();
     })();
 
     // Escolha do bloco por geometria. A referência é o centro do próprio
@@ -4149,7 +3975,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // capa ficar presa em Noodstop.
     var pedidoFaixa = false;
     var palco = page.querySelector('.np-stage');
-    var telefone = page.querySelector('.np-phone');
+    var telefone = page.querySelector('.np-stage-device .np-fio-card');
 
     function calcularFaixa() {
         pedidoFaixa = false;
