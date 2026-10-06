@@ -1215,6 +1215,147 @@
             }
         }
 
+        /* ---- "Eerlijk vergeleken": tabela de tres colunas ---- */
+        #page-checkout .np-cmp { margin: 3rem auto 0; }
+
+        #page-checkout .np-cmp h2 {
+            margin: 0 0 0.4rem;
+            font-family: var(--np-display);
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-cmp p.np-cmp-sub {
+            margin: 0 0 0.7rem;
+            font-family: var(--np-body);
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 1.35;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-cmp-tabela {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        #page-checkout .np-sr {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        #page-checkout .np-cmp-tabela col,
+        #page-checkout .np-cmp-tabela td:first-child,
+        #page-checkout .np-cmp-tabela th[scope="row"] { width: 38%; }
+
+        #page-checkout .np-cmp-tabela thead th {
+            padding: 8px 4px;
+            font-family: var(--np-body);
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--verde-dique);
+            text-align: center;
+            vertical-align: bottom;
+            hyphens: auto;
+        }
+
+        /* a coluna do Noodprotocol: destaque sem cartao cheio */
+        #page-checkout .np-cmp-tabela .np-cmp-nos { background: rgba(62, 78, 67, 0.07); }
+
+        #page-checkout .np-cmp-tabela thead th.np-cmp-nos {
+            font-family: var(--np-display);
+            font-size: 19px;
+            font-weight: 600;
+            border-radius: 10px 10px 0 0;
+        }
+
+        #page-checkout .np-cmp-tabela th[scope="row"] {
+            padding: 8px 10px 8px 0;
+            border-top: 1px solid rgba(62, 78, 67, 0.12);
+            font-family: var(--np-body);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.25;
+            color: var(--verde-dique);
+            text-align: left;
+        }
+
+        #page-checkout .np-cmp-tabela tbody td {
+            padding: 8px 4px;
+            border-top: 1px solid rgba(62, 78, 67, 0.12);
+            text-align: center;
+        }
+
+        #page-checkout .np-cmp-m {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+        }
+
+        #page-checkout .np-cmp-m svg { width: 100%; height: 100%; }
+
+        #page-checkout .np-cmp-sim  { color: var(--verde-dique); }
+        #page-checkout .np-cmp-nao  { color: #B5704F; }
+        /* #8A9585 dava 2,68:1, abaixo dos 3:1 pedidos para graficos; esta e'
+           a mesma cor 6% mais escura, o minimo para passar */
+        #page-checkout .np-cmp-meio { color: #828C7D; }
+
+        #page-checkout .np-cmp p.np-cmp-legenda {
+            margin: 0.6rem 0 0;
+            font-family: var(--np-body);
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.35;
+            color: #5E6E63;
+        }
+
+        #page-checkout .np-cmp p.np-cmp-rodape {
+            margin: 0.35rem 0 0;
+            font-family: var(--np-body);
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.35;
+            color: #5E6E63;
+        }
+
+        #page-checkout .np-cmp p.np-cmp-fecho {
+            margin: 0.7rem 0 0;
+            font-family: var(--np-display);
+            font-style: italic;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout.np-anim .np-cmp { opacity: 0; transition: opacity 520ms ease; }
+        #page-checkout.np-anim .np-cmp.is-in { opacity: 1; }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .np-cmp { opacity: 1 !important; transition: none !important; }
+        }
+
+        @media (min-width: 901px) {
+            #page-checkout .np-cmp h2 { font-size: 42px; }
+            #page-checkout .np-cmp-tabela th[scope="row"] { font-size: 16px; padding: 10px 14px 10px 0; }
+            #page-checkout .np-cmp-tabela thead th { font-size: 15px; padding: 12px 8px; }
+            #page-checkout .np-cmp-tabela thead th.np-cmp-nos { font-size: 22px; }
+            #page-checkout .np-cmp-tabela tbody td { padding: 10px 8px; }
+            #page-checkout .np-cmp-m { width: 24px; height: 24px; }
+        }
+
         /* ---- "Wat gebeurt er na je betaling?": tres passos ligados ---- */
         #page-checkout .np-depois { margin: 2.6rem auto 2.4rem; }
 
@@ -2868,6 +3009,59 @@
     </div>
     </div>
 
+    <div class="container np-cmp">
+        <h2>Eerlijk vergeleken</h2>
+        <p class="np-cmp-sub">Drie manieren om je lijf te helpen.</p>
+
+        <table class="np-cmp-tabela">
+            <caption class="np-sr">Eerlijk vergeleken: Noodprotocol, psycholoog en meditatie-app</caption>
+            <thead>
+                <tr>
+                    <td></td>
+                    <th scope="col" class="np-cmp-nos">Noodprotocol</th>
+                    <th scope="col">Psycholoog (ggz)</th>
+                    <th scope="col">Meditatie-app</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Vanavond beginnen</th>
+                    <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Eenmalig betalen</th>
+                    <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-meio"><svg viewBox="0 0 24 24" role="img" aria-label="wisselend" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6.5 12h11"/></svg></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Zonder verwijzing</th>
+                    <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Voor het moment zelf</th>
+                    <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-meio"><svg viewBox="0 0 24 24" role="img" aria-label="wisselend" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6.5 12h11"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-meio"><svg viewBox="0 0 24 24" role="img" aria-label="wisselend" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6.5 12h11"/></svg></span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Persoonlijke behandeling</th>
+                    <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="np-cmp-legenda">&#10003; ja &middot; &ndash; wisselend &middot; &#10007; nee</p>
+        <p class="np-cmp-rodape">Gemiddelde wachttijd in de ggz in 2025: 14 weken tot de intake, 24 weken tot de behandeling (analyse van Radar en MIND op gegevens van de NZa). Veel meditatie-apps werken met een abonnement.</p>
+        <p class="np-cmp-fecho">Het Noodprotocol vervangt geen behandeling. Het is er voor het moment zelf.</p>
+    </div>
+
     <div class="container np-herken">
         <h2>Herken je dit?</h2>
         <p>Je bent moe, maar écht ontspannen lukt niet.</p>
@@ -3889,6 +4083,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prova) io.observe(prova);
         var depois = page.querySelector('.np-depois');
         if (depois) io.observe(depois);
+        var cmp = page.querySelector('.np-cmp');
+        if (cmp) io.observe(cmp);
         var feiten = page.querySelector('.np-feiten');
         if (feiten) io.observe(feiten);
     }
