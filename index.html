@@ -131,6 +131,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* ---- escala tipografica minima ----
+               Mobile aqui, +1px em desktop (ver a media query no fim).
+               --t-sec-cor sobe de #5E6E63 (4,64:1) para #4D5D52 (6,00:1). */
+            --t-corpo: 18px;
+            --t-sec: 16px;
+            --t-rotulo: 15px;
+            --t-rotulo-alta: 14px;
+            --t-citacao: 22px;
+            --t-destaque: 24px;
+            --t-botao: 17px;
+            --t-sec-cor: #4D5D52;
+            --t-lh-corpo: 1.5;
+
             /* Os degrades vivem aqui, e nao no #page-checkout, porque as
                paginas do funil usam os mesmos botoes. Valores inalterados. */
             --np-grad-final: linear-gradient(90deg, #A9421C 0%, #C25020 100%);   /* ponta clara 4,71:1 */
@@ -3359,6 +3372,121 @@
             #page-checkout .np-breath--a { height: 72px; margin: 0.2rem 0; }
             #page-checkout .np-breath--b { height: 84px; margin: 4.2rem 0 3.2rem; }
         }
+
+        /* ================== ESCALA TIPOGRAFICA ==================
+           Liga os selectores que estavam abaixo do minimo as variaveis do
+           :root. Nao cria classes novas. Fica no fim do <style> para ganhar
+           por ordem, sem precisar de !important.
+
+           Fora da escala, por decisao: o rodape e a nota legal do bloco do
+           preco (ficam como estao, nunca abaixo de 13px), e as entrelinhas
+           dos titulos — h1/h2/h3 e os titulos dos passos sao titulos, nao
+           texto corrido, e 1,5 de entrelinha num titulo de 40px esticava-o
+           sem o tornar mais legivel. */
+
+        /* ---- corpo ---- */
+        #page-checkout .np-body p,
+        #page-checkout .np-track-sci,
+        #page-checkout .np-mark,
+        #page-checkout span.np-mark,
+        #page-checkout .np-herken-fecho,
+        #page-checkout .np-herken li,
+        #page-checkout .np-fecho,
+        #page-checkout .np-guarantee,
+        #page-checkout .np-prova-frase,
+        #page-checkout .np-faq-item summary,
+        #page-checkout .np-faq p.np-faq-resp,
+        #page-checkout .np-passos p.np-passo-sub,
+        #page-checkout .np-cmp-tabela th[scope="row"],
+        #page-checkout .np-feiten li {
+            font-size: var(--t-corpo);
+            line-height: var(--t-lh-corpo);
+            font-weight: 400;
+        }
+
+        /* o summary e' um titulo de pergunta: mantem o peso */
+        #page-checkout .np-faq-item summary { font-weight: 600; line-height: 1.35; }
+
+        /* ---- secundario ---- */
+        #page-checkout .np-amostra-cta p.np-amostra-nota,
+        #page-checkout .np-selo,
+        #page-checkout .np-prova-rodape,
+        #page-checkout .np-cmp p.np-cmp-rodape,
+        #page-checkout .np-regua figcaption {
+            font-size: var(--t-sec);
+            color: var(--t-sec-cor);
+        }
+
+        #page-checkout .np-passos p.np-passo-sub { color: var(--t-sec-cor); }
+
+        /* ---- rotulos e atribuicoes ---- */
+        #page-checkout .np-voice-who,
+        #page-checkout .np-cta-quote cite,
+        #page-checkout .np-prova-un {
+            font-size: var(--t-rotulo);
+            color: var(--t-sec-cor);
+        }
+
+        #page-checkout .np-prova-etiqueta,
+        #page-checkout .np-tag {
+            font-size: var(--t-rotulo-alta);
+        }
+
+        /* ---- Cormorant como texto corrido ---- */
+        #page-checkout .np-voice-quote,
+        #page-checkout .np-track-voor,
+        #page-checkout .np-cta-quote,
+        #page-checkout .np-cedo blockquote {
+            font-size: var(--t-citacao);
+            line-height: 1.38;
+        }
+
+        #page-checkout .np-track-quote,
+        #page-checkout .np-destaque,
+        #page-checkout .np-fio-convite-txt,
+        #page-checkout .np-cmp-tabela thead th.np-cmp-nos {
+            font-size: var(--t-destaque);
+        }
+
+        /* o destaque dentro de uma citacao segue a citacao */
+        #page-checkout .np-voice-quote .np-voice-mark,
+        #page-checkout .np-cta-quote .np-risco { font-size: inherit; }
+
+        /* ---- apanhados por especificidade: estas regras existem mais acima
+               com um selector mais forte, por isso repetem-se aqui ---- */
+        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra { font-size: var(--t-botao); }
+        #page-checkout .np-cta-meio-wrap p.np-selo { font-size: var(--t-sec); color: var(--t-sec-cor); }
+        #page-checkout .np-cedo blockquote cite { font-size: var(--t-rotulo); color: var(--t-sec-cor); }
+        #page-checkout .np-herken p,
+        #page-checkout .np-herken p.np-herken-fecho {
+            font-size: var(--t-corpo);
+            line-height: var(--t-lh-corpo);
+            font-weight: 400;
+        }
+        /* "Veilig betalen via Stripe" e' uma legenda ao lado do logotipo */
+        #page-checkout .np-seal span { font-size: var(--t-sec); font-weight: 400; color: var(--t-sec-cor); }
+
+        /* ---- botoes ---- */
+        #page-checkout .btn-primary.np-cta-final,
+        #page-checkout .btn-primary.np-cta-meio,
+        #page-checkout .btn-primary.np-cta-amostra,
+        #page-checkout .np-faq .btn-primary.np-cta-faq,
+        #page-checkout .np-sticky a[href] {
+            font-size: var(--t-botao);
+        }
+
+        @media (min-width: 901px) {
+            :root {
+                --t-corpo: 19px;
+                --t-sec: 17px;
+                --t-rotulo: 16px;
+                --t-rotulo-alta: 15px;
+                --t-citacao: 23px;
+                --t-destaque: 25px;
+                --t-botao: 18px;
+            }
+        }
+
     </style>
 </head>
 <body>
