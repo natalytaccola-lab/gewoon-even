@@ -131,6 +131,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Os degrades vivem aqui, e nao no #page-checkout, porque as
+               paginas do funil usam os mesmos botoes. Valores inalterados. */
+            --np-grad-final: linear-gradient(90deg, #A9421C 0%, #C25020 100%);   /* ponta clara 4,71:1 */
+            --np-grad-meio:  linear-gradient(90deg, #8A4A32 0%, #9E5F42 100%);   /* ponta clara 5,04:1 */
+            /* A barra fixa tem 17px, abaixo dos 18,66px que fazem "texto
+               grande": precisa de 4,5:1 e nao de 3:1. A ponta clara desce de
+               #D9602B (3,71:1) para #C25020 (4,71:1). */
+            --np-grad-barra: linear-gradient(90deg, #A9421C 0%, #C25020 100%);
+            --np-grad-final-hover: linear-gradient(90deg, #8F3817 0%, #BE5325 100%);
+            --np-grad-meio-hover:  linear-gradient(90deg, #743E2A 0%, #A06348 100%);
+            --np-grad-barra-hover: linear-gradient(90deg, #8F3817 0%, #A8451C 100%);
             --bg: #F5F2EE;
             --text: #2C2C2C;
             --text-light: #888888;
@@ -802,15 +813,6 @@
             --np-quadro-texto: #F2EDE6;
             --np-quadro-fio: rgba(242, 237, 230, 0.14);
             --np-sublinhado: #E0956F;
-            --np-grad-final: linear-gradient(90deg, #A9421C 0%, #C25020 100%);   /* ponta clara 4,71:1 */
-            --np-grad-meio:  linear-gradient(90deg, #8A4A32 0%, #9E5F42 100%);   /* ponta clara 5,04:1 */
-            /* A barra fixa tem 17px, abaixo dos 18,66px que fazem "texto
-               grande": precisa de 4,5:1 e nao de 3:1. A ponta clara desce de
-               #D9602B (3,71:1) para #C25020 (4,71:1). */
-            --np-grad-barra: linear-gradient(90deg, #A9421C 0%, #C25020 100%);
-            --np-grad-final-hover: linear-gradient(90deg, #8F3817 0%, #BE5325 100%);
-            --np-grad-meio-hover:  linear-gradient(90deg, #743E2A 0%, #A06348 100%);
-            --np-grad-barra-hover: linear-gradient(90deg, #8F3817 0%, #A8451C 100%);
 
             background: var(--creme);
             color: var(--verde-dique);
@@ -1213,6 +1215,53 @@
                 max-width: 380px;
                 margin: 0;
             }
+        }
+
+        /* ---- CTAs das paginas do funil: a mesma pilula do checkout ----
+           Selector por pagina, nunca .btn-primary global: as paginas de
+           entrega usam a mesma classe em botoes de download, que nao sao
+           CTAs e ficam como estao. */
+        #page-quiz .btn-primary,
+        #page-email-capture #email-form button[type="submit"],
+        #page-upsell .btn-primary,
+        #page-downsell .btn-primary,
+        #page-thankyou .btn-primary,
+        #page-upsell2 .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 58px;
+            padding: 18px 34px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--np-grad-final);
+            font-family: var(--np-body);
+            font-size: 1.05rem;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: 0.005em;
+            text-transform: none;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        #page-quiz .btn-primary:hover,
+        #page-email-capture #email-form button[type="submit"]:hover,
+        #page-upsell .btn-primary:hover,
+        #page-downsell .btn-primary:hover,
+        #page-thankyou .btn-primary:hover,
+        #page-upsell2 .btn-primary:hover {
+            background: var(--np-grad-final-hover);
+        }
+
+        #page-quiz .btn-primary:focus-visible,
+        #page-email-capture #email-form button[type="submit"]:focus-visible,
+        #page-upsell .btn-primary:focus-visible,
+        #page-downsell .btn-primary:focus-visible,
+        #page-thankyou .btn-primary:focus-visible,
+        #page-upsell2 .btn-primary:focus-visible {
+            outline: 3px solid #F2EDE6;
+            outline-offset: 3px;
         }
 
         /* ---- FAQ ---- */
