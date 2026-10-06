@@ -3509,6 +3509,52 @@
 
         #page-email-capture #email-input { font-size: var(--t-sec); }
 
+
+        /* ---- escala: upsell, downsell, upsell2 e thankyou ---- */
+        #page-upsell .up-ponte p,
+        #page-upsell .up-semana > p,
+        #page-upsell .day-item,
+        #page-upsell .up-ancora,
+        #page-upsell .up-feiten li,
+        #page-upsell p.up-garantia,
+        #page-downsell p,
+        #page-downsell .day-item,
+        #page-downsell p.strong,
+        #page-thankyou p,
+        #page-thankyou p.strong,
+        #page-upsell2 p,
+        #page-upsell2 .day-item {
+            font-size: var(--t-corpo);
+            line-height: var(--t-lh-corpo);
+            font-weight: 400;
+        }
+
+        /* o strong dentro destes blocos segue o corpo e mantem o peso */
+        #page-upsell .day-item strong,
+        #page-upsell .up-ponte strong,
+        #page-downsell strong,
+        #page-upsell2 strong { font-size: inherit; font-weight: 600; }
+
+        #page-upsell .up-etiqueta { font-size: var(--t-rotulo); }
+        #page-upsell .up-eenmalig { font-size: var(--t-rotulo); }
+        #page-upsell p.up-exclusivo { font-size: var(--t-citacao); }
+
+        #page-downsell .upsell-badge,
+        #page-upsell2 .upsell-badge,
+        #page-upsell2 .question-number { font-size: var(--t-rotulo-alta); }
+
+        #page-downsell p.subtle,
+        #page-upsell2 p.subtle { font-size: var(--t-sec); color: var(--t-sec-cor); }
+
+        #page-upsell .btn-primary.up-cta,
+        #page-upsell .btn-decline.up-recusa,
+        #page-downsell .btn-primary,
+        #page-downsell .btn-decline,
+        #page-thankyou .btn-primary,
+        #page-upsell2 .btn-primary,
+        #page-upsell2 .btn-decline,
+        #page-upsell2 .answer-btn { font-size: var(--t-botao); }
+
     </style>
 </head>
 <body>
@@ -4096,7 +4142,7 @@
                 <div class="day-item"><strong>Stap 5</strong> Wat te doen als het na 5 minuten nog niet zakt</div>
             </div>
 
-            <p style="font-size: 0.95rem; color: var(--text-light); font-style: italic;">De 5-4-3-2-1-grondingstechniek wordt breed toegepast binnen cognitieve gedragstherapie (CGT) om acute paniek te onderbreken — geen onderzoek dat wacht, maar een methode die nu al klinisch wordt gebruikt.</p>
+            <p style="font-size: var(--t-sec); color: var(--t-sec-cor); font-style: italic;">De 5-4-3-2-1-grondingstechniek wordt breed toegepast binnen cognitieve gedragstherapie (CGT) om acute paniek te onderbreken — geen onderzoek dat wacht, maar een methode die nu al klinisch wordt gebruikt.</p>
 
             <div class="divider-line"></div>
             <p class="subtle">Print het uit, bewaar het op je telefoon, of stop het in je portemonnee. Eén keer instellen, altijd binnen bereik.</p>
@@ -4768,7 +4814,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="day-item"><strong>Inslapen</strong> Begeleide ontspanning voor het moment dat je hoofd niet stil wil staan</div>
                     <div class="day-item"><strong>'s Nachts wakker</strong> Voor als je midden in de nacht wakker ligt en niet meer wegzakt</div>
                 </div>
-                <p style="font-size: 0.95rem; color: var(--text-light); font-style: italic;">Vier audio's, inzetbaar op het moment dat je ze nodig hebt — geen programma om af te maken, maar gereedschap dat er is wanneer slaap het nodig heeft.</p>
+                <p style="font-size: var(--t-sec); color: var(--t-sec-cor); font-style: italic;">Vier audio's, inzetbaar op het moment dat je ze nodig hebt — geen programma om af te maken, maar gereedschap dat er is wanneer slaap het nodig heeft.</p>
                 <div class="divider-line"></div>
                 <p class="subtle">Dit aanbod verschijnt eenmalig, nu.</p>
                 <div style="padding: 16px 0;"><span class="price-new">€67</span></div>
