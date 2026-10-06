@@ -1215,6 +1215,26 @@
             }
         }
 
+        /* ---- selo da garantia, por baixo do CTA do meio ---- */
+        #page-checkout .np-cta-meio-wrap p.np-selo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin: 0.7rem 0 0;
+            font-family: var(--np-body);
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-selo svg {
+            flex: 0 0 auto;
+            width: 18px;
+            height: 18px;
+        }
+
         /* ---- botao da amostra, antes da frase do relogio ---- */
         /* involucro em coluna flex: como inline o <a> ficava num line box da
            coluna de leitura e somava ~69px de entrelinha a' volta */
@@ -2749,6 +2769,7 @@
 
     <div class="container np-cta-meio-wrap">
         <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary np-cta-meio" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ik wil het proberen</a>
+        <p class="np-selo"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg>60 dagen geld terug</p>
     </div>
 
     <!-- ============ DEPOIMENTOS ============ -->
