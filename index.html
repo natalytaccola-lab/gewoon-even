@@ -1221,13 +1221,19 @@
         #page-checkout .np-depois h2 {
             margin: 0 0 0.7rem;
             font-family: var(--np-display);
-            font-size: 36px;
+            /* 30px pedia duas linhas ate' aos 390px; 26px e' o maior corpo que
+               cabe numa linha ja' a 360px, que era o objectivo */
+            font-size: 26px;
             font-weight: 400;
             line-height: 1.1;
             color: var(--verde-dique);
         }
 
-        #page-checkout .np-passos { display: grid; gap: 10px; }
+        @media (min-width: 601px) {
+            #page-checkout .np-depois h2 { font-size: 36px; }
+        }
+
+        #page-checkout .np-passos { display: grid; gap: 8px; }
 
         /* mobile: empilhados, com o fio vertical a passar pelos aneis */
         #page-checkout .np-passo {
@@ -1243,7 +1249,7 @@
             position: absolute;
             left: 22px;
             top: 44px;
-            bottom: -10px;
+            bottom: -8px;
             width: 1px;
             background: rgba(62, 78, 67, 0.30);
         }
@@ -1506,7 +1512,7 @@
 
         #page-checkout .np-fio-base {
             fill: none;
-            stroke: rgba(62, 78, 67, 0.22);
+            stroke: rgba(62, 78, 67, 0.34);
             stroke-width: 2;
         }
 
@@ -1876,13 +1882,13 @@
         /* ---- faixa de prova: tres numeros, sem icones e sem grafico ---- */
         #page-checkout .np-prova {
             margin: 3rem auto 0;
-            padding: 20px 18px;
+            padding: 16px 14px;
             border: 1px solid rgba(62, 78, 67, 0.16);
             border-radius: 14px;
         }
 
         #page-checkout .np-prova-etiqueta {
-            margin: 0 0 0.6rem;
+            margin: 0 0 0.4rem;
             font-family: var(--np-body);
             font-size: 12px;
             font-weight: 600;
@@ -1894,10 +1900,10 @@
 
         #page-checkout .np-prova-linha {
             display: grid;
-            grid-template-columns: 88px 1fr;
-            gap: 14px;
+            grid-template-columns: 72px 1fr;
+            gap: 12px;
             align-items: baseline;
-            padding: 12px 0;
+            padding: 9px 0;
             border-top: 1px solid rgba(62, 78, 67, 0.12);
         }
 
@@ -1934,7 +1940,7 @@
         }
 
         #page-checkout .np-prova-rodape {
-            margin: 0.8rem 0 0;
+            margin: 0.55rem 0 0;
             font-family: var(--np-body);
             font-size: 13px;
             font-weight: 400;
@@ -1951,7 +1957,7 @@
 
         /* desktop: as tres passam a colunas lado a lado, numero por cima */
         @media (min-width: 901px) {
-            #page-checkout .np-prova { padding: 28px 32px; }
+            #page-checkout .np-prova { padding: 24px 28px; }
 
             #page-checkout .np-prova-lista {
                 display: grid;
@@ -2841,7 +2847,7 @@
 
     <div class="container">
     <div class="container np-prova">
-        <p class="np-prova-etiqueta">Onderzoek naar de technieken</p>
+        <p class="np-prova-etiqueta">Onderzoek naar de technieken, niet naar Gewoon Even zelf.</p>
 
         <div class="np-prova-lista">
             <div class="np-prova-linha">
@@ -2849,7 +2855,7 @@
                 <p class="np-prova-frase">Langzaam ademen verhoogt de activiteit van de nervus vagus.</p>
             </div>
             <div class="np-prova-linha">
-                <p class="np-prova-num"><span class="np-prova-cifra">5 min</span></p>
+                <p class="np-prova-num"><span class="np-prova-cifra">28 dagen</span></p>
                 <p class="np-prova-frase">Vijf minuten per dag, vier weken lang: betere stemming dan mindfulness.</p>
             </div>
             <div class="np-prova-linha">
@@ -2858,7 +2864,7 @@
             </div>
         </div>
 
-        <p class="np-prova-rodape">Laborde e.a. 2022 &middot; Balban e.a. 2023 (Stanford) &middot; Manzoni e.a. 2008. Onderzoek naar de technieken, niet naar Gewoon Even zelf.</p>
+        <p class="np-prova-rodape">Laborde e.a. 2022 &middot; Balban e.a. 2023 (Stanford) &middot; Manzoni e.a. 2008.</p>
     </div>
     </div>
 
