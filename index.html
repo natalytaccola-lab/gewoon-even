@@ -1846,81 +1846,58 @@
             }
         }
 
-        /* ---- Wat onderzoek zegt: seccao clara, compacta ---- */
-        #page-checkout .np-onderzoek { margin: 3rem auto 0; }
-
-        #page-checkout .np-onderzoek h2 {
-            margin: 0;
-            font-family: var(--np-display);
-            font-size: 34px;
-            font-weight: 400;
-            line-height: 1.1;
-            color: var(--verde-dique);
-        }
-
-        #page-checkout .np-onderzoek-traco {
-            display: block;
-            width: 40px;
-            height: 2px;
-            margin: 0.8rem 0 0.6rem;
-            background: var(--terracota);
-        }
-
-        #page-checkout .np-onderzoek-sub {
-            margin: 0 0 1rem;
-            max-width: 34rem;
-            font-family: var(--np-body);
-            font-size: 17px;
-            font-weight: 600;
-            line-height: 1.4;
-            color: var(--verde-dique);
-        }
-
-        #page-checkout .np-onderzoek-lista {
-            padding: 18px 16px;
+        /* ---- faixa de prova: tres numeros, sem icones e sem grafico ---- */
+        #page-checkout .np-prova {
+            margin: 3rem auto 0;
+            padding: 20px 18px;
             border: 1px solid rgba(62, 78, 67, 0.16);
             border-radius: 14px;
         }
 
-        #page-checkout .np-onderzoek-linha {
-            padding: 12px 0;
-            border-top: 1px solid rgba(62, 78, 67, 0.12);
-        }
-
-        #page-checkout .np-onderzoek-linha:first-child { padding-top: 0; border-top: 0; }
-        #page-checkout .np-onderzoek-linha:last-child { padding-bottom: 0; }
-
-        /* o icone sai da coluna da esquerda e passa a cabecalho da linha */
-        #page-checkout .np-onderzoek-cab {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            margin: 0 0 0.35rem;
-        }
-
-        #page-checkout .np-anel {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex: 0 0 auto;
-            width: 28px;
-            height: 28px;
-            border: 1px solid rgba(62, 78, 67, 0.30);
-            border-radius: 50%;
-        }
-
-        #page-checkout .np-icone-claro { width: 20px; height: 20px; color: #3E4E43; }
-
-        #page-checkout .np-onderzoek-rotulo {
+        #page-checkout .np-prova-etiqueta {
+            margin: 0 0 0.6rem;
             font-family: var(--np-body);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
+            line-height: 1.3;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: #3E4E43;
         }
 
-        #page-checkout .np-onderzoek-texto {
+        #page-checkout .np-prova-linha {
+            display: grid;
+            grid-template-columns: 88px 1fr;
+            gap: 14px;
+            align-items: baseline;
+            padding: 12px 0;
+            border-top: 1px solid rgba(62, 78, 67, 0.12);
+        }
+
+        #page-checkout .np-prova-linha:first-child { border-top: 0; }
+
+        #page-checkout .np-prova-num { margin: 0; }
+
+        #page-checkout .np-prova-cifra {
+            display: block;
+            font-family: var(--np-display);
+            font-size: 34px;
+            font-weight: 600;
+            line-height: 1.05;
+            color: #3E4E43;
+        }
+
+        #page-checkout .np-prova-un {
+            display: block;
+            margin-top: 1px;
+            font-family: var(--np-body);
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.3;
+            color: #5E6E63;
+        }
+
+        #page-checkout .np-prova-frase {
             margin: 0;
             font-family: var(--np-body);
             font-size: 16px;
@@ -1929,8 +1906,8 @@
             color: #3E4E43;
         }
 
-        #page-checkout .np-onderzoek-fonte {
-            margin: 0.3rem 0 0;
+        #page-checkout .np-prova-rodape {
+            margin: 0.8rem 0 0;
             font-family: var(--np-body);
             font-size: 13px;
             font-weight: 400;
@@ -1938,50 +1915,37 @@
             color: #5E6E63;
         }
 
-        /* A regua: o SVG so' leva a escala e o ponto, com altura fixa. As
-           legendas sao HTML, por isso tem 12px reais a qualquer largura — em
-           SVG encolhiam com o viewBox e caiam abaixo de 12px a 360px. */
-        #page-checkout .np-regua { margin: 0.6rem 0 0; }
-
-        #page-checkout .np-regua svg {
-            display: block;
-            width: 100%;
-            height: 34px;
-        }
-
-        #page-checkout .np-regua-escala {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            margin: 2px 0 0;
-            font-family: var(--np-body);
-            font-size: 12px;
-            line-height: 1.25;
-            color: #5E6E63;
-            text-align: center;
-        }
-
-        #page-checkout .np-regua-escala span:first-child { text-align: left; }
-        #page-checkout .np-regua-escala span:last-child { text-align: right; }
-
-        #page-checkout .np-regua figcaption {
-            margin: 0.25rem 0 0;
-            font-family: var(--np-body);
-            font-size: 13px;
-            line-height: 1.35;
-            color: #5E6E63;
-        }
-
-        #page-checkout.np-anim .np-regua { opacity: 0; transition: opacity 520ms ease; }
-        #page-checkout.np-anim .np-regua.is-in { opacity: 1; }
+        #page-checkout.np-anim .np-prova { opacity: 0; transition: opacity 520ms ease; }
+        #page-checkout.np-anim .np-prova.is-in { opacity: 1; }
 
         @media (prefers-reduced-motion: reduce) {
-            #page-checkout .np-regua { opacity: 1; transition: none; }
+            #page-checkout .np-prova { opacity: 1; transition: none; }
         }
 
+        /* desktop: as tres passam a colunas lado a lado, numero por cima */
         @media (min-width: 901px) {
-            #page-checkout .np-onderzoek h2 { font-size: 42px; }
-            #page-checkout .np-onderzoek-lista { padding: 18px 28px; }
-            #page-checkout .np-onderzoek-texto { font-size: 17px; }
+            #page-checkout .np-prova { padding: 28px 32px; }
+
+            #page-checkout .np-prova-lista {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 28px;
+            }
+
+            #page-checkout .np-prova-linha {
+                display: block;
+                padding: 0 0 0 20px;
+                border-top: 0;
+                border-left: 1px solid rgba(62, 78, 67, 0.12);
+            }
+
+            #page-checkout .np-prova-linha:first-child { padding-left: 0; border-left: 0; }
+
+            #page-checkout .np-prova-cifra { font-size: 40px; }
+
+            #page-checkout .np-prova-num { margin: 0 0 0.3rem; }
+
+            #page-checkout .np-prova-frase { font-size: 17px; }
         }
 
         /* "Herken je dit?" — cada sintoma e' um paragrafo curto: ritmo de
@@ -2022,15 +1986,6 @@
             #page-checkout .np-herken h2 { font-size: 1.7rem; margin-bottom: 1.3rem; }
             #page-checkout .np-herken p { font-size: 1.08rem; margin-bottom: 0.75rem; }
             #page-checkout .np-herken p.np-herken-fecho { margin-top: 1.7rem; }
-        }
-
-        #page-checkout .np-science {
-            max-width: 34rem;
-            margin: 3.2rem 0 0;
-            font-size: 0.97rem;
-            font-weight: 300;
-            line-height: 1.78;
-            color: var(--verde-dique);
         }
 
         /* ---- âncora de preço ---- */
@@ -2916,42 +2871,25 @@
     </div>
 
     <div class="container">
-    <div class="container np-onderzoek">
-        <h2>Wat onderzoek zegt</h2>
-        <span class="np-onderzoek-traco" aria-hidden="true"></span>
-        <p class="np-onderzoek-sub">Onderzoek naar de technieken, niet naar Gewoon Even zelf.</p>
+    <div class="container np-prova">
+        <p class="np-prova-etiqueta">Onderzoek naar de technieken</p>
 
-        <div class="np-onderzoek-lista">
-            <div class="np-onderzoek-linha">
-                <div class="np-onderzoek-cab"><span class="np-anel" aria-hidden="true"><svg class="np-icone-claro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2.5-4 5-4 7.5 0s5 4 7.5 0 3.5-2 5-1"/></svg></span><span class="np-onderzoek-rotulo">Ademen</span></div>
-                <p class="np-onderzoek-texto">Langzaam ademen verhoogt de activiteit van de nervus vagus. Analyse van 223 studies.</p>
-                <p class="np-onderzoek-fonte">Laborde e.a., 2022</p>
+        <div class="np-prova-lista">
+            <div class="np-prova-linha">
+                <p class="np-prova-num"><span class="np-prova-cifra">223</span><span class="np-prova-un">studies</span></p>
+                <p class="np-prova-frase">Langzaam ademen verhoogt de activiteit van de nervus vagus.</p>
             </div>
-            <div class="np-onderzoek-linha">
-                <div class="np-onderzoek-cab"><span class="np-anel" aria-hidden="true"><svg class="np-icone-claro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.2a4.6 4.6 0 0 0 7 0"/><path d="M9 9.5h.01"/><path d="M15 9.5h.01"/></svg></span><span class="np-onderzoek-rotulo">Stemming</span></div>
-                <p class="np-onderzoek-texto">Vijf minuten per dag, vier weken lang: ademen met een lange uitademing verbeterde de stemming meer dan mindfulness.</p>
-                <p class="np-onderzoek-fonte">Balban e.a., 2023, Stanford</p>
+            <div class="np-prova-linha">
+                <p class="np-prova-num"><span class="np-prova-cifra">5 min</span></p>
+                <p class="np-prova-frase">Vijf minuten per dag, vier weken lang: betere stemming dan mindfulness.</p>
             </div>
-            <div class="np-onderzoek-linha">
-                <div class="np-onderzoek-cab"><span class="np-anel" aria-hidden="true"><svg class="np-icone-claro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4c0 8-4.5 13-12 13"/><path d="M20 4C9 4 4 8.5 4 15a5 5 0 0 0 4 4.9"/><path d="M5 20c1-2.5 2.6-4.5 4.6-6"/></svg></span><span class="np-onderzoek-rotulo">Ontspanning</span></div>
-                <p class="np-onderzoek-texto">Ontspanningstraining verminderde angstklachten met een gemiddeld tot groot effect (27 studies).</p>
-                <figure class="np-regua">
-                    <svg viewBox="0 0 300 40" role="img" aria-label="Tamanho do efeito: 0,57, entre gemiddeld en groot" preserveAspectRatio="none">
-                        <line x1="6" y1="30" x2="294" y2="30" stroke="#3E4E43" stroke-width="1.5" stroke-linecap="round" opacity="0.45"/>
-                        <g stroke="#3E4E43" stroke-width="1.5" stroke-linecap="round" opacity="0.45">
-                            <line x1="50" y1="25" x2="50" y2="35"/>
-                            <line x1="150" y1="25" x2="150" y2="35"/>
-                            <line x1="250" y1="25" x2="250" y2="35"/>
-                        </g>
-                        <circle cx="173" cy="30" r="5" fill="#B5704F"/>
-                        <text x="173" y="14" fill="#3E4E43" font-family="Inter, sans-serif" font-size="14" font-weight="600" text-anchor="middle">0,57</text>
-                    </svg>
-                    <div class="np-regua-escala" aria-hidden="true"><span>klein</span><span>gemiddeld</span><span>groot</span></div>
-                    <figcaption>Effect op angstklachten (Cohen's d).</figcaption>
-                </figure>
-                <p class="np-onderzoek-fonte">Manzoni e.a., 2008</p>
+            <div class="np-prova-linha">
+                <p class="np-prova-num"><span class="np-prova-cifra">27</span><span class="np-prova-un">studies</span></p>
+                <p class="np-prova-frase">Ontspanningstraining verlaagt angstklachten, met een gemiddeld tot groot effect.</p>
             </div>
         </div>
+
+        <p class="np-prova-rodape">Laborde e.a. 2022 &middot; Balban e.a. 2023 (Stanford) &middot; Manzoni e.a. 2008. Onderzoek naar de technieken, niet naar Gewoon Even zelf.</p>
     </div>
     </div>
 
@@ -3944,8 +3882,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
 
         Array.prototype.forEach.call(tracks, function (t) { io.observe(t); });
-        var regua = page.querySelector('.np-regua');
-        if (regua) io.observe(regua);
+        var prova = page.querySelector('.np-prova');
+        if (prova) io.observe(prova);
         var feiten = page.querySelector('.np-feiten');
         if (feiten) io.observe(feiten);
     }
