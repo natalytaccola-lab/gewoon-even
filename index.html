@@ -141,7 +141,7 @@
             --t-citacao: 22px;
             --t-destaque: 24px;
             --t-botao: 17px;
-            --t-sec-cor: #4D5D52;
+            --t-sec-cor: #48574C;
             --t-lh-corpo: 1.5;
 
             /* Os degrades vivem aqui, e nao no #page-checkout, porque as
@@ -1798,6 +1798,9 @@
         #page-checkout .np-cmp-tabela thead th {
             padding: 8px 2px;
             font-family: var(--np-body);
+            /* 15px parte "Psycholoog" a meio da palavra a 360px, tal como os
+               14px: a coluna tem 65px de interior e a palavra precisa de 78px
+               a 14 e 84 a 15. Fica nos 14, como combinado. */
             font-size: 14px;
             font-weight: 600;
             line-height: 1.2;
@@ -5300,7 +5303,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         c.dataset.fora = '1';
                         c.style.transform = 'scale(0.92)';
                         c.style.opacity = '0.65';
-                        if (base && textos[i]) textos[i].style.fontSize = (base * 0.95).toFixed(2) + 'px';
+                        if (base && textos[i]) textos[i].style.fontSize = base.toFixed(2) + 'px';
                     }
                     return;
                 }
@@ -5310,7 +5313,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 c.style.transform = 'scale(' + (1 - 0.08 * t).toFixed(4) + ')';
                 c.style.opacity = (1 - 0.35 * t).toFixed(4);
                 if (base && textos[i]) {
-                    textos[i].style.fontSize = (base * (1.1 - 0.15 * t)).toFixed(2) + 'px';
+                    // o factor nunca desce abaixo de 1: com 0,95 e 1,1-0,15t os
+                    // depoimentos fora de foco caiam de 22px para 20,9px, abaixo
+                    // do minimo da escala
+                    textos[i].style.fontSize = (base * (1.1 - 0.1 * t)).toFixed(2) + 'px';
                 }
             });
         }
