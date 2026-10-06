@@ -906,20 +906,9 @@
             pointer-events: none;
         }
 
-        #page-checkout .np-hero-onda svg {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
         /* a massa creme e' a divisao; por cima dela correm as tres fitas do
            motivo original, translucidas, como no topo da pagina */
-        #page-checkout .np-onda-massa {
-            position: absolute;
-            inset: 0;
-        }
 
-        #page-checkout .np-hero-onda .wvl svg { opacity: 0.5; }
 
         @media (min-width: 901px) {
             #page-checkout .np-hero-grid {
@@ -1116,27 +1105,9 @@
             line-height: 0;
         }
 
-        #page-checkout .np-breath::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(242, 237, 230, 0) 42%, var(--creme) 96%);
-            pointer-events: none;
-        }
-
-        #page-checkout .np-breath--a .wvl svg { opacity: 0.55; }
-
         #page-checkout .np-breath--a {
             height: 104px;
             margin: 0.4rem 0;
-        }
-
-        #page-checkout .np-breath--b .wvl svg { opacity: 0.38; }
-
-        #page-checkout .np-breath--b {
-            height: 112px;
-            margin: 5.5rem 0 4rem;
-            transform: scaleX(-1);
         }
 
 
@@ -1152,59 +1123,7 @@
             position: relative;
         }
 
-        #page-checkout .wvl {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: -17%;
-            width: 134%;
-        }
 
-        #page-checkout .wvl svg {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* A onda do topo está visível ao carregar e anima logo. As três de
-           baixo arrancam fora do ecrã, e o WebKit deixa congelada uma
-           animação iniciada fora da viewport — por isso só recebem a
-           animação quando o observador as vê entrar. */
-        #page-checkout .np-breath.is-live .wvl1,
-        #page-checkout .np-hero-onda .wvl1,
-        #page-checkout .np-climax-onda .wvl1,
-        #page-checkout .np-climax-fim .wvl1 { animation: np-drift-1 15s ease-in-out infinite alternate; }
-        #page-checkout .np-breath.is-live .wvl2,
-        #page-checkout .np-hero-onda .wvl2,
-        #page-checkout .np-climax-onda .wvl2,
-        #page-checkout .np-climax-fim .wvl2 { animation: np-drift-2 13s ease-in-out infinite alternate; }
-        #page-checkout .np-breath.is-live .wvl3,
-        #page-checkout .np-hero-onda .wvl3,
-        #page-checkout .np-climax-onda .wvl3,
-        #page-checkout .np-climax-fim .wvl3 { animation: np-drift-3 11s ease-in-out infinite alternate; }
-
-        @keyframes np-drift-1 {
-            from { transform: translateX(-34px); }
-            to   { transform: translateX(34px); }
-        }
-
-        @keyframes np-drift-2 {
-            from { transform: translateX(46px); }
-            to   { transform: translateX(-46px); }
-        }
-
-        @keyframes np-drift-3 {
-            from { transform: translateX(-60px); }
-            to   { transform: translateX(60px); }
-        }
-
-        /* desfasamento por instância, para as quatro ondas não respirarem em uníssono */
-        #page-checkout .np-breath--a .wvl1 { animation-delay: -4s; }
-        #page-checkout .np-breath--a .wvl2 { animation-delay: -7s; }
-        #page-checkout .np-breath--a .wvl3 { animation-delay: -3s; }
-        #page-checkout .np-breath--b .wvl1 { animation-delay: -11s; }
-        #page-checkout .np-breath--b .wvl2 { animation-delay: -2s; }
-        #page-checkout .np-breath--b .wvl3 { animation-delay: -8s; }
 
         /* ---- entrada dos blocos de áudio ao scroll ---- */
         /* o estado inicial só existe quando o JS acrescenta .np-anim, para que
@@ -1225,10 +1144,6 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            #page-checkout .wvl {
-                animation: none !important;
-                transform: none !important;
-            }
             #page-checkout .np-track { transition: none !important; }
             #page-checkout.np-anim .np-track {
                 opacity: 1 !important;
@@ -2809,7 +2724,6 @@
             left: 0;
             right: 0;
             height: 104px;
-            transform: scaleY(-1);
             pointer-events: none;
         }
 
@@ -2822,21 +2736,6 @@
             bottom: -1px;
             height: clamp(58px, 9.2vw, 205px);
             pointer-events: none;
-        }
-
-        #page-checkout .np-climax-fim svg {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        #page-checkout .np-climax-fim .wvl svg,
-        #page-checkout .np-climax-onda .wvl svg { opacity: 0.5; }
-
-        #page-checkout .np-climax-onda svg {
-            display: block;
-            width: 100%;
-            height: 100%;
         }
 
         /* estes dois viviam num @media anterior as regras-base e, com a mesma
@@ -3370,8 +3269,47 @@
             #page-checkout .np-track-quote { font-size: 1.25rem; }
             #page-checkout .np-track-sci { font-size: 1.08rem; }
             #page-checkout .np-breath--a { height: 72px; margin: 0.2rem 0; }
-            #page-checkout .np-breath--b { height: 84px; margin: 4.2rem 0 3.2rem; }
         }
+
+        /* Em desktop o divisor do fim tem 118px e a nota legal caia dentro
+           dele: com a onda antiga as fitas eram translucidas e passava, com a
+           imagem os morros tapavam-na (1,12:1). O bloco verde ganha respiro em
+           baixo para a nota ficar acima do divisor. */
+        @media (min-width: 901px) {
+            #page-checkout .np-climax { padding-bottom: 8.4rem; }
+        }
+
+        /* ---- divisores: imagem em vez de SVG ----
+           A altura de cada divisor nao muda; a imagem enche-a com object-fit:
+           cover. Uma imagem por divisor, de ponta a ponta, sem mosaico. */
+        #page-checkout .np-onda-img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        /* creme -> verde: a onda assenta com o verde em baixo, a fundir-se
+           com o bloco escuro */
+        #page-checkout .np-climax-onda .np-onda-img { object-position: center bottom; }
+
+        /* verde -> creme: a mesma onda virada, verde em cima */
+        #page-checkout .np-hero-onda .np-onda-img,
+        #page-checkout .np-climax-fim .np-onda-img {
+            object-position: center top;
+            transform: scaleY(-1);
+        }
+
+        /* creme -> creme: so' os morros, sem massa */
+        #page-checkout .np-breath--a .np-onda-img { object-position: center bottom; }
+
+        /* A sobreposicao com o bloco escuro ja' existe e e' muito maior do que
+           2px: a .np-climax-onda esta' em top: -12px com 104px de altura, por
+           isso o verde da imagem entra 92px dentro do bloco. Nos outros dois
+           divisores o verde da imagem fica do lado do bloco. Um bottom: -2px
+           aqui nao faria nada — com top e height definidos, o bottom e'
+           ignorado. */
 
         /* ================== ESCALA TIPOGRAFICA ==================
            Liga os selectores que estavam abaixo do minimo as variaveis do
@@ -3691,7 +3629,7 @@
             </div>
         </div>
 
-        <div class="np-hero-onda" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#F2EDE6"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
+        <div class="np-hero-onda" aria-hidden="true"><img class="np-onda-img" src="img/ondas-escura-1200.webp" srcset="img/ondas-escura-1200.webp 1200w, img/ondas-escura-2400.webp 2400w" sizes="100vw" width="2400" height="420" alt="" aria-hidden="true" decoding="async" loading="eager" fetchpriority="high"></div>
     </header>
 
     <!-- ============ CORPO STACCATO ============ -->
@@ -3739,9 +3677,7 @@
     </div>
 
     <!-- respiração 1 -->
-    <div class="np-breath np-breath--a" aria-hidden="true">
-        <div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
-    </div>
+    <div class="np-breath np-breath--a" aria-hidden="true"><img class="np-onda-img" src="img/ondas-clara-1200.webp" srcset="img/ondas-clara-1200.webp 1200w, img/ondas-clara-2400.webp 2400w" sizes="100vw" width="2400" height="360" alt="" aria-hidden="true" decoding="async" loading="lazy"></div>
 
     <!-- ============ OS TRÊS ÁUDIOS ============ -->
     <div class="container">
@@ -4006,7 +3942,7 @@
     </div>
 
     <div class="np-climax">
-        <div class="np-climax-onda" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#E8E5DD"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
+        <div class="np-climax-onda" aria-hidden="true"><img class="np-onda-img" src="img/ondas-escura-1200.webp" srcset="img/ondas-escura-1200.webp 1200w, img/ondas-escura-2400.webp 2400w" sizes="100vw" width="2400" height="420" alt="" aria-hidden="true" decoding="async" loading="lazy"></div>
         <div class="container">
             <p class="np-tag"><span class="np-tag-ponto" aria-hidden="true"></span>Direct beschikbaar</p>
             <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num np-risco">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de <span class="np-risco">wachtlijst</span> pas.</p>
@@ -4034,7 +3970,7 @@
             <p class="np-disclaimer">Geen medisch advies en geen vervanging voor professionele behandeling.</p>
         </div>
 
-        <div class="np-climax-fim" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#F2EDE6"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
+        <div class="np-climax-fim" aria-hidden="true"><img class="np-onda-img" src="img/ondas-escura-1200.webp" srcset="img/ondas-escura-1200.webp 1200w, img/ondas-escura-2400.webp 2400w" sizes="100vw" width="2400" height="420" alt="" aria-hidden="true" decoding="async" loading="lazy"></div>
     </div>
 
     <div class="container np-faq">
@@ -4954,9 +4890,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!('IntersectionObserver' in window)) {
-        Array.prototype.forEach.call(page.querySelectorAll('.np-breath'), function (o) {
-            o.classList.add('is-live');
-        });
         return; // blocos de áudio ficam no estado final
     }
 
@@ -5528,15 +5461,6 @@ document.addEventListener('DOMContentLoaded', () => {
     montarCarrossel(page.querySelector('.np-stage-scroller'), '.np-track', null,
                     '.np-chev--audio', 'np_audio_hint');
 
-    var ondas = page.querySelectorAll('.np-breath');
-    var ioOndas = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add('is-live');
-            ioOndas.unobserve(entry.target);
-        });
-    }, { threshold: 0.01 });
-    Array.prototype.forEach.call(ondas, function (o) { ioOndas.observe(o); });
 })();
 </script>
 
