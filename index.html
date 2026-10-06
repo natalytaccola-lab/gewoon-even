@@ -803,7 +803,6 @@
         /* nenhuma outra página do funil.                                */
         /* ============================================================ */
         #page-checkout {
-            --np-papel-opacidade: 0.045;
             --verde-dique: #3E4E43;
             --sage: #9AA396;
             --terracota: #C89078;
@@ -1724,33 +1723,6 @@
         #page-upsell2 .btn-primary:focus-visible {
             outline: 3px solid #F2EDE6;
             outline-offset: 3px;
-        }
-
-        /* ---- textura de papel sobre as seccoes creme ----
-           O azulejo esta' centrado no creme (#F2EDE6), e nao em cinzento
-           medio: assim a media sobre o papel e' neutra e so' sobra o grao.
-           Um azulejo preto-e-branco com alfa nao da' para equilibrar, porque
-           escurecer o creme custa 242 niveis e clarea-lo so' 13.
-
-           Vai num ::before com z-index -1, atras de todo o conteudo e a'
-           frente do fundo da pagina. O bloco verde e os cartoes tem fundo
-           proprio, por isso tapam-no sem precisarem de regra nenhuma.
-           Sem background-attachment: fixed. */
-        #page-checkout {
-            position: relative;
-            z-index: 0;
-        }
-
-        #page-checkout::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            background-image: url("img/papel-grao.png");
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            opacity: var(--np-papel-opacidade);
-            pointer-events: none;
         }
 
         /* ---- FAQ ---- */
