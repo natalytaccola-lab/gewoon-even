@@ -799,6 +799,7 @@
             --taupe: #7A6B57;
             --taupe-nota: #8A7B66;
             --np-display: 'Cormorant', Georgia, serif;
+            --np-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --np-seta: #C42B24;
             --np-relogio-cor: #9AA396;
             --np-relogio-opacidade: 0.30;
@@ -808,7 +809,6 @@
             --np-relogio-ponteiro-opacidade: 0.31;
             --np-relogio-tamanho: 300px;
             --np-relogio-ciclo: 60s;
-            --np-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --np-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
             --np-hairline: #CACCC2;
             --np-risco-escuro: #9E6044;
@@ -1274,6 +1274,396 @@
                 max-width: 380px;
                 margin: 0;
             }
+        }
+
+        /* ================= PAGINA DO €37: Protocol van 7 Dagen =================
+           Todo o CSS novo vive sob #page-upsell. As classes globais que a
+           pagina partilha com a downsell, a upsell2 e as entregas
+           (day-item, day-list, upsell-section, price-new, subtle, strong,
+           section-space, divider-line, btn-primary, btn-decline) nao sao
+           tocadas: so' sao redefinidas aqui dentro. */
+        #page-upsell {
+            /* As familias ficam aqui e nao em :root: em :root mudavam o tipo
+               dos botoes da downsell e da thank-you, que tem de ficar iguais. */
+            --np-display: 'Cormorant', Georgia, serif;
+            --np-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --np-quadro-bg: rgba(242, 237, 230, 0.06);
+            --np-quadro-borda: rgba(242, 237, 230, 0.22);
+            --np-quadro-fio: rgba(242, 237, 230, 0.14);
+            --up-creme: #F2EDE6;
+            --up-verde: #3E4E43;
+            --up-taupe: #7A6B57;
+            background: var(--up-creme);
+        }
+
+        /* ---- abertura em verde-dique ---- */
+        #page-upsell .up-abertura {
+            position: relative;
+            padding: 4.4rem 0 5.6rem;
+            background: var(--up-verde);
+            color: var(--up-creme);
+        }
+
+        #page-upsell .up-etiqueta {
+            display: inline-block;
+            margin: 0 0 1.8rem;
+            padding: 7px 16px;
+            border: 1px solid rgba(242, 237, 230, 0.34);
+            border-radius: 999px;
+            font-family: var(--np-body);
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: 0.04em;
+            color: var(--up-creme);
+        }
+
+        #page-upsell .up-linha {
+            margin: 0 0 1.1rem;
+            max-width: 30rem;
+            font-family: var(--np-display);
+            font-size: 26px;
+            font-weight: 400;
+            line-height: 1.32;
+            color: var(--up-creme);
+        }
+
+        #page-upsell .up-linha:last-child { margin-bottom: 0; }
+
+        /* a onda de transicao, fina e translucida */
+        #page-upsell .up-onda {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 58px;
+            color: var(--up-creme);
+            opacity: 0.92;
+            pointer-events: none;
+        }
+
+        #page-upsell .up-onda svg { display: block; width: 100%; height: 100%; }
+
+        #page-upsell .up-onda--topo {
+            top: -1px;
+            bottom: auto;
+            color: var(--up-verde);
+            transform: scaleY(-1);
+        }
+
+        /* ---- ponte em creme ---- */
+        #page-upsell .up-ponte { margin: 3rem auto 0; }
+
+        #page-upsell .up-ponte p {
+            margin: 0 0 1.1rem;
+            max-width: 34rem;
+            font-family: var(--np-body);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.62;
+            color: var(--up-verde);
+        }
+
+        #page-upsell .up-ponte p.up-forte {
+            font-family: var(--np-display);
+            font-size: 24px;
+            line-height: 1.3;
+        }
+
+        /* ---- a semana ---- */
+        #page-upsell .up-semana { margin: 2.8rem auto 0; }
+
+        #page-upsell .up-semana h2 {
+            margin: 0 0 1.4rem;
+            max-width: 30rem;
+            font-family: var(--np-display);
+            font-size: 30px;
+            font-weight: 400;
+            line-height: 1.2;
+            color: var(--up-verde);
+        }
+
+        #page-upsell .day-list {
+            margin: 0 0 1.6rem;
+            padding: 6px 20px;
+            border: 1px solid rgba(62, 78, 67, 0.16);
+            border-radius: 12px;
+            background: none;
+        }
+
+        #page-upsell .day-item {
+            display: grid;
+            grid-template-columns: 34px 1fr;
+            gap: 14px;
+            align-items: baseline;
+            margin: 0;
+            padding: 14px 0;
+            border: 0;
+            border-top: 1px solid rgba(62, 78, 67, 0.12);
+            font-family: var(--np-body);
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 1.45;
+            color: var(--up-verde);
+        }
+
+        #page-upsell .day-item:first-child { border-top: 0; }
+
+        #page-upsell .up-dia-num {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid rgba(62, 78, 67, 0.30);
+            border-radius: 50%;
+            font-family: var(--np-display);
+            font-size: 17px;
+            line-height: 1;
+            color: var(--up-verde);
+        }
+
+        #page-upsell .day-item strong {
+            font-weight: 600;
+            color: var(--up-verde);
+        }
+
+        #page-upsell .up-semana > p {
+            margin: 0;
+            max-width: 34rem;
+            font-family: var(--np-body);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.62;
+            color: var(--up-verde);
+        }
+
+        /* ---- bloco do preco, em verde-dique ---- */
+        #page-upsell .up-preco {
+            position: relative;
+            margin: 3.4rem 0 0;
+            padding: 5rem 0 4rem;
+            background: var(--up-verde);
+            color: var(--up-creme);
+        }
+
+        #page-upsell .up-ancora {
+            margin: 0 0 1.4rem;
+            max-width: 32rem;
+            font-family: var(--np-body);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: rgba(242, 237, 230, 0.92);
+        }
+
+        #page-upsell .up-precos {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 0 0 1rem;
+        }
+
+        #page-upsell .price-strike {
+            font-family: var(--np-display);
+            font-size: 26px;
+            /* 0,55 dava 3,53:1; o preco antigo e' informacao, precisa de 4,5 */
+            color: rgba(242, 237, 230, 0.72);
+            text-decoration: line-through;
+        }
+
+        #page-upsell .up-agora {
+            font-family: var(--np-display);
+            font-size: 52px;
+            font-weight: 600;
+            line-height: 1;
+            color: var(--up-creme);
+        }
+
+        #page-upsell .up-eenmalig {
+            font-family: var(--np-body);
+            font-size: 15px;
+            color: rgba(242, 237, 230, 0.78);
+        }
+
+        #page-upsell .up-exclusivo {
+            margin: 0 0 1.6rem;
+            max-width: 32rem;
+            font-family: var(--np-display);
+            font-style: italic;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--up-creme);
+        }
+
+        /* o painel translucido da lista, como no checkout */
+        #page-upsell .up-feiten {
+            margin: 0 0 2rem;
+            padding: 6px 22px;
+            list-style: none;
+            background: var(--np-quadro-bg);
+            border: 1px solid var(--np-quadro-borda);
+            border-radius: 14px;
+        }
+
+        #page-upsell .up-feiten li {
+            display: grid;
+            grid-template-columns: 38px 1fr;
+            gap: 14px;
+            align-items: center;
+            margin: 0;
+            padding: 15px 0;
+            border-top: 1px solid var(--np-quadro-fio);
+            font-family: var(--np-body);
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: rgba(242, 237, 230, 0.92);
+        }
+
+        #page-upsell .up-feiten li:first-child { border-top: 0; }
+
+        #page-upsell .up-bolha {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(242, 237, 230, 0.35);
+            border-radius: 50%;
+        }
+
+        #page-upsell .up-bolha svg { width: 21px; height: 21px; color: var(--up-creme); }
+
+        #page-upsell .np-risco {
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 5px;
+            text-decoration-skip-ink: none;
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
+        }
+
+        /* escuro sobre creme, claro sobre verde */
+        #page-upsell .up-ponte .np-risco,
+        #page-upsell .up-semana .np-risco { text-decoration-color: #B5704F; }
+
+        #page-upsell .up-abertura .np-risco,
+        #page-upsell .up-preco .np-risco { text-decoration-color: #E0956F; }
+
+        /* ---- botao com halo, a tecnica do np-cta-final ---- */
+        #page-upsell .btn-primary.up-cta {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 58px;
+            margin: 0;
+            padding: 18px 34px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--np-grad-final);
+            font-family: var(--np-body);
+            font-size: 1.05rem;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: 0.005em;
+            text-transform: none;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+
+        #page-upsell .btn-primary.up-cta:hover { background: var(--np-grad-final-hover); }
+
+        #page-upsell .up-cta::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: 0 0 34px 9px rgba(193, 84, 29, 0.55);
+            opacity: 0;
+            pointer-events: none;
+            animation: np-halo-pulso 3.6s ease-in-out infinite;
+        }
+
+        #page-upsell .up-cta:focus-visible {
+            outline: 3px solid #F2EDE6;
+            outline-offset: 3px;
+        }
+
+        #page-upsell .btn-decline.up-recusa {
+            display: block;
+            width: 100%;
+            margin: 1.2rem 0 0;
+            padding: 10px 0;
+            border: 0;
+            background: none;
+            font-family: var(--np-body);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.4;
+            color: rgba(242, 237, 230, 0.78);
+            text-align: center;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            cursor: pointer;
+        }
+
+        #page-upsell .up-garantia {
+            margin: 1.8rem 0 0;
+            max-width: 34rem;
+            font-family: var(--np-body);
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: rgba(242, 237, 230, 0.86);
+        }
+
+        /* ---- rodape de prova ---- */
+        #page-upsell .up-prova { margin: 2.4rem auto 2.4rem; }
+
+        #page-upsell .up-prova p {
+            margin: 0 0 0.5rem;
+            max-width: 36rem;
+            font-family: var(--np-body);
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #5E6E63;
+        }
+
+        /* o fade escalonado da abertura */
+        #page-upsell.np-anim .up-linha { opacity: 0; transform: translateY(8px); }
+        #page-upsell.is-in .up-linha {
+            opacity: 1;
+            transform: none;
+            transition: opacity 520ms ease, transform 520ms ease;
+        }
+        #page-upsell.is-in .up-linha:nth-child(2) { transition-delay: 60ms; }
+        #page-upsell.is-in .up-linha:nth-child(3) { transition-delay: 120ms; }
+        #page-upsell.is-in .up-linha:nth-child(4) { transition-delay: 180ms; }
+        #page-upsell.is-in .up-linha:nth-child(5) { transition-delay: 240ms; }
+        #page-upsell.is-in .up-linha:nth-child(6) { transition-delay: 300ms; }
+        #page-upsell.is-in .up-linha:nth-child(7) { transition-delay: 360ms; }
+        #page-upsell.is-in .up-linha:nth-child(8) { transition-delay: 420ms; }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-upsell .up-linha {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+            #page-upsell .up-cta::after { animation: none; opacity: 0.55; }
+        }
+
+        @media (min-width: 901px) {
+            #page-upsell .up-linha { font-size: 31px; }
+            #page-upsell .up-ponte p.up-forte { font-size: 27px; }
+            #page-upsell .up-semana h2 { font-size: 36px; }
+            #page-upsell .up-agora { font-size: 60px; }
+            #page-upsell .up-onda { height: 92px; }
         }
 
         /* ---- CTAs das paginas do funil: a mesma pilula do checkout ----
@@ -3465,55 +3855,81 @@
 <!-- PAGE 3: UPSELL                   -->
 <!-- ================================ -->
 <div class="page" id="page-upsell">
-    <div class="container">
-        <div class="upsell-section">
-            <div class="upsell-badge">Eenmalig aanbod</div>
-            <h1>Wacht even.</h1>
-            <p>Je hebt nu het noodprotocol. Dat helpt als de dijk dreigt te breken.</p>
-            <p class="strong">Maar wat als je de dijk zelf sterker maakt?</p>
-
-            <p style="font-size: 0.95rem; color: var(--text-light); font-style: italic;">Het Noodprotocol helpt als het gebeurt. Het Protocol van 7 Dagen zorgt ervoor dat het steeds minder gebeurt.</p>
-
-            <div class="section-space"></div>
-
-            <h2>Het Protocol van 7 Dagen hertraint je zenuwstelsel.</h2>
-
-            <p>7 audio's van 12 minuten. Elke dag één laag:</p>
-
-            <div class="day-list">
-                <div class="day-item"><strong>Dag 1</strong> Ademhaling en vaguszenuw-activatie</div>
-                <div class="day-item"><strong>Dag 2</strong> Waar angst woont in je lichaam</div>
-                <div class="day-item"><strong>Dag 3</strong> Doemdenken onderbreken</div>
-                <div class="day-item"><strong>Dag 4</strong> Ruimte maken voor wat je onderdrukt hebt</div>
-                <div class="day-item"><strong>Dag 5</strong> Slaap — een avondritueel voor diepe regulatie</div>
-                <div class="day-item"><strong>Dag 6</strong> Aanwezigheid — terugkeren naar je omgeving</div>
-                <div class="day-item"><strong>Dag 7</strong> Integratie — je gereedschap voor de komende 30 dagen</div>
-            </div>
-
-            <p>Je lijf leert niet van één keer. Het leert van herhaling, kort na elkaar, in dezelfde richting. Daarom is het Protocol van 7 Dagen zo opgebouwd: elke dag bouwt voort op de vorige, tot je zenuwstelsel een nieuw 'normaal' leert.</p>
-            <p>Inclusief PDF-dagboek voor je voortgang.</p>
-
-            <div class="divider-line"></div>
-
-            <p class="subtle">Je hebt net het Noodprotocol gekocht. Daarom krijg je het Protocol van 7 Dagen nu voor de helft van de prijs. Dit aanbod verschijnt één keer.</p>
-
-            <div style="padding: 16px 0;">
-                <span class="price-strike">€67</span>
-                <span style="margin: 0 8px;">→</span>
-                <span class="price-new">€37</span>
-            </div>
-            <p style="font-size: 0.75rem; color: var(--text-light); text-align: center; margin-top: 4px;">Gebaseerd op onderzoek naar ademhaling en zenuwstelselregulatie — o.a. Stanford University (Cell Reports Medicine, 2023).</p>
-
-            <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik wil mijn zenuwstelsel hertrainen — €37</a>
-            <button class="btn-decline" onclick="showPage('page-downsell')">Nee bedankt, het Noodprotocol is genoeg</button>
+    <section class="up-abertura">
+        <div class="container">
+            <p class="up-etiqueta">Voor wie het Noodprotocol heeft</p>
+            <p class="up-linha">Er is iets dat je nog niet hardop hebt gezegd.</p>
+            <p class="up-linha">Je weet het al. Niemand heeft ooit de juiste vraag gesteld.</p>
+            <p class="up-linha">Je hebt ademhaling geprobeerd. Apps. Misschien een podcast om 3 uur 's nachts.</p>
+            <p class="up-linha">Ze werkten even. En dan weer niet.</p>
+            <p class="up-linha">Eén ademhaling was nooit het hele verhaal.</p>
+            <p class="up-linha">Je systeem reageert niet willekeurig. Het volgt een patroon — een dat je al je hele leven kent, zonder het ooit zo genoemd te hebben.</p>
+            <p class="up-linha">Er is een naam voor waar je in leeft: <span class="np-risco">de alarmstand.</span></p>
+            <p class="up-linha">Een systeem dat nooit heeft leren stoppen.</p>
         </div>
+        <div class="up-onda" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 400 L0 400 Z" fill="currentColor"/></svg></div>
+    </section>
+
+    <div class="container up-ponte">
+        <p>Dat leer je op de dagen dat er niets aan de hand is. Het is hetzelfde principe waarmee brandweermannen, chirurgen en topsporters trainen: de vaardigheid wordt aangeleerd in rust, zodat het lichaam erop kan terugvallen wanneer het echt telt.</p>
+        <p class="up-forte"><span class="np-risco">Vandaag is zo'n dag.</span></p>
+        <p>En elke dag die je wacht, betaalt je lichaam de rekening ergens anders. In de ochtend die zwaarder begint dan nodig. In het geduld dat al op is voordat de kinderen wakker zijn. In het werk dat blijft liggen &mdash; je systeem is leeg voordat je begint.</p>
+        <p>Zorg nu, terwijl er nog tijd is. <span class="np-risco">Niemand weet wat morgen brengt.</span></p>
+        <p class="up-forte">Het Protocol van 7 Dagen is die tijd.</p>
+    </div>
+
+    <div class="container up-semana">
+        <h2>Zeven dagen. Elke dag &eacute;&eacute;n audio. Elke dag bouwt voort op de vorige.</h2>
+
+        <div class="day-list">
+                <div class="day-item"><span class="up-dia-num" aria-hidden="true">1</span><span class="up-dia-txt"><strong class="np-risco">Dag 1</strong> Ademhaling en vaguszenuw-activatie</span></div>
+                <div class="day-item"><span class="up-dia-num" aria-hidden="true">2</span><span class="up-dia-txt"><strong class="np-risco">Dag 2</strong> Waar angst woont in je lichaam</span></div>
+                <div class="day-item"><span class="up-dia-num" aria-hidden="true">3</span><span class="up-dia-txt"><strong class="np-risco">Dag 3</strong> Doemdenken onderbreken</span></div>
+                <div class="day-item"><span class="up-dia-num" aria-hidden="true">4</span><span class="up-dia-txt"><strong class="np-risco">Dag 4</strong> Ruimte maken voor wat je onderdrukt hebt</span></div>
+                <div class="day-item"><span class="up-dia-num" aria-hidden="true">5</span><span class="up-dia-txt"><strong class="np-risco">Dag 5</strong> Slaap — een avondritueel voor diepe regulatie</span></div>
+                <div class="day-item"><span class="up-dia-num" aria-hidden="true">6</span><span class="up-dia-txt"><strong class="np-risco">Dag 6</strong> Aanwezigheid — terugkeren naar je omgeving</span></div>
+                <div class="day-item"><span class="up-dia-num" aria-hidden="true">7</span><span class="up-dia-txt"><strong class="np-risco">Dag 7</strong> Integratie — je gereedschap voor de komende 30 dagen</span></div>
+        </div>
+
+        <p>Je lijf leert niet van &eacute;&eacute;n keer. Het leert van herhaling, kort na elkaar, in dezelfde richting. Daarom is het Protocol van 7 Dagen zo opgebouwd: elke dag bouwt voort op de vorige, tot je zenuwstelsel een nieuw 'normaal' leert.</p>
+    </div>
+
+    <section class="up-preco">
+        <div class="up-onda up-onda--topo" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 400 L0 400 Z" fill="currentColor"/></svg></div>
+        <div class="container">
+            <p class="up-ancora">Een sessie bij de psycholoog begint met je eigen risico. <span class="np-risco">&euro;385</span>. Dit zijn zeven dagen.</p>
+
+            <p class="up-precos"><span class="price-strike">&euro;67</span><span class="up-agora">&euro;37</span><span class="up-eenmalig">eenmalig</span></p>
+
+            <p class="up-exclusivo">Dit aanbod is er alleen voor mensen die het Noodprotocol hebben. Je vindt het nergens anders.</p>
+
+            <ul class="up-feiten">
+                <li><span class="up-bolha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><path d="M21 15v3a2 2 0 0 1-2 2h-1a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3Z"/><path d="M3 15v3a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H3Z"/></svg></span><span>7 audio's, één voor elke dag</span></li>
+                <li><span class="up-bolha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5.5A7.5 7.5 0 0 0 8.5 9a8 8 0 0 0 0 6A7.5 7.5 0 0 0 19 18.5"/><path d="M4 10h11"/><path d="M4 14h8"/></svg></span><span>Eenmalig <span class="np-risco">€37, geen abonnement</span></span></li>
+                <li><span class="up-bolha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></svg></span><span>Direct toegang na betaling, <span class="np-risco">geen account of app nodig</span></span></li>
+                <li><span class="up-bolha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg></span><span><span class="np-risco">60 dagen garantie</span></span></li>
+            </ul>
+
+            <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary up-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik ga verder &mdash; &euro;37</a>
+
+            <button class="btn-decline up-recusa" onclick="showPage('page-downsell')">Nee bedankt, het Noodprotocol is genoeg</button>
+
+            <p class="up-garantia">Doe de 7 dagen. Werkt het niet voor je? Mail naar hello@gewoon-even.nl en je krijgt je geld terug, zonder vragen. We zijn ervan overtuigd dat je zenuwstelsel na deze week anders reageert &mdash; daarom 60 dagen garantie.</p>
+        </div>
+    </section>
+
+    <div class="container up-prova">
+        <p>Gebaseerd op het principe van stress inoculation training (Meichenbaum, 1985). Onderzoek naar gestructureerde ademhalingsoefeningen: Balban et al., Cell Reports Medicine, 2023 (Stanford University).</p>
+        <p>Geen medisch advies en geen vervanging voor professionele behandeling.</p>
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even &mdash; Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
 
-<!-- ================================ -->
-<!-- PAGE 4: DOWNSELL                 -->
-<!-- ================================ -->
 <div class="page" id="page-downsell">
     <div class="container">
         <div class="upsell-section">
@@ -3738,6 +4154,12 @@ function trackPageViewInBrevo(pageId) {
 }
 
 function showPage(pageId) {
+        // a abertura do €37 so' faz o fade quando a pagina entra
+        if (pageId === 'page-upsell') {
+            var up = document.getElementById('page-upsell');
+            if (up) { up.classList.remove('is-in'); requestAnimationFrame(function () {
+                requestAnimationFrame(function () { up.classList.add('is-in'); }); }); }
+        }
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
