@@ -1215,6 +1215,111 @@
             }
         }
 
+        /* ---- "Wat gebeurt er na je betaling?": tres passos ligados ---- */
+        #page-checkout .np-depois { margin: 2.6rem auto 2.4rem; }
+
+        #page-checkout .np-depois h2 {
+            margin: 0 0 0.7rem;
+            font-family: var(--np-display);
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-passos { display: grid; gap: 10px; }
+
+        /* mobile: empilhados, com o fio vertical a passar pelos aneis */
+        #page-checkout .np-passo {
+            position: relative;
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            gap: 14px;
+            align-items: start;
+        }
+
+        #page-checkout .np-passo::before {
+            content: "";
+            position: absolute;
+            left: 22px;
+            top: 44px;
+            bottom: -10px;
+            width: 1px;
+            background: rgba(62, 78, 67, 0.30);
+        }
+
+        #page-checkout .np-passo:last-child::before { display: none; }
+
+        #page-checkout .np-passo-anel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(62, 78, 67, 0.30);
+            border-radius: 50%;
+            background: var(--creme);
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-passo-anel svg { width: 22px; height: 22px; }
+
+        #page-checkout .np-passos p.np-passo-tit {
+            margin: 0;
+            font-family: var(--np-body);
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-passos p.np-passo-sub {
+            margin: 2px 0 0;
+            font-family: var(--np-body);
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.35;
+            color: #5E6E63;
+        }
+
+        #page-checkout.np-anim .np-passo { opacity: 0; transform: translateY(8px); transition: opacity 460ms ease, transform 460ms ease; }
+        #page-checkout.np-anim .np-depois.is-in .np-passo { opacity: 1; transform: none; }
+        #page-checkout.np-anim .np-depois.is-in .np-passo:nth-child(2) { transition-delay: 110ms; }
+        #page-checkout.np-anim .np-depois.is-in .np-passo:nth-child(3) { transition-delay: 220ms; }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout.np-anim .np-passo {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* desktop: tres colunas ligadas por um fio horizontal */
+        @media (min-width: 901px) {
+            #page-checkout .np-depois h2 { font-size: 42px; }
+
+            #page-checkout .np-passos {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+            }
+
+            #page-checkout .np-passo {
+                grid-template-columns: 1fr;
+                align-content: start;
+                gap: 8px;
+            }
+
+            #page-checkout .np-passo::before {
+                left: 44px;
+                right: -24px;
+                top: 22px;
+                bottom: auto;
+                width: auto;
+                height: 1px;
+            }
+        }
+
         /* ---- selo da garantia, por baixo do CTA do meio ---- */
         #page-checkout .np-cta-meio-wrap p.np-selo {
             display: flex;
@@ -2833,6 +2938,33 @@
 
     </div>
     <!-- clímax: a decisão tem faixa própria, distinta de tudo o resto -->
+    <div class="container np-depois">
+        <h2>Wat gebeurt er na je betaling?</h2>
+        <div class="np-passos">
+            <div class="np-passo">
+                <span class="np-passo-anel" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/><path d="M6 14.5h4"/></svg></span>
+                <div class="np-passo-txt">
+                    <p class="np-passo-tit">Je betaalt veilig.</p>
+                    <p class="np-passo-sub">Met iDEAL of kaart.</p>
+                </div>
+            </div>
+            <div class="np-passo">
+                <span class="np-passo-anel" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3.5 7 12 13 20.5 7"/></svg></span>
+                <div class="np-passo-txt">
+                    <p class="np-passo-tit">Je krijgt direct een e-mail.</p>
+                    <p class="np-passo-sub">Met een knop naar je drie audio's.</p>
+                </div>
+            </div>
+            <div class="np-passo">
+                <span class="np-passo-anel" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M20 14v3a2 2 0 0 1-2 2h-.5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1H20Z"/><path d="M4 14v3a2 2 0 0 0 2 2h.5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H4Z"/></svg></span>
+                <div class="np-passo-txt">
+                    <p class="np-passo-tit">Je luistert wanneer je lijf in alarm staat.</p>
+                    <p class="np-passo-sub">Zo vaak je wilt. Zonder account of app.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="np-climax">
         <div class="np-climax-onda" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#E8E5DD"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
         <div class="container">
@@ -3749,6 +3881,8 @@ document.addEventListener('DOMContentLoaded', () => {
         Array.prototype.forEach.call(tracks, function (t) { io.observe(t); });
         var prova = page.querySelector('.np-prova');
         if (prova) io.observe(prova);
+        var depois = page.querySelector('.np-depois');
+        if (depois) io.observe(depois);
         var feiten = page.querySelector('.np-feiten');
         if (feiten) io.observe(feiten);
     }
