@@ -792,9 +792,10 @@
             --np-hairline: #CACCC2;
             --np-risco-escuro: #9E6044;
             --np-risco-claro: #E0956F;
-            --np-quadro: #F3E5AB;
-            --np-quadro-borda: #E3CF86;
-            --np-bullet: #9E6044;
+            --np-quadro: #F2EDE6;
+            --np-quadro-borda: rgba(62, 78, 67, 0.14);
+            --np-icone: #3E4E43;
+            --np-risco-cartao: #B5704F;
 
             background: var(--creme);
             color: var(--verde-dique);
@@ -2044,6 +2045,7 @@
         /* sobre o verde o risco tem de ser mais claro para se ver */
         #page-checkout .np-climax .np-risco {
             text-decoration-color: var(--np-risco-claro);
+            text-decoration-thickness: 2px;
         }
 
         /* ---- etiqueta "Direct beschikbaar" ---- */
@@ -2110,47 +2112,63 @@
             background: #E0956F;
         }
 
-        /* ---- o quadro da lista ---- */
+        /* ---- o cartao da lista ---- */
         #page-checkout .np-feiten {
             margin: 28px 0;
-            padding: 26px 22px;
+            padding: 28px 24px;
             list-style: none;
             background: var(--np-quadro);
             border: 1px solid var(--np-quadro-borda);
-            border-radius: 18px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+            overflow: visible;
         }
 
         #page-checkout .np-feiten li {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            gap: 16px;
+            align-items: start;
             margin: 0;
-            padding: 8px 0;
-            border-top: 1px solid rgba(62, 78, 67, 0.14);
+            padding: 16px 0;
+            border-top: 1px solid rgba(62, 78, 67, 0.12);
             font-family: var(--np-body);
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 500;
-            line-height: 1.4;
-            color: var(--verde-dique);
+            line-height: 1.45;
+            color: #3E4E43;
         }
 
         #page-checkout .np-feiten li:first-child { padding-top: 0; border-top: 0; }
+        /* respiro: o ultimo circulo nao pode encostar a borda do cartao */
         #page-checkout .np-feiten li:last-child { padding-bottom: 0; }
-        #page-checkout .np-feiten li::before { content: none; }
 
-        #page-checkout .np-visto {
-            flex: 0 0 auto;
-            width: 32px;
-            height: 32px;
-            padding: 6px;
-            box-sizing: border-box;
+        /* Discos com icone. Os icones sao desenhados aqui, a mao, no mesmo
+           idioma do conjunto Lucide (viewBox 24, traco 1.75, pontas
+           arredondadas) — nao sao copiados, por isso nao ha ficheiro de
+           licenca a acompanhar. */
+        #page-checkout .np-disco {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: var(--np-bullet);
-            color: var(--creme);
+            background: rgba(62, 78, 67, 0.08);
         }
 
+        #page-checkout .np-icone {
+            width: 28px;
+            height: 28px;
+            color: var(--np-icone);
+        }
+
+        /* o risco dentro do cartao: mais fino e sem quebrar a expressao */
         #page-checkout .np-feiten .np-risco {
-            text-decoration-color: var(--np-risco-escuro);
+            text-decoration-color: var(--np-risco-cartao);
+            text-decoration-thickness: 2px;
+            text-underline-offset: 5px;
+            white-space: nowrap;
         }
 
         /* ---- garantia ---- */
@@ -2164,8 +2182,8 @@
         @media (min-width: 901px) {
             #page-checkout .np-anchor { font-size: 22px; }
             #page-checkout .np-cta-quote { font-size: 28px; }
-            #page-checkout .np-feiten { padding: 32px 36px; }
-            #page-checkout .np-feiten li { font-size: 21px; }
+            #page-checkout .np-feiten { padding: 36px 40px; }
+            #page-checkout .np-feiten li { font-size: 20px; }
         }
 
         /* entrada escalonada dos itens */
@@ -2258,34 +2276,6 @@
             font-size: 0.78rem;
             letter-spacing: 0.02em;
             color: rgba(242, 237, 230, 0.6);
-        }
-
-        /* factos secos antes do botao */
-        #page-checkout .np-feiten {
-            margin: 1.8rem 0 0;
-            padding: 0;
-            list-style: none;
-            font-family: var(--np-body);
-            font-size: 0.88rem;
-            font-weight: 300;
-            line-height: 1.5;
-            color: rgba(242, 237, 230, 0.78);   /* 5,36:1 sobre o verde */
-        }
-
-        #page-checkout .np-feiten li {
-            position: relative;
-            padding-left: 1.05rem;
-            margin-top: 0.5rem;
-        }
-
-        #page-checkout .np-feiten li::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0.62em;
-            width: 5px;
-            height: 1px;
-            background: rgba(242, 237, 230, 0.5);
         }
 
         /* barra fixa em mobile, depois do hero e ate' o bloco de preco aparecer */
@@ -2802,10 +2792,10 @@
             <blockquote class="np-cta-quote">"<span class="np-risco">Mijn huisarts noemde het stress.</span> … Ik wilde iets kunnen doen toen het gebeurde."<cite>Ingrid, 52</cite></blockquote>
 
             <ul class="np-feiten">
-                <li><svg class="np-visto" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="np-num">3</span> audio's, <span class="np-risco">samen ± <span class="np-num">21</span> minuten</span>, zo vaak luisteren als je wilt</span></li>
-                <li><svg class="np-visto" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Eenmalig <span class="np-num">€17</span>, <span class="np-risco">geen abonnement</span></span></li>
-                <li><svg class="np-visto" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Direct toegang na betaling, <span class="np-risco">geen account of app nodig</span></span></li>
-                <li><svg class="np-visto" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="np-risco"><span class="np-num">60</span> dagen garantie</span></span></li>
+                <li><span class="np-disco" aria-hidden="true"><svg class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><path d="M21 15v3a2 2 0 0 1-2 2h-1a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3Z"/><path d="M3 15v3a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H3Z"/></svg></span><span><span class="np-num">3</span> audio's, samen ± <span class="np-risco"><span class="np-num">21</span> minuten</span>, zo vaak luisteren als je wilt</span></li>
+                <li><span class="np-disco" aria-hidden="true"><svg class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5.5A7.5 7.5 0 0 0 8.5 9a8 8 0 0 0 0 6A7.5 7.5 0 0 0 19 18.5"/><path d="M4 10h11"/><path d="M4 14h8"/></svg></span><span>Eenmalig <span class="np-num">€17</span>, <span class="np-risco">geen abonnement</span></span></li>
+                <li><span class="np-disco" aria-hidden="true"><svg class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></svg></span><span>Direct toegang na betaling, <span class="np-risco">geen account of app nodig</span></span></li>
+                <li><span class="np-disco" aria-hidden="true"><svg class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg></span><span><span class="np-risco"><span class="np-num">60</span> dagen garantie</span></span></li>
             </ul>
 
             <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary np-cta-final" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik doe dit nu — €17</a>
