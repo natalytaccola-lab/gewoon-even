@@ -787,6 +787,10 @@
             --taupe: #7A6B57;
             --taupe-nota: #8A7B66;
             --np-display: 'Cormorant', Georgia, serif;
+            --np-relogio-cor: #8A9585;
+            --np-relogio-opacidade: 0.30;
+            --np-relogio-traco: 2.5;
+            --np-relogio-tamanho: 340px;
             --np-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --np-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
             --np-hairline: #CACCC2;
@@ -1000,10 +1004,11 @@
             position: absolute;
             z-index: 0;
             top: 50%;
-            left: -52px;
-            width: 268px;
-            color: var(--sage);
-            opacity: 0.1;
+            left: -26px;
+            width: var(--np-relogio-tamanho);
+            max-width: calc(100% + 26px);
+            color: var(--np-relogio-cor);
+            opacity: var(--np-relogio-opacidade);
             pointer-events: none;
             transform: translateY(-50%);
         }
@@ -1012,6 +1017,12 @@
             display: block;
             width: 100%;
             height: auto;
+            stroke-width: var(--np-relogio-traco);
+        }
+
+        /* os tracinhos das horas mantem a proporcao que tinham (0,9 / 1,1) */
+        #page-checkout .np-relogio svg g {
+            stroke-width: calc(var(--np-relogio-traco) * 0.82);
         }
 
         #page-checkout .np-lift {
@@ -1019,11 +1030,8 @@
             z-index: 1;
         }
 
-        @media (max-width: 600px) {
-            #page-checkout .np-relogio {
-                left: -26px;
-                width: 196px;
-            }
+        @media (min-width: 901px) {
+            #page-checkout .np-relogio { --np-relogio-tamanho: 460px; }
         }
 
         /* ---- assinatura: a onda a respirar entre secções ---- */
@@ -1917,7 +1925,7 @@
             font-family: var(--np-body);
             font-size: 16px;
             font-weight: 400;
-            line-height: 1.45;
+            line-height: 1.4;
             color: #3E4E43;
         }
 
@@ -1972,7 +1980,7 @@
 
         @media (min-width: 901px) {
             #page-checkout .np-onderzoek h2 { font-size: 42px; }
-            #page-checkout .np-onderzoek-lista { padding: 26px 28px; }
+            #page-checkout .np-onderzoek-lista { padding: 18px 28px; }
             #page-checkout .np-onderzoek-texto { font-size: 17px; }
         }
 
@@ -2736,9 +2744,9 @@
         <div class="np-alarme">
                 <div class="np-relogio" aria-hidden="true">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
-                         fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+                         fill="none" stroke="currentColor" stroke-linecap="round">
                         <circle cx="50" cy="50" r="46"/>
-                        <g stroke-width="0.9"><line x1="50.0" y1="4.0" x2="50.0" y2="10.0"/><line x1="73.0" y1="10.2" x2="71.5" y2="12.8"/><line x1="89.8" y1="27.0" x2="87.2" y2="28.5"/><line x1="96.0" y1="50.0" x2="90.0" y2="50.0"/><line x1="89.8" y1="73.0" x2="87.2" y2="71.5"/><line x1="73.0" y1="89.8" x2="71.5" y2="87.2"/><line x1="50.0" y1="96.0" x2="50.0" y2="90.0"/><line x1="27.0" y1="89.8" x2="28.5" y2="87.2"/><line x1="10.2" y1="73.0" x2="12.8" y2="71.5"/><line x1="4.0" y1="50.0" x2="10.0" y2="50.0"/><line x1="10.2" y1="27.0" x2="12.8" y2="28.5"/><line x1="27.0" y1="10.2" x2="28.5" y2="12.8"/></g>
+                        <g><line x1="50.0" y1="4.0" x2="50.0" y2="10.0"/><line x1="73.0" y1="10.2" x2="71.5" y2="12.8"/><line x1="89.8" y1="27.0" x2="87.2" y2="28.5"/><line x1="96.0" y1="50.0" x2="90.0" y2="50.0"/><line x1="89.8" y1="73.0" x2="87.2" y2="71.5"/><line x1="73.0" y1="89.8" x2="71.5" y2="87.2"/><line x1="50.0" y1="96.0" x2="50.0" y2="90.0"/><line x1="27.0" y1="89.8" x2="28.5" y2="87.2"/><line x1="10.2" y1="73.0" x2="12.8" y2="71.5"/><line x1="4.0" y1="50.0" x2="10.0" y2="50.0"/><line x1="10.2" y1="27.0" x2="12.8" y2="28.5"/><line x1="27.0" y1="10.2" x2="28.5" y2="12.8"/></g>
                         <path d="M50 50 L32 38"/>
                         <path d="M50 50 L67 33"/>
                     </svg>
@@ -2917,12 +2925,12 @@
             <div class="np-onderzoek-linha">
                 <div class="np-onderzoek-cab"><span class="np-anel" aria-hidden="true"><svg class="np-icone-claro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2.5-4 5-4 7.5 0s5 4 7.5 0 3.5-2 5-1"/></svg></span><span class="np-onderzoek-rotulo">Ademen</span></div>
                 <p class="np-onderzoek-texto">Langzaam ademen verhoogt de activiteit van de nervus vagus. Analyse van 223 studies.</p>
-                <p class="np-onderzoek-fonte">Laborde e.a., 2022, Neuroscience &amp; Biobehavioral Reviews</p>
+                <p class="np-onderzoek-fonte">Laborde e.a., 2022</p>
             </div>
             <div class="np-onderzoek-linha">
                 <div class="np-onderzoek-cab"><span class="np-anel" aria-hidden="true"><svg class="np-icone-claro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.2a4.6 4.6 0 0 0 7 0"/><path d="M9 9.5h.01"/><path d="M15 9.5h.01"/></svg></span><span class="np-onderzoek-rotulo">Stemming</span></div>
                 <p class="np-onderzoek-texto">Vijf minuten per dag, vier weken lang: ademen met een lange uitademing verbeterde de stemming meer dan mindfulness.</p>
-                <p class="np-onderzoek-fonte">Balban e.a., 2023, Cell Reports Medicine (Stanford)</p>
+                <p class="np-onderzoek-fonte">Balban e.a., 2023, Stanford</p>
             </div>
             <div class="np-onderzoek-linha">
                 <div class="np-onderzoek-cab"><span class="np-anel" aria-hidden="true"><svg class="np-icone-claro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4c0 8-4.5 13-12 13"/><path d="M20 4C9 4 4 8.5 4 15a5 5 0 0 0 4 4.9"/><path d="M5 20c1-2.5 2.6-4.5 4.6-6"/></svg></span><span class="np-onderzoek-rotulo">Ontspanning</span></div>
@@ -2941,7 +2949,7 @@
                     <div class="np-regua-escala" aria-hidden="true"><span>klein</span><span>gemiddeld</span><span>groot</span></div>
                     <figcaption>Effect op angstklachten (Cohen's d).</figcaption>
                 </figure>
-                <p class="np-onderzoek-fonte">Manzoni e.a., 2008, BMC Psychiatry</p>
+                <p class="np-onderzoek-fonte">Manzoni e.a., 2008</p>
             </div>
         </div>
     </div>
