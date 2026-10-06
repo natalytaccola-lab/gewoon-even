@@ -1215,6 +1215,56 @@
             }
         }
 
+        /* ---- botao da amostra, antes da frase do relogio ---- */
+        /* involucro em coluna flex: como inline o <a> ficava num line box da
+           coluna de leitura e somava ~69px de entrelinha a' volta */
+        #page-checkout .np-amostra-cta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1.4rem 0 1.8rem;
+            text-align: center;
+        }
+
+        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra {
+            margin: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            min-height: 52px;
+            padding: 14px 28px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--np-grad-meio);
+            font-family: var(--np-body);
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: 0;
+            text-transform: none;
+            color: #FFFFFF;
+            vertical-align: top;
+        }
+
+        #page-checkout .btn-primary.np-cta-amostra svg { width: 20px; height: 20px; }
+
+        #page-checkout .btn-primary.np-cta-amostra:hover { background: var(--np-grad-meio-hover); }
+
+        #page-checkout .np-cta-amostra:focus-visible {
+            outline: 3px solid #F2EDE6;
+            outline-offset: 3px;
+        }
+
+        #page-checkout .np-amostra-cta p.np-amostra-nota {
+            margin: 0.55rem 0 0;
+            font-family: var(--np-body);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.35;
+            color: #5E6E63;
+        }
+
         /* ---- cartao do audio: foto, faixa creme e o fio ---- */
         #page-checkout .np-fio-foto {
             position: relative;
@@ -2548,6 +2598,12 @@
 
         <p class="np-mark">Jouw overbelast systeem heeft niet nóg een verplichting nodig.</p>
 
+        <div class="np-amostra-cta">
+            <a class="btn-primary np-cta-amostra" href="#np-cartao" role="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="currentColor"/></svg>Luister 22 seconden</a>
+            <p class="np-amostra-nota">Zonder account. Zonder betaling.</p>
+        </div>
+
         <div class="np-alarme">
                 <div class="np-relogio" aria-hidden="true">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
@@ -2586,7 +2642,7 @@
 
     <div class="np-stage">
         <div class="np-stage-device">
-                <div class="np-fio-card np-amostra" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
+                <div class="np-fio-card np-amostra" id="np-cartao" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
                     <div class="np-fio-foto"><img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop.jpg" alt=""><img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" alt=""><img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" alt=""></div>
                     <div class="np-fio-faixa">
                         <div class="np-fio-topo"><span class="np-fio-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="#FFFFFF"/></svg></span><div class="np-fio-txt"><p class="np-fio-titulo" id="np-title">Noodstop</p><p class="np-fio-convite"><svg class="np-fio-seta" viewBox="0 0 34 24" aria-hidden="true" fill="none" stroke="var(--np-seta)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M31 5C24 3 12 5 6 14"/><path d="M6 14 6.4 8"/><path d="M6 14 11.3 11.3"/></svg><span class="np-fio-convite-txt">Luister 22 seconden</span></p></div></div>
@@ -4123,6 +4179,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(pedir);
     }
 
+    // ---- botao da amostra: reaproveita o click do proprio cartao ----
+    // O play() tem de ser sincrono dentro do handler do toque. Em vez de
+    // duplicar a logica, disparamos o click do cartao, que corre o mesmo
+    // alternar() do montarAmostra — sem nada assincrono pelo meio. O scroll
+    // vem depois, porque nao bloqueia o gesto.
+    (function () {
+        var botao = page.querySelector('.np-cta-amostra');
+        if (!botao) return;
+        botao.addEventListener('click', function (e) {
+            e.preventDefault();
+            var cartoes = page.querySelectorAll('.np-fio-card.np-amostra');
+            var alvo = null;
+            for (var i = 0; i < cartoes.length; i++) {
+                if (cartoes[i].getClientRects().length &&
+                    !cartoes[i].classList.contains('is-inerte')) { alvo = cartoes[i]; break; }
+            }
+            if (!alvo) return;
+            if (!alvo.classList.contains('is-a-tocar')) alvo.click();
+            alvo.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+        });
+    })();
+
     // ---- barra fixa em mobile ----
     (function () {
         var barra = page.querySelector('.np-sticky');
@@ -4131,7 +4209,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!barra || !hero || !alvo || !window.IntersectionObserver) return;
         var palco = page.querySelector('.np-stage');
         var ctaMeio = page.querySelector('.np-cta-meio');
-        var heroVisivel = true, botaoVisivel = false, palcoVisivel = false, meioVisivel = false;
+        var ctaAmostra = page.querySelector('.np-amostra-cta');
+        var heroVisivel = true, botaoVisivel = false, palcoVisivel = false,
+            meioVisivel = false, amostraVisivel = false;
         function actualizar() {
             // Regra de base, inalterada: so' depois do hero e so' ate' o CTA
             // final entrar no ecra.
@@ -4139,7 +4219,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // a barra tapava o telefone do Noodstop e roubava-lhe os toques; e
             // enquanto a amostra toca nao deve haver nada a competir com ela.
             var mostrar = !heroVisivel && !botaoVisivel && !palcoVisivel
-                          && !meioVisivel && !amostraATocar;
+                          && !meioVisivel && !amostraATocar && !amostraVisivel;
             barra.classList.toggle('is-visivel', mostrar);
         }
         new IntersectionObserver(function (es) {
@@ -4154,6 +4234,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 actualizar();
             }, { threshold: [0, 0.25, 0.5] }).observe(palco);
         }
+        // o botao da amostra: a barra fixa nao o pode tapar
+        if (ctaAmostra) {
+            new IntersectionObserver(function (es) {
+                amostraVisivel = es[0].isIntersecting; actualizar();
+            }, { threshold: 0 }).observe(ctaAmostra);
+        }
+
         // o CTA do meio: com ele no ecra os dois botoes apareceriam empilhados
         if (ctaMeio) {
             new IntersectionObserver(function (es) {
