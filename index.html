@@ -790,6 +790,11 @@
             --np-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --np-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
             --np-hairline: #CACCC2;
+            --np-risco-escuro: #9E6044;
+            --np-risco-claro: #E0956F;
+            --np-quadro: #F3E5AB;
+            --np-quadro-borda: #E3CF86;
+            --np-bullet: #9E6044;
 
             background: var(--creme);
             color: var(--verde-dique);
@@ -2024,6 +2029,162 @@
             color: rgba(242, 237, 230, 0.78);
         }
 
+        /* ---- destaque: risco por baixo, nao marca-texto ---- */
+        #page-checkout .np-risco {
+            font-weight: 600;
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 6px;
+            text-decoration-skip-ink: none;
+            text-decoration-color: var(--np-risco-escuro);
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
+        }
+
+        /* sobre o verde o risco tem de ser mais claro para se ver */
+        #page-checkout .np-climax .np-risco {
+            text-decoration-color: var(--np-risco-claro);
+        }
+
+        /* ---- etiqueta "Direct beschikbaar" ---- */
+        #page-checkout .np-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 1rem;
+            padding: 6px 14px;
+            border: 1px solid rgba(242, 237, 230, 0.35);
+            border-radius: 999px;
+            font-family: var(--np-body);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--creme);
+        }
+
+        #page-checkout .np-tag-ponto {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            /* #E0733A dava 2,81:1 sobre o verde, abaixo dos 3:1 dos
+               elementos graficos; #E8824C da' 3,25:1 e mantem o tom */
+            background: #E8824C;
+            flex: 0 0 auto;
+        }
+
+        /* ---- ancora do eigen risico ---- */
+        #page-checkout .np-anchor {
+            font-family: var(--np-body);
+            font-size: 21px;
+            font-weight: 400;
+            line-height: 1.55;
+            color: #F2EDE6;
+        }
+
+        /* ---- citacao da Ingrid ---- */
+        #page-checkout .np-cta-quote {
+            font-size: 26px;
+            font-weight: 600;
+            color: #F2EDE6;
+        }
+
+        #page-checkout .np-climax .np-cta-quote cite {
+            display: block;
+            margin: 1rem 0 0;
+            font-family: var(--np-body);
+            font-style: normal;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #C9CFC6;
+        }
+
+        #page-checkout .np-climax .np-cta-quote cite::before {
+            content: "";
+            display: block;
+            width: 24px;
+            height: 2px;
+            margin: 0 0 0.7rem;
+            background: #E0956F;
+        }
+
+        /* ---- o quadro da lista ---- */
+        #page-checkout .np-feiten {
+            margin: 28px 0;
+            padding: 26px 22px;
+            list-style: none;
+            background: var(--np-quadro);
+            border: 1px solid var(--np-quadro-borda);
+            border-radius: 18px;
+        }
+
+        #page-checkout .np-feiten li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin: 0;
+            padding: 8px 0;
+            border-top: 1px solid rgba(62, 78, 67, 0.14);
+            font-family: var(--np-body);
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.4;
+            color: var(--verde-dique);
+        }
+
+        #page-checkout .np-feiten li:first-child { padding-top: 0; border-top: 0; }
+        #page-checkout .np-feiten li:last-child { padding-bottom: 0; }
+        #page-checkout .np-feiten li::before { content: none; }
+
+        #page-checkout .np-visto {
+            flex: 0 0 auto;
+            width: 32px;
+            height: 32px;
+            padding: 6px;
+            box-sizing: border-box;
+            border-radius: 50%;
+            background: var(--np-bullet);
+            color: var(--creme);
+        }
+
+        #page-checkout .np-feiten .np-risco {
+            text-decoration-color: var(--np-risco-escuro);
+        }
+
+        /* ---- garantia ---- */
+        #page-checkout .np-guarantee {
+            font-family: var(--np-body);
+            font-size: 19px;
+            font-weight: 400;
+            color: #F2EDE6;
+        }
+
+        @media (min-width: 901px) {
+            #page-checkout .np-anchor { font-size: 22px; }
+            #page-checkout .np-cta-quote { font-size: 28px; }
+            #page-checkout .np-feiten { padding: 32px 36px; }
+            #page-checkout .np-feiten li { font-size: 21px; }
+        }
+
+        /* entrada escalonada dos itens */
+        #page-checkout.np-anim .np-feiten li {
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 460ms ease, transform 460ms ease;
+        }
+
+        #page-checkout.np-anim .np-feiten.is-in li { opacity: 1; transform: none; }
+        #page-checkout.np-anim .np-feiten.is-in li:nth-child(1) { transition-delay: 0ms; }
+        #page-checkout.np-anim .np-feiten.is-in li:nth-child(2) { transition-delay: 90ms; }
+        #page-checkout.np-anim .np-feiten.is-in li:nth-child(3) { transition-delay: 180ms; }
+        #page-checkout.np-anim .np-feiten.is-in li:nth-child(4) { transition-delay: 270ms; }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .np-feiten li { opacity: 1; transform: none; transition: none; }
+        }
+
         /* ---- halo dos dois CTA ----
            O halo e' um ::after sobre o botao, com a sombra ESTATICA no valor
            de pico; so' a opacity anima. box-shadow animado obriga a repintar
@@ -2634,24 +2795,24 @@
     <div class="np-climax">
         <div class="np-climax-onda" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#E8E5DD"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
         <div class="container">
-            <p class="np-tag">Direct beschikbaar</p>
-            <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de wachtlijst pas.</p>
+            <p class="np-tag"><span class="np-tag-ponto" aria-hidden="true"></span>Direct beschikbaar</p>
+            <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num np-risco">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de <span class="np-risco">wachtlijst</span> pas.</p>
             <p class="np-anchor-now">Dit? <span class="np-num">€17</span>. Vanavond nog.</p>
 
-            <blockquote class="np-cta-quote">"Mijn huisarts noemde het stress. … Ik wilde iets kunnen doen toen het gebeurde."<cite>Ingrid, 52</cite></blockquote>
+            <blockquote class="np-cta-quote">"<span class="np-risco">Mijn huisarts noemde het stress.</span> … Ik wilde iets kunnen doen toen het gebeurde."<cite>Ingrid, 52</cite></blockquote>
 
             <ul class="np-feiten">
-                <li><span class="np-num">3</span> audio's, samen ± <span class="np-num">21</span> minuten, zo vaak luisteren als je wilt</li>
-                <li>Eenmalig <span class="np-num">€17</span>, geen abonnement</li>
-                <li>Direct toegang na betaling, geen account of app nodig</li>
-                <li><span class="np-num">60</span> dagen garantie</li>
+                <li><svg class="np-visto" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="np-num">3</span> audio's, <span class="np-risco">samen ± <span class="np-num">21</span> minuten</span>, zo vaak luisteren als je wilt</span></li>
+                <li><svg class="np-visto" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Eenmalig <span class="np-num">€17</span>, <span class="np-risco">geen abonnement</span></span></li>
+                <li><svg class="np-visto" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Direct toegang na betaling, <span class="np-risco">geen account of app nodig</span></span></li>
+                <li><svg class="np-visto" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span><span class="np-risco"><span class="np-num">60</span> dagen garantie</span></span></li>
             </ul>
 
             <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary np-cta-final" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik doe dit nu — €17</a>
 
             <p class="np-seal"><img class="np-seal-logo" src="img/ideal.webp" width="143" height="126" alt="iDEAL" loading="lazy"><span>Veilig betalen via Stripe</span></p>
 
-            <p class="np-guarantee">Werkt het niet voor je? Dan krijg je je geld terug. We zijn ervan overtuigd dat het Noodprotocol je verlichting geeft — daarom 60 dagen garantie, zonder vragen.</p>
+            <p class="np-guarantee">Werkt het niet voor je? Dan krijg je <span class="np-risco">je geld terug</span>. We zijn ervan overtuigd dat het Noodprotocol je verlichting geeft — daarom 60 dagen garantie, zonder vragen.</p>
 
             <p class="np-fecho">Vanavond leer je wat je lichaam nodig heeft om te stoppen.</p>
 
@@ -3545,6 +3706,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
 
         Array.prototype.forEach.call(tracks, function (t) { io.observe(t); });
+        var feiten = page.querySelector('.np-feiten');
+        if (feiten) io.observe(feiten);
     }
 
     // ---- o leitor acompanha o áudio que está em foco ----
