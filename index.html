@@ -1311,20 +1311,11 @@
         #page-checkout .np-cmp { margin: 3rem auto 0; }
 
         #page-checkout .np-cmp h2 {
-            margin: 0 0 0.4rem;
+            margin: 0 0 0.8rem;
             font-family: var(--np-display);
             font-size: 36px;
             font-weight: 400;
             line-height: 1.1;
-            color: var(--verde-dique);
-        }
-
-        #page-checkout .np-cmp p.np-cmp-sub {
-            margin: 0 0 0.7rem;
-            font-family: var(--np-body);
-            font-size: 17px;
-            font-weight: 400;
-            line-height: 1.35;
             color: var(--verde-dique);
         }
 
@@ -1345,14 +1336,16 @@
             border: 0;
         }
 
-        #page-checkout .np-cmp-tabela col,
         #page-checkout .np-cmp-tabela td:first-child,
-        #page-checkout .np-cmp-tabela th[scope="row"] { width: 38%; }
+        #page-checkout .np-cmp-tabela th[scope="row"] { width: 34%; }
+
+        #page-checkout .np-cmp-tabela thead th,
+        #page-checkout .np-cmp-tabela tbody td { width: 22%; }
 
         #page-checkout .np-cmp-tabela thead th {
-            padding: 8px 4px;
+            padding: 8px 2px;
             font-family: var(--np-body);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             line-height: 1.2;
             color: var(--verde-dique);
@@ -1404,32 +1397,13 @@
            a mesma cor 6% mais escura, o minimo para passar */
         #page-checkout .np-cmp-meio { color: #828C7D; }
 
-        #page-checkout .np-cmp p.np-cmp-legenda {
-            margin: 0.6rem 0 0;
-            font-family: var(--np-body);
-            font-size: 13px;
-            font-weight: 400;
-            line-height: 1.35;
-            color: #5E6E63;
-        }
-
         #page-checkout .np-cmp p.np-cmp-rodape {
-            margin: 0.35rem 0 0;
+            margin: 0.7rem 0 0;
             font-family: var(--np-body);
             font-size: 13px;
             font-weight: 400;
             line-height: 1.35;
             color: #5E6E63;
-        }
-
-        #page-checkout .np-cmp p.np-cmp-fecho {
-            margin: 0.7rem 0 0;
-            font-family: var(--np-display);
-            font-style: italic;
-            font-size: 22px;
-            font-weight: 600;
-            line-height: 1.25;
-            color: var(--verde-dique);
         }
 
         #page-checkout.np-anim .np-cmp { opacity: 0; transition: opacity 520ms ease; }
@@ -1442,7 +1416,7 @@
         @media (min-width: 901px) {
             #page-checkout .np-cmp h2 { font-size: 42px; }
             #page-checkout .np-cmp-tabela th[scope="row"] { font-size: 16px; padding: 10px 14px 10px 0; }
-            #page-checkout .np-cmp-tabela thead th { font-size: 15px; padding: 12px 8px; }
+            #page-checkout .np-cmp-tabela thead th { font-size: 15px; padding: 12px 6px; }
             #page-checkout .np-cmp-tabela thead th.np-cmp-nos { font-size: 22px; }
             #page-checkout .np-cmp-tabela tbody td { padding: 10px 8px; }
             #page-checkout .np-cmp-m { width: 24px; height: 24px; }
@@ -3103,15 +3077,13 @@
 
     <div class="container np-cmp">
         <h2>Eerlijk vergeleken</h2>
-        <p class="np-cmp-sub">Drie manieren om je lijf te helpen.</p>
-
         <table class="np-cmp-tabela">
             <caption class="np-sr">Eerlijk vergeleken: Noodprotocol, psycholoog en meditatie-app</caption>
             <thead>
                 <tr>
                     <td></td>
                     <th scope="col" class="np-cmp-nos">Noodprotocol</th>
-                    <th scope="col">Psycholoog (ggz)</th>
+                    <th scope="col">Psycholoog</th>
                     <th scope="col">Meditatie-app</th>
                 </tr>
             </thead>
@@ -3149,9 +3121,7 @@
             </tbody>
         </table>
 
-        <p class="np-cmp-legenda">&#10003; ja &middot; &ndash; wisselend &middot; &#10007; nee</p>
-        <p class="np-cmp-rodape">Gemiddelde wachttijd in de ggz in 2025: 14 weken tot de intake, 24 weken tot de behandeling (analyse van Radar en MIND op gegevens van de NZa). Veel meditatie-apps werken met een abonnement.</p>
-        <p class="np-cmp-fecho">Het Noodprotocol vervangt geen behandeling. Het is er voor het moment zelf.</p>
+        <p class="np-cmp-rodape">Wachttijd ggz 2025: gemiddeld 14 weken tot de intake, 24 weken tot de behandeling (Radar en MIND, op NZa-gegevens). Veel meditatie-apps hebben een abonnement.</p>
     </div>
 
     <div class="container np-herken">
