@@ -1432,6 +1432,23 @@
             line-height: 1.3;
         }
 
+        /* ---- botao antecipado, logo a seguir a' ponte ---- */
+        #page-upsell .up-cedo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 1.5rem 0 0;
+        }
+
+        #page-upsell p.up-cedo-nota {
+            margin: 0.6rem 0 0;
+            font-family: var(--np-body);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.35;
+            color: var(--up-verde);
+        }
+
         /* ---- a semana ---- */
         #page-upsell .up-semana { margin: 2.4rem auto 0; }
 
@@ -4166,6 +4183,11 @@
         <p>En elke dag die je wacht, betaalt je lichaam de rekening ergens anders. In de ochtend die zwaarder begint dan nodig. In het geduld dat al op is voordat de kinderen wakker zijn. In het werk dat blijft liggen — je systeem is leeg voordat je begint.</p>
         <p>Zorg nu, terwijl er nog tijd is. <span class="np-risco">Niemand weet wat morgen brengt.</span></p>
         <p class="up-forte">Het Protocol van 7 Dagen is die tijd.</p>
+
+        <div class="up-cedo">
+            <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary up-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik ga verder — €37</a>
+            <p class="up-cedo-nota">60 dagen geld terug.</p>
+        </div>
     </div>
 
     <div class="container up-semana">
