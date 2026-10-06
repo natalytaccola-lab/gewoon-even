@@ -828,7 +828,6 @@
         }
 
         #page-checkout .np-hero-foto {
-            position: relative;
             margin: 0;
             border-radius: 3px;
             overflow: hidden;
@@ -836,55 +835,6 @@
         }
 
 
-
-        /* Os conselhos, dentro da foto. Sem caixa, veu, sombra nem contorno.
-           Duas variantes para escolher a olho, trocadas por ?legenda=1 ou
-           ?legenda=2 — o interruptor e' so' da previa.
-             .leg-v1  canto superior direito, vermelho-tijolo
-             .leg-v2  canto inferior direito, creme sobre o jeans */
-        #page-checkout .np-foto-legenda {
-            position: absolute;
-            right: 12px;
-            width: max-content;
-            max-width: calc(100% - 24px);
-            text-align: right;
-            line-height: 1.2;
-        }
-
-        #page-checkout.leg-v1 .np-foto-legenda { top: 12px; color: #8F2E1B; }
-        #page-checkout.leg-v2 .np-foto-legenda { bottom: 12px; color: #F2EDE6; }
-
-        #page-checkout .np-legenda-traco {
-            display: block;
-            width: 32px;
-            height: 2px;
-            margin: 0 0 0.5rem auto;
-            background: currentColor;
-        }
-
-        #page-checkout .np-legenda-intro {
-            display: block;
-            margin: 0 0 0.4rem;
-            font-family: var(--np-body);
-            font-size: 12px;
-            font-weight: 700;
-            line-height: 1.2;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        #page-checkout .np-legenda-dito {
-            display: block;
-            font-family: var(--np-display);
-            font-style: italic;
-            font-weight: 600;
-            font-size: 24px;
-            line-height: 1.2;
-        }
-
-        @media (min-width: 901px) {
-            #page-checkout .np-legenda-dito { font-size: 26px; }
-        }
 
         /* entrada da foto: desliza da direita com fade, ao carregar. Comeca
            rapido e desacelera no fim; 'both' mantem o estado inicial antes de
@@ -2435,13 +2385,6 @@
                          sizes="(min-width: 901px) 400px, calc(100vw - 48px)"
                          width="480" height="603"
                          alt="Iemand in de trein met een koptelefoon in de hand.">
-                    <figcaption class="np-foto-legenda">
-                        <span class="np-legenda-traco" aria-hidden="true"></span>
-                        <span class="np-legenda-intro">En iedereen zegt hetzelfde.</span>
-                        <span class="np-legenda-dito">"Rust wat uit."</span>
-                        <span class="np-legenda-dito">"Het gaat wel over."</span>
-                        <span class="np-legenda-dito">"Doe eens rustig aan."</span>
-                    </figcaption>
                 </figure>
             </div>
         </div>
@@ -2451,6 +2394,8 @@
 
     <!-- ============ CORPO STACCATO ============ -->
     <div class="container np-body">
+        <p>En iedereen zegt hetzelfde. "Rust wat uit." "Het gaat wel over." "Doe eens rustig aan."</p>
+
         <p class="np-mark">Alsof je dat niet al geprobeerd hebt.</p>
 
         <p>Je hebt geen tips nodig. Geen "even eruit" advies. En geen verwijzing naar <span class="np-mark">een wachtlijst van drie maanden bij de GGZ</span>.</p>
@@ -4051,12 +3996,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('load', pedir);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(pedir);
     }
-
-    // ---- interruptor das duas variantes da legenda (so' na previa) ----
-    (function () {
-        var v = new URLSearchParams(location.search).get('legenda');
-        page.classList.add(v === '2' ? 'leg-v2' : 'leg-v1');
-    })();
 
     // ---- barra fixa em mobile ----
     (function () {
