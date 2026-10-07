@@ -55,9 +55,9 @@ const HANDLED_EVENTS = [
 // 200 SEM enviar e SEM erro — exactamente o que fazia antes desta tabela.
 // Preencher à medida que os modelos forem criados no painel do Brevo.
 const NP_TEMPLATE_ID    = 9;
-const P7D_TEMPLATE_ID   = 0;   // por criar no Brevo
-const CK_TEMPLATE_ID    = 0;   // por criar no Brevo
-const SLAAP_TEMPLATE_ID = 0;   // por criar no Brevo
+const P7D_TEMPLATE_ID   = 10;  // "Entrega Protocol 7 Dagen"
+const CK_TEMPLATE_ID    = 11;  // "Entrega Crisiskaart"
+const SLAAP_TEMPLATE_ID = 12;  // "Entrega Slaapprotocol"
 
 const NP_ACCESS_URL = 'https://gewoon-even.nl/#toegang-np-8f3k2m';
 const NP_UPSELL_URL = 'https://gewoon-even.nl/#upsell-p7-6h2mk9';
@@ -71,10 +71,12 @@ const NP_UPSELL_URL = 'https://gewoon-even.nl/#upsell-p7-6h2mk9';
 // um hash próprio. Até esse hash existir, os três modelos novos só levam o
 // ACCESS_URL.
 //
-// As marcas de deduplicação dos três produtos novos (P7D_MAIL_SENT,
-// CK_MAIL_SENT, SLAAP_MAIL_SENT) têm de existir como atributos de texto no
-// Brevo ANTES de o templateId correspondente deixar de ser 0 — sem isso o PUT
-// da marca falha com 400 e a deduplicação não funciona.
+// ATENÇÃO, ainda em falta: as marcas P7D_MAIL_SENT, CK_MAIL_SENT e
+// SLAAP_MAIL_SENT NÃO existem como atributos no Brevo. Com os templateId já
+// preenchidos, a entrega destes três produtos corre: o e-mail sai, mas o PUT
+// da marca falha e o webhook devolve 200 com mark_failed. Consequência: um
+// evento repetido do Stripe volta a enviar o e-mail. Criar os três atributos
+// de texto no Brevo antes de isto ir para produção.
 const DELIVERY = {
   1700: {
     label: 'NP Mail',
