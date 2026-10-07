@@ -3682,6 +3682,14 @@
         .btn-decline,
         .footer-link { position: relative; }
 
+        /* os tres itens legais lado a lado, com o separador a respirar */
+        /* row-gap de 24px: com 20px de altura visivel, as linhas ficam a 44px
+           de distancia, que e' o que impede as areas de toque de 44px de se
+           sobreporem quando o rodape quebra em duas linhas no telemovel. */
+        .footer-legal { display: flex; flex-wrap: wrap; align-items: center;
+                        justify-content: center; gap: 24px 10px; }
+        .footer-sep { opacity: 0.55; }
+
         #page-checkout .np-chev::after,
         .download-link::after,
         .btn-decline::after,
@@ -3758,7 +3766,7 @@
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
-        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -4169,7 +4177,7 @@
     <!-- respiração 3 -->
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
-        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 
     <div class="np-sticky">
@@ -4294,7 +4302,7 @@
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
-        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -4360,7 +4368,7 @@
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
-        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -4847,7 +4855,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
-        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -4952,7 +4960,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
-        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -4984,7 +4992,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
-        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -5101,7 +5109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
     <div class="footer">
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
-        <div class="container footer-legal"><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
