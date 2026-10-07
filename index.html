@@ -4503,13 +4503,21 @@ function showPage(pageId) {
     } else if (pageId === 'page-downsell') {
         fbq('track', 'ViewContent', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
     } else if (pageId === 'page-deliver-noodprotocol') {
-        fbq('track', 'Purchase', {content_name: 'Noodprotocol', value: 17.00, currency: 'EUR'});
+        if (!compraJaContada('np')) {
+            fbq('track', 'Purchase', {content_name: 'Noodprotocol', value: 17.00, currency: 'EUR'});
+        }
     } else if (pageId === 'page-deliver-protocol7') {
-        fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
+        if (!compraJaContada('p7d')) {
+            fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
+        }
     } else if (pageId === 'page-deliver-crisiskaart') {
-        fbq('track', 'Purchase', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
+        if (!compraJaContada('ck')) {
+            fbq('track', 'Purchase', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
+        }
     } else if (pageId === 'page-deliver-slaap') {
-        fbq('track', 'Purchase', {content_name: 'Slaapprotocol', value: 67.00, currency: 'EUR'});
+        if (!compraJaContada('slaap')) {
+            fbq('track', 'Purchase', {content_name: 'Slaapprotocol', value: 67.00, currency: 'EUR'});
+        }
     }
 }
 
@@ -4645,20 +4653,31 @@ function resetSleepQuiz() {
 // Wrapped in DOMContentLoaded because the delivery page divs are defined
 // later in the document; without this, getElementById would return null
 // and showPage() would throw before fbq('track','Purchase') ran.
-// Uma entrada por hash so' pode contar uma compra por sessao: sem isto, cada
-// recarregamento da pagina com o mesmo hash disparava outra Purchase. A chave
-// vive em sessionStorage, dentro de try/catch — em navegacao privada ou com o
-// armazenamento bloqueado o acesso lanca, e nesse caso deixamos passar (melhor
-// contar a mais do que partir a pagina).
-function entradaJaContada(hash) {
+// Guardas de contagem unica por sessao. A chave vive em sessionStorage, dentro
+// de try/catch — em navegacao privada ou com o armazenamento bloqueado o acesso
+// lanca, e nesse caso deixamos passar (melhor contar a mais do que partir a
+// pagina).
+function jaContado(chave) {
     try {
-        const k = 'ge_hash_' + hash;
-        if (sessionStorage.getItem(k)) return true;
-        sessionStorage.setItem(k, '1');
+        if (sessionStorage.getItem(chave)) return true;
+        sessionStorage.setItem(chave, '1');
         return false;
     } catch (e) {
         return false;
     }
+}
+
+// Entradas por hash: so' registo, para o dia em que passarem a disparar algo.
+function entradaJaContada(hash) {
+    return jaContado('ge_hash_' + hash);
+}
+
+// Uma Purchase por PRODUTO e por sessao — a chave e' o produto, nao o caminho.
+// O mesmo 7 Dagen pode ser contado por dois caminhos na mesma sessao (a entrada
+// em #upsell2-slaap-7n4kx9 e a abertura da page-deliver-protocol7 pelo botao da
+// faixa de confirmacao); sem chave partilhada davam duas Purchase de EUR 37.
+function compraJaContada(produto) {
+    return jaContado('ge_purchase_' + produto);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -4683,7 +4702,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 7 Dagen há dias, ou para quem só tem o Noodprotocol) deve usar um hash
         // PRÓPRIO e diferente deste, para não herdar esta confirmação por engano.
         upsell2ConfirmedPurchaseEntry = true;
-        if (!entradaJaContada(hash)) {
+        if (!compraJaContada('p7d')) {
             fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
         }
         showPage('page-upsell2');
@@ -4931,7 +4950,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <!-- Screen 1: mini-quiz -->
         <div id="sleepquiz-intro" class="upsell-section">
-            <p class="subtle purchase-confirm" style="display: none;">✓ Het Protocol van 7 Dagen is bevestigd. Je ontvangt het per e-mail.</p>
+            <div class="purchase-confirm" style="display: none;">
+                <p class="subtle">✓ Het Protocol van 7 Dagen is bevestigd. Je ontvangt het per e-mail.</p>
+                <a href="#toegang-p7-4x9nw" onclick="showPage('page-deliver-protocol7'); return false;" class="btn-primary" style="margin-top: 8px;">Naar mijn Protocol van 7 Dagen →</a>
+            </div>
             <div class="upsell-badge">Even iets anders</div>
             <h1>Voordat je verdergaat — 3 korte vragen.</h1>
             <p>Dit duurt 20 seconden en zegt iets over hoe je zenuwstelsel 's nachts werkt.</p>
