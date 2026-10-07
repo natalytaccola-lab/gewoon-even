@@ -3690,6 +3690,15 @@
                         justify-content: center; gap: 24px 10px; }
         .footer-sep { opacity: 0.55; }
 
+        /* #page-email-capture .container tem padding 60px 20px e max-width 480px,
+           feitos para o formulario. Sem isto, os dois .container do rodape novo
+           herdavam-nos e o rodape ficava com 389px em vez dos 149px das outras
+           paginas. Repoe-se a geometria do .container generico, so' no rodape. */
+        #page-email-capture .footer .container {
+            max-width: 640px;
+            padding: 0 24px;
+        }
+
         #page-checkout .np-chev::after,
         .download-link::after,
         .btn-decline::after,
@@ -4212,6 +4221,11 @@
             We sturen je alleen relevante informatie over je protocol. Geen spam, je kunt je altijd uitschrijven.
         </p>
     </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+    </div>
 </div>
 
 
@@ -4335,6 +4349,11 @@
             <a href="https://buy.stripe.com/3cI00i92Ubwt1VO1KOfjG02" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Crisiskaart',value:9.00,currency:'EUR'})">Ja, neem ik mee — €9</a>
             <button class="btn-decline" onclick="showPage('page-thankyou')">Nee bedankt</button>
         </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
@@ -5052,6 +5071,11 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </div>
 
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
 
