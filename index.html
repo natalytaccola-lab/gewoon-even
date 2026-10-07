@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gewoon Even — Noodprotocol</title>
+    <link rel="canonical" href="https://gewoon-even.nl/">
     <!-- Meta Pixel: NADA do Meta carrega antes do consentimento.
          O fbq definido aqui e' so' uma fila em memoria. O fbevents.js so' e'
          pedido depois do "Accepteren"; com "Weigeren" a fila e' deitada fora e
@@ -157,12 +158,12 @@
             --np-grad-barra-hover: linear-gradient(90deg, #8F3817 0%, #A8451C 100%);
             --bg: #F5F2EE;
             --text: #2C2C2C;
-            --text-light: #888888;
+            --text-light: #6A6A6A;   /* era #888888, 3,04:1 sobre o creme */
             --green: #3D5A50;
             --green-light: #4A6B5D;
             --sand: #B8A898;
-            --terra: #D4836A;
-            --terra-hover: #C0745B;
+            --terra: #B05033;        /* era #D4836A: 2,89:1 de branco sobre ele */
+            --terra-hover: #9E4C2F;
             --white: #FFFFFF;
             --font-display: 'Fraunces', Georgia, serif;
             --font-body: 'Outfit', -apple-system, sans-serif;
@@ -296,7 +297,7 @@
             font-family: var(--font-body);
             font-size: 0.8rem;
             font-weight: 500;
-            color: var(--sand);
+            color: #7D6A56;   /* era var(--sand) #B8A898, 2,07:1 sobre o creme */
             text-transform: uppercase;
             letter-spacing: 0.15em;
             margin-bottom: 12px;
@@ -808,8 +809,8 @@
             --terracota: #C89078;
             --terracota-cta: #A9694B;
             --creme: #F2EDE6;
-            --taupe: #7A6B57;
-            --taupe-nota: #8A7B66;
+            --taupe: #776855;        /* era #7A6B57, 4,43:1 */
+            --taupe-nota: #756857;   /* era #8A7B66, 3,53:1 */
             --np-display: 'Cormorant', Georgia, serif;
             --np-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --np-seta: #C42B24;
@@ -2367,7 +2368,7 @@
             font-size: 2.2rem;
             font-weight: 300;
             line-height: 1;
-            color: var(--sage);
+            color: #7E8A79;   /* era var(--sage) #9AA396, 2,24:1 (texto grande, min 3) */
             letter-spacing: 0.02em;
         }
 
@@ -3327,7 +3328,9 @@
             font-size: 0.82rem;
             font-weight: 300;
             letter-spacing: 0.04em;
-            color: rgba(242, 237, 230, 0.62);
+            /* creme solido: a 62% dava 3,78:1 sobre a faixa .np-climax, e o
+               span herda esta cor em vez de ser repintado de --t-sec-cor */
+            color: #E4E0D6;
         }
 
         #page-checkout .np-seal-logo {
@@ -3367,7 +3370,7 @@
             font-size: 0.82rem;
             font-weight: 300;
             line-height: 1.7;
-            color: rgba(242, 237, 230, 0.5);
+            color: rgba(242, 237, 230, 0.75);   /* 0,5 dava 3,21:1 */
         }
 
         #page-checkout .footer {
@@ -3517,7 +3520,9 @@
             font-weight: 400;
         }
         /* "Veilig betalen via Stripe" e' uma legenda ao lado do logotipo */
-        #page-checkout .np-seal span { font-size: var(--t-sec); font-weight: 400; color: var(--t-sec-cor); }
+        /* sem color: --t-sec-cor e' calibrado para o creme e aqui o fundo e'
+           verde escuro; a cor vem do .np-seal */
+        #page-checkout .np-seal span { font-size: var(--t-sec); font-weight: 400; }
 
         /* ---- botoes ---- */
         #page-checkout .btn-primary.np-cta-final,
@@ -3661,9 +3666,50 @@
 
 
         /* ---- escala: banner de consentimento ---- */
-        .ge-consent .ge-consent-txt { font-size: var(--t-citacao); line-height: 1.38; }
+        /* o color vem de .ge-consent (creme); sem isto a regra generica
+           p { color: var(--text) } ganha a heranca e deixa o texto a
+           #2C2C2C sobre o verde escuro — 1,57:1 */
+        .ge-consent .ge-consent-txt { font-size: var(--t-citacao); line-height: 1.38; color: inherit; }
         .ge-consent .ge-consent-bt { font-size: var(--t-botao); }
 
+        /* ============ AREAS DE TOQUE ============ */
+        /* Leva a 44x44 so' a area que recebe o toque, sem mexer no tamanho
+           visivel nem no espaco ocupado: o ::after e' transparente, esta' fora
+           do fluxo e fica centrado no proprio elemento. O .np-chev nao leva
+           position: relative porque ja' e' absolute — e absolute tambem serve
+           de bloco de contencao; pisar isso partia o carrossel. */
+        .download-link,
+        .btn-decline,
+        .footer-link { position: relative; }
+
+        #page-checkout .np-chev::after,
+        .download-link::after,
+        .btn-decline::after,
+        .footer-link::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        /* Os chevrons estao encostados a left:0 / right:0, por isso uma area
+           centrada ficava com 9px fora do ecra. Ancora-se a area ao lado de
+           dentro para que os 44px caibam todos na janela. */
+        #page-checkout .np-chev--prev::after {
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        #page-checkout .np-chev--next::after {
+            left: auto;
+            right: 0;
+            transform: translateY(-50%);
+        }
     </style>
 </head>
 <body>
@@ -3673,7 +3719,7 @@
 <!-- ================================ -->
 <div class="page active" id="page-quiz">
     <div class="banner">
-        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="1200" height="400" fill="#F5F2EE"/>
             <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
             <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
@@ -3744,7 +3790,7 @@
             </div>
         </div>
 
-        <div class="np-hero-onda" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#F2EDE6"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
+        <div class="np-hero-onda" aria-hidden="true"><svg aria-hidden="true" class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#F2EDE6"/></svg><div class="wvl wvl1"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
     </header>
 
     <!-- ============ CORPO STACCATO ============ -->
@@ -3769,7 +3815,7 @@
 
         <div class="np-alarme">
                 <div class="np-relogio" aria-hidden="true">
-                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round">
+                    <svg aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round">
                         <g class="np-relogio-mostrador">
                             <circle cx="100" cy="100" r="96" stroke-width="1.1"/>
                             <g stroke-width="1.4"><line x1="100.0" y1="8.0" x2="100.0" y2="16.0"/><line x1="192.0" y1="100.0" x2="184.0" y2="100.0"/><line x1="100.0" y1="192.0" x2="100.0" y2="184.0"/><line x1="8.0" y1="100.0" x2="16.0" y2="100.0"/></g>
@@ -3793,7 +3839,7 @@
 
     <!-- respiração 1 -->
     <div class="np-breath np-breath--a" aria-hidden="true">
-        <div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
+        <div class="wvl wvl1"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div>
     </div>
 
     <!-- ============ OS TRÊS ÁUDIOS ============ -->
@@ -3812,19 +3858,19 @@
     <div class="np-stage">
         <div class="np-stage-device">
                 <div class="np-fio-card np-amostra" id="np-cartao" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
-                    <div class="np-fio-foto"><img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop-handgreep-654.webp" srcset="img/noodstop-handgreep-654.webp 654w, img/noodstop-handgreep-981.webp 981w" sizes="(min-width: 901px) 380px, calc(100vw - 48px)" width="654" height="818" alt="Een hand houdt zich vast aan een gele handgreep in het openbaar vervoer." loading="lazy" decoding="async"><img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" alt=""><img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" alt=""></div>
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop-handgreep-654.webp" srcset="img/noodstop-handgreep-654.webp 654w, img/noodstop-handgreep-981.webp 981w" sizes="(min-width: 901px) 380px, calc(100vw - 48px)" width="654" height="818" alt="Een hand houdt zich vast aan een gele handgreep in het openbaar vervoer." loading="lazy" decoding="async"><img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" width="480" height="603" alt=""><img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" width="480" height="603" alt=""></div>
                     <div class="np-fio-faixa">
-                        <div class="np-fio-topo"><span class="np-fio-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="#FFFFFF"/></svg></span><div class="np-fio-txt"><p class="np-fio-titulo" id="np-title">Noodstop</p><p class="np-fio-convite"><svg class="np-fio-seta" viewBox="0 0 34 24" aria-hidden="true" fill="none" stroke="var(--np-seta)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M31 5C24 3 12 5 6 14"/><path d="M6 14 6.4 8"/><path d="M6 14 11.3 11.3"/></svg><span class="np-fio-convite-txt">Luister 22 seconden</span></p></div></div>
+                        <div class="np-fio-topo"><span class="np-fio-play" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="#FFFFFF"/></svg></span><div class="np-fio-txt"><p class="np-fio-titulo" id="np-title">Noodstop</p><p class="np-fio-convite"><svg class="np-fio-seta" viewBox="0 0 34 24" aria-hidden="true" fill="none" stroke="var(--np-seta)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M31 5C24 3 12 5 6 14"/><path d="M6 14 6.4 8"/><path d="M6 14 11.3 11.3"/></svg><span class="np-fio-convite-txt">Luister 22 seconden</span></p></div></div>
                         <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
                     </div>
                 </div>
         </div>
 
         <button class="np-chev np-chev--audio np-chev--prev" type="button" aria-label="Vorige opname">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <button class="np-chev np-chev--audio np-chev--next" type="button" aria-label="Volgende opname">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
 
         <div class="np-stage-scroller" tabindex="0" role="group" aria-label="De drie opnames">
@@ -3840,7 +3886,7 @@
                 <div class="np-fio-card np-amostra" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
                     <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/noodstop-handgreep-654.webp" srcset="img/noodstop-handgreep-654.webp 654w, img/noodstop-handgreep-981.webp 981w" sizes="(min-width: 901px) 380px, calc(100vw - 48px)" width="654" height="818" alt="Een hand houdt zich vast aan een gele handgreep in het openbaar vervoer." loading="lazy" decoding="async"></div>
                     <div class="np-fio-faixa">
-                        <div class="np-fio-topo"><span class="np-fio-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="#FFFFFF"/></svg></span><div class="np-fio-txt"><p class="np-fio-titulo">Noodstop</p><p class="np-fio-convite"><svg class="np-fio-seta" viewBox="0 0 34 24" aria-hidden="true" fill="none" stroke="var(--np-seta)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M31 5C24 3 12 5 6 14"/><path d="M6 14 6.4 8"/><path d="M6 14 11.3 11.3"/></svg><span class="np-fio-convite-txt">Luister 22 seconden</span></p></div></div>
+                        <div class="np-fio-topo"><span class="np-fio-play" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="#FFFFFF"/></svg></span><div class="np-fio-txt"><p class="np-fio-titulo">Noodstop</p><p class="np-fio-convite"><svg class="np-fio-seta" viewBox="0 0 34 24" aria-hidden="true" fill="none" stroke="var(--np-seta)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M31 5C24 3 12 5 6 14"/><path d="M6 14 6.4 8"/><path d="M6 14 11.3 11.3"/></svg><span class="np-fio-convite-txt">Luister 22 seconden</span></p></div></div>
                         <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
                     </div>
                 </div>
@@ -3855,7 +3901,7 @@
             <p class="np-track-quote">"De gedachten die aan het racen waren, ze kunnen er nog zijn. Maar nu ben jij er ook."</p>
             </div>
                 <div class="np-fio-card is-inerte" aria-hidden="true">
-                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/reset.jpg" alt=""></div>
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/reset.jpg" width="480" height="603" alt=""></div>
                     <div class="np-fio-faixa">
                         <div class="np-fio-topo"><div class="np-fio-txt"><p class="np-fio-titulo">Reset</p></div></div>
                         <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
@@ -3872,7 +3918,7 @@
             <p class="np-track-quote">"Je kaken. De meeste mensen dragen hier de hele dag spanning zonder het te weten."</p>
             </div>
                 <div class="np-fio-card is-inerte" aria-hidden="true">
-                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/landing.jpg" alt=""></div>
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/landing.jpg" width="480" height="603" alt=""></div>
                     <div class="np-fio-faixa">
                         <div class="np-fio-topo"><div class="np-fio-txt"><p class="np-fio-titulo">Landing</p></div></div>
                         <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
@@ -3974,10 +4020,10 @@
     <div class="np-voices-wrap">
         <div class="container"><span class="np-voices-mark" aria-hidden="true">“</span></div>
             <button class="np-chev np-chev--prev" type="button" aria-label="Vorige ervaring">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 4 L7 12 L15 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <button class="np-chev np-chev--next" type="button" aria-label="Volgende ervaring">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
 
         <div class="np-voices" tabindex="0" role="group" aria-label="Ervaringen van mensen die het Noodprotocol gebruikten">
@@ -4035,21 +4081,21 @@
         <h2>Wat gebeurt er na je betaling?</h2>
         <div class="np-passos">
             <div class="np-passo">
-                <span class="np-passo-anel" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/><path d="M6 14.5h4"/></svg></span>
+                <span class="np-passo-anel" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/><path d="M6 14.5h4"/></svg></span>
                 <div class="np-passo-txt">
                     <p class="np-passo-tit">Je betaalt veilig.</p>
                     <p class="np-passo-sub">Met iDEAL of kaart.</p>
                 </div>
             </div>
             <div class="np-passo">
-                <span class="np-passo-anel" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3.5 7 12 13 20.5 7"/></svg></span>
+                <span class="np-passo-anel" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3.5 7 12 13 20.5 7"/></svg></span>
                 <div class="np-passo-txt">
                     <p class="np-passo-tit">Je krijgt direct een e-mail.</p>
                     <p class="np-passo-sub">Met een knop naar je drie audio's.</p>
                 </div>
             </div>
             <div class="np-passo">
-                <span class="np-passo-anel" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M20 14v3a2 2 0 0 1-2 2h-.5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1H20Z"/><path d="M4 14v3a2 2 0 0 0 2 2h.5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H4Z"/></svg></span>
+                <span class="np-passo-anel" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M20 14v3a2 2 0 0 1-2 2h-.5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1H20Z"/><path d="M4 14v3a2 2 0 0 0 2 2h.5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H4Z"/></svg></span>
                 <div class="np-passo-txt">
                     <p class="np-passo-tit">Je luistert wanneer je lijf in alarm staat.</p>
                     <p class="np-passo-sub">Zo vaak je wilt. Zonder account of app.</p>
@@ -4059,7 +4105,7 @@
     </div>
 
     <div class="np-climax">
-        <div class="np-climax-onda" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#E8E5DD"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
+        <div class="np-climax-onda" aria-hidden="true"><svg aria-hidden="true" class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#E8E5DD"/></svg><div class="wvl wvl1"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
         <div class="container">
             <p class="np-tag"><span class="np-tag-ponto" aria-hidden="true"></span>Direct beschikbaar</p>
             <p class="np-anchor">Eén keer naar de psycholoog? Eerst je eigen risico. <span class="np-num np-risco">€385</span> — elk jaar opnieuw vastgesteld door de overheid. En dan begint de <span class="np-risco">wachtlijst</span> pas.</p>
@@ -4068,10 +4114,10 @@
             <blockquote class="np-cta-quote">"<span class="np-risco">Mijn huisarts noemde het stress.</span> … Ik wilde iets kunnen doen toen het gebeurde."<cite>Ingrid, 52</cite></blockquote>
 
             <ul class="np-feiten">
-                <li><span class="np-disco" aria-hidden="true"><svg class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><path d="M21 15v3a2 2 0 0 1-2 2h-1a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3Z"/><path d="M3 15v3a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H3Z"/></svg></span><span>3 audio's, <span class="np-destaque">samen ± 21 minuten</span>, zo vaak luisteren als je wilt</span></li>
-                <li><span class="np-disco" aria-hidden="true"><svg class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5.5A7.5 7.5 0 0 0 8.5 9a8 8 0 0 0 0 6A7.5 7.5 0 0 0 19 18.5"/><path d="M4 10h11"/><path d="M4 14h8"/></svg></span><span>Eenmalig €17, <span class="np-destaque">geen abonnement</span></span></li>
-                <li><span class="np-disco" aria-hidden="true"><svg class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></svg></span><span>Direct toegang na betaling, <span class="np-destaque">geen account of app nodig</span></span></li>
-                <li><span class="np-disco" aria-hidden="true"><svg class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg></span><span><span class="np-destaque">60 dagen garantie</span></span></li>
+                <li><span class="np-disco" aria-hidden="true"><svg aria-hidden="true" class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><path d="M21 15v3a2 2 0 0 1-2 2h-1a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3Z"/><path d="M3 15v3a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H3Z"/></svg></span><span>3 audio's, <span class="np-destaque">samen ± 21 minuten</span>, zo vaak luisteren als je wilt</span></li>
+                <li><span class="np-disco" aria-hidden="true"><svg aria-hidden="true" class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5.5A7.5 7.5 0 0 0 8.5 9a8 8 0 0 0 0 6A7.5 7.5 0 0 0 19 18.5"/><path d="M4 10h11"/><path d="M4 14h8"/></svg></span><span>Eenmalig €17, <span class="np-destaque">geen abonnement</span></span></li>
+                <li><span class="np-disco" aria-hidden="true"><svg aria-hidden="true" class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></svg></span><span>Direct toegang na betaling, <span class="np-destaque">geen account of app nodig</span></span></li>
+                <li><span class="np-disco" aria-hidden="true"><svg aria-hidden="true" class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg></span><span><span class="np-destaque">60 dagen garantie</span></span></li>
             </ul>
 
             <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary np-cta-final" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik doe dit nu — €17</a>
@@ -4087,7 +4133,7 @@
             <p class="np-disclaimer">Geen medisch advies en geen vervanging voor professionele behandeling.</p>
         </div>
 
-        <div class="np-climax-fim" aria-hidden="true"><svg class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#F2EDE6"/></svg><div class="wvl wvl1"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
+        <div class="np-climax-fim" aria-hidden="true"><svg aria-hidden="true" class="np-onda-massa" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z" fill="#F2EDE6"/></svg><div class="wvl wvl1"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3E4E43" opacity="0.9"/></svg></div><div class="wvl wvl2"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B3A48F" opacity="0.75"/></svg></div><div class="wvl wvl3"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#C89078" opacity="0.7"/></svg></div></div>
     </div>
 
     <div class="container np-faq">
@@ -4145,6 +4191,7 @@
             <input
                 type="email"
                 id="email-input"
+                aria-label="Je e-mailadres"
                 placeholder="naam@voorbeeld.nl"
                 required
                 autocomplete="email"
@@ -4167,7 +4214,7 @@
     <section class="up-abertura">
         <div class="container">
             <div class="up-confirma">
-                <span class="up-confirma-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span>
+                <span class="up-confirma-ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span>
                 <div class="up-confirma-txt">
                     <p class="up-confirma-tit">Je betaling is gelukt. Je Noodprotocol staat klaar in je e-mail.</p>
                     <p class="up-confirma-sub">Zie je niets? Kijk in je spam.</p>
@@ -4184,7 +4231,7 @@
             <p class="up-linha">Er is een naam voor waar je in leeft: <span class="np-risco">de alarmstand.</span></p>
             <p class="up-linha">Een systeem dat nooit heeft leren stoppen.</p>
         </div>
-        <div class="up-onda" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 400 L0 400 Z" fill="currentColor"/></svg></div>
+        <div class="up-onda" aria-hidden="true"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 400 L0 400 Z" fill="currentColor"/></svg></div>
     </section>
 
     <div class="container up-ponte">
@@ -4217,7 +4264,7 @@
     </div>
 
     <section class="up-preco">
-        <div class="up-onda up-onda--topo" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 400 L0 400 Z" fill="currentColor"/></svg></div>
+        <div class="up-onda up-onda--topo" aria-hidden="true"><svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 400 L0 400 Z" fill="currentColor"/></svg></div>
         <div class="container">
             <p class="up-ancora">Een sessie bij de psycholoog begint met je eigen risico. <span class="np-risco">€385</span>. Dit zijn zeven dagen.</p>
 
@@ -4226,10 +4273,10 @@
             <p class="up-exclusivo">Dit aanbod is er alleen voor mensen die het Noodprotocol hebben. Je vindt het nergens anders.</p>
 
             <ul class="up-feiten">
-                <li><span class="up-bolha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><path d="M21 15v3a2 2 0 0 1-2 2h-1a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3Z"/><path d="M3 15v3a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H3Z"/></svg></span><span>7 audio's, één voor elke dag</span></li>
-                <li><span class="up-bolha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5.5A7.5 7.5 0 0 0 8.5 9a8 8 0 0 0 0 6A7.5 7.5 0 0 0 19 18.5"/><path d="M4 10h11"/><path d="M4 14h8"/></svg></span><span>Eenmalig <span class="np-risco">€37, geen abonnement</span></span></li>
-                <li><span class="up-bolha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></svg></span><span>Direct toegang na betaling, <span class="np-risco">geen account of app nodig</span></span></li>
-                <li><span class="up-bolha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg></span><span><span class="np-risco">60 dagen garantie</span></span></li>
+                <li><span class="up-bolha" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><path d="M21 15v3a2 2 0 0 1-2 2h-1a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3Z"/><path d="M3 15v3a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H3Z"/></svg></span><span>7 audio's, één voor elke dag</span></li>
+                <li><span class="up-bolha" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5.5A7.5 7.5 0 0 0 8.5 9a8 8 0 0 0 0 6A7.5 7.5 0 0 0 19 18.5"/><path d="M4 10h11"/><path d="M4 14h8"/></svg></span><span>Eenmalig <span class="np-risco">€37, geen abonnement</span></span></li>
+                <li><span class="up-bolha" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></svg></span><span>Direct toegang na betaling, <span class="np-risco">geen account of app nodig</span></span></li>
+                <li><span class="up-bolha" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg></span><span><span class="np-risco">60 dagen garantie</span></span></li>
             </ul>
 
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary up-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik ga verder — €37</a>
@@ -4289,7 +4336,7 @@
 <!-- ================================ -->
 <div class="page" id="page-thankyou">
     <div class="banner">
-        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="1200" height="400" fill="#F5F2EE"/>
             <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
             <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
@@ -4742,7 +4789,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- ================================ -->
 <div class="page" id="page-deliver-noodprotocol">
     <div class="banner">
-        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="1200" height="400" fill="#F5F2EE"/>
             <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
             <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
@@ -4810,7 +4857,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- ================================ -->
 <div class="page" id="page-deliver-protocol7">
     <div class="banner">
-        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="1200" height="400" fill="#F5F2EE"/>
             <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
             <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
@@ -4894,7 +4941,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="section-space"></div>
 
         <p class="subtle">Tip: download alle audio's en maak een afspeellijst op je telefoon in de juiste volgorde.</p>
-        <a href="https://gewoon-even.vercel.app/dagboek.pdf" download="dagboek-protocol-van-7-dagen.pdf" class="btn-primary" style="text-align: center;">↓ Download je dagboek (PDF)</a>
+        <a href="https://gewoon-even.nl/dagboek.pdf" download="dagboek-protocol-van-7-dagen.pdf" class="btn-primary" style="text-align: center;">↓ Download je dagboek (PDF)</a>
 
         <div class="divider-line"></div>
 
@@ -5006,7 +5053,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <!-- ================================ -->
 <div class="page" id="page-deliver-slaap">
     <div class="banner">
-        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="1200" height="400" fill="#F5F2EE"/>
             <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
             <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
@@ -5047,7 +5094,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="section-space"></div>
         <p class="subtle">Tip: download alle audio's en sla ze op je telefoon op. Zo heb je ze altijd bij de hand, ook zonder internet.</p>
         <div class="divider-line"></div>
-        <a href="https://gewoon-even.vercel.app/handleiding-slaap.pdf" download="handleiding-slaap.pdf" class="download-link">↓ Download de handleiding (PDF)</a>
+        <a href="https://gewoon-even.nl/handleiding-slaap.pdf" download="handleiding-slaap.pdf" class="download-link">↓ Download de handleiding (PDF)</a>
         <div class="divider-line"></div>
         <p class="green-text strong" style="font-family: var(--font-display); font-size: var(--t-corpo); text-align: center;">Slaap is niet zwak. Slaap is herstel.</p>
         <div class="section-space"></div>
