@@ -4578,6 +4578,7 @@ const sleepQuestions = [
 ];
 
 let currentSleepQuestion = 0;
+let sleepAnswers = [];
 
 function renderSleepQuestion(index) {
     const q = sleepQuestions[index];
@@ -4602,11 +4603,16 @@ function selectSleepAnswer(answerIndex) {
     const buttons = document.querySelectorAll('#sleepquiz-container .answer-btn');
     buttons.forEach(b => b.classList.remove('selected'));
     buttons[answerIndex].classList.add('selected');
+    sleepAnswers[currentSleepQuestion] = answerIndex;
 
     setTimeout(() => {
         currentSleepQuestion++;
         if (currentSleepQuestion < sleepQuestions.length) {
             renderSleepQuestion(currentSleepQuestion);
+        } else if (sleepAnswers.length === sleepQuestions.length
+                   && sleepAnswers.every(a => a === 0)) {
+            // tres vezes "Nooit": nao ha queixa de sono, nao ha oferta
+            showPage('page-thankyou');
         } else {
             document.getElementById('sleepquiz-progress-fill').style.width = '100%';
             document.getElementById('sleepquiz-container').style.display = 'none';
@@ -4626,6 +4632,7 @@ function showSleepOffer() {
 
 function resetSleepQuiz() {
     currentSleepQuestion = 0;
+    sleepAnswers = [];
     document.getElementById('sleepquiz-intro').style.display = 'block';
     document.querySelector('#page-upsell2 .progress-bar').style.display = 'block';
     document.getElementById('sleepquiz-container').style.display = 'block';
@@ -4638,9 +4645,28 @@ function resetSleepQuiz() {
 // Wrapped in DOMContentLoaded because the delivery page divs are defined
 // later in the document; without this, getElementById would return null
 // and showPage() would throw before fbq('track','Purchase') ran.
+// Uma entrada por hash so' pode contar uma compra por sessao: sem isto, cada
+// recarregamento da pagina com o mesmo hash disparava outra Purchase. A chave
+// vive em sessionStorage, dentro de try/catch — em navegacao privada ou com o
+// armazenamento bloqueado o acesso lanca, e nesse caso deixamos passar (melhor
+// contar a mais do que partir a pagina).
+function entradaJaContada(hash) {
+    try {
+        const k = 'ge_hash_' + hash;
+        if (sessionStorage.getItem(k)) return true;
+        sessionStorage.setItem(k, '1');
+        return false;
+    } catch (e) {
+        return false;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
     if (hash === '#upsell-p7-6h2mk9') {
+        // esta entrada nao dispara Purchase nenhuma; a chave fica registada
+        // na mesma, para o dia em que passar a disparar
+        entradaJaContada(hash);
         // Entrada na page-upsell: tanto o redirect pós-Noodprotocol como o CTA do
         // Email 1 do Funil 2 (recuperação de quem só tem o Noodprotocol) usam este
         // hash — a página vende o Protocol 7 Dagen do zero em ambos os casos.
@@ -4657,7 +4683,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // 7 Dagen há dias, ou para quem só tem o Noodprotocol) deve usar um hash
         // PRÓPRIO e diferente deste, para não herdar esta confirmação por engano.
         upsell2ConfirmedPurchaseEntry = true;
-        fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
+        if (!entradaJaContada(hash)) {
+            fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
+        }
         showPage('page-upsell2');
     } else if (hash === '#toegang-np-8f3k2m') {
         showPage('page-deliver-noodprotocol');
@@ -4878,7 +4906,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="section-space"></div>
 
         <div class="delivery-instruction">
-            Tip: open het PDF op je telefoon en kies "Voeg toe aan startscherm" zodat je het altijd bij de hand hebt. Je kunt het ook printen en in je portemonnee bewaren.
+            Tip: bewaar het in Bestanden of Foto’s op je telefoon, of print het uit en stop het in je portemonnee.
         </div>
 
         <div class="divider-line"></div>
@@ -4918,10 +4946,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <!-- Screen 2: diagnosis -->
         <div id="sleepquiz-result" style="display: none;">
             <div class="upsell-section">
-                <h2>Herkenbaar? Dit heeft een naam.</h2>
-                <div class="section-space"></div>
-                <p>Wat je beschrijft heet <strong>hyperarousal</strong> — je zenuwstelsel blijft 's nachts in een lichte staat van paraatheid, waardoor je brein de overgang naar diepe herstelslaap niet maakt.</p>
-                <p class="strong">Dit wordt in slaaponderzoek erkend als kernmechanisme bij aanhoudende slaapproblemen. Het is geen kwestie van 'niet moe genoeg zijn' — je systeem staat nog aan.</p>
+                <p>Herkenbaar? Veel mensen die 's nachts wakker liggen merken dat hun lijf in een lichte staat van paraatheid blijft staan, ook als de dag voorbij is. In slaaponderzoek heet dat <strong>hyperarousal</strong>.</p>
+                <p class="strong">Het is geen kwestie van 'niet moe genoeg zijn' — je systeem staat nog aan.</p>
                 <div class="section-space"></div>
                 <button class="btn-primary" onclick="showSleepOffer()">Bekijk wat hierbij helpt →</button>
             </div>
@@ -4930,23 +4956,22 @@ document.addEventListener('DOMContentLoaded', () => {
         <!-- Screen 3: bridge + offer -->
         <div id="sleepquiz-offer" style="display: none;">
             <div class="upsell-section">
-                <div class="upsell-badge">Eenmalig aanbod</div>
+                <div class="upsell-badge">Slaapprotocol</div>
                 <h1>Slaap is de basis van alles.</h1>
                 <p>Het Slaapprotocol bestaat uit vier audio's, elk gericht op een ander moment waarop dit systeem vastloopt:</p>
                 <div class="section-space"></div>
                 <div class="day-list">
                     <div class="day-item"><strong>Intro</strong> Hoe het protocol werkt, zodat je weet wat je kunt verwachten</div>
-                    <div class="day-item"><strong>Avondritueel</strong> Helpt je lichaam actief omschakelen van dag naar nacht, in plaats van van scherm naar bed te springen</div>
-                    <div class="day-item"><strong>Inslapen</strong> Begeleide ontspanning voor het moment dat je hoofd niet stil wil staan</div>
+                    <div class="day-item"><strong>Avondritueel</strong> Een ritueel dat je lichaam helpt de dag los te laten</div>
+                    <div class="day-item"><strong>Inslapen</strong> Voor als de slaap niet komt: je hoofd krijgt iets anders te doen.</div>
                     <div class="day-item"><strong>'s Nachts wakker</strong> Voor als je midden in de nacht wakker ligt en niet meer wegzakt</div>
                 </div>
                 <p style="font-size: var(--t-sec); color: var(--t-sec-cor); font-style: italic;">Vier audio's, inzetbaar op het moment dat je ze nodig hebt: gereedschap voor wanneer de slaap niet komt.</p>
                 <div class="divider-line"></div>
-                <p class="subtle">Dit aanbod verschijnt eenmalig, nu.</p>
                 <div style="padding: 16px 0;"><span class="price-new">€67</span></div>
                 <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik wil het Slaapprotocol — €67</a>
-                <button class="btn-decline" onclick="showPage('page-downsell')">Nee, dat is voor nu genoeg</button>
-                <p class="subtle" style="margin-top: 16px; font-size: 0.8rem;">Bronnen: Dressle et al., <em>Journal of Sleep Research</em> (2023) — hyperarousal bij insomnia; Sleep Foundation, Cleveland Clinic — cognitieve gedragstherapie voor slapeloosheid (CBT-I).</p>
+                <button class="btn-decline" onclick="showPage('page-thankyou')">Nee, dat is voor nu genoeg</button>
+                <p class="subtle" style="margin-top: 16px; font-size: 0.8rem;">Bronnen: Dressle et al., <em>Journal of Sleep Research</em> (2023) — hyperarousal bij insomnia.</p>
             </div>
         </div>
 
@@ -4981,13 +5006,13 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="audio-track">
             <div class="audio-track-title">Avondritueel</div>
-            <div class="audio-track-subtitle">Een ritueel dat je zenuwstelsel op slaap voorbereidt</div>
+            <div class="audio-track-subtitle">Een ritueel dat je lichaam helpt de dag los te laten</div>
             <audio controls preload="none"><source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Avondritueel.MP3" type="audio/mpeg"></audio>
             <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Avondritueel.MP3" download class="download-link">↓ Download MP3</a>
         </div>
         <div class="audio-track">
             <div class="audio-track-title">Inslapen</div>
-            <div class="audio-track-subtitle">Begeleide ontspanning voor als je niet kunt inslapen</div>
+            <div class="audio-track-subtitle">Voor als de slaap niet komt: je hoofd krijgt iets anders te doen.</div>
             <audio controls preload="none"><source src="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Inslapen.MP3" type="audio/mpeg"></audio>
             <a href="https://oidutbkrthnd7o80.public.blob.vercel-storage.com/Inslapen.MP3" download class="download-link">↓ Download MP3</a>
         </div>
