@@ -29,14 +29,15 @@ function getProductInfo(amountTotal) {
 }
 
 // ---------------------------------------------------------------------------
-// Entrega do Noodprotocol (amount_total = 1700) por e-mail transacional.
-// Modelo transacional Brevo ID 9 ("Entrega Noodprotocol"), remetente
-// hello@gewoon-even.nl. Usa params.ACCESS_URL e params.UPSELL_URL.
+// Entrega por e-mail transacional, por valor pago. Remetente
+// hello@gewoon-even.nl em todos (vem do próprio modelo no Brevo).
 //
-// Deduplicação: o Stripe pode entregar o mesmo evento mais de uma vez. A marca
-// NP_MAIL_SENT no contacto guarda o session.id do envio feito. NUNCA entra no
-// PUT principal — vai sempre num PUT separado, depois de o e-mail ter saído,
-// para que uma falha dela não possa quebrar a gravação do contacto.
+// Deduplicação: o Stripe pode entregar o mesmo evento mais de uma vez. Cada
+// produto tem a SUA marca no contacto, que guarda o session.id do envio feito
+// — assim a entrega de um produto não bloqueia a de outro comprado pela mesma
+// pessoa. A marca NUNCA entra no PUT principal: vai sempre num PUT separado,
+// depois de o e-mail ter saído, para que uma falha dela não possa quebrar a
+// gravação do contacto.
 // ---------------------------------------------------------------------------
 
 // Tipos de evento do Stripe tratados. O checkout.session.completed de um metodo
@@ -49,14 +50,69 @@ const HANDLED_EVENTS = [
   'checkout.session.async_payment_succeeded'
 ];
 
-const NP_TEMPLATE_ID = 9;
+// IDs dos modelos transacionais do Brevo. 0 significa "modelo ainda não
+// existe": nesse caso o webhook grava o contacto, registra no log e devolve
+// 200 SEM enviar e SEM erro — exactamente o que fazia antes desta tabela.
+// Preencher à medida que os modelos forem criados no painel do Brevo.
+const NP_TEMPLATE_ID    = 9;
+const P7D_TEMPLATE_ID   = 10;  // "Entrega Protocol 7 Dagen"
+const CK_TEMPLATE_ID    = 11;  // "Entrega Crisiskaart"
+const SLAAP_TEMPLATE_ID = 12;  // "Entrega Slaapprotocol"
+
 const NP_ACCESS_URL = 'https://gewoon-even.nl/#toegang-np-8f3k2m';
 const NP_UPSELL_URL = 'https://gewoon-even.nl/#upsell-p7-6h2mk9';
 
-// Lê a marca NP_MAIL_SENT do contacto. Devolve a string gravada, ou null
-// quando não há marca. 404, erro de API e exceção contam todos como
-// "não enviado" — na dúvida enviamos, porque não entregar é pior que duplicar.
-async function readNpMailSent(email, sessionId, apiKey) {
+// Tabela de entrega por amount_total (em cents). Um valor que não esteja aqui
+// não tem entrega por e-mail nenhuma: o contacto é gravado e o webhook sai.
+//
+// Nota sobre o UPSELL_URL: só o Noodprotocol o tem. Um upsell do Slaapprotocol
+// por e-mail NÃO pode usar #upsell2-slaap-7n4kx9, porque esse hash mostra a
+// faixa "Protocol van 7 Dagen is bevestigd" a quem não o comprou — precisa de
+// um hash próprio. Até esse hash existir, os três modelos novos só levam o
+// ACCESS_URL.
+//
+// ATENÇÃO, ainda em falta: as marcas P7D_MAIL_SENT, CK_MAIL_SENT e
+// SLAAP_MAIL_SENT NÃO existem como atributos no Brevo. Com os templateId já
+// preenchidos, a entrega destes três produtos corre: o e-mail sai, mas o PUT
+// da marca falha e o webhook devolve 200 com mark_failed. Consequência: um
+// evento repetido do Stripe volta a enviar o e-mail. Criar os três atributos
+// de texto no Brevo antes de isto ir para produção.
+const DELIVERY = {
+  1700: {
+    label: 'NP Mail',
+    templateId: NP_TEMPLATE_ID,
+    sentAttr: 'NP_MAIL_SENT',
+    errorCode: 'np_email_failed',
+    params: { ACCESS_URL: NP_ACCESS_URL, UPSELL_URL: NP_UPSELL_URL }
+  },
+  3700: {
+    label: 'P7D Mail',
+    templateId: P7D_TEMPLATE_ID,
+    sentAttr: 'P7D_MAIL_SENT',
+    errorCode: 'p7d_email_failed',
+    params: { ACCESS_URL: 'https://gewoon-even.nl/#toegang-p7-4x9nw' }
+  },
+  900: {
+    label: 'CK Mail',
+    templateId: CK_TEMPLATE_ID,
+    sentAttr: 'CK_MAIL_SENT',
+    errorCode: 'ck_email_failed',
+    params: { ACCESS_URL: 'https://gewoon-even.nl/#toegang-ck-2j7mp' }
+  },
+  6700: {
+    label: 'SLAAP Mail',
+    templateId: SLAAP_TEMPLATE_ID,
+    sentAttr: 'SLAAP_MAIL_SENT',
+    errorCode: 'slaap_email_failed',
+    params: { ACCESS_URL: 'https://gewoon-even.nl/#toegang-sl-9m3kx7' }
+  }
+};
+
+// Lê a marca de entrega do contacto (entrega.sentAttr). Devolve a string
+// gravada, ou null quando não há marca. 404, erro de API e exceção contam
+// todos como "não enviado" — na dúvida enviamos, porque não entregar é pior
+// que duplicar.
+async function readMailSent(email, sessionId, apiKey, entrega) {
   try {
     const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
       method: 'GET',
@@ -72,21 +128,21 @@ async function readNpMailSent(email, sessionId, apiKey) {
 
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error(`[NP Mail] session ${sessionId} contact read error ${response.status}: ${errorBody} — treating as not sent`);
+      console.error(`[${entrega.label}] session ${sessionId} contact read error ${response.status}: ${errorBody} — treating as not sent`);
       return null;
     }
 
     const data = await response.json();
-    return data?.attributes?.NP_MAIL_SENT || null;
+    return data?.attributes?.[entrega.sentAttr] || null;
 
   } catch (error) {
-    console.error(`[NP Mail] session ${sessionId} contact read exception: ${error.message} — treating as not sent`);
+    console.error(`[${entrega.label}] session ${sessionId} contact read exception: ${error.message} — treating as not sent`);
     return null;
   }
 }
 
 // Envia o e-mail de entrega. Lança em caso de falha; quem chama decide o status.
-async function sendNpDeliveryEmail(email, apiKey) {
+async function sendDeliveryEmail(email, apiKey, entrega) {
   const response = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
     headers: {
@@ -96,11 +152,8 @@ async function sendNpDeliveryEmail(email, apiKey) {
     },
     body: JSON.stringify({
       to: [{ email }],
-      templateId: NP_TEMPLATE_ID,
-      params: {
-        ACCESS_URL: NP_ACCESS_URL,
-        UPSELL_URL: NP_UPSELL_URL
-      }
+      templateId: entrega.templateId,
+      params: entrega.params
     })
   });
 
@@ -110,8 +163,8 @@ async function sendNpDeliveryEmail(email, apiKey) {
   }
 }
 
-// Grava NP_MAIL_SENT = session.id num PUT isolado. Lança em caso de falha.
-async function markNpMailSent(email, sessionId, apiKey) {
+// Grava a marca de entrega = session.id num PUT isolado. Lança em caso de falha.
+async function markMailSent(email, sessionId, apiKey, entrega) {
   const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
     method: 'PUT',
     headers: {
@@ -120,7 +173,7 @@ async function markNpMailSent(email, sessionId, apiKey) {
       'content-type': 'application/json'
     },
     body: JSON.stringify({
-      attributes: { NP_MAIL_SENT: sessionId }
+      attributes: { [entrega.sentAttr]: sessionId }
     })
   });
 
@@ -133,26 +186,26 @@ async function markNpMailSent(email, sessionId, apiKey) {
 // Orquestra envio + marca. Corre sempre DEPOIS de o contacto estar gravado,
 // por isso nada aqui pode desfazer essa gravação. Nunca lança: devolve
 // { status, body } para a resposta ao Stripe.
-async function deliverNoodprotocol(email, sessionId, apiKey, baseBody) {
+async function deliverProduct(email, sessionId, apiKey, baseBody, entrega) {
   try {
-    await sendNpDeliveryEmail(email, apiKey);
+    await sendDeliveryEmail(email, apiKey, entrega);
   } catch (error) {
     // Marca não gravada ⇒ a repetição do Stripe volta a tentar o envio.
-    console.error(`[NP Mail] session ${sessionId} SEND FAILED: ${error.message} — returning 500 so Stripe retries`);
+    console.error(`[${entrega.label}] session ${sessionId} SEND FAILED: ${error.message} — returning 500 so Stripe retries`);
     return {
       status: 500,
-      body: { ...baseBody, ok: false, error: 'np_email_failed', email_sent: false }
+      body: { ...baseBody, ok: false, error: entrega.errorCode, email_sent: false }
     };
   }
 
-  console.log(`[NP Mail] session ${sessionId} sent template ${NP_TEMPLATE_ID}`);
+  console.log(`[${entrega.label}] session ${sessionId} sent template ${entrega.templateId}`);
 
   try {
-    await markNpMailSent(email, sessionId, apiKey);
+    await markMailSent(email, sessionId, apiKey, entrega);
   } catch (error) {
     // O e-mail já saiu. 200 para o Stripe não repetir: repetir duplicaria o
     // e-mail, que é pior do que ficar sem a marca.
-    console.error(`[NP Mail] session ${sessionId} MARK FAILED: ${error.message} — email WAS sent; a Stripe retry would duplicate it`);
+    console.error(`[${entrega.label}] session ${sessionId} MARK FAILED: ${error.message} — email WAS sent; a Stripe retry would duplicate it`);
     return {
       status: 200,
       body: { ...baseBody, email_sent: true, mark_failed: true }
@@ -231,21 +284,30 @@ export default async function handler(req, res) {
 
   console.log(`[Stripe Webhook] Mapped: ${product.name} (${product.attr}=true, ${product.tag}) for €${amountPaid} — event=${event.type}, payment_status=${session.payment_status}`);
 
-  // 3b. Noodprotocol: deduplicação do e-mail de entrega.
+  // 3b. Deduplicação do e-mail de entrega.
   // Lê a marca ANTES de gravar o contacto, porque a gravação é idempotente e
   // não distingue um evento novo de uma repetição do mesmo evento.
   // Estrito: so 'paid'. Um 'unpaid' (pagamento atrasado ainda por confirmar) ou
   // um 'no_payment_required' (cupao de 100%) grava o contacto como sempre, mas
   // nao dispara a entrega. A entrega vem depois, no async_payment_succeeded.
-  const isNoodprotocol = session.amount_total === 1700 && session.payment_status === 'paid';
-  if (session.amount_total === 1700 && !isNoodprotocol) {
-    console.log(`[NP Mail] session ${session.id} payment_status=${session.payment_status} — contact saved, delivery deferred`);
+  const entrega = DELIVERY[session.amount_total] || null;
+  const pago = session.payment_status === 'paid';
+
+  if (entrega && !pago) {
+    console.log(`[${entrega.label}] session ${session.id} payment_status=${session.payment_status} — contact saved, delivery deferred`);
   }
 
-  if (isNoodprotocol) {
-    const npMailSent = await readNpMailSent(customerEmail, session.id, brevoApiKey);
-    if (npMailSent && npMailSent === session.id) {
-      console.log(`[NP Mail] session ${session.id} duplicate event — already delivered, skipping`);
+  // Modelo por criar: grava o contacto e sai em 200, sem enviar e sem erro.
+  if (entrega && pago && entrega.templateId === 0) {
+    console.log(`[${entrega.label}] session ${session.id} templateId=0 — modelo ainda não criado no Brevo, nada enviado`);
+  }
+
+  const vaiEntregar = !!entrega && pago && entrega.templateId !== 0;
+
+  if (vaiEntregar) {
+    const mailSent = await readMailSent(customerEmail, session.id, brevoApiKey, entrega);
+    if (mailSent && mailSent === session.id) {
+      console.log(`[${entrega.label}] session ${session.id} duplicate event — already delivered, skipping`);
       return res.status(200).json({
         ok: true,
         skipped: 'duplicate',
@@ -314,12 +376,12 @@ export default async function handler(req, res) {
         action: 'created'
       };
 
-      if (!isNoodprotocol) {
+      if (!vaiEntregar) {
         return res.status(200).json(createdBody);
       }
 
       // 6. Contacto gravado. Só agora o e-mail de entrega.
-      const createdOutcome = await deliverNoodprotocol(customerEmail, session.id, brevoApiKey, createdBody);
+      const createdOutcome = await deliverProduct(customerEmail, session.id, brevoApiKey, createdBody, entrega);
       return res.status(createdOutcome.status).json(createdOutcome.body);
     }
 
@@ -340,12 +402,12 @@ export default async function handler(req, res) {
       action: 'updated'
     };
 
-    if (!isNoodprotocol) {
+    if (!vaiEntregar) {
       return res.status(200).json(updatedBody);
     }
 
     // 6. Contacto gravado. Só agora o e-mail de entrega.
-    const updatedOutcome = await deliverNoodprotocol(customerEmail, session.id, brevoApiKey, updatedBody);
+    const updatedOutcome = await deliverProduct(customerEmail, session.id, brevoApiKey, updatedBody, entrega);
     return res.status(updatedOutcome.status).json(updatedOutcome.body);
 
   } catch (error) {
