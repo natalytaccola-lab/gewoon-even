@@ -5574,7 +5574,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Serve os depoimentos e, em mobile, os três áudios. O IntersectionObserver
     // dispara em limiares e não daria continuidade durante o arrasto; fica só a
     // ligar e desligar o cálculo, e a proporção é recalculada por frame.
-    function montarCarrossel(pista, selCartao, selTexto, selChev, chave) {
+    function montarCarrossel(pista, selCartao, selTexto, selChev, chave, selCancelar) {
         if (!pista || reduced) return;
         var cartoes = pista.querySelectorAll(selCartao);
         if (!cartoes.length) return;
@@ -5627,14 +5627,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Array.prototype.forEach.call(page.querySelectorAll(selChev), function (b) {
             b.addEventListener('click', function () {
+                cancelarAceno();
                 var dir = b.classList.contains('np-chev--next') ? 1 : -1;
                 pista.scrollBy({ left: dir * passoCartao(), behavior: 'smooth' });
             });
         });
 
-        var acenou = false;
+        var acenou = false, acenoCancelado = false, pedidoAceno = null;
+
+        // O aceno escreve pista.scrollLeft em cada frame durante 600ms. Sem
+        // isto, um clique ou um toque dados nessa janela eram sobrescritos
+        // frame a frame e o scroller acabava onde comecou. Ao cancelar NAO se
+        // repoe o scrollLeft inicial: fica onde esta' e o scroll que o
+        // utilizador pediu segue dai'.
+        function cancelarAceno() {
+            acenoCancelado = true;
+            if (pedidoAceno !== null) {
+                cancelAnimationFrame(pedidoAceno);
+                pedidoAceno = null;
+            }
+        }
+
         function acenar() {
-            if (acenou) return;
+            if (acenou || acenoCancelado) return;
             acenou = true;
             try {
                 if (sessionStorage.getItem(chave)) return;
@@ -5642,13 +5657,27 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (e) { /* sessão bloqueada: acena à mesma */ }
             var inicio = pista.scrollLeft, amplitude = 25, dur = 600, t0 = null;
             function passo(t) {
+                if (acenoCancelado) { pedidoAceno = null; return; }
                 if (t0 === null) t0 = t;
                 var k = Math.min(1, (t - t0) / dur);
                 var e = 0.5 - Math.cos(k * 2 * Math.PI) / 2;
                 pista.scrollLeft = inicio + amplitude * e;
-                if (k < 1) requestAnimationFrame(passo);
+                pedidoAceno = k < 1 ? requestAnimationFrame(passo) : null;
             }
-            requestAnimationFrame(passo);
+            pedidoAceno = requestAnimationFrame(passo);
+        }
+
+        // qualquer interaccao do utilizador com a pista cancela o aceno
+        ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(function (ev) {
+            pista.addEventListener(ev, cancelarAceno, { passive: true });
+        });
+
+        // e tambem os controlos que vivem fora da pista (as pilulas)
+        if (selCancelar) {
+            var fora = page.querySelector(selCancelar);
+            if (fora) ['pointerdown', 'touchstart', 'click'].forEach(function (ev) {
+                fora.addEventListener(ev, cancelarAceno, { passive: true });
+            });
         }
 
         var io = new IntersectionObserver(function (entries) {
@@ -5763,7 +5792,7 @@ document.addEventListener('DOMContentLoaded', () => {
     montarCarrossel(page.querySelector('.np-voices'), '.np-voice', '.np-voice-quote',
                     '.np-chev:not(.np-chev--audio)', 'np_voices_hint');
     montarCarrossel(page.querySelector('.np-stage-scroller'), '.np-track', null,
-                    '.np-chev--audio', 'np_audio_hint');
+                    '.np-chev--audio', 'np_audio_hint', '.np-track-nav');
 
     // ---- pilulas de navegacao dos audios (so' mobile) ----
     // Sem contagem fixa: le' os cartoes e as pilulas que existirem.
