@@ -3747,6 +3747,61 @@
            51,2px do botao final; volta aos ~35px que separavam os blocos. */
         #page-checkout .btn-primary.np-cta-final { margin-top: 2.2rem; }  /* era 3.2rem = 51,2px */
 
+        /* ============ PILULAS DE NAVEGACAO DOS AUDIOS (so' mobile) ============ */
+        /* Acima dos 600px os tres cartoes ja' aparecem empilhados e o scroller
+           nao desliza, por isso a fileira nem e' renderizada. */
+        #page-checkout .np-track-nav { display: none; }
+
+        @media (max-width: 600px) {
+            #page-checkout .np-track-nav {
+                display: flex;
+                justify-content: center;
+                gap: 6px;
+                margin: 1rem 0 0;
+                padding: 0 16px;
+            }
+
+            #page-checkout .np-track-pil {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                min-height: 44px;
+                padding: 0 10px;
+                border: 1px solid var(--sage);
+                border-radius: 999px;
+                background: none;
+                color: var(--verde-dique);
+                cursor: pointer;
+                white-space: nowrap;
+                transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            }
+
+            #page-checkout .np-track-pil.is-actief {
+                background: var(--verde-dique);
+                border-color: var(--verde-dique);
+                color: var(--creme);
+            }
+
+            #page-checkout .np-track-pil-num {
+                font-family: var(--np-mono);
+                font-size: 12px;
+                font-weight: 400;
+                letter-spacing: 0.02em;
+            }
+
+            #page-checkout .np-track-pil-nome {
+                font-family: var(--np-body);
+                font-size: 14px;
+                font-weight: 400;
+            }
+
+            #page-checkout .np-track-pil:focus-visible {
+                outline: 1px solid var(--sage);
+                outline-offset: 2px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -3962,6 +4017,12 @@
                 </div>
             </section>
         </div>
+        </div>
+
+        <div class="np-track-nav" role="group" aria-label="Kies een audio">
+            <button type="button" class="np-track-pil is-actief" aria-pressed="true"><span class="np-track-pil-num">01</span><span class="np-track-pil-nome">Noodstop</span></button>
+            <button type="button" class="np-track-pil" aria-pressed="false"><span class="np-track-pil-num">02</span><span class="np-track-pil-nome">Reset</span></button>
+            <button type="button" class="np-track-pil" aria-pressed="false"><span class="np-track-pil-num">03</span><span class="np-track-pil-nome">Landing</span></button>
         </div>
     </div>
 
@@ -5703,6 +5764,68 @@ document.addEventListener('DOMContentLoaded', () => {
                     '.np-chev:not(.np-chev--audio)', 'np_voices_hint');
     montarCarrossel(page.querySelector('.np-stage-scroller'), '.np-track', null,
                     '.np-chev--audio', 'np_audio_hint');
+
+    // ---- pilulas de navegacao dos audios (so' mobile) ----
+    // Sem contagem fixa: le' os cartoes e as pilulas que existirem.
+    (function () {
+        var nav = page.querySelector('.np-track-nav');
+        var sc = page.querySelector('.np-stage-scroller');
+        if (!nav || !sc) return;
+        var pilulas = nav.querySelectorAll('.np-track-pil');
+        var faixas = page.querySelectorAll('.np-track');
+        if (!pilulas.length || !faixas.length) return;
+
+        function marcar(i) {
+            Array.prototype.forEach.call(pilulas, function (b, n) {
+                var activo = n === i;
+                b.classList.toggle('is-actief', activo);
+                b.setAttribute('aria-pressed', activo ? 'true' : 'false');
+            });
+        }
+
+        // posicao do cartao dentro do scroller, sem depender do offsetParent
+        function inicioDe(f) {
+            return sc.scrollLeft + (f.getBoundingClientRect().left - sc.getBoundingClientRect().left);
+        }
+
+        Array.prototype.forEach.call(pilulas, function (b, i) {
+            b.addEventListener('click', function () {
+                var f = faixas[i];
+                if (!f) return;
+                var centrado = inicioDe(f) - (sc.clientWidth - f.getBoundingClientRect().width) / 2;
+                var limite = sc.scrollWidth - sc.clientWidth;
+                sc.scrollTo({ left: Math.max(0, Math.min(limite, centrado)),
+                              behavior: reduced ? 'auto' : 'smooth' });
+                marcar(i);
+            });
+        });
+
+        // ao deslizar, a pilula segue o cartao mais proximo do centro. Nos
+        // extremos manda a ponta: no fim do scroll o ultimo cartao fica activo
+        // mesmo que nunca chegue a ficar centrado.
+        var agendado = false;
+        function acompanhar() {
+            agendado = false;
+            var limite = sc.scrollWidth - sc.clientWidth;
+            if (limite <= 0) return;
+            if (sc.scrollLeft >= limite - 2) { marcar(faixas.length - 1); return; }
+            if (sc.scrollLeft <= 2) { marcar(0); return; }
+            var centro = sc.clientWidth / 2;
+            var melhor = 0, menor = Infinity;
+            Array.prototype.forEach.call(faixas, function (f, i) {
+                var r = f.getBoundingClientRect(), rs = sc.getBoundingClientRect();
+                var d = Math.abs(r.left - rs.left + r.width / 2 - centro);
+                if (d < menor) { menor = d; melhor = i; }
+            });
+            marcar(melhor);
+        }
+
+        sc.addEventListener('scroll', function () {
+            if (agendado) return;
+            agendado = true;
+            requestAnimationFrame(acompanhar);
+        }, { passive: true });
+    })();
 
     var ondas = page.querySelectorAll('.np-breath');
     var ioOndas = new IntersectionObserver(function (entries) {
