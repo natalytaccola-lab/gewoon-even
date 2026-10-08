@@ -3844,6 +3844,66 @@
            folga que os blocos tinham entre si. */
         #page-upsell .up-exclusivo { margin-bottom: 2.2rem; }   /* era 1.1rem = 17,6px */
 
+        /* ============ UPSELL DOS EUR 37: AJUSTES VISUAIS ============ */
+        /* A) A onda e' absolute com bottom:-1px e 58px de altura (92px acima
+           dos 901px). O padding-bottom de 3.4rem deixava a ultima linha do
+           hero 3px DENTRO da onda, e 37px no desktop. */
+        #page-upsell .up-abertura { padding-bottom: 6.2rem; }
+
+        /* C) O texto do hero estava limitado a 480px dentro de um contentor de
+           640px, mais estreito que a pilula de confirmacao. Passa a acompanhar
+           o contentor, e o balance tira as palavras soltas no fim das linhas. */
+        #page-upsell .up-abertura .up-linha {
+            max-width: none;
+            text-wrap: balance;
+        }
+
+        /* D) O chip do #checkout e' #page-checkout .np-cta-meio-wrap p.np-selo,
+           duplamente scoped: a classe sozinha nao traz estilo nenhum. Replica-se
+           aqui, sem tocar em nada partilhado. */
+        #page-upsell p.up-cedo-nota {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        #page-upsell p.up-cedo-nota svg {
+            flex: 0 0 auto;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* E) Selo iDEAL + Stripe, igual ao .np-seal do #checkout. O ficheiro
+           img/ideal.webp ja' existe; o CSS do checkout esta' scoped e nao
+           alcanca esta pagina, por isso repete-se aqui. */
+        #page-upsell .up-seal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin: 1rem 0 0;
+            text-align: center;
+            font-family: var(--np-body);
+            font-size: 0.82rem;
+            font-weight: 300;
+            letter-spacing: 0.04em;
+            color: #E4E0D6;
+        }
+
+        #page-upsell .up-seal-logo {
+            display: block;
+            width: auto;
+            height: 42px;
+        }
+
+        @media (min-width: 901px) {
+            #page-upsell .up-abertura { padding-bottom: 8.4rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -4345,7 +4405,7 @@
 
         <div class="up-cedo">
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary up-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik ga verder — €37</a>
-            <p class="up-cedo-nota">60 dagen geld terug.</p>
+            <p class="up-cedo-nota"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg>60 dagen geld terug.</p>
         </div>
     </div>
 
@@ -4375,6 +4435,8 @@
             <p class="up-exclusivo">Dit aanbod is er alleen voor mensen die het Noodprotocol hebben. Je vindt het nergens anders.</p>
 
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary up-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik ga verder — €37</a>
+
+            <p class="up-seal"><img class="up-seal-logo" src="img/ideal.webp" width="143" height="126" alt="iDEAL" loading="lazy"><span>Veilig betalen via Stripe</span></p>
 
             <button class="btn-decline up-recusa" onclick="showPage('page-downsell')">Nee bedankt, het Noodprotocol is genoeg</button>
 
