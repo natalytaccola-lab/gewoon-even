@@ -3802,6 +3802,42 @@
             }
         }
 
+        /* ============ BLOCO DE ESTUDOS EM LINHAS COMPACTAS (so' mobile) ============ */
+        /* A grelha de duas colunas ja' existe na base; aqui aperta-se o que
+           fazia o bloco crescer: as frases a 18px em 3 e 4 linhas, o
+           alinhamento por baseline e o espacamento. Nenhum texto muda. */
+        @media (max-width: 600px) {
+            #page-checkout .np-prova {
+                padding: 12px 14px;
+            }
+
+            #page-checkout .np-prova-etiqueta {
+                margin: 0 0 0.3rem;
+            }
+
+            #page-checkout .np-prova-linha {
+                grid-template-columns: 76px 1fr;
+                gap: 10px;
+                align-items: center;
+                padding: 7px 0;
+                border-top: 1px solid rgba(154, 163, 150, 0.45);   /* --sage esbatido */
+            }
+
+            #page-checkout .np-prova-cifra {
+                font-size: 29px;          /* era 34px: -15% */
+                line-height: 1.05;
+            }
+
+            #page-checkout .np-prova-frase {
+                font-size: 16px;
+                line-height: 1.45;
+            }
+
+            #page-checkout .np-prova-rodape {
+                margin: 0.45rem 0 0;
+            }
+        }
+
     </style>
 </head>
 <body>
