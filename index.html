@@ -3838,6 +3838,12 @@
             }
         }
 
+        /* ---- upsell dos EUR 37: espaco antes do botao ---- */
+        /* Sem a .up-feiten no meio, a linha de exclusividade ficava a 18px do
+           botao, so' com o seu proprio margin-bottom. Esta regra devolve a
+           folga que os blocos tinham entre si. */
+        #page-upsell .up-exclusivo { margin-bottom: 2.2rem; }   /* era 1.1rem = 17,6px */
+
     </style>
 </head>
 <body>
@@ -4323,7 +4329,7 @@
             <p class="up-linha">Je hebt ademhaling geprobeerd. Apps. Misschien een podcast om 3 uur 's nachts.</p>
             <p class="up-linha">Ze werkten even. En dan weer niet.</p>
             <p class="up-linha">Eén ademhaling was nooit het hele verhaal.</p>
-            <p class="up-linha">Je systeem reageert niet willekeurig. Het volgt een patroon — een dat je al je hele leven kent, zonder het ooit zo genoemd te hebben.</p>
+            <p class="up-linha">Je systeem volgt een patroon — een dat je al je hele leven kent, zonder het ooit zo genoemd te hebben.</p>
             <p class="up-linha">Er is een naam voor waar je in leeft: <span class="np-risco">de alarmstand.</span></p>
             <p class="up-linha">Een systeem dat nooit heeft leren stoppen.</p>
         </div>
@@ -4344,7 +4350,7 @@
     </div>
 
     <div class="container up-semana">
-        <h2>Zeven dagen. Elke dag één audio. Elke dag bouwt voort op de vorige.</h2>
+        <h2>Zeven dagen. Elke dag één audio.</h2>
 
         <div class="day-list">
                 <div class="day-item"><span class="up-dia-num" aria-hidden="true">1</span><span class="up-dia-txt"><strong class="np-risco">Dag 1</strong> Ademhaling en vaguszenuw-activatie<span class="up-dia-linha">Het fundament: je adem als rem van je zenuwstelsel.</span></span></div>
@@ -4367,13 +4373,6 @@
             <p class="up-precos"><span class="price-strike">€67</span><span class="up-agora">€37</span><span class="up-eenmalig">eenmalig</span></p>
 
             <p class="up-exclusivo">Dit aanbod is er alleen voor mensen die het Noodprotocol hebben. Je vindt het nergens anders.</p>
-
-            <ul class="up-feiten">
-                <li><span class="up-bolha" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><path d="M21 15v3a2 2 0 0 1-2 2h-1a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3Z"/><path d="M3 15v3a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H3Z"/></svg></span><span>7 audio's, één voor elke dag</span></li>
-                <li><span class="up-bolha" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5.5A7.5 7.5 0 0 0 8.5 9a8 8 0 0 0 0 6A7.5 7.5 0 0 0 19 18.5"/><path d="M4 10h11"/><path d="M4 14h8"/></svg></span><span>Eenmalig <span class="np-risco">€37, geen abonnement</span></span></li>
-                <li><span class="up-bolha" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></svg></span><span>Direct toegang na betaling, <span class="np-risco">geen account of app nodig</span></span></li>
-                <li><span class="up-bolha" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg></span><span><span class="np-risco">60 dagen garantie</span></span></li>
-            </ul>
 
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary up-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik ga verder — €37</a>
 
