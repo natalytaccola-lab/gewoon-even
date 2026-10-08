@@ -3727,6 +3727,26 @@
             right: 0;
             transform: translateY(-50%);
         }
+
+        /* ============ ESPACAMENTO DO CHECKOUT ============ */
+        /* Margens verticais do .np-body a 75% do que eram, e o fundo do
+           .np-climax mais curto. So' espacamento: nenhuma classe global
+           e' tocada, tudo scoped a #page-checkout. */
+        #page-checkout .np-body p { margin-bottom: 1.01rem; }   /* era 1.35rem */
+
+        @media (max-width: 600px) {
+            #page-checkout .np-body p { margin-bottom: 0.9rem; }           /* era 1.2rem  = 19,2px */
+            #page-checkout .np-lift { margin: 2.85rem 0 2.85rem !important; } /* era 3.8rem = 60,8px */
+        }
+
+        #page-checkout .np-amostra-cta { margin: 1.05rem 0 1.35rem; }  /* era 1.4rem / 1.8rem */
+
+        #page-checkout .np-climax { padding-bottom: 3.5rem; }          /* era 5.6rem = 89,6px */
+
+        /* sem a .np-feiten no meio, a citacao da Ingrid passou a ficar a
+           51,2px do botao final; volta aos ~35px que separavam os blocos. */
+        #page-checkout .btn-primary.np-cta-final { margin-top: 2.2rem; }  /* era 3.2rem = 51,2px */
+
     </style>
 </head>
 <body>
@@ -3971,6 +3991,7 @@
     <div class="container np-cmp">
         <h2>Eerlijk vergeleken</h2>
         <table class="np-cmp-tabela">
+            <caption class="np-sr">Eerlijk vergeleken: Noodprotocol, psycholoog en meditatie-app</caption>
             <thead>
                 <tr>
                     <td></td>
@@ -4099,11 +4120,6 @@
 
             <blockquote class="np-cta-quote">"<span class="np-risco">Mijn huisarts noemde het stress.</span> … Ik wilde iets kunnen doen toen het gebeurde."<cite>Ingrid, 52</cite></blockquote>
 
-            <ul class="np-feiten">
-                <li><span class="np-disco" aria-hidden="true"><svg aria-hidden="true" class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v-3a9 9 0 0 1 18 0v3"/><path d="M21 15v3a2 2 0 0 1-2 2h-1a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3Z"/><path d="M3 15v3a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H3Z"/></svg></span><span>3 audio's, <span class="np-destaque">samen ± 21 minuten</span>, zo vaak luisteren als je wilt</span></li>
-                <li><span class="np-disco" aria-hidden="true"><svg aria-hidden="true" class="np-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5.5A7.5 7.5 0 0 0 8.5 9a8 8 0 0 0 0 6A7.5 7.5 0 0 0 19 18.5"/><path d="M4 10h11"/><path d="M4 14h8"/></svg></span><span>Eenmalig €17, <span class="np-destaque">geen abonnement</span></span></li>
-            </ul>
-
             <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary np-cta-final" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik doe dit nu — €17</a>
 
             <p class="np-seal"><img class="np-seal-logo" src="img/ideal.webp" width="143" height="126" alt="iDEAL" loading="lazy"><span>Veilig betalen via Stripe</span></p>
@@ -4131,10 +4147,6 @@
         <details class="np-faq-item">
             <summary>Hoe lang duren de audio's?<svg class="np-faq-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
             <p class="np-faq-resp">Samen ± 21 minuten: de Noodstop duurt 7 minuten, de Reset ruim 4 en de Landing ruim 9.</p>
-        </details>
-        <details class="np-faq-item">
-            <summary>Wat als het niet voor me werkt?<svg class="np-faq-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
-            <p class="np-faq-resp">Mail naar hello@gewoon-even.nl binnen 60 dagen en je krijgt je geld terug, zonder vragen.</p>
         </details>
         <details class="np-faq-item">
             <summary>Vervangt dit een behandeling?<svg class="np-faq-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
