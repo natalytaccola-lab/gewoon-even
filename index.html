@@ -4642,6 +4642,71 @@
 
         #page-upsell a.u2-cta--meio:focus-visible { outline-color: var(--u2-verde); }
 
+        /* ---- 5b. faq de objeccoes: <details> nativos, sem JS ---- */
+        #page-upsell .u2-faq { padding: 0 0 3.2rem; }
+
+        #page-upsell .u2-faq-titulo {
+            margin: 0 0 1.2rem;
+            font-family: var(--np-display);
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1.2;
+            text-align: center;
+            color: var(--u2-tinta);
+        }
+
+        #page-upsell .u2-faq-item { border-top: 1px solid rgba(154, 163, 150, 0.45); }
+
+        #page-upsell .u2-faq-item:last-of-type { border-bottom: 1px solid rgba(154, 163, 150, 0.45); }
+
+        #page-upsell .u2-faq-item > summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            min-height: 48px;
+            padding: 12px 2px;
+            list-style: none;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #page-upsell .u2-faq-item > summary::-webkit-details-marker { display: none; }
+
+        #page-upsell .u2-faq-item > summary:focus-visible {
+            outline: 2px solid var(--u2-verde);
+            outline-offset: 2px;
+            border-radius: 6px;
+        }
+
+        #page-upsell .u2-faq-vraag {
+            font-family: var(--np-body);
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.4;
+            color: var(--u2-tinta);
+        }
+
+        #page-upsell .u2-faq-chevron {
+            flex: 0 0 20px;
+            width: 20px;
+            height: 20px;
+            color: var(--u2-salvia-escura);
+            transition: transform 160ms ease;
+        }
+
+        #page-upsell .u2-faq-item[open] > summary .u2-faq-chevron { transform: rotate(180deg); }
+
+        #page-upsell .u2-faq-resp {
+            margin: 0 0 14px;
+            padding-right: 34px;
+            font-family: var(--np-body);
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--u2-tinta-fraca);
+        }
+
         /* ---- 6. a decisao ---- */
         #page-upsell .u2-decisao {
             position: relative;
@@ -4924,6 +4989,7 @@
         /* ---- sem animacao para quem a dispensa ---- */
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
+            #page-upsell .u2-faq-chevron { transition: none; }
             #page-upsell .u2-cta--final::after { animation: none; }
             #page-upsell .u2-anel-prog { transition: none; }
         }
@@ -5578,6 +5644,50 @@
         <div class="u2-col">
             <p>Je hoeft niets uit te leggen. Je hoeft niemand te vertellen dat het goed gaat. Niemand die iets van je vraagt.</p>
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--meio" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ik wil beginnen</a>
+        </div>
+    </section>
+
+
+    <!-- 5b --------------------------------------------------------------- faq -->
+    <section class="u2-faq">
+        <div class="u2-col">
+            <h2 class="u2-faq-titulo">Nog een vraag?</h2>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Ik heb het Noodprotocol al. Wat voegt dit toe?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <p class="u2-faq-resp">Het Noodprotocol is voor het moment zelf: je zet het op als het je te veel wordt. Het Protocol van 7 Dagen is voor de dagen dat er niets aan de hand is. Zeven dagen lang oefen je rustig, zodat je lijf iets heeft om op terug te vallen.</p>
+            </details>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Ik heb al van alles geprobeerd. Waarom zou dit werken?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <p class="u2-faq-resp">Ademhaling, apps, een podcast om 3 uur 's nachts. Ze werkten even, en dan weer niet. Misschien omdat je ze alleen pakte als het al te veel was. Hier oefen je zeven dagen achter elkaar, elke dag een stap verder. Of het bij jou werkt, kan niemand beloven. Daarom is er een garantie van 60 dagen.</p>
+            </details>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Ik heb geen tijd en geen energie voor nog iets.</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <p class="u2-faq-resp">Eén audio per dag, zo'n tien minuten. Je kiest zelf het moment: in bed, in je pauze, in de auto voordat je naar binnen gaat. Er is niets om bij te houden. Mis je een dag? Pak de volgende dag de draad weer op.</p>
+            </details>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Moet ik met iemand praten of iets vertellen?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <p class="u2-faq-resp">Nee. Je hoeft niets uit te leggen en niemand te vertellen dat je dit doet. Je luistert met een koptelefoon, op je eigen moment.</p>
+            </details>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Moet ik ergens in geloven?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <p class="u2-faq-resp">Nee. Je hoeft niets te geloven en niets te visualiseren. Je luistert en doet mee met wat de stem vraagt: ademhalen, voelen waar je lijf spanning vasthoudt, even rust nemen. Zweverige verhalen zijn er niet.</p>
+            </details>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Helpt dit bij stress en angst?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <p class="u2-faq-resp">Het kan helpen. Onderzoek naar korte, gestructureerde ademhalingsoefeningen (Balban et al., Cell Reports Medicine, 2023, Stanford University) liet zien dat ze de stemming van deelnemers kunnen verbeteren. Hoe het bij jou uitpakt, kan niemand vooraf beloven. Dit is geen behandeling. Heb je veel last van angst of blijven je klachten? Praat dan met je huisarts.</p>
+            </details>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Wat als dit niets voor mij is?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <p class="u2-faq-resp">Doe de zeven dagen. Voelt het niet als iets voor jou? Mail binnen 60 dagen naar hello@gewoon-even.nl en je krijgt je geld terug.</p>
+            </details>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Is dit een abonnement?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <p class="u2-faq-resp">Nee. Je betaalt één keer €37. Daarna zijn de zeven audio's van jou, ook als je ze later nog eens wilt beluisteren.</p>
+            </details>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Vervangt dit een behandeling?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <p class="u2-faq-resp">Nee. Het Protocol van 7 Dagen is geen medisch advies en vervangt geen behandeling. Heb je acuut hulp nodig, bel 112. Voor hulp bij gedachten aan zelfdoding: 113 Zelfmoordpreventie, 113.nl. Luister niet tijdens het fietsen of autorijden; de audio's zijn voor momenten waarop je veilig kunt zitten, staan of liggen.</p>
+            </details>
         </div>
     </section>
 
