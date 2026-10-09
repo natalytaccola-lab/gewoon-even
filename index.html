@@ -5199,6 +5199,45 @@
             #page-upsell .u2-faq-lista li { font-size: 18px; }
         }
 
+        /* ================================================================
+           PISOS DE TIPOGRAFIA NAS RESTANTES PAGINAS
+           Corpo >=17px (18px em >=1024px), secundario >=14px, mono >=12px,
+           botoes >=17px. Tudo escopado ao id de cada pagina: #page-upsell,
+           que ja' tem os seus pisos, nao e' tocado. As regras globais
+           (.footer .container, .delivery-instruction, p) ficam intactas;
+           o que ha' aqui sao sobreposicoes locais.
+           ================================================================ */
+
+        /* o rodape herda 0.8rem da regra global: piso de 14px */
+        #page-quiz .footer .container,
+        #page-checkout .footer .container,
+        #page-email-capture .footer .container,
+        #page-downsell .footer .container,
+        #page-thankyou .footer .container,
+        #page-deliver-noodprotocol .footer .container,
+        #page-deliver-protocol7 .footer .container,
+        #page-deliver-crisiskaart .footer .container,
+        #page-upsell2 .footer .container,
+        #page-deliver-slaap .footer .container { font-size: 14px; line-height: 1.6; }
+
+        /* corpo corrido que estava a 16px */
+        #page-deliver-noodprotocol .delivery-instruction,
+        #page-deliver-protocol7 .delivery-instruction,
+        #page-deliver-crisiskaart .delivery-instruction,
+        #page-deliver-slaap .delivery-instruction,
+        #page-checkout .np-prova-frase { font-size: 17px; line-height: 1.55; }
+
+        /* o disclaimer do checkout estava a 13px */
+        #page-checkout .np-disclaimer { font-size: 14px; }
+
+        @media (min-width: 1024px) {
+            #page-deliver-noodprotocol .delivery-instruction,
+            #page-deliver-protocol7 .delivery-instruction,
+            #page-deliver-crisiskaart .delivery-instruction,
+            #page-deliver-slaap .delivery-instruction,
+            #page-checkout .np-prova-frase { font-size: 18px; }
+        }
+
         /* ---- desktop ---- */
         @media (min-width: 900px) {
             #page-upsell .u2-abertura { padding: 4.6rem 0 4rem; }
