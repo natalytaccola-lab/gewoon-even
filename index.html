@@ -4697,6 +4697,46 @@
 
         #page-upsell .u2-faq-item[open] > summary .u2-faq-chevron { transform: rotate(180deg); }
 
+        #page-upsell .u2-faq-lista {
+            margin: 0 0 10px;
+            padding: 0 34px 0 0;
+            list-style: none;
+        }
+
+        #page-upsell .u2-faq-lista li {
+            position: relative;
+            margin: 0 0 8px;
+            padding-left: 18px;
+            font-family: var(--np-body);
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--u2-tinta-fraca);
+        }
+
+        #page-upsell .u2-faq-lista li:last-child { margin-bottom: 0; }
+
+        #page-upsell .u2-faq-lista li::before {
+            content: "";
+            position: absolute;
+            left: 2px;
+            top: 9px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--u2-sage);
+        }
+
+        #page-upsell .u2-faq-nota {
+            margin: 0 0 14px;
+            padding-right: 34px;
+            font-family: var(--np-body);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.55;
+            color: var(--u2-salvia-escura);
+        }
+
         #page-upsell .u2-faq-resp {
             margin: 0 0 14px;
             padding-right: 34px;
@@ -4896,85 +4936,6 @@
             height: auto;
             margin: 0 auto 20px;
             border-radius: 16px;
-        }
-
-        /* ---- o que se pode esperar: cartao com moldura e icones ---- */
-        #page-upsell .u2-verwacht {
-            margin: 22px 0;
-            padding: 14px 16px;
-            background: #FBF8F3;
-            border: 1px solid #CFD4C8;
-            border-radius: 20px;
-            box-shadow: 0 1px 2px rgba(62, 78, 67, 0.06);
-        }
-
-        #page-upsell .u2-verwacht-titulo {
-            margin: 0 0 0.6rem;
-            font-family: var(--np-display);
-            font-size: 1.6rem;
-            font-weight: 500;
-            line-height: 1.2;
-            text-align: center;
-            color: var(--u2-tinta);
-        }
-
-        #page-upsell .u2-verwacht-intro {
-            margin: 0 0 0.75rem;
-            font-family: var(--np-body);
-            font-size: 14px;
-            font-weight: 300;
-            line-height: 1.45;
-            text-align: center;
-            color: var(--u2-salvia-escura);
-        }
-
-        #page-upsell .u2-verwacht-lista {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        /* cada ponto: disco com o icone a' esquerda, texto a' direita */
-        #page-upsell .u2-verwacht-ponto {
-            display: grid;
-            grid-template-columns: 36px 1fr;
-            gap: 10px;
-            align-items: center;
-            margin: 0 0 10px;
-        }
-
-        #page-upsell .u2-verwacht-ponto:last-child { margin-bottom: 0; }
-
-        #page-upsell .u2-verwacht-disco {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #E4E8DF;
-            color: var(--u2-verde);
-        }
-
-        #page-upsell .u2-verwacht-ico { width: 18px; height: 18px; }
-
-        #page-upsell .u2-verwacht-txt {
-            font-family: var(--np-body);
-            font-size: 15.5px;
-            font-weight: 300;
-            line-height: 1.35;
-            color: var(--u2-tinta-fraca);
-        }
-
-        #page-upsell .u2-verwacht-nota {
-            margin: 10px 0 0;
-            padding-top: 9px;
-            border-top: 1px solid #CFD4C8;
-            font-family: var(--np-body);
-            font-size: 13px;
-            font-weight: 300;
-            line-height: 1.5;
-            color: var(--u2-salvia-escura);
         }
 
         /* ---- ervaringen: um depoimento de cada vez, a deslizar ---- */
@@ -5726,32 +5687,6 @@
             <p class="u2-prova">Onderzoek naar gestructureerde ademhalingsoefeningen: Balban et al., Cell Reports Medicine, 2023 (Stanford University).</p>
 
 
-            <div class="u2-verwacht">
-                <h2 class="u2-verwacht-titulo">Wat kun je verwachten?</h2>
-                <ul class="u2-verwacht-lista">
-                    <li class="u2-verwacht-ponto">
-                        <span class="u2-verwacht-disco"><svg class="u2-verwacht-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 9.4a5.4 5.4 0 0 1 10.8 0c0 3.8 1.4 5.2 1.4 5.2H5.2s1.4-1.4 1.4-5.2Z"/><path d="M10.2 17.8a2 2 0 0 0 3.6 0"/></svg></span>
-                        <span class="u2-verwacht-txt">Je leert sneller te merken wanneer je lijf in de alarmstand schiet.</span>
-                    </li>
-                    <li class="u2-verwacht-ponto">
-                        <span class="u2-verwacht-disco"><svg class="u2-verwacht-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.2h8.6a2.4 2.4 0 1 0-2.4-2.4"/><path d="M3.5 12h10.8a2.4 2.4 0 1 1-2.4 2.4"/><path d="M3.5 15.8h6.3"/></svg></span>
-                        <span class="u2-verwacht-txt">Je leert langzamer uitademen als het je te veel wordt.</span>
-                    </li>
-                    <li class="u2-verwacht-ponto">
-                        <span class="u2-verwacht-disco"><svg class="u2-verwacht-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19.2 13.8A7.6 7.6 0 0 1 10.2 4.8a7.7 7.7 0 1 0 9 9Z"/></svg></span>
-                        <span class="u2-verwacht-txt">Je kunt 's avonds makkelijker leren afschakelen.</span>
-                    </li>
-                    <li class="u2-verwacht-ponto">
-                        <span class="u2-verwacht-disco"><svg class="u2-verwacht-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M10.2 9.3v5.4"/><path d="M13.8 9.3v5.4"/></svg></span>
-                        <span class="u2-verwacht-txt">Je krijgt wat meer ruimte tussen een gedachte en je reactie.</span>
-                    </li>
-                    <li class="u2-verwacht-ponto">
-                        <span class="u2-verwacht-disco"><svg class="u2-verwacht-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 15.2V12a7.2 7.2 0 0 1 14.4 0v3.2"/><path d="M4.8 14.6h1.7a1.2 1.2 0 0 1 1.2 1.2v2a1.2 1.2 0 0 1-1.2 1.2H6a1.2 1.2 0 0 1-1.2-1.2Z"/><path d="M19.2 14.6h-1.7a1.2 1.2 0 0 0-1.2 1.2v2a1.2 1.2 0 0 0 1.2 1.2h.5a1.2 1.2 0 0 0 1.2-1.2Z"/></svg></span>
-                        <span class="u2-verwacht-txt">Je houdt zeven audio's die van jou blijven.</span>
-                    </li>
-                </ul>
-                <p class="u2-verwacht-nota">Soms merk je meteen verschil, soms pas na een paar dagen. Dat is voor iedereen anders.</p>
-            </div>
 
             <section class="u2-ervaringen" role="region" aria-roledescription="carousel" aria-label="Ervaringen van deelnemers">
                 <ol class="u2-erv-pista" id="u2-erv-pista">
@@ -5807,6 +5742,17 @@
     <section class="u2-faq">
         <div class="u2-col">
             <h2 class="u2-faq-titulo">Nog een vraag?</h2>
+            <details class="u2-faq-item">
+                <summary><span class="u2-faq-vraag">Wat kun je verwachten?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <ul class="u2-faq-lista">
+                        <li>Je leert sneller te merken wanneer je lijf in de alarmstand schiet.</li>
+                        <li>Je leert langzamer uitademen als het je te veel wordt.</li>
+                        <li>Je kunt 's avonds makkelijker leren afschakelen.</li>
+                        <li>Je krijgt wat meer ruimte tussen een gedachte en je reactie.</li>
+                        <li>Je houdt zeven audio's die van jou blijven.</li>
+                </ul>
+                <p class="u2-faq-nota">Soms merk je meteen verschil, soms pas na een paar dagen. Dat is voor iedereen anders.</p>
+            </details>
             <details class="u2-faq-item">
                 <summary><span class="u2-faq-vraag">Ik heb het Noodprotocol al. Wat voegt dit toe?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
                 <p class="u2-faq-resp">Het Noodprotocol is voor het moment zelf: je zet het op als het je te veel wordt. Het Protocol van 7 Dagen is voor de dagen dat er niets aan de hand is. Zeven dagen lang oefen je rustig, zodat je lijf iets heeft om op terug te vallen.</p>
