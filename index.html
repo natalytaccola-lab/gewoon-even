@@ -4707,17 +4707,44 @@
         #page-upsell .u2-getuigenis blockquote { margin: 0; padding: 0; border: 0; }
 
         #page-upsell .u2-getuigenis blockquote p {
-            margin: 0;
+            max-width: 34ch;
+            margin: 0 auto;
             font-family: var(--np-display);
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 500;
-            line-height: 1.45;
+            line-height: 1.4;
             color: var(--u2-tinta);
             text-wrap: pretty;
         }
 
         #page-upsell .u2-getuigenis figcaption {
-            margin: 0.9rem 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1.4rem 0 0;
+        }
+
+        /* O circulo leva so' o monograma. Se um dia entrar aqui uma imagem
+           ilustrativa no lugar do <span class="u2-avatar">, e' OBRIGATORIO
+           acrescentar "Illustratieve foto" junto do depoimento. Hoje nao ha
+           imagem nenhuma: nem rosto, nem silhueta, nem icone de pessoa. */
+        #page-upsell .u2-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            margin-bottom: 0.8rem;
+            border-radius: 50%;
+            background: var(--u2-verde);
+            font-family: var(--np-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1;
+            color: var(--u2-creme);
+        }
+
+        #page-upsell .u2-getuige-naam {
             font-family: var(--np-mono, 'IBM Plex Mono', ui-monospace, monospace);
             font-size: 12px;
             font-weight: 400;
@@ -4726,20 +4753,36 @@
             color: var(--u2-salvia-escura);
         }
 
-        #page-upsell .u2-getuigenis--donker { margin: 2.4rem auto 0; }
-        #page-upsell .u2-getuigenis--donker blockquote p { color: var(--u2-creme); }
-        #page-upsell .u2-getuigenis--donker figcaption { color: var(--u2-creme); }
+        #page-upsell .u2-getuige-rol {
+            margin-top: 4px;
+            font-family: var(--np-body);
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.4;
+            color: var(--u2-salvia-escura);
+        }
 
-        #page-upsell .u2-nomes {
-            max-width: 520px;
-            margin: 0.9rem auto 1.9rem;
+        #page-upsell .u2-getuige-nota {
+            margin-top: 2px;
             font-family: var(--np-body);
             font-size: 12px;
             font-weight: 300;
-            line-height: 1.5;
-            text-align: center;
-            color: var(--u2-creme);
+            line-height: 1.4;
+            color: var(--u2-salvia-escura);
         }
+
+        /* ---- o mesmo, dentro do bloco escuro: as cores invertem ---- */
+        #page-upsell .u2-getuigenis--donker { margin: 2.4rem auto 0; }
+        #page-upsell .u2-getuigenis--donker blockquote p { color: var(--u2-creme); }
+
+        #page-upsell .u2-getuigenis--donker .u2-avatar {
+            background: var(--u2-creme);
+            color: var(--u2-verde);
+        }
+
+        #page-upsell .u2-getuigenis--donker .u2-getuige-naam,
+        #page-upsell .u2-getuigenis--donker .u2-getuige-rol,
+        #page-upsell .u2-getuigenis--donker .u2-getuige-nota { color: var(--u2-creme); }
 
         /* ---- desktop ---- */
         @media (min-width: 900px) {
@@ -5359,7 +5402,12 @@
 
             <figure class="u2-getuigenis">
                 <blockquote><p>“Ik lag 's avonds vaak nog van alles terug te halen van mijn werk. Gesprekken, dingen die ik anders had willen zeggen. Door de oefeningen begon ik eerder te merken wanneer ik daarin vastzat. Soms lukte het me om het weer los te laten. Dat maakte mijn avonden net wat rustiger.”</p></blockquote>
-                <figcaption>Lotte, [LEEFTIJD]</figcaption>
+                <figcaption>
+                    <span class="u2-avatar" aria-hidden="true">L</span>
+                    <span class="u2-getuige-naam">Lotte, [LEEFTIJD]</span>
+                    <span class="u2-getuige-rol">Deelnemer Protocol van 7 Dagen</span>
+                    <span class="u2-getuige-nota">Naam op verzoek gewijzigd.</span>
+                </figcaption>
             </figure>
         </div>
     </section>
@@ -5390,10 +5438,13 @@
 
             <figure class="u2-getuigenis u2-getuigenis--donker">
                 <blockquote><p>“Ik dacht eerst: waar ga ik dit nu weer tussen proppen? Maar één audio per dag was overzichtelijk. Ik hoefde niet zelf te bedenken wat ik moest doen en kon het gewoon op een moment doen dat mij uitkwam. Daardoor hield ik het makkelijker vol dan ik vooraf had verwacht.”</p></blockquote>
-                <figcaption>Jolien, [LEEFTIJD]</figcaption>
+                <figcaption>
+                    <span class="u2-avatar" aria-hidden="true">J</span>
+                    <span class="u2-getuige-naam">Jolien, [LEEFTIJD]</span>
+                    <span class="u2-getuige-rol">Deelnemer Protocol van 7 Dagen</span>
+                    <span class="u2-getuige-nota">Naam op verzoek gewijzigd.</span>
+                </figcaption>
             </figure>
-
-            <p class="u2-nomes">Namen op verzoek gewijzigd.</p>
 
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--final" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Dit is voor mij &mdash; &euro;37</a>
 
