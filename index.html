@@ -4574,15 +4574,6 @@
             color: var(--u2-tinta-fraca);
         }
 
-        #page-upsell .u2-prova {
-            margin: 1.5rem 0 0;
-            font-family: var(--np-body);
-            font-size: 13px;
-            font-weight: 300;
-            line-height: 1.55;
-            color: var(--u2-tinta-fraca);
-        }
-
         /* ---- 5. a permissao, com o botao do meio ---- */
         #page-upsell .u2-permissao { padding: 0 0 2rem; }
         #page-upsell .u2-permissao p { margin-bottom: 0; }
@@ -4641,6 +4632,154 @@
         }
 
         #page-upsell a.u2-cta--meio:focus-visible { outline-color: var(--u2-verde); }
+
+        /* ---- 4b. estudos, em swipe, com os numeros a rolar ---- */
+        #page-upsell .u2-est { padding: 0 0 1.2rem; }
+
+        #page-upsell .u2-est-eyebrow {
+            margin: 0 0 0.2rem;
+            font-family: var(--np-mono, 'IBM Plex Mono', ui-monospace, monospace);
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            line-height: 1.3;
+            text-transform: uppercase;
+            text-align: center;
+            color: var(--u2-salvia-escura);
+        }
+
+        #page-upsell .u2-est-titulo {
+            margin: 0 0 0.55rem;
+            font-family: var(--np-display);
+            font-size: 1.3rem;
+            font-weight: 500;
+            line-height: 1.2;
+            text-align: center;
+            text-wrap: balance;
+            color: var(--u2-tinta);
+        }
+
+        #page-upsell .u2-est-pista {
+            display: flex;
+            align-items: stretch;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            overflow-x: auto;
+            overscroll-behavior-x: contain;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        #page-upsell .u2-est-pista::-webkit-scrollbar { display: none; }
+
+        #page-upsell .u2-est-cartao {
+            flex: 0 0 82%;
+            scroll-snap-align: start;
+            padding: 10px 12px 9px;
+            background: #FFFFFF;
+            border: 1px solid #CFD4C8;
+            border-radius: 14px;
+        }
+
+        #page-upsell .u2-est-num {
+            margin: 0;
+            font-family: var(--np-display);
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 1.05;
+            font-variant-numeric: tabular-nums;
+            color: var(--u2-verde);
+        }
+
+        #page-upsell .u2-est-legenda {
+            margin: 1px 0 6px;
+            font-family: var(--np-body);
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.3;
+            color: var(--u2-salvia-escura);
+        }
+
+        #page-upsell .u2-est-txt {
+            margin: 0 0 5px;
+            font-family: var(--np-body);
+            font-size: 12.5px;
+            font-weight: 300;
+            line-height: 1.4;
+            color: var(--u2-tinta-fraca);
+        }
+
+        #page-upsell .u2-est-fonte {
+            margin: 0;
+            font-family: var(--np-mono, 'IBM Plex Mono', ui-monospace, monospace);
+            font-size: 10px;
+            font-weight: 400;
+            line-height: 1.35;
+        }
+
+        #page-upsell .u2-est-fonte a {
+            color: var(--u2-salvia-escura);
+            text-decoration: underline;
+            text-underline-offset: 0.16em;
+        }
+
+        #page-upsell .u2-est-fonte a:focus-visible {
+            outline: 2px solid var(--u2-verde);
+            outline-offset: 2px;
+        }
+
+        #page-upsell .u2-est-pontos {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-top: 2px;
+        }
+
+        #page-upsell .u2-est-ponto {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+        }
+
+        #page-upsell .u2-est-ponto::after {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--u2-sage);
+        }
+
+        #page-upsell .u2-est-ponto[aria-current="true"]::after { background: var(--u2-verde); }
+
+        #page-upsell .u2-est-ponto:focus-visible {
+            outline: 2px solid var(--u2-verde);
+            outline-offset: -4px;
+            border-radius: 50%;
+        }
+
+        #page-upsell .u2-est-nota {
+            margin: 0;
+            font-family: var(--np-body);
+            font-size: 11px;
+            font-weight: 300;
+            line-height: 1.4;
+            text-align: center;
+            color: var(--u2-salvia-escura);
+        }
+
+        /* ---- folga para a barra fixa nao tapar o fim da pagina ---- */
+        @media (max-width: 768px) {
+            #page-upsell { padding-bottom: 72px; }
+        }
 
         /* ---- 5b. faq de objeccoes: <details> nativos, sem JS ---- */
         #page-upsell .u2-faq { padding: 0 0 2.25rem; }
@@ -5684,7 +5823,6 @@
                 <div class="u2-dias-pontos"><button type="button" class="u2-ponto" data-i="0" aria-label="Dag 1" aria-current="true"></button><button type="button" class="u2-ponto" data-i="1" aria-label="Dag 2"></button><button type="button" class="u2-ponto" data-i="2" aria-label="Dag 3"></button><button type="button" class="u2-ponto" data-i="3" aria-label="Dag 4"></button><button type="button" class="u2-ponto" data-i="4" aria-label="Dag 5"></button><button type="button" class="u2-ponto" data-i="5" aria-label="Dag 6"></button><button type="button" class="u2-ponto" data-i="6" aria-label="Dag 7"></button></div>
             </div>
 
-            <p class="u2-prova">Onderzoek naar gestructureerde ademhalingsoefeningen: Balban et al., Cell Reports Medicine, 2023 (Stanford University).</p>
 
 
 
@@ -5726,6 +5864,43 @@
                 </ol>
                 <div class="u2-erv-pontos" id="u2-erv-pontos"></div>
             </section>
+        </div>
+    </section>
+
+
+    <!-- 4b ---------------------------------------------------------- estudos -->
+    <section class="u2-est">
+        <div class="u2-col">
+            <p class="u2-est-eyebrow">Wat onderzoek zegt</p>
+            <h2 class="u2-est-titulo">Wat onderzoek zegt over rustig ademhalen</h2>
+            <ol class="u2-est-pista" id="u2-est-pista" aria-label="Wat onderzoek zegt over rustig ademhalen">
+                    <li class="u2-est-cartao">
+                        <p class="u2-est-num" data-fim="223" aria-label="223">223</p>
+                        <p class="u2-est-legenda">studies naar langzaam ademhalen</p>
+                        <p class="u2-est-txt">Een meta-analyse vond dat langzaam ademhalen samenhing met een hogere hartslagvariabiliteit, een maat voor de activiteit van het parasympathische zenuwstelsel. Dat gold tijdens de oefening, direct erna en na een reeks sessies.</p>
+                        <p class="u2-est-fonte"><a href="https://doi.org/10.1016/j.neubiorev.2022.104711" target="_blank" rel="noopener">Laborde et al., Neuroscience &amp; Biobehavioral Reviews, 2022</a></p>
+                    </li>
+                    <li class="u2-est-cartao">
+                        <p class="u2-est-num" data-fim="785" aria-label="785">785</p>
+                        <p class="u2-est-legenda">volwassenen in 12 gerandomiseerde studies</p>
+                        <p class="u2-est-txt">Een meta-analyse uit 2023 vond dat ademhalingsoefeningen samenhingen met minder ervaren stress dan bij controlegroepen. Ook bij angstklachten (20 studies) zag men een vergelijkbaar, klein tot gemiddeld effect.</p>
+                        <p class="u2-est-fonte"><a href="https://doi.org/10.1038/s41598-022-27247-y" target="_blank" rel="noopener">Fincham et al., Scientific Reports, 2023</a></p>
+                    </li>
+                    <li class="u2-est-cartao">
+                        <p class="u2-est-num" data-fim="5" aria-label="5">5</p>
+                        <p class="u2-est-legenda">minuten per dag, een maand lang</p>
+                        <p class="u2-est-txt">In een gerandomiseerd onderzoek van Stanford verbeterde het humeur meer na dagelijks 5 minuten ademhalen (vooral met lange uitademing) dan na mindfulness-meditatie.</p>
+                        <p class="u2-est-fonte"><a href="https://doi.org/10.1016/j.xcrm.2022.100895" target="_blank" rel="noopener">Balban et al., Cell Reports Medicine, 2023</a></p>
+                    </li>
+                    <li class="u2-est-cartao">
+                        <p class="u2-est-num" data-fim="15" aria-label="15">15</p>
+                        <p class="u2-est-legenda">studies in een systematische review</p>
+                        <p class="u2-est-txt">Een review van onderzoek bij gezonde volwassenen beschrijft dat langzaam ademhalen (minder dan 10 keer per minuut) samengaat met meer hartslagvariabiliteit, meer ontspanning en minder spanning en angst.</p>
+                        <p class="u2-est-fonte"><a href="https://doi.org/10.3389/fnhum.2018.00353" target="_blank" rel="noopener">Zaccaro et al., Frontiers in Human Neuroscience, 2018</a></p>
+                    </li>
+            </ol>
+            <div class="u2-est-pontos" id="u2-est-pontos"></div>
+            <p class="u2-est-nota">Dit onderzoek gaat over ademhalingsoefeningen in het algemeen en niet over dit protocol. De onderzoekers benadrukken dat het bewijs voorzichtigheid vraagt. Dit is geen medisch advies.</p>
         </div>
     </section>
 
@@ -7393,6 +7568,103 @@ document.addEventListener('DOMContentLoaded', () => {
         new MutationObserver(function () {
             if (!ubPagina.classList.contains('active')) ubBarra.hidden = true;
         }).observe(ubPagina, { attributes: true, attributeFilter: ['class'] });
+    })();
+
+    // ---- estudos: swipe + numeros a rolar ----
+    // IIFE propria, prefixo ue3. Nao toca em montarCarrossel, acenar(), nem no
+    // carrossel dos dias ou dos depoimentos. O numero final ja' esta' no HTML:
+    // sem JS, ou com prefers-reduced-motion, fica o valor final parado.
+    (function () {
+        var e3Pista  = document.getElementById('u2-est-pista');
+        var e3Pontos = document.getElementById('u2-est-pontos');
+        if (!e3Pista || !e3Pontos) return;
+
+        var e3Cartoes = e3Pista.querySelectorAll('.u2-est-cartao');
+        if (!e3Cartoes.length) return;
+
+        var e3Pouco = window.matchMedia &&
+                      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // --- pontos de paginacao ---
+        var e3Botoes = [];
+        Array.prototype.forEach.call(e3Cartoes, function (cartao, i) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'u2-est-ponto';
+            b.setAttribute('aria-label', 'Onderzoek ' + (i + 1));
+            if (i === 0) b.setAttribute('aria-current', 'true');
+            b.addEventListener('click', function () {
+                var destino = cartao.offsetLeft - e3Pista.offsetLeft;
+                var limite  = e3Pista.scrollWidth - e3Pista.clientWidth;
+                e3Pista.scrollTo({ left: Math.max(0, Math.min(limite, destino)),
+                                   behavior: e3Pouco ? 'auto' : 'smooth' });
+                e3Marcar(i);
+            });
+            e3Pontos.appendChild(b);
+            e3Botoes.push(b);
+        });
+
+        function e3Marcar(i) {
+            e3Botoes.forEach(function (b, n) {
+                if (n === i) b.setAttribute('aria-current', 'true');
+                else b.removeAttribute('aria-current');
+            });
+        }
+
+        var e3Agendado = false;
+        function e3Acompanhar() {
+            e3Agendado = false;
+            var limite = e3Pista.scrollWidth - e3Pista.clientWidth;
+            if (limite <= 0) return;
+            if (e3Pista.scrollLeft <= 2) { e3Marcar(0); return; }
+            if (e3Pista.scrollLeft >= limite - 2) { e3Marcar(e3Cartoes.length - 1); return; }
+            var esq = e3Pista.getBoundingClientRect().left;
+            var melhor = 0, menor = Infinity;
+            Array.prototype.forEach.call(e3Cartoes, function (c, i) {
+                var d = Math.abs(c.getBoundingClientRect().left - esq);
+                if (d < menor) { menor = d; melhor = i; }
+            });
+            e3Marcar(melhor);
+        }
+
+        e3Pista.addEventListener('scroll', function () {
+            if (e3Agendado) return;
+            e3Agendado = true;
+            requestAnimationFrame(e3Acompanhar);
+        }, { passive: true });
+
+        // --- contagem, uma vez por cartao ---
+        if (e3Pouco || !('IntersectionObserver' in window)) return;
+
+        function e3Contar(el) {
+            var fim = parseInt(el.getAttribute('data-fim'), 10);
+            if (!isFinite(fim)) return;
+            var dur = 1200, t0 = null;
+            function passo(agora) {
+                if (t0 === null) t0 = agora;
+                var k = Math.min(1, (agora - t0) / dur);
+                var eased = 1 - Math.pow(1 - k, 3);          // ease-out cubico
+                el.textContent = Math.round(fim * eased);
+                if (k < 1) requestAnimationFrame(passo);
+                else el.textContent = fim;
+            }
+            el.textContent = '0';
+            requestAnimationFrame(passo);
+        }
+
+        var e3Visto = new WeakSet();
+        var e3Obs = new IntersectionObserver(function (entradas) {
+            entradas.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                var num = e.target.querySelector('.u2-est-num');
+                if (!num || e3Visto.has(num)) return;
+                e3Visto.add(num);
+                e3Contar(num);
+                e3Obs.unobserve(e.target);
+            });
+        }, { threshold: 0.6 });
+
+        Array.prototype.forEach.call(e3Cartoes, function (c) { e3Obs.observe(c); });
     })();
 
     // ---- ervaringen: um depoimento de cada vez ----
