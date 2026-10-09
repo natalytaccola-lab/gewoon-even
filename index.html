@@ -4718,17 +4718,36 @@
             border-radius: 16px;
         }
 
-        /* ---- getuigenissen ---- */
-        #page-upsell .u2-getuigenis {
-            max-width: 520px;
-            margin: 3rem auto 0;
+        /* ---- ervaringen: um depoimento de cada vez, a deslizar ---- */
+        #page-upsell .u2-ervaringen { margin: 2.8rem 0 0; }
+
+        #page-upsell .u2-erv-pista {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: 100%;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            overflow-x: auto;
+            overscroll-behavior-x: contain;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        #page-upsell .u2-erv-pista::-webkit-scrollbar { display: none; }
+
+        #page-upsell .u2-erv-cartao { scroll-snap-align: start; }
+
+        #page-upsell .u2-erv-cartao figure {
+            margin: 0;
             padding: 0;
             text-align: center;
         }
 
-        #page-upsell .u2-getuigenis blockquote { margin: 0; padding: 0; border: 0; }
+        #page-upsell .u2-erv-cartao blockquote { margin: 0; padding: 0; border: 0; }
 
-        #page-upsell .u2-getuigenis blockquote p {
+        #page-upsell .u2-erv-cartao blockquote p {
             max-width: 34ch;
             margin: 0 auto;
             font-family: var(--np-display);
@@ -4739,34 +4758,23 @@
             text-wrap: pretty;
         }
 
-        #page-upsell .u2-getuigenis figcaption {
+        #page-upsell .u2-erv-cartao figcaption {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 1.4rem 0 0;
         }
 
-        /* O circulo leva so' o monograma. Se um dia entrar aqui uma imagem
-           ilustrativa no lugar do <span class="u2-avatar">, e' OBRIGATORIO
-           acrescentar "Illustratieve foto" junto do depoimento. Hoje nao ha
-           imagem nenhuma: nem rosto, nem silhueta, nem icone de pessoa. */
-        #page-upsell .u2-avatar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 56px;
-            height: 56px;
+        #page-upsell .u2-erv-foto {
+            width: 72px;
+            height: 72px;
             margin-bottom: 0.8rem;
             border-radius: 50%;
-            background: var(--u2-verde);
-            font-family: var(--np-display);
-            font-size: 1.5rem;
-            font-weight: 500;
-            line-height: 1;
-            color: var(--u2-creme);
+            object-fit: cover;
+            object-position: center 45%;
         }
 
-        #page-upsell .u2-getuige-naam {
+        #page-upsell .u2-erv-naam {
             font-family: var(--np-mono, 'IBM Plex Mono', ui-monospace, monospace);
             font-size: 12px;
             font-weight: 400;
@@ -4775,7 +4783,7 @@
             color: var(--u2-salvia-escura);
         }
 
-        #page-upsell .u2-getuige-rol {
+        #page-upsell .u2-erv-rol {
             margin-top: 4px;
             font-family: var(--np-body);
             font-size: 12px;
@@ -4784,7 +4792,7 @@
             color: var(--u2-salvia-escura);
         }
 
-        #page-upsell .u2-getuige-nota {
+        #page-upsell .u2-erv-nota {
             margin-top: 2px;
             font-family: var(--np-body);
             font-size: 12px;
@@ -4793,18 +4801,41 @@
             color: var(--u2-salvia-escura);
         }
 
-        /* ---- o mesmo, dentro do bloco escuro: as cores invertem ---- */
-        #page-upsell .u2-getuigenis--donker { margin: 2.4rem auto 0; }
-        #page-upsell .u2-getuigenis--donker blockquote p { color: var(--u2-creme); }
-
-        #page-upsell .u2-getuigenis--donker .u2-avatar {
-            background: var(--u2-creme);
-            color: var(--u2-verde);
+        /* ---- pontos de navegacao; o JS cria um por cartao ---- */
+        #page-upsell .u2-erv-pontos {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-top: 0.6rem;
         }
 
-        #page-upsell .u2-getuigenis--donker .u2-getuige-naam,
-        #page-upsell .u2-getuigenis--donker .u2-getuige-rol,
-        #page-upsell .u2-getuigenis--donker .u2-getuige-nota { color: var(--u2-creme); }
+        #page-upsell .u2-erv-ponto {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+        }
+
+        #page-upsell .u2-erv-ponto::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--u2-sage);
+        }
+
+        #page-upsell .u2-erv-ponto[aria-current="true"]::after { background: var(--u2-verde); }
+
+        #page-upsell .u2-erv-ponto:focus-visible {
+            outline: 2px solid var(--u2-verde);
+            outline-offset: -4px;
+            border-radius: 50%;
+        }
 
         /* ---- desktop ---- */
         @media (min-width: 900px) {
@@ -5424,15 +5455,33 @@
 
             <p class="u2-prova">Onderzoek naar gestructureerde ademhalingsoefeningen: Balban et al., Cell Reports Medicine, 2023 (Stanford University).</p>
 
-            <figure class="u2-getuigenis">
-                <blockquote><p>“Ik lag 's avonds vaak nog van alles terug te halen van mijn werk. Gesprekken, dingen die ik anders had willen zeggen. Door de oefeningen begon ik eerder te merken wanneer ik daarin vastzat. Soms lukte het me om het weer los te laten. Dat maakte mijn avonden net wat rustiger.”</p></blockquote>
-                <figcaption>
-                    <span class="u2-avatar" aria-hidden="true">L</span>
-                    <span class="u2-getuige-naam">Lotte, [LEEFTIJD]</span>
-                    <span class="u2-getuige-rol">Deelnemer Protocol van 7 Dagen</span>
-                    <span class="u2-getuige-nota">Naam op verzoek gewijzigd.</span>
-                </figcaption>
-            </figure>
+            <section class="u2-ervaringen" role="region" aria-roledescription="carousel" aria-label="Ervaringen van deelnemers">
+                <ol class="u2-erv-pista" id="u2-erv-pista">
+                <li class="u2-erv-cartao">
+                    <figure>
+                        <blockquote><p>“Ik dacht eerst: waar ga ik dit nu weer tussen proppen? Maar één audio per dag was overzichtelijk. Ik hoefde niet zelf te bedenken wat ik moest doen en kon het gewoon op een moment doen dat mij uitkwam. Daardoor hield ik het makkelijker vol dan ik vooraf had verwacht.”</p></blockquote>
+                        <figcaption>
+                            <img class="u2-erv-foto" src="img/p7-getuigenis-jolien.jpg" alt="" width="400" height="400" loading="lazy" decoding="async">
+                            <span class="u2-erv-naam">Jolien, [LEEFTIJD]</span>
+                            <span class="u2-erv-rol">Deelnemer Protocol van 7 Dagen</span>
+                            <span class="u2-erv-nota">Beeld ter illustratie. Naam op verzoek gewijzigd.</span>
+                        </figcaption>
+                    </figure>
+                </li>
+                <li class="u2-erv-cartao">
+                    <figure>
+                        <blockquote><p>“Ik lag 's avonds vaak nog van alles terug te halen van mijn werk. Gesprekken, dingen die ik anders had willen zeggen. Door de oefeningen begon ik eerder te merken wanneer ik daarin vastzat. Soms lukte het me om het weer los te laten. Dat maakte mijn avonden net wat rustiger.”</p></blockquote>
+                        <figcaption>
+                            <img class="u2-erv-foto" src="img/p7-getuigenis-lotte.jpg" alt="" width="400" height="400" loading="lazy" decoding="async">
+                            <span class="u2-erv-naam">Lotte, [LEEFTIJD]</span>
+                            <span class="u2-erv-rol">Deelnemer Protocol van 7 Dagen</span>
+                            <span class="u2-erv-nota">Beeld ter illustratie. Naam op verzoek gewijzigd.</span>
+                        </figcaption>
+                    </figure>
+                </li>
+                </ol>
+                <div class="u2-erv-pontos" id="u2-erv-pontos"></div>
+            </section>
         </div>
     </section>
 
@@ -5459,16 +5508,6 @@
             <p class="u2-exclusivo">Dit aanbod zie je omdat je het Noodprotocol hebt.</p>
 
             <p class="u2-decisao-linha">Je geeft iedereen om je heen tijd. Zeven dagen lang is er elke dag zo'n tien minuten voor jou.</p>
-
-            <figure class="u2-getuigenis u2-getuigenis--donker">
-                <blockquote><p>“Ik dacht eerst: waar ga ik dit nu weer tussen proppen? Maar één audio per dag was overzichtelijk. Ik hoefde niet zelf te bedenken wat ik moest doen en kon het gewoon op een moment doen dat mij uitkwam. Daardoor hield ik het makkelijker vol dan ik vooraf had verwacht.”</p></blockquote>
-                <figcaption>
-                    <span class="u2-avatar" aria-hidden="true">J</span>
-                    <span class="u2-getuige-naam">Jolien, [LEEFTIJD]</span>
-                    <span class="u2-getuige-rol">Deelnemer Protocol van 7 Dagen</span>
-                    <span class="u2-getuige-nota">Naam op verzoek gewijzigd.</span>
-                </figcaption>
-            </figure>
 
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--final" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Dit is voor mij &mdash; &euro;37</a>
 
@@ -7017,6 +7056,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!u2Pouco && u2Anel) u2Anel.style.transition = 'stroke-dashoffset 0.25s linear';
         u2Parado();
+    })();
+
+    // ---- ervaringen: um depoimento de cada vez ----
+    // IIFE proprio, com nomes proprios. Nao partilha estado com o carrossel
+    // dos dias, nem toca em montarCarrossel ou acenar(). Sem aceno nenhum:
+    // o primeiro toque ja' move. Os pontos sao criados a partir do numero de
+    // cartoes que existirem, por isso acrescentar um <li> chega.
+    (function () {
+        var uePista  = document.getElementById('u2-erv-pista');
+        var uePontos = document.getElementById('u2-erv-pontos');
+        if (!uePista || !uePontos) return;
+
+        var ueCartoes = uePista.querySelectorAll('.u2-erv-cartao');
+        if (!ueCartoes.length) return;
+
+        var uePouco = window.matchMedia &&
+                      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        var ueBotoes = [];
+        Array.prototype.forEach.call(ueCartoes, function (cartao, i) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'u2-erv-ponto';
+            b.setAttribute('aria-label', 'Ervaring ' + (i + 1));
+            if (i === 0) b.setAttribute('aria-current', 'true');
+            b.addEventListener('click', function () {
+                var destino = cartao.offsetLeft - uePista.offsetLeft;
+                var limite  = uePista.scrollWidth - uePista.clientWidth;
+                uePista.scrollTo({ left: Math.max(0, Math.min(limite, destino)),
+                                   behavior: uePouco ? 'auto' : 'smooth' });
+                ueMarcar(i);
+            });
+            uePontos.appendChild(b);
+            ueBotoes.push(b);
+        });
+
+        function ueMarcar(i) {
+            ueBotoes.forEach(function (b, n) {
+                if (n === i) b.setAttribute('aria-current', 'true');
+                else b.removeAttribute('aria-current');
+            });
+        }
+
+        var ueAgendado = false;
+        function ueAcompanhar() {
+            ueAgendado = false;
+            var limite = uePista.scrollWidth - uePista.clientWidth;
+            if (limite <= 0) return;
+            if (uePista.scrollLeft <= 2) { ueMarcar(0); return; }
+            if (uePista.scrollLeft >= limite - 2) { ueMarcar(ueCartoes.length - 1); return; }
+            var esq = uePista.getBoundingClientRect().left;
+            var melhor = 0, menor = Infinity;
+            Array.prototype.forEach.call(ueCartoes, function (c, i) {
+                var d = Math.abs(c.getBoundingClientRect().left - esq);
+                if (d < menor) { menor = d; melhor = i; }
+            });
+            ueMarcar(melhor);
+        }
+
+        uePista.addEventListener('scroll', function () {
+            if (ueAgendado) return;
+            ueAgendado = true;
+            requestAnimationFrame(ueAcompanhar);
+        }, { passive: true });
     })();
 
     // ---- os sete dias: carrossel por omissao, lista quando se pede ----
