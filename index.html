@@ -3970,6 +3970,16 @@
             text-wrap: balance;
         }
 
+        #page-upsell .u2-microlinha {
+            max-width: 420px;
+            margin: 0.8rem auto 0;
+            font-family: var(--np-body);
+            font-size: 13px;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--u2-salvia-escura);
+        }
+
         /* ---- o player ---- */
         #page-upsell .u2-speler { margin: 2.1rem 0 0; }
 
@@ -4241,6 +4251,18 @@
 
         #page-upsell .u2-dia-txt { display: block; }
 
+        #page-upsell .u2-dia-rotulo {
+            display: block;
+            margin-bottom: 2px;
+            font-family: var(--np-mono, 'IBM Plex Mono', ui-monospace, monospace);
+            font-size: 11px;
+            font-weight: 400;
+            line-height: 1.3;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+            color: var(--u2-salvia-escura);
+        }
+
         #page-upsell .u2-dia-tit {
             display: block;
             font-family: var(--np-display);
@@ -4457,40 +4479,39 @@
             color: var(--u2-tinta-fraca);
         }
 
-        /* ---- vozes ---- */
-        #page-upsell .u2-voz {
+        /* ---- getuigenissen ---- */
+        #page-upsell .u2-getuigenis {
             max-width: 520px;
-            margin: 0 auto;
+            margin: 3rem auto 0;
             padding: 0;
             text-align: center;
         }
 
-        #page-upsell .u2-voz blockquote {
+        #page-upsell .u2-getuigenis blockquote { margin: 0; padding: 0; border: 0; }
+
+        #page-upsell .u2-getuigenis blockquote p {
             margin: 0;
-            padding: 0;
-            border: 0;
             font-family: var(--np-display);
-            font-size: 22px;
+            font-size: 1.35rem;
             font-weight: 500;
             line-height: 1.45;
             color: var(--u2-tinta);
             text-wrap: pretty;
         }
 
-        #page-upsell .u2-voz figcaption {
+        #page-upsell .u2-getuigenis figcaption {
             margin: 0.9rem 0 0;
-            font-family: var(--np-body);
-            font-size: 14px;
+            font-family: var(--np-mono, 'IBM Plex Mono', ui-monospace, monospace);
+            font-size: 12px;
             font-weight: 400;
-            line-height: 1.5;
+            line-height: 1.4;
+            letter-spacing: 0.04em;
             color: var(--u2-salvia-escura);
         }
 
-        #page-upsell .u2-voz--semana { margin: 3rem auto 0; }
-
-        #page-upsell .u2-voz--escura { margin: 2.4rem auto 0; }
-        #page-upsell .u2-voz--escura blockquote { color: var(--u2-creme); }
-        #page-upsell .u2-voz--escura figcaption { color: var(--u2-creme); font-weight: 300; }
+        #page-upsell .u2-getuigenis--donker { margin: 2.4rem auto 0; }
+        #page-upsell .u2-getuigenis--donker blockquote p { color: var(--u2-creme); }
+        #page-upsell .u2-getuigenis--donker figcaption { color: var(--u2-creme); }
 
         #page-upsell .u2-nomes {
             max-width: 520px;
@@ -4996,6 +5017,7 @@
             <p class="u2-etiqueta">Na je Noodprotocol</p>
             <h1 class="u2-vraag">Wie zorgt er voor degene die voor iedereen zorgt?</h1>
             <p class="u2-subtitulo">Het Noodprotocol helpt je in het moment zelf. Dit is het vervolg: zeven dagen om te leren waarom het steeds terugkomt.</p>
+            <p class="u2-microlinha">E&eacute;n keer betalen. Geen abonnement. De audio's blijven van jou.</p>
 
             <div class="u2-speler">
                 <button type="button" class="u2-play" id="u2-play" aria-label="Speel een minuut uit Dag 1 af" aria-pressed="false">
@@ -5045,7 +5067,7 @@
     <!-- 4 ----------------------------------------------------------- a semana -->
     <section class="u2-semana">
         <div class="u2-col">
-            <p class="u2-semana-etiqueta">Zeven dagen. Elke dag twaalf minuten.</p>
+            <p class="u2-semana-etiqueta">Zeven dagen. Tussen 8 en 13 minuten per dag.</p>
 
             <div class="u2-dias-wrap">
                 <svg class="u2-fio" aria-hidden="true" viewBox="0 0 40 700" preserveAspectRatio="none"><path d="M20.0 0.0 L21.1 2.7 L22.1 5.4 L23.2 8.1 L24.2 10.8 L25.1 13.5 L26.0 16.2 L26.8 18.8 L27.6 21.5 L28.3 24.2 L28.9 26.9 L29.4 29.6 L29.9 32.3 L30.2 35.0 L30.5 37.7 L30.7 40.4 L30.8 43.1 L30.8 45.8 L30.7 48.5 L30.5 51.2 L30.3 53.8 L29.9 56.5 L29.5 59.2 L29.0 61.9 L28.5 64.6 L27.8 67.3 L27.2 70.0 L26.4 72.7 L25.7 75.4 L24.9 78.1 L24.0 80.8 L23.2 83.5 L22.3 86.2 L21.5 88.8 L20.6 91.5 L19.7 94.2 L18.9 96.9 L18.0 99.6 L17.2 102.3 L16.5 105.0 L15.7 107.7 L15.0 110.4 L14.4 113.1 L13.8 115.8 L13.3 118.5 L12.9 121.2 L12.5 123.8 L12.2 126.5 L11.9 129.2 L11.7 131.9 L11.6 134.6 L11.6 137.3 L11.6 140.0 L11.7 142.7 L11.9 145.4 L12.1 148.1 L12.4 150.8 L12.7 153.5 L13.1 156.2 L13.6 158.8 L14.1 161.5 L14.6 164.2 L15.2 166.9 L15.8 169.6 L16.5 172.3 L17.1 175.0 L17.8 177.7 L18.4 180.4 L19.1 183.1 L19.8 185.8 L20.4 188.5 L21.1 191.2 L21.7 193.8 L22.3 196.5 L22.9 199.2 L23.4 201.9 L23.9 204.6 L24.4 207.3 L24.8 210.0 L25.2 212.7 L25.5 215.4 L25.8 218.1 L26.0 220.8 L26.1 223.5 L26.2 226.2 L26.3 228.8 L26.3 231.5 L26.3 234.2 L26.2 236.9 L26.0 239.6 L25.8 242.3 L25.6 245.0 L25.3 247.7 L25.0 250.4 L24.6 253.1 L24.2 255.8 L23.8 258.5 L23.4 261.2 L22.9 263.8 L22.4 266.5 L22.0 269.2 L21.5 271.9 L21.0 274.6 L20.5 277.3 L20.0 280.0 L19.5 282.7 L19.1 285.4 L18.6 288.1 L18.2 290.8 L17.8 293.5 L17.4 296.2 L17.1 298.8 L16.8 301.5 L16.5 304.2 L16.2 306.9 L16.0 309.6 L15.9 312.3 L15.7 315.0 L15.6 317.7 L15.6 320.4 L15.6 323.1 L15.6 325.8 L15.7 328.5 L15.7 331.2 L15.9 333.8 L16.0 336.5 L16.2 339.2 L16.4 341.9 L16.7 344.6 L16.9 347.3 L17.2 350.0 L17.5 352.7 L17.8 355.4 L18.1 358.1 L18.5 360.8 L18.8 363.5 L19.1 366.2 L19.5 368.8 L19.8 371.5 L20.1 374.2 L20.4 376.9 L20.7 379.6 L21.0 382.3 L21.3 385.0 L21.5 387.7 L21.8 390.4 L22.0 393.1 L22.2 395.8 L22.3 398.5 L22.5 401.2 L22.6 403.8 L22.7 406.5 L22.8 409.2 L22.8 411.9 L22.8 414.6 L22.8 417.3 L22.8 420.0 L22.7 422.7 L22.6 425.4 L22.5 428.1 L22.4 430.8 L22.3 433.5 L22.2 436.2 L22.0 438.8 L21.8 441.5 L21.6 444.2 L21.5 446.9 L21.3 449.6 L21.1 452.3 L20.9 455.0 L20.7 457.7 L20.5 460.4 L20.3 463.1 L20.1 465.8 L19.9 468.5 L19.7 471.2 L19.5 473.8 L19.4 476.5 L19.2 479.2 L19.1 481.9 L19.0 484.6 L18.9 487.3 L18.8 490.0 L18.7 492.7 L18.6 495.4 L18.6 498.1 L18.5 500.8 L18.5 503.5 L18.5 506.2 L18.5 508.8 L18.5 511.5 L18.6 514.2 L18.6 516.9 L18.7 519.6 L18.7 522.3 L18.8 525.0 L18.9 527.7 L19.0 530.4 L19.0 533.1 L19.1 535.8 L19.2 538.5 L19.3 541.2 L19.4 543.8 L19.5 546.5 L19.6 549.2 L19.7 551.9 L19.8 554.6 L19.9 557.3 L20.0 560.0 L20.1 562.7 L20.2 565.4 L20.2 568.1 L20.3 570.8 L20.3 573.5 L20.4 576.2 L20.4 578.8 L20.5 581.5 L20.5 584.2 L20.5 586.9 L20.5 589.6 L20.5 592.3 L20.5 595.0 L20.5 597.7 L20.5 600.4 L20.5 603.1 L20.5 605.8 L20.5 608.5 L20.4 611.2 L20.4 613.8 L20.4 616.5 L20.3 619.2 L20.3 621.9 L20.3 624.6 L20.2 627.3 L20.2 630.0 L20.2 632.7 L20.2 635.4 L20.1 638.1 L20.1 640.8 L20.1 643.5 L20.0 646.2 L20.0 648.8 L20.0 651.5 L20.0 654.2 L20.0 656.9 L20.0 659.6 L20.0 662.3 L20.0 665.0 L20.0 667.7 L20.0 670.4 L20.0 673.1 L20.0 675.8 L20.0 678.5 L20.0 681.2 L20.0 683.8 L20.0 686.5 L20.0 689.2 L20.0 691.9 L20.0 694.6 L20.0 697.3 L20.0 700.0" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
@@ -5053,49 +5075,49 @@
                 <li class="u2-dia">
                     <span class="u2-dia-tile" aria-hidden="true"><img class="u2-dia-foto" src="img/p7-dag1.jpg" alt="" width="800" height="800" loading="lazy" decoding="async"><span class="u2-dia-num">1</span></span>
                     <span class="u2-dia-txt">
-                        <span class="u2-dia-tit">Ademhaling</span>
+                        <span class="u2-dia-rotulo">DAG 1 &middot; 9:57</span><span class="u2-dia-tit">Ademhaling</span>
                         <span class="u2-dia-frase">Je leert je ademhaling opmerken en daarna langzamer uitademen.</span>
                     </span>
                 </li>
                 <li class="u2-dia">
                     <span class="u2-dia-tile" aria-hidden="true"><img class="u2-dia-foto" src="img/p7-dag2.jpg" alt="" width="800" height="800" loading="lazy" decoding="async"><span class="u2-dia-num">2</span></span>
                     <span class="u2-dia-txt">
-                        <span class="u2-dia-tit">Waar angst woont</span>
+                        <span class="u2-dia-rotulo">DAG 2 &middot; 12:17</span><span class="u2-dia-tit">Waar angst woont</span>
                         <span class="u2-dia-frase">Je voelt waar angst in je lichaam zit.</span>
                     </span>
                 </li>
                 <li class="u2-dia">
                     <span class="u2-dia-tile" aria-hidden="true"><img class="u2-dia-foto" src="img/p7-dag3.jpg" alt="" width="800" height="800" loading="lazy" decoding="async"><span class="u2-dia-num">3</span></span>
                     <span class="u2-dia-txt">
-                        <span class="u2-dia-tit">Doemdenken onderbreken</span>
+                        <span class="u2-dia-rotulo">DAG 3 &middot; 11:16</span><span class="u2-dia-tit">Doemdenken onderbreken</span>
                         <span class="u2-dia-frase">Je onderbreekt het 'wat als' voordat het afdaalt.</span>
                     </span>
                 </li>
                 <li class="u2-dia">
                     <span class="u2-dia-tile" aria-hidden="true"><img class="u2-dia-foto" src="img/p7-dag4.jpg" alt="" width="800" height="800" loading="lazy" decoding="async"><span class="u2-dia-num">4</span></span>
                     <span class="u2-dia-txt">
-                        <span class="u2-dia-tit">Ruimte maken</span>
+                        <span class="u2-dia-rotulo">DAG 4 &middot; 9:51</span><span class="u2-dia-tit">Ruimte maken</span>
                         <span class="u2-dia-frase">Ruimte voor wat onder de angst ligt.</span>
                     </span>
                 </li>
                 <li class="u2-dia">
                     <span class="u2-dia-tile" aria-hidden="true"><img class="u2-dia-foto" src="img/p7-dag5.jpg" alt="" width="800" height="800" loading="lazy" decoding="async"><span class="u2-dia-num">5</span></span>
                     <span class="u2-dia-txt">
-                        <span class="u2-dia-tit">Slaap</span>
+                        <span class="u2-dia-rotulo">DAG 5 &middot; 9:05</span><span class="u2-dia-tit">Slaap</span>
                         <span class="u2-dia-frase">Je systeem leert 's avonds af te schakelen.</span>
                     </span>
                 </li>
                 <li class="u2-dia">
                     <span class="u2-dia-tile" aria-hidden="true"><img class="u2-dia-foto" src="img/p7-dag6.jpg" alt="" width="800" height="800" loading="lazy" decoding="async"><span class="u2-dia-num">6</span></span>
                     <span class="u2-dia-txt">
-                        <span class="u2-dia-tit">Aanwezigheid</span>
+                        <span class="u2-dia-rotulo">DAG 6 &middot; 8:45</span><span class="u2-dia-tit">Aanwezigheid</span>
                         <span class="u2-dia-frase">Terug naar het moment, ook midden in een drukke dag.</span>
                     </span>
                 </li>
                 <li class="u2-dia">
                     <span class="u2-dia-tile" aria-hidden="true"><img class="u2-dia-foto" src="img/p7-dag7.jpg" alt="" width="800" height="800" loading="lazy" decoding="async"><span class="u2-dia-num">7</span></span>
                     <span class="u2-dia-txt">
-                        <span class="u2-dia-tit">Integratie</span>
+                        <span class="u2-dia-rotulo">DAG 7 &middot; 10:20</span><span class="u2-dia-tit">Integratie</span>
                         <span class="u2-dia-frase">Alles komt samen, en is vanaf nu van jou.</span>
                     </span>
                 </li>
@@ -5104,9 +5126,9 @@
 
             <p class="u2-prova">Onderzoek naar gestructureerde ademhalingsoefeningen: Balban et al., Cell Reports Medicine, 2023 (Stanford University).</p>
 
-            <figure class="u2-voz u2-voz--semana">
-                <blockquote>“Ik lag 's avonds vaak nog van alles terug te halen van mijn werk. Gesprekken, dingen die ik anders had willen zeggen. Door de oefeningen begon ik eerder te merken wanneer ik daarin vastzat. Soms lukte het me om het weer los te laten. Dat maakte mijn avonden net wat rustiger.”</blockquote>
-                <figcaption>— [NOME], [IDADE]</figcaption>
+            <figure class="u2-getuigenis">
+                <blockquote><p>“Ik lag 's avonds vaak nog van alles terug te halen van mijn werk. Gesprekken, dingen die ik anders had willen zeggen. Door de oefeningen begon ik eerder te merken wanneer ik daarin vastzat. Soms lukte het me om het weer los te laten. Dat maakte mijn avonden net wat rustiger.”</p></blockquote>
+                <figcaption>Lotte, [LEEFTIJD]</figcaption>
             </figure>
         </div>
     </section>
@@ -5131,11 +5153,11 @@
 
             <p class="u2-exclusivo">Dit aanbod zie je omdat je het Noodprotocol hebt.</p>
 
-            <p class="u2-decisao-linha">Je geeft iedereen om je heen tijd. Zeven dagen lang is er elke dag twaalf minuten voor jou.</p>
+            <p class="u2-decisao-linha">Je geeft iedereen om je heen tijd. Zeven dagen lang is er elke dag tijd voor jou.</p>
 
-            <figure class="u2-voz u2-voz--escura">
-                <blockquote>“Ik dacht eerst: waar ga ik dit nu weer tussen proppen? Maar één audio per dag was overzichtelijk. Ik hoefde niet zelf te bedenken wat ik moest doen en kon het gewoon op een moment doen dat mij uitkwam. Daardoor hield ik het makkelijker vol dan ik vooraf had verwacht.”</blockquote>
-                <figcaption>— [NOME], [IDADE]</figcaption>
+            <figure class="u2-getuigenis u2-getuigenis--donker">
+                <blockquote><p>“Ik dacht eerst: waar ga ik dit nu weer tussen proppen? Maar één audio per dag was overzichtelijk. Ik hoefde niet zelf te bedenken wat ik moest doen en kon het gewoon op een moment doen dat mij uitkwam. Daardoor hield ik het makkelijker vol dan ik vooraf had verwacht.”</p></blockquote>
+                <figcaption>Jolien, [LEEFTIJD]</figcaption>
             </figure>
 
             <p class="u2-nomes">Namen op verzoek gewijzigd.</p>
