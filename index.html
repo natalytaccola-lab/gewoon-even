@@ -4634,28 +4634,18 @@
         #page-upsell a.u2-cta--meio:focus-visible { outline-color: var(--u2-verde); }
 
         /* ---- 4b. estudos, em swipe, com os numeros a rolar ---- */
-        #page-upsell .u2-est { padding: 0 0 1.2rem; }
-
-        #page-upsell .u2-est-eyebrow {
-            margin: 0 0 0.2rem;
-            font-family: var(--np-mono, 'IBM Plex Mono', ui-monospace, monospace);
-            font-size: 11px;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            line-height: 1.3;
-            text-transform: uppercase;
-            text-align: center;
-            color: var(--u2-salvia-escura);
-        }
+        #page-upsell .u2-est { padding: 0 0 1.7rem; }
 
         #page-upsell .u2-est-titulo {
-            margin: 0 0 0.55rem;
+            /* numa linha so', ate' aos 320px: a 1.05rem o texto mede ~279px
+               e a coluna da' 272, por isso o titulo pede 6px de cada lado */
+            margin: 0 -6px 0.5rem;
             font-family: var(--np-display);
-            font-size: 1.3rem;
+            font-size: 1.05rem;
             font-weight: 500;
-            line-height: 1.2;
+            line-height: 1.25;
             text-align: center;
-            text-wrap: balance;
+            white-space: nowrap;
             color: var(--u2-tinta);
         }
 
@@ -4735,7 +4725,7 @@
             display: flex;
             justify-content: center;
             gap: 0;
-            margin-top: 2px;
+            margin-top: 0;
         }
 
         #page-upsell .u2-est-ponto {
@@ -4769,11 +4759,11 @@
         #page-upsell .u2-est-nota {
             margin: 0;
             font-family: var(--np-body);
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 300;
-            line-height: 1.4;
+            line-height: 1.45;
             text-align: center;
-            color: var(--u2-salvia-escura);
+            color: var(--u2-tinta-fraca);
         }
 
         /* ---- folga para a barra fixa nao tapar o fim da pagina ---- */
@@ -5868,42 +5858,6 @@
     </section>
 
 
-    <!-- 4b ---------------------------------------------------------- estudos -->
-    <section class="u2-est">
-        <div class="u2-col">
-            <p class="u2-est-eyebrow">Wat onderzoek zegt</p>
-            <h2 class="u2-est-titulo">Wat onderzoek zegt over rustig ademhalen</h2>
-            <ol class="u2-est-pista" id="u2-est-pista" aria-label="Wat onderzoek zegt over rustig ademhalen">
-                    <li class="u2-est-cartao">
-                        <p class="u2-est-num" data-fim="223" aria-label="223">223</p>
-                        <p class="u2-est-legenda">studies naar langzaam ademhalen</p>
-                        <p class="u2-est-txt">Een meta-analyse vond dat langzaam ademhalen samenhing met een hogere hartslagvariabiliteit, een maat voor de activiteit van het parasympathische zenuwstelsel. Dat gold tijdens de oefening, direct erna en na een reeks sessies.</p>
-                        <p class="u2-est-fonte"><a href="https://doi.org/10.1016/j.neubiorev.2022.104711" target="_blank" rel="noopener">Laborde et al., Neuroscience &amp; Biobehavioral Reviews, 2022</a></p>
-                    </li>
-                    <li class="u2-est-cartao">
-                        <p class="u2-est-num" data-fim="785" aria-label="785">785</p>
-                        <p class="u2-est-legenda">volwassenen in 12 gerandomiseerde studies</p>
-                        <p class="u2-est-txt">Een meta-analyse uit 2023 vond dat ademhalingsoefeningen samenhingen met minder ervaren stress dan bij controlegroepen. Ook bij angstklachten (20 studies) zag men een vergelijkbaar, klein tot gemiddeld effect.</p>
-                        <p class="u2-est-fonte"><a href="https://doi.org/10.1038/s41598-022-27247-y" target="_blank" rel="noopener">Fincham et al., Scientific Reports, 2023</a></p>
-                    </li>
-                    <li class="u2-est-cartao">
-                        <p class="u2-est-num" data-fim="5" aria-label="5">5</p>
-                        <p class="u2-est-legenda">minuten per dag, een maand lang</p>
-                        <p class="u2-est-txt">In een gerandomiseerd onderzoek van Stanford verbeterde het humeur meer na dagelijks 5 minuten ademhalen (vooral met lange uitademing) dan na mindfulness-meditatie.</p>
-                        <p class="u2-est-fonte"><a href="https://doi.org/10.1016/j.xcrm.2022.100895" target="_blank" rel="noopener">Balban et al., Cell Reports Medicine, 2023</a></p>
-                    </li>
-                    <li class="u2-est-cartao">
-                        <p class="u2-est-num" data-fim="15" aria-label="15">15</p>
-                        <p class="u2-est-legenda">studies in een systematische review</p>
-                        <p class="u2-est-txt">Een review van onderzoek bij gezonde volwassenen beschrijft dat langzaam ademhalen (minder dan 10 keer per minuut) samengaat met meer hartslagvariabiliteit, meer ontspanning en minder spanning en angst.</p>
-                        <p class="u2-est-fonte"><a href="https://doi.org/10.3389/fnhum.2018.00353" target="_blank" rel="noopener">Zaccaro et al., Frontiers in Human Neuroscience, 2018</a></p>
-                    </li>
-            </ol>
-            <div class="u2-est-pontos" id="u2-est-pontos"></div>
-            <p class="u2-est-nota">Dit onderzoek gaat over ademhalingsoefeningen in het algemeen en niet over dit protocol. De onderzoekers benadrukken dat het bewijs voorzichtigheid vraagt. Dit is geen medisch advies.</p>
-        </div>
-    </section>
-
     <!-- 5 -------------------------------------------------------- a permissao -->
     <section class="u2-permissao">
         <div class="u2-col">
@@ -5912,6 +5866,41 @@
         </div>
     </section>
 
+
+    <!-- 5a ---------------------------------------------------------- estudos -->
+    <section class="u2-est">
+        <div class="u2-col">
+            <h2 class="u2-est-titulo">Wat onderzoek zegt over rustig ademhalen</h2>
+            <ol class="u2-est-pista" id="u2-est-pista" aria-label="Wat onderzoek zegt over rustig ademhalen">
+                    <li class="u2-est-cartao">
+                        <p class="u2-est-num" data-fim="223" aria-label="223">223</p>
+                        <p class="u2-est-legenda">studies naar langzaam ademhalen</p>
+                        <p class="u2-est-txt">Een meta-analyse: langzaam ademhalen hing samen met een hogere hartslagvariabiliteit, een maat voor het parasympathische zenuwstelsel. Tijdens én na de oefening.</p>
+                        <p class="u2-est-fonte"><a href="https://doi.org/10.1016/j.neubiorev.2022.104711" target="_blank" rel="noopener">Laborde et al., Neuroscience &amp; Biobehavioral Reviews, 2022</a></p>
+                    </li>
+                    <li class="u2-est-cartao">
+                        <p class="u2-est-num" data-fim="785" aria-label="785">785</p>
+                        <p class="u2-est-legenda">volwassenen in 12 gerandomiseerde studies</p>
+                        <p class="u2-est-txt">Ademhalingsoefeningen hingen samen met minder ervaren stress dan bij controlegroepen. Bij angstklachten (20 studies) zag men een klein tot gemiddeld effect.</p>
+                        <p class="u2-est-fonte"><a href="https://doi.org/10.1038/s41598-022-27247-y" target="_blank" rel="noopener">Fincham et al., Scientific Reports, 2023</a></p>
+                    </li>
+                    <li class="u2-est-cartao">
+                        <p class="u2-est-num" data-fim="5" aria-label="5">5</p>
+                        <p class="u2-est-legenda">minuten per dag, een maand lang</p>
+                        <p class="u2-est-txt">In een gerandomiseerd Stanford-onderzoek verbeterde het humeur meer na 5 minuten ademhalen per dag (vooral met lange uitademing) dan na mindfulness-meditatie.</p>
+                        <p class="u2-est-fonte"><a href="https://doi.org/10.1016/j.xcrm.2022.100895" target="_blank" rel="noopener">Balban et al., Cell Reports Medicine, 2023</a></p>
+                    </li>
+                    <li class="u2-est-cartao">
+                        <p class="u2-est-num" data-fim="15" aria-label="15">15</p>
+                        <p class="u2-est-legenda">studies in een systematische review</p>
+                        <p class="u2-est-txt">Een review bij gezonde volwassenen: langzaam ademhalen (minder dan 10 keer per minuut) ging samen met meer ontspanning en minder spanning en angst.</p>
+                        <p class="u2-est-fonte"><a href="https://doi.org/10.3389/fnhum.2018.00353" target="_blank" rel="noopener">Zaccaro et al., Frontiers in Human Neuroscience, 2018</a></p>
+                    </li>
+            </ol>
+            <div class="u2-est-pontos" id="u2-est-pontos"></div>
+            <p class="u2-est-nota">Dit onderzoek gaat over ademhalen in het algemeen, niet over dit protocol. Het is geen medisch advies.</p>
+        </div>
+    </section>
 
     <!-- 5b --------------------------------------------------------------- faq -->
     <section class="u2-faq">
