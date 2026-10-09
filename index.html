@@ -4447,6 +4447,52 @@
             color: var(--u2-tinta-fraca);
         }
 
+        /* ---- vozes ---- */
+        #page-upsell .u2-voz {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0;
+            text-align: center;
+        }
+
+        #page-upsell .u2-voz blockquote {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: var(--np-display);
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 1.45;
+            color: var(--u2-tinta);
+            text-wrap: pretty;
+        }
+
+        #page-upsell .u2-voz figcaption {
+            margin: 0.9rem 0 0;
+            font-family: var(--np-body);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--u2-salvia-escura);
+        }
+
+        #page-upsell .u2-voz--semana { margin: 3rem auto 0; }
+
+        #page-upsell .u2-voz--escura { margin: 2.4rem auto 0; }
+        #page-upsell .u2-voz--escura blockquote { color: var(--u2-creme); }
+        #page-upsell .u2-voz--escura figcaption { color: var(--u2-creme); font-weight: 300; }
+
+        #page-upsell .u2-nomes {
+            max-width: 520px;
+            margin: 0.9rem auto 1.9rem;
+            font-family: var(--np-body);
+            font-size: 12px;
+            font-weight: 300;
+            line-height: 1.5;
+            text-align: center;
+            color: var(--u2-creme);
+        }
+
         /* ---- desktop ---- */
         @media (min-width: 900px) {
             #page-upsell .u2-abertura { padding: 4.6rem 0 4rem; }
@@ -5047,6 +5093,11 @@
             </div>
 
             <p class="u2-prova">Onderzoek naar gestructureerde ademhalingsoefeningen: Balban et al., Cell Reports Medicine, 2023 (Stanford University).</p>
+
+            <figure class="u2-voz u2-voz--semana">
+                <blockquote>“Ik lag 's avonds vaak nog van alles terug te halen van mijn werk. Gesprekken, dingen die ik anders had willen zeggen. Door de oefeningen begon ik eerder te merken wanneer ik daarin vastzat. Soms lukte het me om het weer los te laten. Dat maakte mijn avonden net wat rustiger.”</blockquote>
+                <figcaption>— [NOME], [IDADE]</figcaption>
+            </figure>
         </div>
     </section>
 
@@ -5071,6 +5122,13 @@
             <p class="u2-exclusivo">Dit aanbod zie je omdat je het Noodprotocol hebt.</p>
 
             <p class="u2-decisao-linha">Je geeft iedereen om je heen tijd. Zeven dagen lang is er elke dag twaalf minuten voor jou.</p>
+
+            <figure class="u2-voz u2-voz--escura">
+                <blockquote>“Ik dacht eerst: waar ga ik dit nu weer tussen proppen? Maar één audio per dag was overzichtelijk. Ik hoefde niet zelf te bedenken wat ik moest doen en kon het gewoon op een moment doen dat mij uitkwam. Daardoor hield ik het makkelijker vol dan ik vooraf had verwacht.”</blockquote>
+                <figcaption>— [NOME], [IDADE]</figcaption>
+            </figure>
+
+            <p class="u2-nomes">Namen op verzoek gewijzigd.</p>
 
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--final" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Dit is voor mij &mdash; &euro;37</a>
 
