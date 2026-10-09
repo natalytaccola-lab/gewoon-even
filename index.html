@@ -4151,10 +4151,34 @@
             color: var(--u2-tinta-fraca);
         }
 
+        /* o botao que alterna entre o carrossel e a lista. Contorno, nunca
+           laranja: o laranja fica reservado aos botoes de compra. */
+        #page-upsell .u2-alle-dagen {
+            display: block;
+            margin: 0 auto 1.6rem;
+            min-height: 44px;
+            padding: 0 20px;
+            border: 1px solid var(--u2-verde);
+            border-radius: 12px;
+            background: transparent;
+            font-family: var(--np-body);
+            font-size: 0.95rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--u2-verde);
+            cursor: pointer;
+        }
+
+        #page-upsell .u2-alle-dagen:focus-visible {
+            outline: 2px solid var(--u2-verde);
+            outline-offset: 3px;
+        }
+
         #page-upsell .u2-dias-wrap { position: relative; }
 
-        /* a onda vertical, atras das linhas, com amplitude a diminuir */
+        /* a onda vertical so' faz sentido quando os dias estao empilhados */
         #page-upsell .u2-fio {
+            display: none;
             position: absolute;
             top: 36px;
             bottom: 36px;
@@ -4166,48 +4190,45 @@
             pointer-events: none;
         }
 
+        #page-upsell .u2-dias-wrap:has(.u2-dias.is-lijst) .u2-fio { display: block; }
+
+        /* ---- modo carrossel (estado por omissao) ---- */
         #page-upsell .u2-dias {
             position: relative;
+            display: flex;
+            gap: 14px;
             margin: 0;
             padding: 0;
             list-style: none;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
+
+        #page-upsell .u2-dias::-webkit-scrollbar { display: none; }
 
         #page-upsell .u2-dia {
             position: relative;
-            display: grid;
-            grid-template-columns: 72px 1fr;
-            gap: 16px;
-            align-items: center;
-            min-height: 72px;
-            margin-bottom: 28px;
+            display: block;
+            flex: 0 0 82%;
+            margin: 0;
+            scroll-snap-align: start;
         }
 
-        #page-upsell .u2-dia:last-child { margin-bottom: 0; }
-
-        /* o espaco reservado e' o mesmo com ou sem foto: 72px */
         #page-upsell .u2-dia-tile {
             position: relative;
             z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 56px;
-            height: 56px;
-            margin: 0 auto;
-            border: 1.5px solid var(--u2-sage);
-            border-radius: 50%;
-            background: var(--u2-creme);
-            overflow: hidden;
-        }
-
-        /* com foto: quadrado arredondado de 72px, sem borda */
-        #page-upsell .u2-dia-tile:has(.u2-dia-foto) {
-            width: 72px;
-            height: 72px;
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            margin: 0 0 14px;
             border: 0;
-            border-radius: 12px;
+            border-radius: 16px;
             background: var(--u2-verde);
+            overflow: hidden;
         }
 
         #page-upsell .u2-dia-foto {
@@ -4218,13 +4239,82 @@
             object-fit: cover;
         }
 
-        /* o veu verde-dique, so' quando ha foto; uniforme, e sem texto por cima */
+        /* o veu verde-dique, igual nos dois modos; nunca ha texto por cima */
         #page-upsell .u2-dia-tile:has(.u2-dia-foto)::after {
             content: "";
             position: absolute;
             inset: 0;
             background: var(--u2-verde);
-            opacity: 0.22;
+            opacity: 0.10;
+        }
+
+        /* ---- pontos de navegacao, so' no modo carrossel ---- */
+        #page-upsell .u2-dias-pontos {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-top: 10px;
+        }
+
+        #page-upsell .u2-dias-pontos[hidden] { display: none; }
+
+        #page-upsell .u2-ponto {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+        }
+
+        #page-upsell .u2-ponto::after {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--u2-sage);
+        }
+
+        #page-upsell .u2-ponto[aria-current="true"]::after {
+            width: 9px;
+            height: 9px;
+            background: var(--u2-verde);
+        }
+
+        #page-upsell .u2-ponto:focus-visible {
+            outline: 2px solid var(--u2-verde);
+            outline-offset: -4px;
+            border-radius: 50%;
+        }
+
+        /* ---- modo lista: os mesmos <li>, empilhados ---- */
+        #page-upsell .u2-dias.is-lijst {
+            display: block;
+            overflow: visible;
+            scroll-snap-type: none;
+        }
+
+        #page-upsell .u2-dias.is-lijst .u2-dia {
+            display: grid;
+            grid-template-columns: 72px 1fr;
+            gap: 16px;
+            align-items: center;
+            min-height: 72px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(154, 163, 150, 0.45);
+        }
+
+        #page-upsell .u2-dias.is-lijst .u2-dia:last-child { border-bottom: 0; }
+
+        #page-upsell .u2-dias.is-lijst .u2-dia-tile {
+            width: 72px;
+            height: 72px;
+            aspect-ratio: auto;
+            margin: 0 auto;
+            border-radius: 14px;
         }
 
         #page-upsell .u2-dia-txt { display: block; }
@@ -5047,9 +5137,11 @@
         <div class="u2-col">
             <p class="u2-semana-etiqueta">Zeven dagen. Zo'n tien minuten per dag.</p>
 
+            <button type="button" class="u2-alle-dagen" aria-expanded="false" aria-controls="u2-dias">Bekijk alle dagen</button>
+
             <div class="u2-dias-wrap">
                 <svg class="u2-fio" aria-hidden="true" viewBox="0 0 40 700" preserveAspectRatio="none"><path d="M20.0 0.0 L21.1 2.7 L22.1 5.4 L23.2 8.1 L24.2 10.8 L25.1 13.5 L26.0 16.2 L26.8 18.8 L27.6 21.5 L28.3 24.2 L28.9 26.9 L29.4 29.6 L29.9 32.3 L30.2 35.0 L30.5 37.7 L30.7 40.4 L30.8 43.1 L30.8 45.8 L30.7 48.5 L30.5 51.2 L30.3 53.8 L29.9 56.5 L29.5 59.2 L29.0 61.9 L28.5 64.6 L27.8 67.3 L27.2 70.0 L26.4 72.7 L25.7 75.4 L24.9 78.1 L24.0 80.8 L23.2 83.5 L22.3 86.2 L21.5 88.8 L20.6 91.5 L19.7 94.2 L18.9 96.9 L18.0 99.6 L17.2 102.3 L16.5 105.0 L15.7 107.7 L15.0 110.4 L14.4 113.1 L13.8 115.8 L13.3 118.5 L12.9 121.2 L12.5 123.8 L12.2 126.5 L11.9 129.2 L11.7 131.9 L11.6 134.6 L11.6 137.3 L11.6 140.0 L11.7 142.7 L11.9 145.4 L12.1 148.1 L12.4 150.8 L12.7 153.5 L13.1 156.2 L13.6 158.8 L14.1 161.5 L14.6 164.2 L15.2 166.9 L15.8 169.6 L16.5 172.3 L17.1 175.0 L17.8 177.7 L18.4 180.4 L19.1 183.1 L19.8 185.8 L20.4 188.5 L21.1 191.2 L21.7 193.8 L22.3 196.5 L22.9 199.2 L23.4 201.9 L23.9 204.6 L24.4 207.3 L24.8 210.0 L25.2 212.7 L25.5 215.4 L25.8 218.1 L26.0 220.8 L26.1 223.5 L26.2 226.2 L26.3 228.8 L26.3 231.5 L26.3 234.2 L26.2 236.9 L26.0 239.6 L25.8 242.3 L25.6 245.0 L25.3 247.7 L25.0 250.4 L24.6 253.1 L24.2 255.8 L23.8 258.5 L23.4 261.2 L22.9 263.8 L22.4 266.5 L22.0 269.2 L21.5 271.9 L21.0 274.6 L20.5 277.3 L20.0 280.0 L19.5 282.7 L19.1 285.4 L18.6 288.1 L18.2 290.8 L17.8 293.5 L17.4 296.2 L17.1 298.8 L16.8 301.5 L16.5 304.2 L16.2 306.9 L16.0 309.6 L15.9 312.3 L15.7 315.0 L15.6 317.7 L15.6 320.4 L15.6 323.1 L15.6 325.8 L15.7 328.5 L15.7 331.2 L15.9 333.8 L16.0 336.5 L16.2 339.2 L16.4 341.9 L16.7 344.6 L16.9 347.3 L17.2 350.0 L17.5 352.7 L17.8 355.4 L18.1 358.1 L18.5 360.8 L18.8 363.5 L19.1 366.2 L19.5 368.8 L19.8 371.5 L20.1 374.2 L20.4 376.9 L20.7 379.6 L21.0 382.3 L21.3 385.0 L21.5 387.7 L21.8 390.4 L22.0 393.1 L22.2 395.8 L22.3 398.5 L22.5 401.2 L22.6 403.8 L22.7 406.5 L22.8 409.2 L22.8 411.9 L22.8 414.6 L22.8 417.3 L22.8 420.0 L22.7 422.7 L22.6 425.4 L22.5 428.1 L22.4 430.8 L22.3 433.5 L22.2 436.2 L22.0 438.8 L21.8 441.5 L21.6 444.2 L21.5 446.9 L21.3 449.6 L21.1 452.3 L20.9 455.0 L20.7 457.7 L20.5 460.4 L20.3 463.1 L20.1 465.8 L19.9 468.5 L19.7 471.2 L19.5 473.8 L19.4 476.5 L19.2 479.2 L19.1 481.9 L19.0 484.6 L18.9 487.3 L18.8 490.0 L18.7 492.7 L18.6 495.4 L18.6 498.1 L18.5 500.8 L18.5 503.5 L18.5 506.2 L18.5 508.8 L18.5 511.5 L18.6 514.2 L18.6 516.9 L18.7 519.6 L18.7 522.3 L18.8 525.0 L18.9 527.7 L19.0 530.4 L19.0 533.1 L19.1 535.8 L19.2 538.5 L19.3 541.2 L19.4 543.8 L19.5 546.5 L19.6 549.2 L19.7 551.9 L19.8 554.6 L19.9 557.3 L20.0 560.0 L20.1 562.7 L20.2 565.4 L20.2 568.1 L20.3 570.8 L20.3 573.5 L20.4 576.2 L20.4 578.8 L20.5 581.5 L20.5 584.2 L20.5 586.9 L20.5 589.6 L20.5 592.3 L20.5 595.0 L20.5 597.7 L20.5 600.4 L20.5 603.1 L20.5 605.8 L20.5 608.5 L20.4 611.2 L20.4 613.8 L20.4 616.5 L20.3 619.2 L20.3 621.9 L20.3 624.6 L20.2 627.3 L20.2 630.0 L20.2 632.7 L20.2 635.4 L20.1 638.1 L20.1 640.8 L20.1 643.5 L20.0 646.2 L20.0 648.8 L20.0 651.5 L20.0 654.2 L20.0 656.9 L20.0 659.6 L20.0 662.3 L20.0 665.0 L20.0 667.7 L20.0 670.4 L20.0 673.1 L20.0 675.8 L20.0 678.5 L20.0 681.2 L20.0 683.8 L20.0 686.5 L20.0 689.2 L20.0 691.9 L20.0 694.6 L20.0 697.3 L20.0 700.0" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
-                <ol class="u2-dias">
+                <ol class="u2-dias" id="u2-dias">
                 <li class="u2-dia">
                     <span class="u2-dia-tile" aria-hidden="true"><img class="u2-dia-foto" src="img/p7-dag1.jpg" alt="" width="800" height="800" loading="lazy" decoding="async"></span>
                     <span class="u2-dia-txt">
@@ -5100,6 +5192,7 @@
                     </span>
                 </li>
                 </ol>
+                <div class="u2-dias-pontos"><button type="button" class="u2-ponto" data-i="0" aria-label="Dag 1" aria-current="true"></button><button type="button" class="u2-ponto" data-i="1" aria-label="Dag 2"></button><button type="button" class="u2-ponto" data-i="2" aria-label="Dag 3"></button><button type="button" class="u2-ponto" data-i="3" aria-label="Dag 4"></button><button type="button" class="u2-ponto" data-i="4" aria-label="Dag 5"></button><button type="button" class="u2-ponto" data-i="5" aria-label="Dag 6"></button><button type="button" class="u2-ponto" data-i="6" aria-label="Dag 7"></button></div>
             </div>
 
             <p class="u2-prova">Onderzoek naar gestructureerde ademhalingsoefeningen: Balban et al., Cell Reports Medicine, 2023 (Stanford University).</p>
@@ -6673,6 +6766,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!u2Pouco && u2Anel) u2Anel.style.transition = 'stroke-dashoffset 0.25s linear';
         u2Parado();
+    })();
+
+    // ---- os sete dias: carrossel por omissao, lista quando se pede ----
+    // IIFE com nomes proprios. Nao toca em montarCarrossel nem em acenar(),
+    // nem em nada global. Sem fbq, sem tracking.
+    (function () {
+        var u2dLista   = document.getElementById('u2-dias');
+        var u2dBotao   = document.querySelector('#page-upsell .u2-alle-dagen');
+        var u2dPontosC = document.querySelector('#page-upsell .u2-dias-pontos');
+        if (!u2dLista || !u2dBotao || !u2dPontosC) return;
+
+        var u2dDias   = u2dLista.querySelectorAll('.u2-dia');
+        var u2dPontos = u2dPontosC.querySelectorAll('.u2-ponto');
+        var u2dPouco  = window.matchMedia &&
+                        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function u2dEmLista() { return u2dLista.classList.contains('is-lijst'); }
+
+        function u2dMarcar(i) {
+            Array.prototype.forEach.call(u2dPontos, function (b, n) {
+                if (n === i) b.setAttribute('aria-current', 'true');
+                else b.removeAttribute('aria-current');
+            });
+        }
+
+        Array.prototype.forEach.call(u2dPontos, function (b, i) {
+            b.addEventListener('click', function () {
+                if (u2dEmLista()) return;
+                var d = u2dDias[i];
+                if (!d) return;
+                var destino = d.offsetLeft - u2dLista.offsetLeft;
+                var limite  = u2dLista.scrollWidth - u2dLista.clientWidth;
+                u2dLista.scrollTo({ left: Math.max(0, Math.min(limite, destino)),
+                                    behavior: u2dPouco ? 'auto' : 'smooth' });
+                u2dMarcar(i);
+            });
+        });
+
+        // ao deslizar, o ponto segue o cartao mais a esquerda da pista.
+        // Em modo lista nao ha pista: sai sem fazer nada.
+        var u2dAgendado = false;
+        function u2dAcompanhar() {
+            u2dAgendado = false;
+            if (u2dEmLista()) return;
+            var limite = u2dLista.scrollWidth - u2dLista.clientWidth;
+            if (limite <= 0) return;
+            if (u2dLista.scrollLeft >= limite - 2) { u2dMarcar(u2dDias.length - 1); return; }
+            var esq = u2dLista.getBoundingClientRect().left;
+            var melhor = 0, menor = Infinity;
+            Array.prototype.forEach.call(u2dDias, function (d, i) {
+                var dist = Math.abs(d.getBoundingClientRect().left - esq);
+                if (dist < menor) { menor = dist; melhor = i; }
+            });
+            u2dMarcar(melhor);
+        }
+
+        u2dLista.addEventListener('scroll', function () {
+            if (u2dEmLista() || u2dAgendado) return;
+            u2dAgendado = true;
+            requestAnimationFrame(u2dAcompanhar);
+        }, { passive: true });
+
+        u2dBotao.addEventListener('click', function () {
+            var abrir = !u2dEmLista();
+            u2dLista.classList.toggle('is-lijst', abrir);
+            u2dBotao.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+            u2dBotao.textContent = abrir ? 'Toon minder' : 'Bekijk alle dagen';
+            u2dPontosC.hidden = abrir;
+            if (!abrir) { u2dLista.scrollLeft = 0; u2dMarcar(0); }
+            u2dBotao.focus();
+        });
     })();
 
     // ---- pilulas de navegacao dos audios (so' mobile) ----
