@@ -4280,8 +4280,19 @@
         /* ---- 4. a semana ---- */
         #page-upsell .u2-semana { padding: 3.6rem 0 3.8rem; }
 
+        #page-upsell .u2-semana-titulo {
+            margin: 0 0 0.6rem;
+            font-family: var(--np-display);
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1.2;
+            text-align: center;
+            color: var(--u2-tinta);
+        }
+
         #page-upsell .u2-semana-etiqueta {
             margin: 0 0 1.8rem;
+            text-align: center;
             font-family: var(--np-mono, 'IBM Plex Mono', ui-monospace, monospace);
             font-size: 13px;
             font-weight: 400;
@@ -4694,6 +4705,17 @@
             line-height: 1.5;
             text-align: center;
             color: var(--u2-tinta-fraca);
+        }
+
+        /* capa do Protocol van 7 Dagen, na pagina de entrega. Decorativa:
+           e' a mesma imagem que o mockup do upsell mostra. */
+        #page-deliver-protocol7 .p7-capa {
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            height: auto;
+            margin: 0 auto 20px;
+            border-radius: 16px;
         }
 
         /* ---- getuigenissen ---- */
@@ -5338,6 +5360,8 @@
     <!-- 4 ----------------------------------------------------------- a semana -->
     <section class="u2-semana">
         <div class="u2-col">
+            <h2 class="u2-semana-titulo">Begin met luisteren</h2>
+
             <p class="u2-semana-etiqueta">Zeven dagen. Zo'n tien minuten per dag.</p>
 
             <button type="button" class="u2-alle-dagen" aria-expanded="false" aria-controls="u2-dias">Bekijk alle dagen</button>
@@ -6046,6 +6070,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 🎧 Gebruik koptelefoon of oordopjes voor het beste effect. Luister elke dag op hetzelfde moment — ochtend, lunch of avond — voor het sterkste resultaat.
             </div>
         </div>
+
+        <img class="p7-capa" src="img/p7-hero.jpg" alt="" width="800" height="800" loading="lazy" decoding="async">
 
         <div class="audio-track">
             <div class="audio-track-title">Dag 1 — Ademhaling</div>
