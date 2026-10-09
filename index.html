@@ -3938,11 +3938,11 @@
            salvia com tinta escura por cima. */
         #page-upsell .up-confirma {
             display: grid;
-            grid-template-columns: 24px 1fr;
+            grid-template-columns: 18px 1fr;
             gap: 10px;
             align-items: start;
-            margin: 0.9rem 0 0;
-            padding: 9px 13px;
+            margin: 0.8rem 0 0;
+            padding: 10px 14px;
             background: var(--u2-salvia);
             border: 1px solid var(--u2-salvia-onda);
             border-radius: 14px;
@@ -3952,24 +3952,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 24px;
-            height: 24px;
+            width: 18px;
+            height: 18px;
             color: var(--u2-tinta-ponte);
         }
 
-        #page-upsell .up-confirma-ico svg { width: 20px; height: 20px; }
+        #page-upsell .up-confirma-ico svg { width: 18px; height: 18px; }
 
         #page-upsell p.up-confirma-tit {
             margin: 0;
             font-family: var(--np-body);
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.35;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.3;
             color: var(--u2-tinta-ponte);
         }
 
         #page-upsell p.up-confirma-sub {
-            margin: 2px 0 0;
+            margin: 1px 0 0;
             font-family: var(--np-body);
             font-size: 13px;
             font-weight: 400;
@@ -3980,9 +3980,9 @@
         /* as duas linhas que abrem, antes da pergunta. Sem animacao. */
         #page-upsell .up-linha {
             max-width: 26rem;
-            margin: 0 auto 0.35rem;
+            margin: 0 auto 0.7rem;
             font-family: var(--np-display);
-            font-size: 19px;
+            font-size: 1.15rem;
             font-weight: 400;
             line-height: 1.35;
             text-align: center;
@@ -4283,13 +4283,13 @@
         }
 
         /* ---- 2. a leitura ---- */
-        #page-upsell .u2-leitura { padding: 1.6rem 0 3.6rem; }
+        #page-upsell .u2-leitura { padding: 1rem 0 2.15rem; }
 
         #page-upsell .u2-leitura p,
         #page-upsell .u2-permissao p {
-            margin: 0 0 2.2rem;
+            margin: 0 0 22px;
             font-family: var(--np-display);
-            font-size: 22px;
+            font-size: 1.25rem;
             font-weight: 500;
             line-height: 1.5;
             color: var(--u2-tinta);
@@ -4308,15 +4308,15 @@
         /* ---- 3. a ponte, agora em salvia clara ---- */
         #page-upsell .u2-ponte {
             position: relative;
-            padding: 4.4rem 0 4.8rem;
+            padding: 2.65rem 0 2.9rem;
             background: var(--u2-salvia);
             color: var(--u2-tinta-ponte);
         }
 
         #page-upsell .u2-ponte p {
-            margin: 0 0 1.9rem;
+            margin: 0 0 22px;
             font-family: var(--np-display);
-            font-size: 22px;
+            font-size: 1.25rem;
             font-weight: 500;
             line-height: 1.5;
             color: var(--u2-tinta-ponte);
@@ -4332,7 +4332,7 @@
             position: absolute;
             left: 0;
             right: 0;
-            height: 64px;
+            height: 38px;
             pointer-events: none;
         }
 
@@ -4831,6 +4831,47 @@
             line-height: 1.55;
             text-align: center;
             color: rgba(242, 237, 230, 0.78);
+        }
+
+        /* ---- barra fixa de compra, so' em mobile ---- */
+        #page-upsell .u2-barra {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 40;
+            padding: 5px 16px calc(5px + env(safe-area-inset-bottom));
+            background: rgba(242, 237, 230, 0.96);
+            border-top: 1px solid var(--u2-salvia-onda);
+        }
+
+        #page-upsell .u2-barra[hidden] { display: none; }
+
+        #page-upsell .u2-barra-cta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 18px;
+            border-radius: 12px;
+            background: var(--u2-laranja);
+            font-family: var(--np-body);
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.2;
+            text-align: center;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+
+        #page-upsell .u2-barra-cta:focus-visible {
+            outline: 2px solid var(--u2-verde);
+            outline-offset: 2px;
+        }
+
+        /* no desktop nao aparece de todo */
+        @media (min-width: 769px) {
+            #page-upsell .u2-barra { display: none; }
         }
 
         /* ---- rodape ---- */
@@ -5557,13 +5598,10 @@
     <!-- 1 ---------------------------------------------------------- abertura -->
     <section class="u2-abertura">
         <div class="u2-col u2-col--larga">
-            <p class="u2-etiqueta">Voor wie het Noodprotocol heeft</p>
-            <p class="up-linha">Er is iets dat je nog niet hardop hebt gezegd.</p>
-            <p class="up-linha">Je weet het al. Niemand heeft ooit de juiste vraag gesteld.</p>
+            <p class="up-linha">Er is iets dat je nog niet hardop hebt gezegd. Niemand heeft ooit de juiste vraag gesteld.</p>
 
             <h1 class="u2-vraag">Wie zorgt er voor degene die voor iedereen zorgt?</h1>
-            <p class="u2-subtitulo">Het Noodprotocol helpt je in het moment zelf. Dit is het vervolg: zeven dagen om te leren waarom het steeds terugkomt.</p>
-            <p class="u2-microlinha">Zeven audio's, &eacute;&eacute;n per dag, helpen je terug te komen bij jezelf. Geen abonnement.</p>
+            <p class="u2-microlinha">Het vervolg op je Noodprotocol: zeven audio's, &eacute;&eacute;n per dag, helpen je terug te komen bij jezelf. Geen abonnement.</p>
 
             <div class="u2-speler">
                 <div class="u2-telefoon">
@@ -5610,8 +5648,7 @@
             <svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="opacity:1"><path d="M0 296 Q200 256 400 284 Q600 312 800 278 Q1000 246 1200 276 L1200 400 L0 400 Z" fill="currentColor"/></svg>
         </div>
         <div class="u2-col">
-            <p>Een systeem dat nooit heeft leren stoppen, leert dat niet tijdens een paniekaanval. Dat leer je op dagen waarop er niets aan de hand is. Vandaag is zo'n dag.</p>
-            <p>Wat je een renster in de Tour ziet doen, heeft ze maanden eerder geleerd, op dagen waarop niemand keek. Daar leert het lichaam wat het later moet kunnen. Met jouw systeem kan dat net zo werken.</p>
+            <p>Een systeem dat nooit heeft leren stoppen, leert dat niet tijdens een paniekaanval. Een renster in de Tour leert het maanden eerder, op dagen waarop niemand keek. Met jouw systeem kan dat net zo werken. Vandaag is zo'n dag.</p>
             <p class="u2-ponte-fecho">Het Protocol van 7 Dagen geeft je die dagen.</p>
         </div>
         <div class="u2-onda u2-onda--fundo" aria-hidden="true">
@@ -5766,7 +5803,7 @@
             </details>
             <details class="u2-faq-item">
                 <summary><span class="u2-faq-vraag">Ik heb al van alles geprobeerd. Waarom zou dit werken?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
-                <p class="u2-faq-resp">Ademhaling, apps, een podcast om 3 uur 's nachts. Ze werkten even, en dan weer niet. Misschien omdat je ze alleen pakte als het al te veel was. Hier oefen je zeven dagen achter elkaar, elke dag een stap verder. Of het bij jou werkt, kan niemand beloven. Daarom is er een garantie van 60 dagen.</p>
+                <p class="u2-faq-resp">Hier oefen je zeven dagen achter elkaar, elke dag een stap verder, op dagen dat je nog overeind staat. Of het bij jou werkt, kan niemand beloven. Daarom is er een garantie van 60 dagen.</p>
             </details>
             <details class="u2-faq-item">
                 <summary><span class="u2-faq-vraag">Ik heb geen tijd en geen energie voor nog iets.</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
@@ -5828,6 +5865,12 @@
             <p class="u2-disclaimer">Geen medisch advies en geen vervanging voor professionele behandeling.</p>
         </div>
     </section>
+
+
+    <!-- barra fixa, so' em mobile; o href e o onclick sao os do botao do meio -->
+    <div class="u2-barra" id="u2-barra" hidden>
+        <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="u2-barra-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">&euro;37 &mdash; Ik wil beginnen</a>
+    </div>
 
     <div class="footer">
         <div class="container">Gewoon Even &mdash; Voor als gewoon even niet meer lukt.</div>
@@ -7364,6 +7407,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!u2Pouco && u2Anel) u2Anel.style.transition = 'stroke-dashoffset 0.25s linear';
         u2Parado();
+    })();
+
+    // ---- barra fixa de compra ----
+    // IIFE proprio, escopado a #page-upsell. Nao toca em montarCarrossel nem
+    // em acenar(). O href e o onclick sao os do botao do meio, copiados no HTML.
+    (function () {
+        var ubPagina = document.getElementById('page-upsell');
+        var ubBarra  = document.getElementById('u2-barra');
+        if (!ubPagina || !ubBarra || !('IntersectionObserver' in window)) return;
+
+        var ubTopo  = ubPagina.querySelector('.u2-speler');
+        var ubFinal = ubPagina.querySelector('.u2-decisao');
+        if (!ubTopo || !ubFinal) return;
+
+        var ubPassouTopo = false, ubNoFinal = false;
+
+        function ubMostrar() {
+            ubBarra.hidden = !(ubPassouTopo && !ubNoFinal);
+        }
+
+        new IntersectionObserver(function (es) {
+            es.forEach(function (e) { ubPassouTopo = !e.isIntersecting && e.boundingClientRect.top < 0; });
+            ubMostrar();
+        }, { threshold: 0 }).observe(ubTopo);
+
+        new IntersectionObserver(function (es) {
+            es.forEach(function (e) { ubNoFinal = e.isIntersecting; });
+            ubMostrar();
+        }, { threshold: 0 }).observe(ubFinal);
+
+        // se a pagina deixar de estar activa, a barra sai
+        new MutationObserver(function () {
+            if (!ubPagina.classList.contains('active')) ubBarra.hidden = true;
+        }).observe(ubPagina, { attributes: true, attributeFilter: ['class'] });
     })();
 
     // ---- ervaringen: um depoimento de cada vez ----
