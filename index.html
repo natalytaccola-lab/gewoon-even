@@ -4641,9 +4641,32 @@
         }
 
         #page-upsell .u2-cta--meio {
+            /* o ::after do brilho ancora-se aqui */
+            position: relative;
             margin: 2.4rem 0 0;
             background: var(--u2-laranja-fundo);
         }
+
+        /* O mesmo mecanismo do botao final, mas mais suave: estes dois estao
+           sobre o creme, onde o laranja salta muito mais do que sobre o verde.
+           Apanha o do hero, que tambem leva a classe --meio, e nao a barra
+           fixa, que usa .u2-barra-cta. Reutiliza o u2-halo: a forma da
+           animacao e' a mesma, so' a duracao e a sombra e' que mudam. */
+        #page-upsell .u2-cta--meio::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: transparent;
+            box-shadow: 0 0 28px 6px rgba(193, 84, 29, 0.45);
+            opacity: 0;
+            z-index: -1;
+            pointer-events: none;
+            animation: u2-halo 4.4s ease-in-out infinite;
+        }
+
+        #page-upsell .u2-cta--meio:hover::after,
+        #page-upsell .u2-cta--meio:focus-visible::after { animation-play-state: paused; }
 
         #page-upsell .u2-cta--meio:hover { background: #96400F; }
 
@@ -5442,7 +5465,8 @@
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
             #page-upsell .u2-faq-chevron { transition: none; }
-            #page-upsell .u2-cta--final::after { animation: none; display: none; }
+            #page-upsell .u2-cta--final::after,
+            #page-upsell .u2-cta--meio::after { animation: none; display: none; }
             #page-upsell .u2-anel-prog { transition: none; }
         }
 
