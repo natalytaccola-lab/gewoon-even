@@ -4465,7 +4465,7 @@
         #page-upsell .u2-dias {
             position: relative;
             display: flex;
-            gap: 14px;
+            gap: 12px;
             margin: 0;
             padding: 0;
             list-style: none;
@@ -4481,7 +4481,11 @@
         #page-upsell .u2-dia {
             position: relative;
             display: block;
-            flex: 0 0 82%;
+            /* 57.4% = 82% x 0.7: a foto fica do mesmo tamanho que ficou com o
+               tile a 70%, mas agora e' o cartao que encolhe. Assim o tile volta
+               a encher o cartao, desaparecem os 40px mortos de cada lado e o
+               texto passa a ter exactamente a largura da foto. */
+            flex: 0 0 57.4%;
             margin: 0;
             scroll-snap-align: start;
         }
@@ -4490,14 +4494,10 @@
             position: relative;
             z-index: 1;
             display: block;
-            /* 70% da largura do cartao: o tile encolhe 30% em qualquer
-               largura, sem valores presos a um breakpoint. O cartao mantem a
-               largura, por isso o texto do dia nao reflui; o tile fica
-               centrado com o auto da margem. */
-            width: 70%;
+            width: 100%;
             height: auto;
             aspect-ratio: 1 / 1;
-            margin: 0 auto 14px;
+            margin: 0 0 10px;
             border: 0;
             border-radius: 16px;
             background: var(--u2-verde);
@@ -4607,7 +4607,9 @@
         #page-upsell .u2-dia-tit {
             display: block;
             font-family: var(--np-display);
-            font-size: 20px;
+            /* 18px em vez de 20: ao lado de uma foto de 188px os 20 pesavam
+               demais. Continua acima do piso dos 17. */
+            font-size: 18px;
             font-weight: 500;
             line-height: 1.25;
             color: var(--u2-tinta);
@@ -4615,11 +4617,14 @@
 
         #page-upsell .u2-dia-frase {
             display: block;
-            margin-top: 3px;
+            /* a coluna estreitou, por isso a frase ocupa mais linhas; o
+               entrelinhas mais curto devolve parte da altura sem mexer no
+               corpo, que esta' no piso dos 17px */
+            margin-top: 2px;
             font-family: var(--np-body);
             font-size: 17px;
             font-weight: 300;
-            line-height: 1.5;
+            line-height: 1.4;
             color: var(--u2-tinta-fraca);
         }
 
