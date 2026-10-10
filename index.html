@@ -2563,6 +2563,22 @@
             #page-checkout .np-chev { width: 26px; height: 26px; }
             #page-checkout .np-chev--prev { left: 0; }
             #page-checkout .np-chev--next { right: 0; }
+
+            /* No telemovel os chevrons encostam a' margem da janela. A area de
+               toque de 44px vem do ::after centrado, e por isso 9px dela caiam
+               fora do ecra: so' 35px eram alcancaveis. Ancorada ao lado de
+               dentro, a area fica inteira dentro da janela. O icone nao se
+               mexe: isto so' move o pseudo-elemento, que e' invisivel. */
+            #page-checkout .np-chev--prev::after {
+                left: 0;
+                transform: translateY(-50%);
+            }
+
+            #page-checkout .np-chev--next::after {
+                left: auto;
+                right: 0;
+                transform: translateY(-50%);
+            }
         }
 
         /* ---- depoimentos: carrossel horizontal ---- */
