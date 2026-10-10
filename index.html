@@ -4855,31 +4855,41 @@
 
         /* ---- 5c. sobre a marca: mesma familia, peso e cor do corpo da
            pagina (igual a .u2-speler-legenda); so' a assinatura e' Cormorant ---- */
-        #page-upsell .u2-sobre { padding: 12px 0 48px; }
+        /* o FAQ acima ja' traz 36px de padding-bottom; 4px aqui fecham os
+           ~40px de folga visivel, iguais aos 40px de baixo */
+        #page-upsell .u2-sobre { padding: 4px 0 40px; }
 
-        #page-upsell .u2-sobre-txt {
+        #page-upsell .u2-sobre-cartao {
+            padding: 24px 22px;
+            border-radius: 16px;
+            background: rgba(200, 144, 120, 0.16);
+        }
+
+        #page-upsell p.u2-sobre-txt {
             margin: 0;
-            font-family: var(--np-body);
-            font-size: 17px;
-            font-weight: 400;
+            font-family: var(--np-display);
+            font-size: 21px;
+            font-weight: 500;
             line-height: 1.5;
             text-align: center;
             color: var(--u2-tinta);
         }
 
-        #page-upsell .u2-sobre-assinatura {
-            margin: 0.9rem 0 0;
+        #page-upsell p.u2-sobre-assinatura {
+            /* o terracota da paleta (#9F5D41) da' 3,88:1 sobre este fundo;
+               escurecido o minimo para passar os 4,5:1 */
+            margin: 14px 0 0;
             font-family: var(--np-display);
-            font-size: 20px;
+            font-size: 21px;
             font-style: italic;
-            font-weight: 500;
+            font-weight: 600;
             line-height: 1.4;
             text-align: center;
-            color: var(--u2-tinta);
+            color: #90543B;
         }
 
         @media (min-width: 1024px) {
-            #page-upsell .u2-sobre-txt { font-size: 18px; }
+            #page-upsell p.u2-sobre-txt { font-size: 22px; }
         }
 
         /* ---- folga para a barra fixa nao tapar o fim da pagina ---- */
@@ -6237,8 +6247,10 @@
     <!-- 5c ----------------------------------------------------- sobre a marca -->
     <section class="u2-sobre">
         <div class="u2-col">
+            <div class="u2-sobre-cartao">
             <p class="u2-sobre-txt">Je regelt het voor iedereen om je heen en schuift je eigen wensen soms opzij. Na jaren in Nederland en veel gesprekken met vrouwen zoals jij maakten we Gewoon Even, met inzichten uit de neurowetenschap: korte audio's die je helpen vanuit rust te kiezen wat jij wilt.</p>
             <p class="u2-sobre-assinatura">Met warme groet, Gewoon Even</p>
+            </div>
         </div>
     </section>
 
