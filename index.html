@@ -4490,10 +4490,14 @@
             position: relative;
             z-index: 1;
             display: block;
-            width: 100%;
+            /* 70% da largura do cartao: o tile encolhe 30% em qualquer
+               largura, sem valores presos a um breakpoint. O cartao mantem a
+               largura, por isso o texto do dia nao reflui; o tile fica
+               centrado com o auto da margem. */
+            width: 70%;
             height: auto;
             aspect-ratio: 1 / 1;
-            margin: 0 0 14px;
+            margin: 0 auto 14px;
             border: 0;
             border-radius: 16px;
             background: var(--u2-verde);
