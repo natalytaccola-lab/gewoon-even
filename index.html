@@ -1388,18 +1388,6 @@
             color: var(--up-creme);
         }
 
-        #page-upsell .up-linha {
-            margin: 0 0 0.6rem;
-            max-width: 30rem;
-            font-family: var(--np-display);
-            font-size: 26px;
-            font-weight: 400;
-            line-height: 1.26;
-            color: var(--up-creme);
-        }
-
-        #page-upsell .up-linha:last-child { margin-bottom: 0; }
-
         /* a onda de transicao, fina e translucida */
         #page-upsell .up-onda {
             position: absolute;
@@ -1731,32 +1719,11 @@
             color: #5E6E63;
         }
 
-        /* o fade escalonado da abertura */
-        #page-upsell.np-anim .up-linha { opacity: 0; transform: translateY(8px); }
-        #page-upsell.is-in .up-linha {
-            opacity: 1;
-            transform: none;
-            transition: opacity 520ms ease, transform 520ms ease;
-        }
-        #page-upsell.is-in .up-linha:nth-child(3) { transition-delay: 60ms; }
-        #page-upsell.is-in .up-linha:nth-child(4) { transition-delay: 120ms; }
-        #page-upsell.is-in .up-linha:nth-child(5) { transition-delay: 180ms; }
-        #page-upsell.is-in .up-linha:nth-child(6) { transition-delay: 240ms; }
-        #page-upsell.is-in .up-linha:nth-child(7) { transition-delay: 300ms; }
-        #page-upsell.is-in .up-linha:nth-child(8) { transition-delay: 360ms; }
-        #page-upsell.is-in .up-linha:nth-child(9) { transition-delay: 420ms; }
-
         @media (prefers-reduced-motion: reduce) {
-            #page-upsell .up-linha {
-                opacity: 1 !important;
-                transform: none !important;
-                transition: none !important;
-            }
             #page-upsell .up-cta::after { animation: none; opacity: 0.55; }
         }
 
         @media (min-width: 901px) {
-            #page-upsell .up-linha { font-size: 31px; }
             #page-upsell .up-ponte p.up-forte { font-size: 27px; }
             #page-upsell .up-semana h2 { font-size: 36px; }
             #page-upsell .up-agora { font-size: 60px; }
@@ -3873,14 +3840,6 @@
            hero 3px DENTRO da onda, e 37px no desktop. */
         #page-upsell .up-abertura { padding-bottom: 6.2rem; }
 
-        /* C) O texto do hero estava limitado a 480px dentro de um contentor de
-           640px, mais estreito que a pilula de confirmacao. Passa a acompanhar
-           o contentor, e o balance tira as palavras soltas no fim das linhas. */
-        #page-upsell .up-abertura .up-linha {
-            max-width: none;
-            text-wrap: balance;
-        }
-
         /* D) O chip do #checkout e' #page-checkout .np-cta-meio-wrap p.np-selo,
            duplamente scoped: a classe sozinha nao traz estilo nenhum. Replica-se
            aqui, sem tocar em nada partilhado. */
@@ -4004,27 +3963,6 @@
             line-height: 1.35;
             color: var(--u2-tinta-ponte);
         }
-
-        /* as duas linhas que abrem, antes da pergunta. Sem animacao. */
-        #page-upsell .up-linha {
-            max-width: 26rem;
-            margin: 0 auto 0.7rem;
-            font-family: var(--np-display);
-            font-size: 22px;
-            font-weight: 400;
-            line-height: 1.3;
-            text-align: center;
-            text-wrap: balance;
-            /* o terracota (#9F5D41) da' 5,10:1 sobre o branco do cartao mas so'
-               4,38:1 sobre o creme da pagina: fica a tinta escura, 10,29:1 */
-            color: var(--u2-tinta);
-        }
-
-        @media (min-width: 1024px) {
-            #page-upsell .up-linha { font-size: 26px; }
-        }
-
-        #page-upsell .up-linha + .up-linha { margin-bottom: 0.8rem; }
 
         /* ancora de preco, dentro do bloco escuro */
         #page-upsell .up-ancora {
@@ -5887,8 +5825,6 @@
     <!-- 1 ---------------------------------------------------------- abertura -->
     <section class="u2-abertura">
         <div class="u2-col u2-col--larga">
-            <p class="up-linha">Er is iets dat je nog niet hardop hebt gezegd. Niemand heeft ooit de juiste vraag gesteld.</p>
-
             <h1 class="u2-vraag">Wie zorgt er voor degene die <span class="u2-vraag-sub">voor iedereen zorgt</span>?</h1>
             <p class="u2-microlinha">Het vervolg op je Noodprotocol: zeven audio's, &eacute;&eacute;n per dag, helpen je terug te komen bij jezelf. Geen abonnement.</p>
 
