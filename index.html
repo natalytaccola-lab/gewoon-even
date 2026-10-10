@@ -4287,6 +4287,55 @@
         }
 
         /* ---- 2. a leitura ---- */
+        /* pulso de alarme acima do texto da alarmstand. Decorativo: fora da
+           arvore de acessibilidade e sem foco. Fundo da seccao e' o creme da
+           pagina, por isso fica o terracota. So' transform e opacity animam. */
+        #page-upsell .u2-pulso { display: flex; justify-content: center; margin: 0 auto 12px; height: 96px; }
+        #page-upsell .u2-pulso svg { width: 96px; height: 96px; overflow: visible; }
+
+        #page-upsell .u2-pulso-anel {
+            fill: none;
+            stroke: var(--u2-terracota);
+            stroke-width: 2.5;
+            opacity: 0;
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: u2-alarme 1.8s ease-out infinite;
+        }
+
+        #page-upsell .u2-pulso-anel--2 { animation-delay: 0.18s; }
+
+        #page-upsell .u2-pulso-ponto {
+            fill: var(--u2-terracota);
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: u2-batida 1.8s ease-out infinite;
+        }
+
+        @keyframes u2-alarme {
+            0%   { transform: scale(0.5); opacity: 0.6; }
+            12%  { transform: scale(1.3); opacity: 0; }
+            16%  { transform: scale(0.5); opacity: 0.6; }
+            30%  { transform: scale(1.3); opacity: 0; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        @keyframes u2-batida {
+            0%   { transform: scale(1); }
+            6%   { transform: scale(1.25); }
+            12%  { transform: scale(1); }
+            16%  { transform: scale(1); }
+            22%  { transform: scale(1.25); }
+            30%  { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #page-upsell .u2-pulso-anel,
+            #page-upsell .u2-pulso-ponto { animation: none; }
+            #page-upsell .u2-pulso-anel--1 { opacity: 0.35; transform: none; }
+        }
+
         #page-upsell .u2-leitura { padding: 0.7rem 0 1.5rem; }
 
         #page-upsell .u2-leitura p,
@@ -5863,6 +5912,14 @@
     <!-- 2 ---------------------------------------------------------- a leitura -->
     <section class="u2-leitura">
         <div class="u2-col">
+            <div class="u2-pulso" aria-hidden="true">
+                <svg viewBox="0 0 96 96" width="96" height="96" focusable="false" role="presentation">
+                    <circle class="u2-pulso-anel u2-pulso-anel--1" cx="48" cy="48" r="30"/>
+                    <circle class="u2-pulso-anel u2-pulso-anel--2" cx="48" cy="48" r="30"/>
+                    <circle class="u2-pulso-ponto" cx="48" cy="48" r="9"/>
+                </svg>
+            </div>
+
             <p>Je doet al maanden gewoon. Je werkt, je zorgt, je zegt dat het goed gaat. Niemand ziet wat dat je kost. Misschien jij zelf ook niet meer.</p>
             <p>Je hebt ademhaling geprobeerd. Apps. Misschien een podcast om 3 uur 's nachts. Ze werkten even. En dan weer niet.</p>
             <p>Er is een naam voor waar je in leeft: <span class="u2-naam">de alarmstand</span>. Een systeem dat nooit heeft leren stoppen. Je merkt het in de ochtend die zwaarder begint dan nodig. In het geduld dat al op is voordat iemand iets van je vraagt.</p>
