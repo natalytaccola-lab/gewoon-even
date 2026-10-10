@@ -3961,10 +3961,12 @@
         #page-upsell .up-confirma {
             display: grid;
             grid-template-columns: 18px 1fr;
-            gap: 10px;
+            /* menos padding e menos gap dao ~10px de largura ao texto, que a
+               360px e' o que faltava para o titulo caber em duas linhas */
+            gap: 8px;
             align-items: start;
             margin: 0.8rem 0 0;
-            padding: 10px 14px;
+            padding: 8px 10px;
             background: var(--u2-salvia);
             border: 1px solid var(--u2-salvia-onda);
             border-radius: 14px;
