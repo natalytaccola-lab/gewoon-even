@@ -4003,12 +4003,18 @@
             max-width: 26rem;
             margin: 0 auto 0.7rem;
             font-family: var(--np-display);
-            font-size: 1.15rem;
+            font-size: 22px;
             font-weight: 400;
-            line-height: 1.35;
+            line-height: 1.3;
             text-align: center;
             text-wrap: balance;
-            color: var(--u2-tinta-fraca);
+            /* o terracota (#9F5D41) da' 5,10:1 sobre o branco do cartao mas so'
+               4,38:1 sobre o creme da pagina: fica a tinta escura, 10,29:1 */
+            color: var(--u2-tinta);
+        }
+
+        @media (min-width: 1024px) {
+            #page-upsell .up-linha { font-size: 26px; }
         }
 
         #page-upsell .up-linha + .up-linha { margin-bottom: 0.8rem; }
@@ -4066,13 +4072,13 @@
         }
 
         #page-upsell .u2-microlinha {
-            max-width: 420px;
-            margin: 0.6rem auto 0;
+            max-width: 460px;
+            margin: 0.7rem auto 0;
             font-family: var(--np-body);
-            font-size: 14px;
+            font-size: 17px;
             font-weight: 300;
             line-height: 1.5;
-            color: var(--u2-salvia-escura);
+            color: var(--u2-tinta-fraca);
         }
 
         /* ---- o player ---- */
@@ -4081,7 +4087,7 @@
         /* ---- mockup de telemovel, so' a parte de cima ---- */
         #page-upsell .u2-telefoon {
             position: relative;
-            width: 200px;
+            width: 260px;
             margin: 0 auto;
             overflow: hidden;
         }
@@ -4219,12 +4225,12 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
             padding: 0;
             border: 0;
             border-radius: 50%;
-            background: rgba(29, 39, 32, 0.46);
+            background: rgba(29, 39, 32, 0.58);
             color: var(--u2-creme);
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
@@ -4268,8 +4274,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 22px;
-            height: 22px;
+            width: 26px;
+            height: 26px;
         }
 
         #page-upsell .u2-ico svg { width: 100%; height: 100%; }
@@ -4286,9 +4292,9 @@
         }
 
         #page-upsell .u2-speler-legenda {
-            margin: 1.1rem 0 0;
+            margin: 0.9rem 0 0;
             font-family: var(--np-body);
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 400;
             line-height: 1.5;
             color: var(--u2-tinta);
@@ -4301,6 +4307,18 @@
             font-weight: 400;
             letter-spacing: 0.02em;
             color: var(--u2-tinta-fraca);
+        }
+
+        /* ---- o botao logo abaixo da amostra, e a sua nota ---- */
+        #page-upsell .u2-cta--hero { margin: 1.1rem 0 0; }
+
+        #page-upsell .u2-hero-nota {
+            margin: 0.55rem 0 0;
+            font-family: var(--np-body);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--u2-salvia-escura);
         }
 
         /* ---- 2. a leitura ---- */
@@ -5769,7 +5787,7 @@
                         <p class="u2-tel-kop">Protocol van 7 Dagen</p>
                         <div class="u2-tel-capa">
                             <img class="u2-tel-foto" src="img/p7-hero.jpg" alt="" width="800" height="800" loading="lazy" decoding="async">
-                            <button type="button" class="u2-play" id="u2-play" aria-label="Speel een minuut uit Dag 1 af" aria-pressed="false">
+                            <button type="button" class="u2-play" id="u2-play" aria-label="Speel Dag 1 af" aria-pressed="false">
                                 <svg class="u2-anel" viewBox="0 0 120 120" aria-hidden="true">
                                     <circle class="u2-anel-base" cx="60" cy="60" r="54"/>
                                     <circle class="u2-anel-prog" cx="60" cy="60" r="54"/>
@@ -5787,6 +5805,9 @@
                     <span class="u2-telefoon-fim" aria-hidden="true"></span>
                 </div>
                 <p class="u2-speler-legenda">Luister eerst. E&eacute;n minuut uit Dag 1.</p>
+
+                <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--meio u2-cta--hero" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik wil beginnen &mdash; &euro;37</a>
+                <p class="u2-hero-nota">Eenmalig &middot; geen abonnement &middot; 60 dagen garantie</p>
             </div>
         </div>
     </section>
@@ -7521,7 +7542,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function u2Parado() {
             u2Botao.classList.remove('is-a-tocar');
             u2Botao.setAttribute('aria-pressed', 'false');
-            u2Botao.setAttribute('aria-label', 'Speel een minuut uit Dag 1 af');
+            u2Botao.setAttribute('aria-label', 'Speel Dag 1 af');
             if (u2Anel) u2Anel.style.strokeDashoffset = u2Volta;
             if (u2Vul) u2Vul.style.width = '0';
             if (u2Nu) u2Nu.textContent = '0:00';
