@@ -4694,12 +4694,40 @@
         #page-upsell .u2-cta--meio:hover::after,
         #page-upsell .u2-cta--meio:focus-visible::after { animation-play-state: paused; }
 
+        /* O halo sozinho nao se lia como "a pulsar": um brilho que acende por
+           tras do botao e' discreto sobre o creme, e o botao em si nunca se
+           mexia. Agora o proprio botao respira, no mesmo ritmo do halo. So'
+           transform anima, logo nao ha reflow nem mudanca de altura. */
+        #page-upsell .u2-cta--meio {
+            transform-origin: center;
+            animation: u2-pulso-cta 4.4s ease-in-out infinite;
+        }
+
+        #page-upsell .u2-cta--meio:hover,
+        #page-upsell .u2-cta--meio:focus-visible { animation-play-state: paused; }
+
+        @keyframes u2-pulso-cta {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.02); }
+        }
+
         #page-upsell .u2-cta--meio:hover { background: #96400F; }
 
         #page-upsell .u2-cta--final {
             position: relative;
             margin: 2rem 0 0;
             background: var(--u2-laranja);
+            /* mais forte que os outros dois e no ritmo do botao final do €17 */
+            transform-origin: center;
+            animation: u2-pulso-cta-forte 3.6s ease-in-out infinite;
+        }
+
+        #page-upsell .u2-cta--final:hover,
+        #page-upsell .u2-cta--final:focus-visible { animation-play-state: paused; }
+
+        @keyframes u2-pulso-cta-forte {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.035); }
         }
 
         #page-upsell .u2-cta--final:hover { background: var(--u2-laranja-fundo); }
@@ -4719,7 +4747,7 @@
             opacity: 0;
             z-index: -1;
             pointer-events: none;
-            animation: u2-halo 4s ease-in-out infinite;
+            animation: u2-halo 3.6s ease-in-out infinite;
         }
 
         /* enquanto a pessoa esta' a apontar ou com o foco no botao, o halo
@@ -5491,9 +5519,13 @@
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
             #page-upsell .u2-faq-chevron { transition: none; }
-            #page-upsell .u2-cta--final::after,
-            #page-upsell .u2-cta--meio::after,
             #page-upsell .up-confirma::after { animation: none; display: none; }
+            /* o botao fica parado, mas o halo permanece aceso: quem desliga o
+               movimento continua a ver o CTA destacado */
+            #page-upsell .u2-cta--meio,
+            #page-upsell .u2-cta--final { animation: none; transform: none; }
+            #page-upsell .u2-cta--final::after,
+            #page-upsell .u2-cta--meio::after { animation: none; opacity: 0.6; }
             #page-upsell .u2-anel-prog { transition: none; }
         }
 
