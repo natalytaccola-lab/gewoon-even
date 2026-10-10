@@ -4406,6 +4406,29 @@
             height: 100%;
         }
 
+        /* A partir do tablet a onda crescia ate' 92px enquanto o padding da
+           seccao ficava nos 23px: as ondas passavam por cima da primeira e da
+           ultima linha e lavavam o texto. Abaixo de 601px nada muda.
+           A onda fica limitada por clamp e o padding acompanha-a, com 24px de
+           folga; alem disso o texto sobe de camada, por isso mesmo que a onda
+           o alcancasse ficaria por baixo. */
+        @media (min-width: 601px) {
+            #page-upsell .u2-ponte {
+                --u2-onda-h: clamp(28px, 4vw, 72px);
+                padding: calc(var(--u2-onda-h) + 24px) 0;
+            }
+
+            #page-upsell .u2-ponte > .u2-onda {
+                height: var(--u2-onda-h);
+                z-index: 0;
+            }
+
+            #page-upsell .u2-ponte > .u2-col {
+                position: relative;
+                z-index: 1;
+            }
+        }
+
         #page-upsell .u2-onda--topo { top: -1px; transform: scaleY(-1); }
         #page-upsell .u2-onda--fundo { bottom: -1px; }
 
@@ -5512,7 +5535,7 @@
             #page-upsell .u2-permissao p,
             #page-upsell .u2-ponte p { font-size: 24px; }
             #page-upsell .u2-ponte-fecho { font-size: 28px !important; }
-            #page-upsell .u2-onda { height: 92px; }
+            #page-upsell .u2-decisao > .u2-onda { height: 92px; }
         }
 
         /* ---- sem animacao para quem a dispensa ---- */
