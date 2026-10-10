@@ -4700,20 +4700,35 @@
 
         #page-upsell .u2-cta--final:hover { background: var(--u2-laranja-fundo); }
 
+        /* halo que respira. Fica atras do botao (z-index -1) e so' anima
+           transform e opacity, por isso nao desloca nada nem repinta o botao.
+           O opacity de base e' 0: sem animacao nao ha halo nenhum. */
         #page-upsell .u2-cta--final::after {
             content: "";
             position: absolute;
             inset: -6px;
             border-radius: 18px;
             background: var(--u2-laranja);
-            opacity: 0.16;
+            opacity: 0;
             z-index: -1;
-            animation: u2-halo 7s ease-in-out infinite;
+            pointer-events: none;
+            animation: u2-halo 4.5s ease-in-out infinite;
         }
 
+        /* enquanto a pessoa esta' a apontar ou com o foco no botao, o halo
+           para: deixa de ser um chamariz e passa a ser ruido */
+        #page-upsell .u2-cta--final:hover::after,
+        #page-upsell .u2-cta--final:focus-visible::after { animation-play-state: paused; }
+
+        /* o u2-halo so' e' usado por esta regra, por isso foi reafinado em vez
+           de se criar um keyframe novo.
+           A escala para em 1.10 e nao em 1.12: a 375px o botao tem 327px e o
+           halo 339px, logo 1.12 punha 26,3px de cada lado contra 24px de
+           goteira — dois pixeis fora do ecra, que davam scroll horizontal.
+           1.10 da' 23,0px por lado e encosta sem passar. */
         @keyframes u2-halo {
-            0%, 100% { transform: scale(1);    opacity: 0.12; }
-            50%      { transform: scale(1.03); opacity: 0.22; }
+            0%   { transform: scale(1);    opacity: 0.5; }
+            100% { transform: scale(1.10); opacity: 0; }
         }
 
         #page-upsell .u2-cta:focus-visible {
@@ -5472,7 +5487,7 @@
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
             #page-upsell .u2-faq-chevron { transition: none; }
-            #page-upsell .u2-cta--final::after { animation: none; }
+            #page-upsell .u2-cta--final::after { animation: none; display: none; }
             #page-upsell .u2-anel-prog { transition: none; }
         }
 
