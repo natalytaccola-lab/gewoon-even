@@ -4819,6 +4819,35 @@
             color: var(--u2-tinta-fraca);
         }
 
+        /* ---- 5c. sobre a marca: mesma familia, peso e cor do corpo da
+           pagina (igual a .u2-speler-legenda); so' a assinatura e' Cormorant ---- */
+        #page-upsell .u2-sobre { padding: 12px 0 48px; }
+
+        #page-upsell .u2-sobre-txt {
+            margin: 0;
+            font-family: var(--np-body);
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 1.5;
+            text-align: center;
+            color: var(--u2-tinta);
+        }
+
+        #page-upsell .u2-sobre-assinatura {
+            margin: 0.9rem 0 0;
+            font-family: var(--np-display);
+            font-size: 20px;
+            font-style: italic;
+            font-weight: 500;
+            line-height: 1.4;
+            text-align: center;
+            color: var(--u2-tinta);
+        }
+
+        @media (min-width: 1024px) {
+            #page-upsell .u2-sobre-txt { font-size: 18px; }
+        }
+
         /* ---- folga para a barra fixa nao tapar o fim da pagina ---- */
         @media (max-width: 768px) {
             #page-upsell { padding-bottom: 72px; }
@@ -6105,6 +6134,14 @@
                 <summary><span class="u2-faq-vraag">Vervangt dit een behandeling?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
                 <p class="u2-faq-resp">Nee. Het Protocol van 7 Dagen is geen medisch advies en vervangt geen behandeling. Heb je acuut hulp nodig, bel 112. Voor hulp bij gedachten aan zelfdoding: 113 Zelfmoordpreventie, 113.nl. Luister niet tijdens het fietsen of autorijden; de audio's zijn voor momenten waarop je veilig kunt zitten, staan of liggen.</p>
             </details>
+        </div>
+    </section>
+
+    <!-- 5c ----------------------------------------------------- sobre a marca -->
+    <section class="u2-sobre">
+        <div class="u2-col">
+            <p class="u2-sobre-txt">Je regelt het voor iedereen om je heen en schuift je eigen wensen soms opzij. Na jaren in Nederland en veel gesprekken met vrouwen zoals jij maakten we Gewoon Even, met inzichten uit de neurowetenschap: korte audio's die je helpen vanuit rust te kiezen wat jij wilt.</p>
+            <p class="u2-sobre-assinatura">Met warme groet, Gewoon Even</p>
         </div>
     </section>
 
