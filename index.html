@@ -4095,7 +4095,7 @@
         }
 
         /* ---- o player ---- */
-        #page-upsell .u2-speler { margin: 0.8rem 0 0; }
+        #page-upsell .u2-speler { margin: 24px 0 0; }
 
         /* ---- mockup de telemovel, so' a parte de cima ---- */
         #page-upsell .u2-telefoon {
@@ -4322,8 +4322,10 @@
             color: var(--u2-tinta-fraca);
         }
 
-        /* ---- o botao logo abaixo da amostra, e a sua nota ---- */
-        #page-upsell .u2-cta--hero { margin: 1.1rem 0 0; }
+        /* ---- o botao logo abaixo do subtitulo, e a sua nota ---- */
+        /* o a. e' preciso: .u2-cta--meio aparece mais abaixo com a mesma
+           especificidade e, sem isto, a sua margem de 2.4rem ganhava */
+        #page-upsell a.u2-cta--hero { margin: 20px 0 0; }
 
         #page-upsell .u2-hero-nota {
             margin: 0.55rem 0 0;
@@ -5849,6 +5851,9 @@
             <h1 class="u2-vraag">Wie zorgt er voor degene die voor iedereen zorgt?</h1>
             <p class="u2-microlinha">Het vervolg op je Noodprotocol: zeven audio's, &eacute;&eacute;n per dag, helpen je terug te komen bij jezelf. Geen abonnement.</p>
 
+            <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--meio u2-cta--hero" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik wil beginnen &mdash; &euro;37</a>
+            <p class="u2-hero-nota">Eenmalig &middot; geen abonnement &middot; 60 dagen garantie</p>
+
             <div class="u2-speler">
                 <div class="u2-telefoon">
                     <div class="u2-telefoon-ecra">
@@ -5874,8 +5879,6 @@
                 </div>
                 <p class="u2-speler-legenda">Luister eerst. E&eacute;n minuut uit Dag 1.</p>
 
-                <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--meio u2-cta--hero" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik wil beginnen &mdash; &euro;37</a>
-                <p class="u2-hero-nota">Eenmalig &middot; geen abonnement &middot; 60 dagen garantie</p>
             </div>
         </div>
     </section>
