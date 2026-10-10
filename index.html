@@ -3965,12 +3965,12 @@
         #page-upsell .up-confirma {
             display: grid;
             grid-template-columns: 18px 1fr;
-            /* menos padding e menos gap dao ~10px de largura ao texto, que a
-               360px e' o que faltava para o titulo caber em duas linhas */
-            gap: 8px;
+            /* apertado ao maximo que o texto aguenta: o corpo esta' no piso
+               dos 14px, por isso o que resta sao o gap e o padding */
+            gap: 7px;
             align-items: start;
             margin: 0.8rem 0 0;
-            padding: 8px 10px;
+            padding: 7px 9px;
             background: var(--u2-salvia);
             border: 1px solid var(--u2-salvia-onda);
             border-radius: 14px;
@@ -3990,18 +3990,20 @@
         #page-upsell p.up-confirma-tit {
             margin: 0;
             font-family: var(--np-body);
-            font-size: 15px;
+            /* 14px e' o piso do texto secundario; o peso 600 mantem a
+               hierarquia agora que o subtexto tem o mesmo corpo */
+            font-size: 14px;
             font-weight: 600;
-            line-height: 1.3;
+            line-height: 1.25;
             color: var(--u2-tinta-ponte);
         }
 
         #page-upsell p.up-confirma-sub {
-            margin: 1px 0 0;
+            margin: 0;
             font-family: var(--np-body);
             font-size: 14px;
             font-weight: 400;
-            line-height: 1.35;
+            line-height: 1.3;
             color: var(--u2-tinta-ponte);
         }
 
