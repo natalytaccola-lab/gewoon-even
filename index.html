@@ -4022,13 +4022,19 @@
         /* ancora de preco, dentro do bloco escuro */
         #page-upsell .up-ancora {
             max-width: 30rem;
-            margin: 0 auto 1rem;
-            font-family: var(--np-body);
-            font-size: 14px;
-            font-weight: 300;
-            line-height: 1.5;
+            margin: 0 auto 1.8rem;
+            font-family: var(--np-display);
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 1.35;
             text-align: center;
-            color: rgba(242, 237, 230, 0.92);
+            text-wrap: balance;
+            /* creme cheio: 7,59:1 sobre o verde do bloco */
+            color: var(--u2-creme);
+        }
+
+        @media (min-width: 1024px) {
+            #page-upsell .up-ancora { font-size: 26px; }
         }
 
         #page-upsell .u2-decisao .np-risco { text-decoration-color: #E0956F; }
@@ -4929,6 +4935,54 @@
             gap: 14px;
             margin: 0;
             font-family: var(--np-mono, 'IBM Plex Mono', ui-monospace, monospace);
+        }
+
+        /* o preco antigo com o seu rotulo, empilhados */
+        #page-upsell .u2-preco-velho {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+        }
+
+        #page-upsell .u2-preco-rotulo {
+            font-family: var(--np-body);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.2;
+            letter-spacing: 0.01em;
+            color: rgba(242, 237, 230, 0.86);
+        }
+
+        /* o que entra, com o mesmo visto da faixa de confirmacao */
+        #page-upsell .u2-pilha {
+            max-width: 26rem;
+            margin: 1.6rem auto;
+            padding: 0;
+            list-style: none;
+            text-align: left;
+        }
+
+        #page-upsell .u2-pilha li {
+            display: grid;
+            grid-template-columns: 22px 1fr;
+            gap: 10px;
+            align-items: start;
+            margin: 0 0 10px;
+            font-family: var(--np-body);
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 1.45;
+            color: var(--u2-creme);
+        }
+
+        #page-upsell .u2-pilha li:last-child { margin-bottom: 0; }
+
+        #page-upsell .u2-pilha-ico {
+            width: 22px;
+            height: 22px;
+            margin-top: 1px;
+            color: var(--u2-creme);
         }
 
         #page-upsell .u2-preco-oud {
@@ -6047,13 +6101,19 @@
         <div class="u2-col">
             <p class="up-ancora">Een sessie bij de psycholoog begint met je eigen risico. <span class="np-risco">€385</span>. Dit zijn zeven dagen.</p>
 
-            <p class="u2-precos"><span class="u2-preco-oud">&euro;67</span><span class="u2-preco-nu">&euro;37</span></p>
+            <p class="u2-precos"><span class="u2-preco-velho"><span class="u2-preco-oud">&euro;67</span><span class="u2-preco-rotulo">Losse prijs</span></span><span class="u2-preco-nu">&euro;37</span></p>
 
             <p class="u2-eenmalig">E&eacute;n keer betalen. De audio's blijven van jou.</p>
 
             <p class="u2-exclusivo">Dit aanbod zie je omdat je het Noodprotocol hebt.</p>
 
             <p class="u2-decisao-linha">Je geeft iedereen om je heen tijd. Zeven dagen lang is er elke dag zo'n tien minuten voor jou.</p>
+
+            <ul class="u2-pilha">
+                    <li><svg class="u2-pilha-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg><span>Zeven audio's, één per dag (zo'n tien minuten)</span></li>
+                    <li><svg class="u2-pilha-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg><span>De audio's blijven van jou, ook na de zeven dagen</span></li>
+                    <li><svg class="u2-pilha-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg><span>Eenmalig betalen, geen abonnement</span></li>
+            </ul>
 
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--final" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Dit is voor mij &mdash; &euro;37</a>
 
