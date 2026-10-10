@@ -4056,8 +4056,20 @@
             font-weight: 500;
             line-height: 1.16;
             letter-spacing: -0.005em;
-            color: var(--u2-tinta);
+            color: var(--u2-terracota);
             text-wrap: balance;
+        }
+
+        /* so' a parte emocional leva o sublinhado; o clone faz o traco
+           acompanhar as duas linhas quando a frase quebra */
+        #page-upsell .u2-vraag-sub {
+            text-decoration: underline;
+            text-decoration-color: var(--u2-terracota);
+            text-decoration-thickness: 3px;
+            text-underline-offset: 6px;
+            text-decoration-skip-ink: none;
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
         }
 
         /* etiqueta de orientacao, acima da pergunta */
@@ -5877,7 +5889,7 @@
         <div class="u2-col u2-col--larga">
             <p class="up-linha">Er is iets dat je nog niet hardop hebt gezegd. Niemand heeft ooit de juiste vraag gesteld.</p>
 
-            <h1 class="u2-vraag">Wie zorgt er voor degene die voor iedereen zorgt?</h1>
+            <h1 class="u2-vraag">Wie zorgt er voor degene die <span class="u2-vraag-sub">voor iedereen zorgt</span>?</h1>
             <p class="u2-microlinha">Het vervolg op je Noodprotocol: zeven audio's, &eacute;&eacute;n per dag, helpen je terug te komen bij jezelf. Geen abonnement.</p>
 
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--meio u2-cta--hero" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik wil beginnen &mdash; &euro;37</a>
