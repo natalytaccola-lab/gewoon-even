@@ -3931,6 +3931,11 @@
                luminosidade de 0,63 para 0,44: 5,10:1. Nao e' o laranja do botao
                de compra (--u2-laranja #C1541D) nem o --terra do .btn-primary. */
             --u2-terracota: #9F5D41;
+            /* amarelo manteiga da faixa de confirmacao: distingue-se do creme
+               pelo azul (177 contra 230), sem subir a luminosidade */
+            --u2-amarelo: #F6E8B1;
+            --u2-amarelo-borda: #E3CF86;
+            --u2-amarelo-pico: #FBF1C7;   /* so' o overlay do pulso */
             --u2-salvia: #E4E8DF;         /* faixa da ponte */
             --u2-salvia-onda: #CBD3C2;    /* ondas da ponte, um tom abaixo */
             --u2-tinta: #2B3A31;          /* 10,29:1 sobre o creme */
@@ -3962,9 +3967,37 @@
             align-items: start;
             margin: 0.8rem 0 0;
             padding: 7px 9px;
-            background: var(--u2-salvia);
-            border: 1px solid var(--u2-salvia-onda);
+            background: var(--u2-amarelo);
+            border: 1px solid var(--u2-amarelo-borda);
             border-radius: 14px;
+            /* ancora do ::after do pulso */
+            position: relative;
+        }
+
+        /* O pulso e' um veu por cima do fundo, nao um piscar: so' a opacidade
+           anima, de 0 a 1 e de volta, e o pico e' apenas 22/255 mais claro no
+           azul. Quatro ciclos de 2,6s e fica no amarelo base. */
+        #page-upsell .up-confirma::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: var(--u2-amarelo-pico);
+            opacity: 0;
+            pointer-events: none;
+            animation: u2-faixa-respira 2.6s ease-in-out 0.6s 4 both;
+        }
+
+        /* o conteudo tem de ficar por cima do veu */
+        #page-upsell .up-confirma-ico,
+        #page-upsell .up-confirma-txt {
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes u2-faixa-respira {
+            0%, 100% { opacity: 0; }
+            50%      { opacity: 1; }
         }
 
         #page-upsell .up-confirma-ico {
@@ -3973,7 +4006,7 @@
             justify-content: center;
             width: 18px;
             height: 18px;
-            color: var(--u2-tinta-ponte);
+            color: var(--u2-salvia-escura);
         }
 
         #page-upsell .up-confirma-ico svg { width: 18px; height: 18px; }
@@ -3986,7 +4019,7 @@
             font-size: 14px;
             font-weight: 600;
             line-height: 1.25;
-            color: var(--u2-tinta-ponte);
+            color: var(--u2-tinta);
         }
 
         /* ancora de preco, dentro do bloco escuro */
@@ -5459,7 +5492,8 @@
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
             #page-upsell .u2-faq-chevron { transition: none; }
             #page-upsell .u2-cta--final::after,
-            #page-upsell .u2-cta--meio::after { animation: none; display: none; }
+            #page-upsell .u2-cta--meio::after,
+            #page-upsell .up-confirma::after { animation: none; display: none; }
             #page-upsell .u2-anel-prog { transition: none; }
         }
 
