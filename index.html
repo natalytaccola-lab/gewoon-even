@@ -3309,6 +3309,41 @@
             #page-checkout .np-hero-foto { animation: none !important; }
         }
 
+        /* faixa de meios de pagamento do #checkout. Classes novas (.pg-),
+           aditivas: nenhuma regra np- foi tocada. Fica sobre o verde da
+           .np-climax, por isso o texto e' creme. */
+        #page-checkout .pg-pagar { margin: 1.1rem 0 0; }
+
+        #page-checkout .pg-pagar-fichas {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #page-checkout .pg-pagar-ficha {
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            padding: 6px 10px;
+            background: #fff;
+            border: 1px solid rgba(62, 78, 67, 0.15);
+            border-radius: 8px;
+        }
+
+        #page-checkout .pg-pagar-ficha img { display: block; width: auto; height: 100%; }
+
+        #page-checkout .pg-pagar-txt {
+            margin: 0.5rem 0 0;
+            font-size: 14px;
+            font-weight: 300;
+            text-align: center;
+            color: #E4E0D6;
+        }
+
         #page-checkout .np-seal {
             display: flex;
             align-items: center;
@@ -5086,6 +5121,45 @@
             margin-top: 2px;
         }
 
+        /* faixa de meios de pagamento. As fichas sao brancas, por isso
+           servem tanto sobre o creme como sobre o bloco escuro; so' a linha
+           de texto muda de cor, que sobre o verde tem de ser clara. */
+        #page-upsell .u2-pagar { margin: 1.1rem 0 0; }
+
+        #page-upsell .u2-pagar-fichas {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #page-upsell .u2-pagar-ficha {
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            padding: 6px 10px;
+            background: #fff;
+            border: 1px solid rgba(62, 78, 67, 0.15);
+            border-radius: 8px;
+        }
+
+        #page-upsell .u2-pagar-ficha img { display: block; width: auto; height: 100%; }
+
+        #page-upsell p.u2-pagar-txt {
+            margin: 0.5rem 0 0;
+            font-family: var(--np-body);
+            font-size: 14px;
+            font-weight: 300;
+            text-align: center;
+            color: var(--u2-tinta-fraca);
+        }
+
+        /* sobre o verde do bloco escuro a tinta fraca seria ilegivel */
+        #page-upsell .u2-pagar--escuro p.u2-pagar-txt { color: #E4E0D6; }
+
         #page-upsell .u2-seal {
             display: flex;
             align-items: center;
@@ -5771,6 +5845,15 @@
 
             <a href="https://buy.stripe.com/00waEW6UM2ZXdEwcpsfjG00" class="btn-primary np-cta-final" id="checkout-btn" onclick="fbq('track','InitiateCheckout',{content_name:'Noodprotocol',value:17.00,currency:'EUR'})">Ja, ik doe dit nu — €17</a>
 
+            <div class="pg-pagar">
+                <div class="pg-pagar-fichas">
+                    <span class="pg-pagar-ficha"><img src="img/ideal.webp" alt="iDEAL" width="143" height="126" loading="lazy"></span>
+                    <span class="pg-pagar-ficha"><img src="img/pagamentos/mastercard-logo.svg" alt="Mastercard" width="780" height="500" loading="lazy"></span>
+                    <span class="pg-pagar-ficha"><img src="img/pagamentos/visa-logo.svg" alt="Visa" width="780" height="500" loading="lazy"></span>
+                </div>
+                <p class="pg-pagar-txt">Veilig betalen via Stripe</p>
+            </div>
+
             <p class="np-seal"><img class="np-seal-logo" src="img/ideal.webp" width="143" height="126" alt="iDEAL" loading="lazy"><span>Veilig betalen via Stripe</span></p>
 
             <p class="np-guarantee">Werkt het niet voor je? Dan krijg je <span class="np-risco">je geld terug</span>. We zijn ervan overtuigd dat het Noodprotocol je verlichting geeft — daarom 60 dagen garantie, zonder vragen.</p>
@@ -6059,6 +6142,15 @@
         <div class="u2-col">
             <p>Je hoeft niets uit te leggen. Je hoeft niemand te vertellen dat het goed gaat. Niemand die iets van je vraagt.</p>
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--meio" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ik wil beginnen</a>
+
+            <div class="u2-pagar">
+                <div class="u2-pagar-fichas">
+                    <span class="u2-pagar-ficha"><img src="img/ideal.webp" alt="iDEAL" width="143" height="126" loading="lazy"></span>
+                    <span class="u2-pagar-ficha"><img src="img/pagamentos/mastercard-logo.svg" alt="Mastercard" width="780" height="500" loading="lazy"></span>
+                    <span class="u2-pagar-ficha"><img src="img/pagamentos/visa-logo.svg" alt="Visa" width="780" height="500" loading="lazy"></span>
+                </div>
+                <p class="u2-pagar-txt">Veilig betalen via Stripe</p>
+            </div>
         </div>
     </section>
 
@@ -6178,7 +6270,14 @@
 
             <p class="u2-garantia"><svg class="u2-escudo" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6Z"/><path d="M9 12.2 11 14.2 15.2 10"/></svg>Doe de zeven dagen. Voelt het niet als iets voor jou? Dan krijg je je geld terug. Zo kun je het rustig proberen: 60 dagen garantie.</p>
 
-            <p class="u2-seal"><img class="u2-seal-logo" src="img/ideal.webp" width="143" height="126" alt="iDEAL" loading="lazy"><span>Veilig betalen via Stripe</span></p>
+            <div class="u2-pagar u2-pagar--escuro">
+                <div class="u2-pagar-fichas">
+                    <span class="u2-pagar-ficha"><img src="img/ideal.webp" alt="iDEAL" width="143" height="126" loading="lazy"></span>
+                    <span class="u2-pagar-ficha"><img src="img/pagamentos/mastercard-logo.svg" alt="Mastercard" width="780" height="500" loading="lazy"></span>
+                    <span class="u2-pagar-ficha"><img src="img/pagamentos/visa-logo.svg" alt="Visa" width="780" height="500" loading="lazy"></span>
+                </div>
+                <p class="u2-pagar-txt">Veilig betalen via Stripe</p>
+            </div>
 
             <button class="btn-decline u2-recusa" onclick="showPage('page-downsell')">Nee bedankt</button>
 
