@@ -597,8 +597,8 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-            gap: 12px 20px;
-            padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 0px));
+            gap: 10px 20px;
+            padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px));
             background: #3E4E43;
             color: #F2EDE6;
             box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.18);
@@ -621,14 +621,21 @@
 
         /* os dois botoes sao iguais: mesmo tamanho, cor e peso, sem
            pre-seleccao — a escolha e' da pessoa, nao do desenho */
+        /* Os dois botoes sao iguais e neutros: nada de laranja, que e' a cor
+           do botao de compra. O fundo e' o mesmo verde do banner, por isso
+           levam uma borda creme — sem ela a sua silhueta desaparecia. */
         .ge-consent-bt {
             flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             min-width: 136px;
-            padding: 11px 18px;
-            border: 0;
+            min-height: 44px;
+            padding: 10px 18px;
+            border: 1px solid rgba(242, 237, 230, 0.55);
             border-radius: 10px;
-            background: #C1541D;
-            color: #FFFFFF;
+            background: #3E4E43;
+            color: #F2EDE6;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 0.95rem;
             font-weight: 500;
@@ -636,7 +643,7 @@
             cursor: pointer;
         }
 
-        .ge-consent-bt:hover { background: #A44719; }
+        .ge-consent-bt:hover { background: #4A5B4F; border-color: #F2EDE6; }
 
         .ge-consent-bt:focus-visible {
             outline: 2px solid #F2EDE6;
