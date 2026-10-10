@@ -4706,13 +4706,16 @@
         #page-upsell .u2-cta--final::after {
             content: "";
             position: absolute;
-            inset: -6px;
-            border-radius: 18px;
-            background: var(--u2-laranja);
+            inset: 0;
+            border-radius: inherit;
+            background: transparent;
+            /* 30px/8px mal se viam sobre o verde-dique; 36px/10px dao
+               corpo ao brilho sem o tornar um borrao */
+            box-shadow: 0 0 36px 10px rgba(193, 84, 29, 0.55);
             opacity: 0;
             z-index: -1;
             pointer-events: none;
-            animation: u2-halo 4.5s ease-in-out infinite;
+            animation: u2-halo 4s ease-in-out infinite;
         }
 
         /* enquanto a pessoa esta' a apontar ou com o foco no botao, o halo
@@ -4720,15 +4723,12 @@
         #page-upsell .u2-cta--final:hover::after,
         #page-upsell .u2-cta--final:focus-visible::after { animation-play-state: paused; }
 
-        /* o u2-halo so' e' usado por esta regra, por isso foi reafinado em vez
-           de se criar um keyframe novo.
-           A escala para em 1.10 e nao em 1.12: a 375px o botao tem 327px e o
-           halo 339px, logo 1.12 punha 26,3px de cada lado contra 24px de
-           goteira — dois pixeis fora do ecra, que davam scroll horizontal.
-           1.10 da' 23,0px por lado e encosta sem passar. */
+        /* So' opacity anima: sem transform, o brilho nao se expande para fora
+           do botao e por isso nao pode criar scroll horizontal, seja qual for
+           a largura. O u2-halo continua a ser usado so' por esta regra. */
         @keyframes u2-halo {
-            0%   { transform: scale(1);    opacity: 0.5; }
-            100% { transform: scale(1.10); opacity: 0; }
+            0%, 100% { opacity: 0; }
+            50%      { opacity: 1; }
         }
 
         #page-upsell .u2-cta:focus-visible {
