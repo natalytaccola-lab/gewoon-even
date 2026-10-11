@@ -6131,6 +6131,307 @@
             #page-checkout .pg-climax-col > .np-anchor-now { width: fit-content; max-width: 100%; }
         }
 
+        /* ====================================================================
+           #page-upsell2 (EUR 67, Slaapprotocol) ao padrao do cartao do EUR 37.
+           As classes desta pagina (upsell-section, btn-primary, day-item,
+           price-new, btn-decline, subtle, progress-bar) sao partilhadas com
+           outras paginas: nenhuma regra global foi tocada. Tudo aqui e' novo,
+           escopado por #page-upsell2 e pendurado em ganchos .pg67-.
+           ==================================================================== */
+
+        /* ---- a) faixa de confirmacao do topo (so' aparece a quem comprou o
+           Protocol van 7 Dagen; o JS liga-a pelo hash do redirect) ---- */
+        #page-upsell2 .pg67-faixa {
+            box-sizing: border-box;
+            margin: 0 0 28px;
+            padding: 14px 18px;
+            background: #F6E8B1;
+            border: 1px solid #E3CF86;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        #page-upsell2 .pg67-faixa p.subtle {
+            margin: 0;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #2B3A31;
+        }
+
+        #page-upsell2 .pg67-faixa .btn-primary {
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            min-height: 44px;
+            margin-bottom: 0;
+            padding: 10px 18px;
+            background: none;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #2B3A31;
+            text-decoration: underline;
+            text-underline-offset: 0.18em;
+        }
+
+        #page-upsell2 .pg67-faixa .btn-primary:hover { background: rgba(43, 58, 49, 0.08); }
+
+        /* ---- b) mini-quiz ---- */
+        #page-upsell2 .pg67-quiz .upsell-badge {
+            font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            color: #2F4A40;
+        }
+
+        #page-upsell2 .pg67-perguntas .question-number { font-size: 14px; }
+
+        #page-upsell2 .pg67-perguntas .question-text {
+            font-size: 26px;
+            line-height: 1.3;
+        }
+
+        #page-upsell2 .pg67-perguntas .answers {
+            gap: 12px;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #page-upsell2 .pg67-perguntas .answer-btn {
+            box-sizing: border-box;
+            width: 100%;
+            min-height: 56px;
+            border-radius: 14px;
+            font-size: 17px;
+        }
+
+        #page-upsell2 .pg67-perguntas .answer-btn:hover { border-color: #9F5D41; background: rgba(159, 93, 65, 0.05); }
+        #page-upsell2 .pg67-perguntas .answer-btn:focus-visible { outline: 3px solid #9F5D41; outline-offset: 2px; }
+
+        #page-upsell2 .pg67-perguntas .answer-btn.selected {
+            border-color: #9F5D41;
+            background: rgba(159, 93, 65, 0.1);
+            font-weight: 500;
+        }
+
+        #page-upsell2 .pg67-barra {
+            height: 7px;
+            background: #E8E1D6;
+            border-radius: 999px;
+        }
+
+        #page-upsell2 .pg67-barra .progress-fill {
+            background: #9F5D41;
+            border-radius: 999px;
+        }
+
+        /* ---- c) resultado ---- */
+        #page-upsell2 .pg67-resultado p { font-size: 18px; line-height: 1.6; }
+
+        #page-upsell2 .pg67-resultado .btn-primary {
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 520px;
+            min-height: 56px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 14px 28px;
+            border-radius: 14px;
+            background: #C1541D;
+            font-size: 18px;
+        }
+
+        #page-upsell2 .pg67-resultado .btn-primary:hover { background: #A44719; }
+
+        /* ---- d) a oferta em cartao, com os valores do cartao do EUR 37 ---- */
+        #page-upsell2 .pg67-cartao {
+            box-sizing: border-box;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 28px 24px;
+            background: #2B3A31;
+            border: 1px solid rgba(242, 237, 230, 0.85);
+            border-radius: 28px;
+            box-shadow: 0 20px 46px rgba(16, 24, 19, 0.18);
+            overflow: visible;
+            text-align: center;
+        }
+
+        #page-upsell2 .pg67-cartao .pg67-pilula {
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+            margin: 0;
+            padding: 8px 18px;
+            background: #F6E8B1;
+            border-radius: 999px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: none;
+            color: #2B3A31;
+        }
+
+        #page-upsell2 .pg67-cartao .price-new {
+            font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+            font-size: 60px;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -0.01em;
+            color: #F2EDE6;
+        }
+
+        /* o paragrafo traz um style inline com a cor de texto secundario, que
+           sobre o verde escuro ficaria ilegivel; so' o !important o vence */
+        #page-upsell2 .pg67-cartao .pg67-sub {
+            margin: 0;
+            font-size: 15px !important;
+            line-height: 1.5;
+            color: rgba(242, 237, 230, 0.86) !important;
+        }
+
+        #page-upsell2 .pg67-cartao .divider-line {
+            margin: 22px 0 0;
+            background: rgba(242, 237, 230, 0.35);
+        }
+
+        #page-upsell2 .pg67-cartao .pg67-rotulo {
+            margin: 22px 0 0;
+            font-family: var(--font-body);
+            font-size: 17px;
+            font-weight: 500;
+            line-height: 1.3;
+            text-align: left;
+            color: #F2EDE6;
+        }
+
+        #page-upsell2 .pg67-cartao .day-list { padding: 14px 0 0; text-align: left; }
+
+        /* o visto vive num ::before: a lista dos quatro audios nao precisou de
+           HTML novo nenhum. A primeira coluna e' o circulo, atravessando as
+           duas linhas (titulo em cima, descricao em baixo). */
+        #page-upsell2 .pg67-cartao .day-item {
+            display: grid;
+            grid-template-columns: 28px 1fr;
+            column-gap: 12px;
+            row-gap: 2px;
+            margin: 0 0 16px;
+            padding: 0;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.45;
+            color: #F2EDE6;
+        }
+
+        #page-upsell2 .pg67-cartao .day-item:last-child { margin-bottom: 0; }
+
+        #page-upsell2 .pg67-cartao .day-item::before {
+            content: "";
+            grid-column: 1;
+            grid-row: 1 / span 2;
+            width: 28px;
+            height: 28px;
+            margin-top: -1px;
+            background-color: #E8A06B;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B3A31' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.2 12.3 10.9 15 15.8 9.6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 24px 24px;
+            border-radius: 50%;
+        }
+
+        #page-upsell2 .pg67-cartao .day-item strong {
+            grid-column: 2;
+            font-family: var(--font-body);
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.3;
+            white-space: normal;
+            color: #F2EDE6;
+        }
+
+        #page-upsell2 .pg67-cartao .btn-primary {
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 520px;
+            min-height: 56px;
+            margin: 22px 0 0;
+            padding: 14px 28px;
+            border-radius: 999px;
+            background: #C1541D;
+            font-size: 18px;
+            /* brilho subtil e ESTATICO: nada pulsa nesta pagina */
+            box-shadow: 0 0 30px 6px rgba(193, 84, 29, 0.35);
+        }
+
+        #page-upsell2 .pg67-cartao .btn-primary:hover { background: #A44719; }
+
+        #page-upsell2 .pg67-pagar { margin: 20px 0 0; }
+
+        #page-upsell2 .pg67-pagar-fichas {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #page-upsell2 .pg67-pagar-ficha {
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            padding: 6px 10px;
+            background: #fff;
+            border: 1px solid rgba(62, 78, 67, 0.15);
+            border-radius: 8px;
+        }
+
+        #page-upsell2 .pg67-pagar-ficha img { display: block; width: auto; height: 100%; }
+
+        #page-upsell2 .pg67-pagar-txt {
+            margin: 10px 0 0;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 300;
+            text-align: center;
+            color: #E4E0D6;
+        }
+
+        /* ---- o que fica abaixo do cartao ---- */
+        #page-upsell2 .pg67-recusa {
+            box-sizing: border-box;
+            min-height: 44px;
+            margin-top: 22px;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        /* 12,8px era abaixo do piso do texto secundario */
+        #page-upsell2 .pg67-fontes { font-size: 14px !important; line-height: 1.5; }
+
+        /* ---- e) desktop ---- */
+        @media (min-width: 1024px) {
+            #page-upsell2 > .container { max-width: 720px; }
+        }
+
         /* ---- sem animacao para quem a dispensa ---- */
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
@@ -7717,8 +8018,8 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="container">
 
         <!-- Screen 1: mini-quiz -->
-        <div id="sleepquiz-intro" class="upsell-section">
-            <div class="purchase-confirm" style="display: none;">
+        <div id="sleepquiz-intro" class="upsell-section pg67-quiz">
+            <div class="purchase-confirm pg67-faixa" style="display: none;">
                 <p class="subtle">✓ Het Protocol van 7 Dagen is bevestigd. Je ontvangt het per e-mail.</p>
                 <a href="#toegang-p7-4x9nw" onclick="showPage('page-deliver-protocol7'); return false;" class="btn-primary" style="margin-top: 8px;">Naar mijn Protocol van 7 Dagen →</a>
             </div>
@@ -7727,15 +8028,15 @@ document.addEventListener('DOMContentLoaded', () => {
             <p>Dit duurt 20 seconden en zegt iets over hoe je zenuwstelsel 's nachts werkt.</p>
         </div>
 
-        <div id="sleepquiz-container"></div>
+        <div id="sleepquiz-container" class="pg67-perguntas"></div>
 
-        <div class="progress-bar">
+        <div class="progress-bar pg67-barra">
             <div class="progress-fill" id="sleepquiz-progress-fill" style="width: 0%"></div>
         </div>
 
         <!-- Screen 2: diagnosis -->
         <div id="sleepquiz-result" style="display: none;">
-            <div class="upsell-section">
+            <div class="upsell-section pg67-resultado">
                 <p>Herkenbaar? Veel mensen die 's nachts wakker liggen merken dat hun lijf in een lichte staat van paraatheid blijft staan, ook als de dag voorbij is. In slaaponderzoek heet dat <strong>hyperarousal</strong>.</p>
                 <p class="strong">Het is geen kwestie van 'niet moe genoeg zijn' — je systeem staat nog aan.</p>
                 <div class="section-space"></div>
@@ -7745,23 +8046,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <!-- Screen 3: bridge + offer -->
         <div id="sleepquiz-offer" style="display: none;">
-            <div class="upsell-section">
-                <div class="upsell-badge">Slaapprotocol</div>
+            <div class="upsell-section pg67-oferta">
                 <h1>Slaap is de basis van alles.</h1>
                 <p>Het Slaapprotocol bestaat uit vier audio's, elk gericht op een ander moment waarop dit systeem vastloopt:</p>
                 <div class="section-space"></div>
+
+                <div class="pg67-cartao">
+
+                <div class="upsell-badge pg67-pilula">Slaapprotocol</div>
+                <div style="padding: 16px 0;"><span class="price-new">€67</span></div>
+                <p class="pg67-sub" style="font-size: var(--t-sec); color: var(--t-sec-cor); font-style: italic;">Vier audio's, inzetbaar op het moment dat je ze nodig hebt: gereedschap voor wanneer de slaap niet komt.</p>
+                <div class="divider-line"></div>
+                <p class="pg67-rotulo">Inbegrepen:</p>
+
                 <div class="day-list">
                     <div class="day-item"><strong>Intro</strong> Hoe het protocol werkt, zodat je weet wat je kunt verwachten</div>
                     <div class="day-item"><strong>Avondritueel</strong> Een ritueel dat je lichaam helpt de dag los te laten</div>
                     <div class="day-item"><strong>Inslapen</strong> Voor als de slaap niet komt: je hoofd krijgt iets anders te doen.</div>
                     <div class="day-item"><strong>'s Nachts wakker</strong> Voor als je midden in de nacht wakker ligt en niet meer wegzakt</div>
                 </div>
-                <p style="font-size: var(--t-sec); color: var(--t-sec-cor); font-style: italic;">Vier audio's, inzetbaar op het moment dat je ze nodig hebt: gereedschap voor wanneer de slaap niet komt.</p>
-                <div class="divider-line"></div>
-                <div style="padding: 16px 0;"><span class="price-new">€67</span></div>
                 <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik wil het Slaapprotocol — €67</a>
-                <button class="btn-decline" onclick="showPage('page-thankyou')">Nee, dat is voor nu genoeg</button>
-                <p class="subtle" style="margin-top: 16px; font-size: 0.8rem;">Bronnen: Dressle et al., <em>Journal of Sleep Research</em> (2023) — hyperarousal bij insomnia.</p>
+
+                <div class="pg67-pagar">
+                    <div class="pg67-pagar-fichas">
+                        <span class="pg67-pagar-ficha"><img src="img/ideal.webp" alt="iDEAL" width="143" height="126" loading="lazy"></span>
+                        <span class="pg67-pagar-ficha"><img src="img/pagamentos/mastercard-logo.svg" alt="Mastercard" width="780" height="500" loading="lazy"></span>
+                        <span class="pg67-pagar-ficha"><img src="img/pagamentos/visa-logo.svg" alt="Visa" width="780" height="500" loading="lazy"></span>
+                        <span class="pg67-pagar-ficha"><img src="img/pagamentos/paypal-logo.svg" alt="PayPal" width="780" height="500" loading="lazy"></span>
+                    </div>
+                    <p class="pg67-pagar-txt">Veilig betalen via Stripe</p>
+                </div>
+
+                </div>
+
+                <button class="btn-decline pg67-recusa" onclick="showPage('page-thankyou')">Nee, dat is voor nu genoeg</button>
+                <p class="subtle pg67-fontes" style="margin-top: 16px; font-size: 0.8rem;">Bronnen: Dressle et al., <em>Journal of Sleep Research</em> (2023) — hyperarousal bij insomnia.</p>
             </div>
         </div>
 
