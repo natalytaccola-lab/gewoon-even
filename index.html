@@ -5538,6 +5538,161 @@
             #page-upsell .u2-decisao > .u2-onda { height: 92px; }
         }
 
+        /* Os dois involucros do bloco escuro nao existem no telemovel:
+           display:contents faz os filhos renderizar como se o div nao la'
+           estivesse. So' acima de 1024px e' que viram colunas. */
+        #page-upsell .u2-dec-esq,
+        #page-upsell .u2-dec-dir { display: contents; }
+
+        /* ====================================================================
+           DESKTOP (>=1024px). Abaixo disto nada muda: a pagina estava desenhada
+           como uma coluna de 560px e em ecra largo parecia um telemovel esticado.
+           ==================================================================== */
+        @media (min-width: 1024px) {
+            #page-upsell .u2-col,
+            #page-upsell .u2-col--larga { max-width: 1120px; padding: 0 40px; }
+
+            /* a coluna de leitura nao acompanha a largura do contentor */
+            #page-upsell .u2-leitura > .u2-col,
+            #page-upsell .u2-ponte > .u2-col,
+            #page-upsell .u2-permissao > .u2-col { max-width: 700px; }
+
+            #page-upsell .u2-leitura p,
+            #page-upsell .u2-ponte p,
+            #page-upsell .u2-permissao p { font-size: 18px; line-height: 1.65; }
+
+            #page-upsell .u2-ponte-fecho { font-size: 24px !important; }
+
+            /* respiro entre seccoes */
+            #page-upsell .u2-leitura { padding: 72px 0; }
+            #page-upsell .u2-semana { padding: 88px 0; }
+            #page-upsell .u2-permissao { padding: 72px 0; }
+            #page-upsell .u2-est { padding: 0 0 88px; }
+            #page-upsell .u2-faq { padding: 0 0 88px; }
+            #page-upsell .u2-decisao { padding: 88px 0 72px; }
+
+            /* ---- faixa amarela: uma linha, largura do contentor ---- */
+            #page-upsell .up-confirma {
+                justify-content: center;
+                grid-template-columns: 18px auto;
+                padding: 10px 18px;
+            }
+            #page-upsell p.up-confirma-tit { font-size: 15px; white-space: nowrap; }
+
+            /* ---- hero em duas colunas ---- */
+            #page-upsell .u2-abertura { padding: 72px 0 88px; }
+
+            #page-upsell .u2-abertura > .u2-col {
+                display: grid;
+                grid-template-columns: 1.1fr 0.9fr;
+                column-gap: 64px;
+                align-items: center;
+            }
+
+            #page-upsell .u2-vraag {
+                grid-column: 1;
+                font-size: clamp(44px, 3.4vw, 60px);
+                text-align: left;
+                text-wrap: balance;
+            }
+
+            #page-upsell .u2-microlinha {
+                grid-column: 1;
+                max-width: none;
+                margin-left: 0;
+                margin-right: 0;
+                font-size: 18px;
+                text-align: left;
+            }
+
+            #page-upsell a.u2-cta--hero {
+                grid-column: 1;
+                justify-self: start;
+                width: auto;
+                min-width: 280px;
+                min-height: 52px;
+                margin-top: 28px;
+                font-size: 18px;
+            }
+
+            #page-upsell .u2-hero-nota { grid-column: 1; text-align: left; font-size: 15px; }
+
+            #page-upsell .u2-speler {
+                grid-column: 2;
+                grid-row: 1 / span 4;
+                margin: 0;
+                align-self: center;
+            }
+
+            #page-upsell .u2-telefoon { width: 320px; }
+
+            /* ---- os 7 dias: quatro cartoes a' vista ---- */
+            #page-upsell .u2-dias { gap: 20px; }
+            #page-upsell .u2-dia { flex: 0 0 calc(25% - 15px); }
+            #page-upsell .u2-semana-titulo { font-size: 2.4rem; }
+
+            /* modo lista: duas colunas */
+            #page-upsell .u2-dias.is-lijst {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 40px;
+            }
+            #page-upsell .u2-dias.is-lijst .u2-dia:nth-last-child(2) { border-bottom: 0; }
+
+            /* ---- depoimentos: os tres lado a lado ---- */
+            #page-upsell .u2-erv-pista {
+                display: grid;
+                grid-auto-flow: row;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 40px;
+                overflow-x: visible;
+                scroll-snap-type: none;
+            }
+            #page-upsell .u2-erv-pontos { display: none; }
+
+            /* ---- estudos: tres cartoes em grelha, sem carrossel ---- */
+            #page-upsell .u2-est-pista {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                overflow-x: visible;
+                scroll-snap-type: none;
+            }
+            #page-upsell .u2-est-cartao { flex: initial; }
+            #page-upsell .u2-est-pontos { display: none; }
+            #page-upsell .u2-est-titulo { font-size: 2.4rem; }
+
+            /* ---- FAQ ---- */
+            #page-upsell .u2-faq > .u2-col { max-width: 760px; }
+            #page-upsell .u2-faq-titulo { font-size: 2.4rem; }
+            #page-upsell .u2-faq-vraag { font-size: 18px; }
+            #page-upsell .u2-faq-item > summary { min-height: 56px; }
+
+            /* ---- Over Gewoon Even ---- */
+            #page-upsell .u2-sobre > .u2-col { max-width: 760px; }
+
+            /* ---- bloco escuro em duas colunas ---- */
+            #page-upsell .u2-dec-esq,
+            #page-upsell .u2-dec-dir { display: block; }
+
+            #page-upsell .u2-decisao > .u2-col {
+                max-width: 1000px;
+                display: grid;
+                grid-template-columns: 0.9fr 1.1fr;
+                column-gap: 56px;
+                align-items: center;
+            }
+
+            #page-upsell .u2-dec-esq > :first-child { margin-top: 0; }
+            #page-upsell .u2-dec-dir > :first-child { margin-top: 0; }
+
+            /* o que fica fora das duas colunas volta a atravessar */
+            #page-upsell .u2-decisao > .u2-col > .u2-recusa,
+            #page-upsell .u2-decisao > .u2-col > .u2-disclaimer { grid-column: 1 / -1; }
+
+            #page-upsell .u2-cta--final { font-size: 18px; min-height: 52px; }
+        }
+
         /* ---- sem animacao para quem a dispensa ---- */
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
@@ -6341,6 +6496,7 @@
             <svg aria-hidden="true" viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="opacity:1"><path d="M0 296 Q200 256 400 284 Q600 312 800 278 Q1000 246 1200 276 L1200 400 L0 400 Z" fill="currentColor"/></svg>
         </div>
         <div class="u2-col">
+            <div class="u2-dec-esq">
             <p class="up-ancora">Een sessie bij de psycholoog begint met je eigen risico. <span class="np-risco">€385</span>. Dit zijn zeven dagen.</p>
 
             <p class="u2-precos"><span class="u2-preco-velho"><span class="u2-preco-oud">&euro;67</span><span class="u2-preco-rotulo">Losse prijs</span></span><span class="u2-preco-nu">&euro;37</span></p>
@@ -6349,6 +6505,8 @@
 
             <p class="u2-exclusivo">Dit aanbod zie je omdat je het Noodprotocol hebt.</p>
 
+            </div>
+            <div class="u2-dec-dir">
             <p class="u2-decisao-linha">Je geeft iedereen om je heen tijd. Zeven dagen lang is er elke dag zo'n tien minuten voor jou.</p>
 
             <ul class="u2-pilha">
@@ -6371,6 +6529,7 @@
                 <p class="u2-pagar-txt">Veilig betalen via Stripe</p>
             </div>
 
+            </div>
             <button class="btn-decline u2-recusa" onclick="showPage('page-downsell')">Nee bedankt</button>
 
             <p class="u2-disclaimer">Geen medisch advies en geen vervanging voor professionele behandeling.</p>
