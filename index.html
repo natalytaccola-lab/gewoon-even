@@ -6542,6 +6542,10 @@
            ==================================================================== */
         html:not(.ge-is-koper) .ge-koper { display: none !important; }
 
+        /* O inverso: marcado com .ge-bezoeker, so' aparece a quem NAO tem a
+           bandeira de comprador. */
+        html.ge-is-koper .ge-bezoeker { display: none !important; }
+
         /* ---- sem animacao para quem a dispensa ---- */
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
@@ -7075,7 +7079,7 @@
     <section class="u2-abertura">
         <div class="u2-col u2-col--larga">
             <h1 class="u2-vraag">Wie zorgt er voor degene die <span class="u2-vraag-sub">voor iedereen zorgt</span>?</h1>
-            <p class="u2-microlinha">Het vervolg op je Noodprotocol: zeven audio's, &eacute;&eacute;n per dag, helpen je terug te komen bij jezelf. Geen abonnement.</p>
+            <p class="u2-microlinha"><span class="ge-koper">Het vervolg op je Noodprotocol: zeven audio's, &eacute;&eacute;n per dag, helpen je terug te komen bij jezelf. Geen abonnement.</span><span class="ge-bezoeker">Zeven audio's, &eacute;&eacute;n per dag, helpen je terug te komen bij jezelf. Geen abonnement.</span></p>
 
             <a href="https://buy.stripe.com/aFa6oG0wo8kheIAexAfjG04" class="btn-primary u2-cta u2-cta--meio u2-cta--hero" onclick="fbq('track','InitiateCheckout',{content_name:'Protocol 7 Dagen',value:37.00,currency:'EUR'})">Ja, ik wil beginnen &mdash; &euro;37</a>
             <p class="u2-hero-nota">Eenmalig &middot; geen abonnement &middot; 60 dagen garantie</p>
@@ -7310,7 +7314,7 @@
                 <p class="u2-faq-nota">Soms merk je meteen verschil, soms pas na een paar dagen. Dat is voor iedereen anders.</p>
             </details>
             <details class="u2-faq-item">
-                <summary><span class="u2-faq-vraag">Ik heb het Noodprotocol al. Wat voegt dit toe?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
+                <summary><span class="u2-faq-vraag"><span class="ge-koper">Ik heb het Noodprotocol al. Wat voegt dit toe?</span><span class="ge-bezoeker">Wat is het verschil met het Noodprotocol?</span></span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
                 <p class="u2-faq-resp">Het Noodprotocol is voor het moment zelf: je zet het op als het je te veel wordt. Het Protocol van 7 Dagen is voor de dagen dat er niets aan de hand is. Zeven dagen lang oefen je rustig, zodat je lijf iets heeft om op terug te vallen.</p>
             </details>
             <details class="u2-faq-item">
@@ -7331,7 +7335,7 @@
             </details>
             <details class="u2-faq-item">
                 <summary><span class="u2-faq-vraag">Wat als dit niets voor mij is?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
-                <p class="u2-faq-resp">Doe de zeven dagen. Voelt het niet als iets voor jou? Mail binnen 60 dagen naar hello@gewoon-even.nl en je krijgt je geld terug.</p>
+                <p class="u2-faq-resp">Voelt het niet als iets voor jou? Mail binnen 60 dagen naar hello@gewoon-even.nl en je krijgt je geld terug.</p>
             </details>
             <details class="u2-faq-item">
                 <summary><span class="u2-faq-vraag">Is dit een abonnement?</span><svg class="u2-faq-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg></summary>
@@ -7370,7 +7374,7 @@
             <div class="u2-dec-dir">
             <div class="u2-cartao">
 
-            <p class="u2-cartao-etiqueta ge-koper">Alleen voor Noodprotocol-kopers</p>
+            <p class="u2-cartao-etiqueta">Direct beschikbaar</p>
 
             <p class="u2-cartao-nome">Protocol van 7 Dagen</p>
 
@@ -7378,7 +7382,6 @@
 
             <p class="u2-eenmalig">E&eacute;n keer betalen. De audio's blijven van jou.</p>
 
-            <p class="u2-exclusivo ge-koper">Dit aanbod zie je omdat je het Noodprotocol hebt.</p>
 
             <p class="u2-cartao-rotulo">Inbegrepen:</p>
 
@@ -7427,8 +7430,8 @@
 <div class="page" id="page-downsell">
     <div class="container">
         <div class="upsell-section">
-            <div class="upsell-badge">Laatste stap</div>
-            <h1>Oké — geen 7 dagen. Maar dit moment dan?</h1>
+            <div class="upsell-badge">Crisiskaart</div>
+            <h1>Iets kleins voor het moment zelf.</h1>
             <p>Bij een paniekaanval heb je iets nodig dat je al in je hand hebt, vóórdat je hoofd dichtklapt.</p>
             <p class="strong">De Crisiskaart is precies dat: je noodplan op papier, klaar voor de eerste 90 seconden.</p>
 
@@ -7478,6 +7481,8 @@
     <div class="container">
         <div class="thankyou-section">
             <h1>Bedankt.</h1>
+            <p class="ge-bezoeker">Bedankt dat je even bent gebleven.</p>
+            <p class="ge-bezoeker">Neem de tijd. Wat je nodig hebt, loopt niet weg.</p>
             <p class="ge-koper">Je ontvangt binnen enkele minuten een email met toegang. Check ook je spam.</p>
             <p class="ge-koper">Tip: download de audio nu en zet hem op je startscherm. Zodat je hem hebt wanneer je hem nodig hebt.</p>
             <a href="#toegang-np-8f3k2m" onclick="showPage('page-deliver-noodprotocol'); return false;" class="btn-primary ge-koper" style="margin-top: 8px;">Direct naar mijn Noodprotocol →</a>
