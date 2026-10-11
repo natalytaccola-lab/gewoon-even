@@ -6415,6 +6415,95 @@
             color: #E4E0D6;
         }
 
+        /* ---- duracao de cada faixa, e o total ---- */
+        #page-upsell2 .pg67-cartao .pg67-dur {
+            margin-left: 7px;
+            font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0;
+            color: rgba(242, 237, 230, 0.78);
+        }
+
+        #page-upsell2 .pg67-cartao .pg67-samen {
+            margin: 14px 0 0;
+            font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+            font-size: 13px;
+            font-weight: 400;
+            text-align: left;
+            color: rgba(242, 237, 230, 0.78);
+        }
+
+        /* ---- leitor da amostra do Inslapen ----
+           Marcacao e comportamento proprios: o leitor do EUR 37 esta' preso ao
+           seu mostrador SVG e ao IIFE do #page-upsell, e reaproveita-lo obrigava
+           a mexer nesse JS. Este e' novo, aditivo e so' responde a #page-upsell2. */
+        #page-upsell2 .pg67-amostra {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 20px 0 0;
+            text-align: left;
+        }
+
+        #page-upsell2 .pg67-play {
+            flex: 0 0 auto;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            background: #E8A06B;
+            border: 0;
+            border-radius: 50%;
+            color: #2B3A31;
+            cursor: pointer;
+        }
+
+        #page-upsell2 .pg67-play:hover { background: #F0AE7D; }
+        #page-upsell2 .pg67-play:focus-visible { outline: 3px solid #F2EDE6; outline-offset: 3px; }
+
+        #page-upsell2 .pg67-play-ico { width: 26px; height: 26px; display: block; }
+        #page-upsell2 .pg67-play .pg67-ico-pausa { display: none; }
+        #page-upsell2 .pg67-play.is-a-tocar .pg67-ico-play { display: none; }
+        #page-upsell2 .pg67-play.is-a-tocar .pg67-ico-pausa { display: inline; }
+
+        #page-upsell2 .pg67-amostra-txt { flex: 1 1 auto; min-width: 0; }
+
+        #page-upsell2 .pg67-amostra-rotulo {
+            margin: 0 0 7px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.35;
+            color: #F2EDE6;
+        }
+
+        #page-upsell2 .pg67-amostra-barra {
+            height: 4px;
+            background: rgba(242, 237, 230, 0.25);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        #page-upsell2 .pg67-amostra-vul {
+            display: block;
+            width: 0;
+            height: 100%;
+            background: #E8A06B;
+            border-radius: 999px;
+        }
+
+        #page-upsell2 .pg67-amostra-tempo {
+            flex: 0 0 auto;
+            font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+            font-size: 13px;
+            color: rgba(242, 237, 230, 0.78);
+            font-variant-numeric: tabular-nums;
+        }
+
         /* ---- o que fica abaixo do cartao ---- */
         #page-upsell2 .pg67-recusa {
             box-sizing: border-box;
@@ -8057,14 +8146,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div style="padding: 16px 0;"><span class="price-new">€67</span></div>
                 <p class="pg67-sub" style="font-size: var(--t-sec); color: var(--t-sec-cor); font-style: italic;">Vier audio's, inzetbaar op het moment dat je ze nodig hebt: gereedschap voor wanneer de slaap niet komt.</p>
                 <div class="divider-line"></div>
+
+                <div class="pg67-amostra">
+                    <button type="button" class="pg67-play" id="pg67-play" aria-label="Speel het fragment af" aria-pressed="false">
+                        <svg class="pg67-play-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="pg67-ico-play" d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="currentColor"/><g class="pg67-ico-pausa"><rect x="8.6" y="6" width="2.6" height="12" rx="1.1" fill="currentColor"/><rect x="12.8" y="6" width="2.6" height="12" rx="1.1" fill="currentColor"/></g></svg>
+                    </button>
+                    <div class="pg67-amostra-txt">
+                        <p class="pg67-amostra-rotulo">Luister naar een fragment van Inslapen</p>
+                        <div class="pg67-amostra-barra"><span class="pg67-amostra-vul" id="pg67-vul"></span></div>
+                    </div>
+                    <span class="pg67-amostra-tempo" id="pg67-tempo">0:25</span>
+                </div>
+
                 <p class="pg67-rotulo">Inbegrepen:</p>
 
                 <div class="day-list">
-                    <div class="day-item"><strong>Intro</strong> Hoe het protocol werkt, zodat je weet wat je kunt verwachten</div>
-                    <div class="day-item"><strong>Avondritueel</strong> Een ritueel dat je lichaam helpt de dag los te laten</div>
-                    <div class="day-item"><strong>Inslapen</strong> Voor als de slaap niet komt: je hoofd krijgt iets anders te doen.</div>
-                    <div class="day-item"><strong>'s Nachts wakker</strong> Voor als je midden in de nacht wakker ligt en niet meer wegzakt</div>
+                    <div class="day-item"><strong>Intro<span class="pg67-dur">· ca. 4 min</span></strong> Hoe het protocol werkt, zodat je weet wat je kunt verwachten</div>
+                    <div class="day-item"><strong>Avondritueel<span class="pg67-dur">· ca. 7 min</span></strong> Een ritueel dat je lichaam helpt de dag los te laten</div>
+                    <div class="day-item"><strong>Inslapen<span class="pg67-dur">· ca. 15 min</span></strong> Voor als de slaap niet komt: je hoofd krijgt iets anders te doen.</div>
+                    <div class="day-item"><strong>'s Nachts wakker<span class="pg67-dur">· ca. 19 min</span></strong> Voor als je midden in de nacht wakker ligt en niet meer wegzakt</div>
                 </div>
+                <p class="pg67-samen">Samen ca. 45 minuten.</p>
                 <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik wil het Slaapprotocol — €67</a>
 
                 <div class="pg67-pagar">
@@ -9202,6 +9304,104 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 
+
+<script>
+/* ---------------------------------------------------------------------------
+   Leitor da amostra do Inslapen, na pagina dos EUR 67.
+   IIFE com nomes proprios e preso ao #page-upsell2: nao toca no leitor do
+   EUR 37 (esse esta' amarrado ao mostrador SVG do #page-upsell e reaproveita-lo
+   obrigava a editar JS existente), nem no showPage, nem no quiz, nem no atalho.
+   O ficheiro so' e' pedido ao servidor no primeiro clique (preload = 'none')
+   e nao ha evento nenhum de analitica aqui.
+   --------------------------------------------------------------------------- */
+(function () {
+    var pagina = document.getElementById('page-upsell2');
+    var botao  = document.getElementById('pg67-play');
+    if (!pagina || !botao) return;
+
+    var vul    = document.getElementById('pg67-vul');
+    var tempo  = document.getElementById('pg67-tempo');
+    var som    = null;
+    var TOTAL  = 25;                       // o fragmento tem 25 s
+
+    function relogio(s) {
+        var m = Math.floor(s / 60), r = Math.floor(s % 60);
+        return m + ':' + (r < 10 ? '0' : '') + r;
+    }
+
+    function parado() {
+        botao.classList.remove('is-a-tocar');
+        botao.setAttribute('aria-pressed', 'false');
+        botao.setAttribute('aria-label', 'Speel het fragment af');
+        if (vul) vul.style.width = '0';
+        if (tempo) tempo.textContent = relogio(TOTAL);
+    }
+
+    function aTocar() {
+        botao.classList.add('is-a-tocar');
+        botao.setAttribute('aria-pressed', 'true');
+        botao.setAttribute('aria-label', 'Pauzeer');
+    }
+
+    function progresso() {
+        if (!som) return;
+        var dur = som.duration || TOTAL;
+        var k = Math.min(1, som.currentTime / dur);
+        if (vul) vul.style.width = (k * 100).toFixed(1) + '%';
+        if (tempo) tempo.textContent = relogio(Math.max(0, dur - som.currentTime));
+    }
+
+    function criar() {
+        if (som) return som;
+        som = new Audio('img/inslapen-sample.mp3');
+        som.preload = 'none';
+        som.loop = false;
+        som.addEventListener('timeupdate', progresso);
+        som.addEventListener('ended', parado);
+        som.addEventListener('pause', function () { if (!som.ended) aPausa(); });
+        som.addEventListener('play', aTocar);
+        return som;
+    }
+
+    function aPausa() {
+        botao.classList.remove('is-a-tocar');
+        botao.setAttribute('aria-pressed', 'false');
+        botao.setAttribute('aria-label', 'Speel het fragment af');
+    }
+
+    function pausar() { if (som && !som.paused) som.pause(); }
+
+    botao.addEventListener('click', function () {
+        var a = criar();
+        if (a.paused) {
+            var pr = a.play();
+            if (pr && pr.catch) pr.catch(parado);
+        } else {
+            a.pause();
+        }
+    });
+
+    // o som para se a pessoa clicar no botao de compra ou na recusa
+    Array.prototype.forEach.call(
+        pagina.querySelectorAll('a[href*="buy.stripe.com"], .pg67-recusa'),
+        function (b) { b.addEventListener('click', pausar); }
+    );
+
+    // ...se o separador deixar de estar a' vista
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) pausar();
+    });
+
+    // ...e se a pagina sair de .active, sem mexer no showPage global
+    if (window.MutationObserver) {
+        new MutationObserver(function () {
+            if (!pagina.classList.contains('active')) pausar();
+        }).observe(pagina, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    parado();
+})();
+</script>
 
 <script>
 /* ---------------------------------------------------------------------------
