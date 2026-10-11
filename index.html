@@ -9238,7 +9238,25 @@ document.addEventListener('DOMContentLoaded', () => {
         checkout: 'page-checkout',
         upsell:   'page-upsell',
         downsell: 'page-downsell',
-        upsell2:  'page-upsell2'
+        upsell2:  'page-upsell2',
+        oferta67: 'page-upsell2'
+    };
+
+    // Ha' valores que abrem a pagina numa etapa adiantada. O showPage chama o
+    // resetSleepQuiz, que repoe o quiz no inicio; isto corre logo a seguir e
+    // salta para a oferta pelo mesmo caminho do botao "Bekijk wat hierbij
+    // helpt": esconde o que o proprio quiz esconderia ao passar de etapa e
+    // chama o showSleepOffer tal como ele esta', sem lhe tocar.
+    var ETAPAS = {
+        oferta67: function () {
+            ['sleepquiz-intro', 'sleepquiz-container'].forEach(function (k) {
+                var e = document.getElementById(k);
+                if (e) e.style.display = 'none';
+            });
+            var barra = document.querySelector('#page-upsell2 .progress-bar');
+            if (barra) barra.style.display = 'none';
+            if (typeof showSleepOffer === 'function') showSleepOffer();
+        }
     };
 
     function hostDePreVisualizacao() {
@@ -9264,7 +9282,10 @@ document.addEventListener('DOMContentLoaded', () => {
         var brevoReal = window.trackPageViewInBrevo;
         window.fbq = function () {};
         window.trackPageViewInBrevo = function () {};
-        try { showPage(id); }
+        try {
+            showPage(id);
+            if (Object.prototype.hasOwnProperty.call(ETAPAS, pedido)) ETAPAS[pedido]();
+        }
         finally {
             window.fbq = fbqReal;
             window.trackPageViewInBrevo = brevoReal;
