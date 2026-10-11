@@ -5287,6 +5287,113 @@
             color: rgba(242, 237, 230, 0.78);
         }
 
+        /* ====================================================================
+           6b. A OFERTA FINAL NUM CARTAO DE PRECO
+           O bloco era uma pilha solta sobre o verde-dique: preco, frase, lista,
+           botao, garantia e logos, todos ao mesmo nivel. Juntos num cartao mais
+           escuro passam a ser UM objeto, que e' o que a pessoa precisa de ter na
+           cabeca no momento de decidir. As duas frases de persuasao ficam fora
+           do cartao, e o "Nee bedankt" tambem.
+           ==================================================================== */
+        #page-upsell .u2-cartao {
+            box-sizing: border-box;
+            max-width: 520px;
+            margin: 1.9rem auto 0;
+            padding: 28px 24px;
+            background: var(--u2-tinta);
+            border: 1px solid rgba(242, 237, 230, 0.85);
+            border-radius: 28px;
+            /* sombra estatica: o unico movimento do bloco e' o do botao */
+            box-shadow: 0 20px 46px rgba(16, 24, 19, 0.3);
+            text-align: center;
+        }
+
+        #page-upsell .u2-cartao-etiqueta {
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+            margin: 0;
+            padding: 8px 18px;
+            background: var(--u2-amarelo);
+            border-radius: 999px;
+            font-family: var(--np-body);
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.25;
+            letter-spacing: 0.02em;
+            color: var(--u2-tinta);
+        }
+
+        #page-upsell .u2-cartao-nome {
+            margin: 1rem 0 0.9rem;
+            font-family: var(--np-display);
+            font-size: 36px;
+            font-weight: 500;
+            line-height: 1.12;
+            color: #E8A06B;
+        }
+
+        #page-upsell .u2-cartao .u2-precos { gap: 16px; }
+        #page-upsell .u2-cartao .u2-preco-nu { font-size: 60px; line-height: 1; }
+        #page-upsell .u2-cartao .u2-eenmalig { margin-top: 0.9rem; font-size: 15px; }
+
+        /* a divisoria e' a borda deste rotulo: uma linha a menos no HTML */
+        #page-upsell .u2-cartao-rotulo {
+            margin: 1.5rem 0 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(242, 237, 230, 0.35);
+            font-family: var(--np-body);
+            font-size: 17px;
+            font-weight: 500;
+            text-align: left;
+            color: var(--u2-creme);
+        }
+
+        #page-upsell .u2-cartao .u2-pilha {
+            max-width: none;
+            margin: 1.1rem 0 0;
+        }
+
+        #page-upsell .u2-cartao .u2-pilha li {
+            grid-template-columns: 28px 1fr;
+            gap: 12px;
+            margin: 0 0 16px;
+            font-size: 17px;
+            font-weight: 400;
+        }
+
+        #page-upsell .u2-cartao .u2-pilha li:last-child { margin-bottom: 0; }
+
+        /* o mesmo visto de sempre, agora dentro de um circulo cheio */
+        #page-upsell .u2-cartao .u2-pilha-ico {
+            box-sizing: border-box;
+            width: 28px;
+            height: 28px;
+            margin-top: -1px;
+            padding: 2px;
+            background: #E8A06B;
+            border-radius: 50%;
+            stroke-width: 2.4;
+            color: var(--u2-tinta);
+        }
+
+        /* O brilho do botao e' um ::after com z-index:-1. Sem um contexto de
+           empilhamento proprio ele iria parar atras do fundo do cartao e
+           desaparecia; o isolation devolve-lho sem tocar na animacao. */
+        #page-upsell .u2-cartao .u2-cta--final {
+            width: 100%;
+            min-height: 56px;
+            margin: 1.7rem 0 0;
+            padding: 17px 24px;
+            border-radius: 999px;
+            isolation: isolate;
+        }
+
+        #page-upsell .u2-cartao .u2-garantia { margin: 1.5rem 0 0; text-align: left; }
+        #page-upsell .u2-cartao .u2-pagar { margin: 1.4rem 0 0; }
+
         /* ---- barra fixa de compra, so' em mobile ---- */
         #page-upsell .u2-barra {
             position: fixed;
@@ -5678,10 +5785,19 @@
             #page-upsell .u2-decisao > .u2-col {
                 max-width: 1000px;
                 display: grid;
-                grid-template-columns: 0.9fr 1.1fr;
+                /* a direita e' o cartao, de largura fixa; a esquerda fica com o
+                   resto. Ao topo, porque o cartao e' bem mais alto que as duas
+                   frases e centrado deixava-as a flutuar a meio. */
+                grid-template-columns: minmax(0, 1fr) 460px;
                 column-gap: 56px;
-                align-items: center;
+                align-items: start;
             }
+
+            #page-upsell .u2-cartao { width: 460px; max-width: none; margin: 0; }
+            #page-upsell .u2-cartao-nome { font-size: 40px; }
+
+            #page-upsell .u2-dec-esq .up-ancora,
+            #page-upsell .u2-dec-esq .u2-decisao-linha { text-align: left; }
 
             #page-upsell .u2-dec-esq > :first-child { margin-top: 0; }
             #page-upsell .u2-dec-dir > :first-child { margin-top: 0; }
@@ -6565,15 +6681,22 @@
             <div class="u2-dec-esq">
             <p class="up-ancora">Een sessie bij de psycholoog begint met je eigen risico. <span class="np-risco">€385</span>. Dit zijn zeven dagen.</p>
 
+            <p class="u2-decisao-linha">Je geeft iedereen om je heen tijd. Zeven dagen lang is er elke dag zo'n tien minuten voor jou.</p>
+            </div>
+            <div class="u2-dec-dir">
+            <div class="u2-cartao">
+
+            <p class="u2-cartao-etiqueta">Alleen voor Noodprotocol-kopers</p>
+
+            <p class="u2-cartao-nome">Protocol van 7 Dagen</p>
+
             <p class="u2-precos"><span class="u2-preco-velho"><span class="u2-preco-oud">&euro;67</span><span class="u2-preco-rotulo">Losse prijs</span></span><span class="u2-preco-nu">&euro;37</span></p>
 
             <p class="u2-eenmalig">E&eacute;n keer betalen. De audio's blijven van jou.</p>
 
             <p class="u2-exclusivo">Dit aanbod zie je omdat je het Noodprotocol hebt.</p>
 
-            </div>
-            <div class="u2-dec-dir">
-            <p class="u2-decisao-linha">Je geeft iedereen om je heen tijd. Zeven dagen lang is er elke dag zo'n tien minuten voor jou.</p>
+            <p class="u2-cartao-rotulo">Inbegrepen:</p>
 
             <ul class="u2-pilha">
                     <li><svg class="u2-pilha-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg><span>Zeven audio's, één per dag (zo'n tien minuten)</span></li>
@@ -6595,6 +6718,7 @@
                 <p class="u2-pagar-txt">Veilig betalen via Stripe</p>
             </div>
 
+            </div>
             </div>
             <button class="btn-decline u2-recusa" onclick="showPage('page-downsell')">Nee bedankt</button>
 
