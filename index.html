@@ -10111,21 +10111,28 @@ function handleEmailSubmit(event) {
     // Save email for later use (Brevo + Stripe checkout)
     sessionStorage.setItem('userEmail', email);
 
+    // Funil B: quem chegou pelo quiz 37 tem marca propria na sessao. Sem ela,
+    // tudo o que vem a seguir e' exactamente o que era antes.
+    let geFunil = '';
+    try { geFunil = sessionStorage.getItem('ge_funil') || ''; } catch (e) {}
+    const isFunil37 = geFunil === '37';
+
     // Fire Lead event with Advanced Matching (em parameter)
     // Re-init Pixel with em so AM is sent on the next track call (ud[em] in URL).
     if (typeof fbq !== 'undefined') {
         fbq('init', '1303902808354568', {em: email});
         fbq('track', 'Lead', {
-            content_name: 'Quiz Completed',
+            content_name: isFunil37 ? 'Quiz 37 Completed' : 'Quiz Completed',
             content_category: 'Email Capture'
         });
     }
 
     // Brevo integration — fire-and-forget, não bloqueia navegação
+    const geCorpo = isFunil37 ? { email: email, funil: '37' } : { email: email };
     fetch('/api/brevo-add-contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
+        body: JSON.stringify(geCorpo)
     }).catch(err => {
         console.error('[Brevo] Failed to add contact:', err);
     });
@@ -10134,7 +10141,7 @@ function handleEmailSubmit(event) {
     emailInput.value = '';
 
     // Advance to checkout
-    showPage('page-checkout');
+    showPage(isFunil37 ? 'page-aanbod37' : 'page-checkout');
 }
 
 // ============ SLEEP MINI-QUIZ (page-upsell2) ============
