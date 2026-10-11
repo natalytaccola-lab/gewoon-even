@@ -823,7 +823,6 @@
         #page-email-capture .privacy-note {
             font-size: 13px;
             color: #2C2C2C;
-            opacity: 0.6;
             line-height: 1.5;
         }
 
@@ -3604,7 +3603,11 @@
 
         #page-email-capture p.privacy-note {
             font-size: var(--t-sec);
-            color: var(--t-sec-cor);
+            /* era var(--t-sec-cor) com opacity 0.6 na regra de cima: 2,76:1.
+               Esta e' a mesma cor ja' composta com o creme, no tom mais claro
+               que ainda da' 4,5:1 -- o aviso continua discreto e o link
+               sublinhado la' dentro herda o mesmo contraste. */
+            color: #657168;
         }
 
         #page-email-capture #email-input { font-size: var(--t-sec); }
