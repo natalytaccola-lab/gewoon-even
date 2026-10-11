@@ -8487,5 +8487,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+<script>
+/* ---------------------------------------------------------------------------
+   Atalho de pre-visualizacao: ?pagina=<nome> abre direto uma pagina de oferta.
+   Serve so' para mandar um link de uma pre-visualizacao; em producao o
+   parametro e' ignorado por completo e o site abre como sempre.
+
+   Tres travoes independentes -- qualquer um deles sozinho ja' chega para o
+   atalho nao funcionar em producao:
+     1. os dominios de producao estao numa lista de recusa explicita;
+     2. o hostname tem de acabar em .vercel.app;
+     3. e tem ainda de constar da lista fechada HOSTS_PREVIA.
+
+   A lista PAGINAS tambem e' fechada: as paginas de entrega (audios pagos), o
+   agradecimento e a captura de e-mail nao estao la', por isso nao ha atalho
+   nenhum para o fluxo pos-compra.
+
+   Durante a chamada, o fbq e o trackPageViewInBrevo ficam silenciados: abrir
+   uma pagina por atalho nao conta uma ViewContent no Meta nem uma visita no
+   Brevo, e nao mexe em nenhum estado de compra.
+
+   Corre num DOMContentLoaded registado depois do do encaminhador -- este e' o
+   ultimo script do documento --, por isso prevalece sobre o arranque do quiz.
+   --------------------------------------------------------------------------- */
+(function () {
+    var HOSTS_PRODUCAO = ['gewoon-even.nl', 'www.gewoon-even.nl'];
+
+    var HOSTS_PREVIA = [
+        'gewoon-even-git-previa-site-natalytaccola-8262s-projects.vercel.app'
+    ];
+
+    var PAGINAS = {
+        quiz:     'page-quiz',
+        checkout: 'page-checkout',
+        upsell:   'page-upsell',
+        downsell: 'page-downsell',
+        upsell2:  'page-upsell2'
+    };
+
+    function hostDePreVisualizacao() {
+        var h = String(location.hostname || '').toLowerCase();
+        if (HOSTS_PRODUCAO.indexOf(h) !== -1) return false;
+        if (!/\.vercel\.app$/.test(h)) return false;
+        return HOSTS_PREVIA.indexOf(h) !== -1;
+    }
+
+    function abrirAtalho() {
+        if (!hostDePreVisualizacao()) return;
+
+        var pedido;
+        try { pedido = new URLSearchParams(location.search).get('pagina'); }
+        catch (e) { return; }
+        if (!pedido) return;
+
+        if (!Object.prototype.hasOwnProperty.call(PAGINAS, pedido)) return;
+        var id = PAGINAS[pedido];
+        if (!document.getElementById(id)) return;
+
+        var fbqReal = window.fbq;
+        var brevoReal = window.trackPageViewInBrevo;
+        window.fbq = function () {};
+        window.trackPageViewInBrevo = function () {};
+        try { showPage(id); }
+        finally {
+            window.fbq = fbqReal;
+            window.trackPageViewInBrevo = brevoReal;
+        }
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', abrirAtalho);
+    else abrirAtalho();
+})();
+</script>
+
 </body>
 </html>
