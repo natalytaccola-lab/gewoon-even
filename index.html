@@ -125,6 +125,28 @@
         else arrancar();
     })();
     </script>
+    <script>
+    /* -----------------------------------------------------------------------
+       Bandeira de comprador.
+       Acende SO' nos dois hashes que sao redirects reais da Stripe:
+         #upsell-p7-6h2mk9    (depois de pagar o Noodprotocol)
+         #upsell2-slaap-7n4kx9 (depois de pagar o Protocol van 7 Dagen)
+       Fica guardada na sessao, por isso um comprador que recusa o EUR 37 e o
+       EUR 67 continua a ser comprador na pagina de agradecimento.
+       Qualquer outra entrada -- os hashes novos de e-mail incluidos -- chega
+       sem ela, e os elementos marcados com .ge-koper ficam escondidos.
+       Corre aqui, no <head>, para a classe existir antes da primeira pintura.
+       Nao toca no encaminhador nem na upsell2ConfirmedPurchaseEntry.
+       ----------------------------------------------------------------------- */
+    (function () {
+        var HASHES_DE_COMPRA = ['#upsell-p7-6h2mk9', '#upsell2-slaap-7n4kx9'];
+        var CHAVE = 'ge_koper';
+        function marcar() { try { sessionStorage.setItem(CHAVE, '1'); } catch (e) {} }
+        function aceso() { try { return sessionStorage.getItem(CHAVE) === '1'; } catch (e) { return false; } }
+        if (HASHES_DE_COMPRA.indexOf(window.location.hash) !== -1) marcar();
+        if (aceso()) document.documentElement.classList.add('ge-is-koper');
+    })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
@@ -6521,6 +6543,14 @@
             #page-upsell2 > .container { max-width: 720px; }
         }
 
+        /* ====================================================================
+           Conteudo so' para quem comprou. Marcado com .ge-koper no HTML e
+           escondido enquanto o <html> nao tiver .ge-is-koper. Com a bandeira
+           acesa a regra deixa de casar e cada elemento recupera o seu proprio
+           display -- nada por cima, nada reescrito.
+           ==================================================================== */
+        html:not(.ge-is-koper) .ge-koper { display: none !important; }
+
         /* ---- sem animacao para quem a dispensa ---- */
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
@@ -7042,7 +7072,7 @@
 
     <!-- 0 ------------------------------------------ confirmacao da compra -->
     <div class="u2-col u2-col--larga">
-    <div class="up-confirma">
+    <div class="up-confirma ge-koper">
                     <span class="up-confirma-ico" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span>
                     <div class="up-confirma-txt">
                         <p class="up-confirma-tit">Betaling gelukt. Je Noodprotocol staat in je e-mail. Kijk ook in je spam.</p>
@@ -7349,7 +7379,7 @@
             <div class="u2-dec-dir">
             <div class="u2-cartao">
 
-            <p class="u2-cartao-etiqueta">Alleen voor Noodprotocol-kopers</p>
+            <p class="u2-cartao-etiqueta ge-koper">Alleen voor Noodprotocol-kopers</p>
 
             <p class="u2-cartao-nome">Protocol van 7 Dagen</p>
 
@@ -7357,7 +7387,7 @@
 
             <p class="u2-eenmalig">E&eacute;n keer betalen. De audio's blijven van jou.</p>
 
-            <p class="u2-exclusivo">Dit aanbod zie je omdat je het Noodprotocol hebt.</p>
+            <p class="u2-exclusivo ge-koper">Dit aanbod zie je omdat je het Noodprotocol hebt.</p>
 
             <p class="u2-cartao-rotulo">Inbegrepen:</p>
 
@@ -7457,11 +7487,11 @@
     <div class="container">
         <div class="thankyou-section">
             <h1>Bedankt.</h1>
-            <p>Je ontvangt binnen enkele minuten een email met toegang. Check ook je spam.</p>
-            <p>Tip: download de audio nu en zet hem op je startscherm. Zodat je hem hebt wanneer je hem nodig hebt.</p>
-            <a href="#toegang-np-8f3k2m" onclick="showPage('page-deliver-noodprotocol'); return false;" class="btn-primary" style="margin-top: 8px;">Direct naar mijn Noodprotocol →</a>
+            <p class="ge-koper">Je ontvangt binnen enkele minuten een email met toegang. Check ook je spam.</p>
+            <p class="ge-koper">Tip: download de audio nu en zet hem op je startscherm. Zodat je hem hebt wanneer je hem nodig hebt.</p>
+            <a href="#toegang-np-8f3k2m" onclick="showPage('page-deliver-noodprotocol'); return false;" class="btn-primary ge-koper" style="margin-top: 8px;">Direct naar mijn Noodprotocol →</a>
             <div class="thankyou-divider"></div>
-            <p class="strong">De dijk hoeft niet te breken.<br>Je hebt nu een sluissysteem.</p>
+            <p class="strong ge-koper">De dijk hoeft niet te breken.<br>Je hebt nu een sluissysteem.</p>
             <div class="section-space"></div>
             <p class="green-text strong" style="font-family: var(--font-display); font-size: 1.2rem;">— Gewoon Even</p>
         </div>
@@ -7876,6 +7906,21 @@ document.addEventListener('DOMContentLoaded', () => {
         showPage('page-upsell2');
     } else if (hash === '#downsell-ck-5r8mqz') {
         showPage('page-downsell');
+    } else if (hash === '#aanbod-ck-5ggyh8') {
+        // Entrada por e-mail na Crisiskaart (EUR 9) para quem nunca comprou:
+        // so' mostra a pagina. Sem bandeira de comprador, sem Purchase.
+        showPage('page-downsell');
+    } else if (hash === '#aanbod-p7-yc9ky7') {
+        // Entrada por e-mail no Protocol van 7 Dagen (EUR 37) para quem nunca
+        // comprou. O #upsell-p7-6h2mk9 nao serve aqui: e' o redirect da Stripe
+        // e acende a bandeira de comprador.
+        showPage('page-upsell');
+    } else if (hash === '#aanbod-sl-ap2va8') {
+        // Entrada por e-mail no Slaapprotocol (EUR 67) para quem nunca comprou.
+        // O showPage chama o resetSleepQuiz, por isso abre no mini-quiz, nao na
+        // oferta. Nao acende a bandeira nem a faixa, e nao conta Purchase
+        // nenhuma -- ao contrario do #upsell2-slaap-7n4kx9.
+        showPage('page-upsell2');
     } else if (hash === '#q') {
         showPage('page-quiz');
     } else if (hash === '#email') {
