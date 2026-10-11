@@ -5693,6 +5693,72 @@
             #page-upsell .u2-cta--final { font-size: 18px; min-height: 52px; }
         }
 
+        /* ====================================================================
+           DESKTOP do #checkout (>=1024px). Tudo aditivo: nenhuma regra np-
+           existente foi editada. Abaixo de 1024px nada muda.
+           ==================================================================== */
+        @media (min-width: 1024px) {
+            #page-checkout .container { max-width: 1120px; padding: 0 40px; }
+            #page-checkout .np-body { max-width: 700px; margin-left: auto; margin-right: auto; }
+            #page-checkout .np-stage-copy { max-width: none; padding: 0; }
+
+            /* ---- os tres audios ----
+               Havia dois players para o mesmo som: o grande fixo a' direita e o
+               do primeiro item. O grande sai no desktop (ja' saia abaixo de
+               900px), porque e' ele que mostra a capa e o titulo de uma faixa
+               enquanto toca sempre a amostra do Noodstop. Fica o cartao de
+               dentro do item, que e' o que o JS liga ao audio real. */
+            #page-checkout .np-stage-device { display: none; }
+            #page-checkout .np-chev--audio { display: none; }
+
+            #page-checkout .np-stage { display: block; }
+
+            #page-checkout .np-track {
+                display: grid;
+                grid-template-columns: 56px minmax(0, 1fr) 220px;
+                column-gap: 36px;
+                align-items: start;
+                max-width: 1040px;
+                margin: 0 auto 56px;
+            }
+
+            #page-checkout .np-track .np-fio-card {
+                width: 220px;
+                max-width: none;
+                margin: 0;
+            }
+
+            /* o JS tira o is-on destas capas porque conta seis imagens para um
+               modelo de tres; aqui elas ficam visiveis de qualquer modo */
+            #page-checkout .np-track .np-cover-img { opacity: 1; }
+
+            /* ---- depoimentos lado a lado, sem setas ----
+               O carrossel e' a .np-voices-track; as setas sao os .np-chev que
+               nao sao os do audio. */
+            #page-checkout .np-voices { overflow: visible; scroll-snap-type: none; }
+
+            #page-checkout .np-voices-track {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 36px;
+                width: auto;
+                max-width: 1040px;
+                margin: 0 auto;
+                padding: 0;
+            }
+
+            #page-checkout .np-voice { width: auto; }
+
+            #page-checkout .np-chev:not(.np-chev--audio) { display: none; }
+
+            /* ---- comparativo e FAQ mais largos ---- */
+            #page-checkout .np-cmp { max-width: 860px; margin-left: auto; margin-right: auto; }
+            #page-checkout .np-faq { max-width: 760px; margin-left: auto; margin-right: auto; }
+
+            /* ---- aspas decorativas: 2,24:1 e' pouco mesmo para ornamento ---- */
+            #page-checkout .np-voices-mark { color: rgba(122, 133, 118, 1); }
+        }
+
         /* ---- sem animacao para quem a dispensa ---- */
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
