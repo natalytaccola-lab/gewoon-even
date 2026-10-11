@@ -5875,6 +5875,112 @@
             #page-checkout .np-voices-mark { color: rgba(122, 133, 118, 1); }
         }
 
+        /* ====================================================================
+           DESKTOP do #checkout (>=1024px), segunda passagem: centragem, os
+           quatro botoes com a mesma medida e os audios sem lavagem.
+           Tudo aditivo; nenhuma regra np- existente foi editada; o JS nao
+           foi tocado. Abaixo de 1024px nada muda.
+           ==================================================================== */
+        @media (min-width: 1024px) {
+            /* ---- o primeiro ecra alinhado com o resto da pagina ----
+               O grid do hero tinha 1160px com 24px de padding: medida util de
+               1112, mais larga que os 1040 do .container. O titulo comecava
+               36px a' esquerda de tudo o que vem depois. Passa a 1120/40, que
+               e' exactamente a caixa do .container -- a foto fica contida na
+               coluna da direita e a sua margem direita coincide com a do
+               corpo. (A foto ainda "sai" 150px no primeiro instante: e' a
+               animacao de entrada np-foto-entra, que desliza da direita; o
+               .np-hero tem overflow:hidden, por isso nunca cria barra
+               horizontal.) */
+            #page-checkout .np-hero-grid {
+                max-width: 1120px;
+                padding: 0 40px;
+            }
+
+            /* ---- a lista de audios nunca encosta a's bordas ----
+               O .np-stage nao vive dentro de um .container: as faixas sao
+               centradas pelo seu proprio max-width de 1040. Entre 1024 e
+               1119px isso dava uma lista mais larga que a medida do resto da
+               pagina e colada aos limites do ecra (ja' acontecia antes desta
+               passagem). Com os mesmos 40px de lado do .container, a caixa da
+               lista passa a coincidir com a dos outros blocos em qualquer
+               largura. */
+            #page-checkout .np-stage-copy {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+
+            /* ---- os quatro botoes de compra com a mesma medida ----
+               Tinham 620, 440, 440 e 680 de largura e 52, 56, 56 e 58 de
+               altura; o do meio e o final eram inline-flex num contentor sem
+               text-align, por isso ficavam encostados a' esquerda. O tamanho
+               de letra ja' era o mesmo (--t-botao, 18px) e mantem-se.
+               href, id, onclick e classes de animacao ficam como estao. */
+            #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra,
+            #page-checkout .np-cta-meio-wrap .btn-primary.np-cta-meio,
+            #page-checkout .btn-primary.np-cta-final,
+            #page-checkout .np-faq .btn-primary.np-cta-faq {
+                box-sizing: border-box;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 520px;
+                max-width: 100%;
+                min-height: 56px;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 14px 28px;
+                line-height: 1.2;
+                text-align: center;
+            }
+
+            /* ---- os tres audios sem lavagem ----
+               Dois efeitos somavam-se aqui, e nenhum deles faz sentido no
+               desktop:
+                 1. #page-checkout.np-anim .np-track nasce com opacity 0.7 e
+                    scale(0.96) de origem a' esquerda, a' espera do .is-in que
+                    o IntersectionObserver devia acrescentar. Num ecra largo
+                    esse .is-in nunca chega -- verificado a 1280 e a 1920,
+                    percorrendo a pagina toda: as tres faixas acabam o scroll
+                    ainda sem a classe. Dai o tom lavado E os 42px fora do
+                    centro (998px em vez de 1040, encostados a' esquerda pela
+                    origem da escala).
+                 2. montarCarrossel escreve nas mesmas faixas um style INLINE
+                    com transform: scale(0.92) e opacity: 0.65. E' a conta do
+                    carrossel do telemovel: no desktop as tres faixas estao
+                    empilhadas, o passo entre cartoes da' 0 e todas sao lidas
+                    como "fora de foco".
+               O JS fica como esta'. Um style de folha so' vence um style
+               inline com !important -- e' o unico motivo para ele aqui. */
+            #page-checkout .np-track {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            /* o numero da faixa estava em #7E8A79: 3,11:1 sobre o creme */
+            #page-checkout .np-track-num { color: #616D5B; }
+
+            /* ---- depoimentos: quatro cartoes, nao tres ----
+               A grelha de 3 colunas deixava o quarto sozinho numa segunda
+               linha. Em 2x2 ficam equilibrados. E o mesmo style inline do
+               carrossel apagava tres deles e mudava-lhes o corpo da letra. */
+            /* mesma caixa do .container: entre 1024 e 1119px a pista de
+               depoimentos tambem encostava aos limites do ecra */
+            #page-checkout .np-voices-track {
+                box-sizing: border-box;
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 1120px;
+                padding: 0 40px;
+            }
+
+            #page-checkout .np-voice {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            #page-checkout .np-voice-quote { font-size: var(--t-citacao) !important; }
+        }
+
         /* ---- sem animacao para quem a dispensa ---- */
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
