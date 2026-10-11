@@ -147,6 +147,18 @@
         if (aceso()) document.documentElement.classList.add('ge-is-koper');
     })();
     </script>
+    <script>
+    /* Funil B: com ?funil=37 na URL a pagina de entrada passa a ser o quiz B.
+       Aqui so' se marca o <html>; a troca do .active e' feita logo a seguir ao
+       #page-quiz37, quando os dois ja' existem. Sem o parametro nada muda. */
+    (function () {
+        try {
+            if (new URLSearchParams(window.location.search).get('funil') === '37') {
+                document.documentElement.classList.add('ge-funil37');
+            }
+        } catch (e) {}
+    })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
@@ -8419,6 +8431,57 @@
         #page-aanbod37 .a37-obj .a37-obj-t { font-weight: 600; color: var(--u2-tinta); }
         #page-aanbod37 .a37-ps { margin: 1.6rem 0 0; font-family: var(--np-body); font-size: 17px; font-weight: 300; line-height: 1.6; text-align: left; color: rgba(242, 237, 230, 0.92); }
         #page-aanbod37 a.a37-cta-ps { margin-top: 1.2rem; }
+
+        /* ====================================================================
+           Quiz B (#page-quiz37). As mesmas regras do #page-quiz, copiadas com o
+           novo escopo -- so' a parte do #page-quiz de cada lista de selectores.
+           Mais uma regra de anti-piscar, explicada no script de arranque.
+           ==================================================================== */
+        #page-quiz37 .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 58px;
+            padding: 18px 34px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--np-grad-final);
+            font-family: var(--np-body);
+            font-size: 1.05rem;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: 0.005em;
+            text-transform: none;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        #page-quiz37 .btn-primary:hover { background: var(--np-grad-final-hover); }
+
+        #page-quiz37 .btn-primary:focus-visible {
+            outline: 3px solid #F2EDE6;
+            outline-offset: 3px;
+        }
+
+        #page-quiz37 p,
+        #page-quiz37 .answer-btn {
+            font-size: var(--t-corpo);
+            line-height: var(--t-lh-corpo);
+            font-weight: 400;
+        }
+
+        #page-quiz37 .answer-btn { font-size: var(--t-botao); }
+
+        #page-quiz37 .question-number { font-size: var(--t-rotulo-alta); }
+
+        #page-quiz37 .footer .container { font-size: 14px; line-height: 1.6; }
+
+        /* Enquanto o documento esta' a ser lido, o #page-quiz ja' tem .active no
+           HTML. Com ?funil=37 esta regra esconde-o desde o primeiro byte, para
+           nao haver um piscar do quiz A; o script a seguir ao #page-quiz37 troca
+           o .active e apaga logo a classe, por isso a regra deixa de valer. */
+        html.ge-funil37 #page-quiz { display: none; }
+
     </style>
 </head>
 <body>
@@ -8470,6 +8533,67 @@
         <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
 </div>
+
+
+<!-- ================================================================= -->
+<!-- PAGE: QUIZ 37 — a entrada do Funil B (?funil=37)                   -->
+<!-- Mesma estrutura e as mesmas classes do #page-quiz. Motor proprio.  -->
+<!-- ================================================================= -->
+<div class="page" id="page-quiz37">
+    <div class="banner">
+        <svg aria-hidden="true" viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1200" height="400" fill="#F5F2EE"/>
+            <path d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z" fill="#3D5A50" opacity="0.9"/>
+            <path d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z" fill="#B8A898" opacity="0.75"/>
+            <path d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z" fill="#D4836A" opacity="0.7"/>
+        </svg>
+        <div class="brand-name">Gewoon Even</div>
+    </div>
+
+    <div class="container">
+        <div class="quiz-intro">
+            <p>Beantwoord 5 korte vragen en ontdek waar jouw lijf nog aan staat.</p>
+        </div>
+
+        <div id="q37-container">
+            <!-- as perguntas entram aqui -->
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="q37-progress-fill" style="width: 0%"></div>
+        </div>
+
+        <div id="q37-result" style="display: none;">
+            <div class="result-section">
+                <h2>Wie voor iedereen zorgt, vergeet vaak dat het eigen systeem ook rust nodig heeft.</h2>
+                <div class="section-space"></div>
+                <p>Als je jarenlang alles regelt, blijft je lijf in de stand van handelen. Stijve schouders, wakker liggen, &ldquo;gaat wel&rdquo; zeggen: je systeem geeft aan dat het nooit heeft mogen stoppen.</p>
+                <p class="strong">Het goede nieuws: dat is te oefenen. Zeven dagen, tien minuten per dag.</p>
+                <div class="section-space"></div>
+                <button class="btn-primary" id="q37-cta">Laat me zien hoe &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
+        <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
+    </div>
+</div>
+
+<script>
+/* Troca da pagina de entrada do Funil B. Corre aqui, logo a seguir aos dois
+   blocos, por isso os dois ja' existem; apagar a classe no fim faz com que a
+   regra de anti-piscar deixe de valer para o resto da sessao. */
+(function () {
+    var raiz = document.documentElement;
+    if (!raiz.classList.contains('ge-funil37')) return;
+    var a = document.getElementById('page-quiz');
+    var b = document.getElementById('page-quiz37');
+    if (a && b) { a.classList.remove('active'); b.classList.add('active'); }
+    raiz.classList.remove('ge-funil37');
+})();
+</script>
 
 
 <!-- ================================ -->
@@ -12077,6 +12201,116 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <script>
 /* ---------------------------------------------------------------------------
+   Motor do quiz B (#page-quiz37). IIFE com nomes proprios, chaves de sessao
+   proprias ('q37_answers', 'q37_score') e nenhuma ligacao ao motor do quiz A:
+   nao chama renderQuestion, selectAnswer, saveQuizAnswer nem
+   applyCheckoutSubheadline, e nao escreve em np_quiz_*.
+   O comportamento e' o mesmo: a resposta marca-se, 400 ms depois avanca, a
+   barra enche, e no fim esconde pergunta, introducao e barra e sobe ao topo.
+   --------------------------------------------------------------------------- */
+(function () {
+    var q37Pagina = document.getElementById('page-quiz37');
+    if (!q37Pagina) return;
+
+    var q37Perguntas = [
+        {
+            numero: "Vraag 1 van 5",
+            texto: "Je regelt de afspraken, de boodschappen, de verjaardagen, en iedereen om je heen rekent erop. Hoe vaak voelt dat als te veel?",
+            respostas: ["Nooit", "Af en toe", "Vaak", "Bijna altijd"]
+        },
+        {
+            numero: "Vraag 2 van 5",
+            texto: "Wanneer deed je voor het laatst iets alleen omdat jij het wilde, zonder het aan iemand uit te leggen?",
+            respostas: ["Deze week", "Vorige maand", "Ik weet het niet meer", "Dat doe ik eigenlijk nooit"]
+        },
+        {
+            numero: "Vraag 3 van 5",
+            texto: "Iemand vraagt hoe het gaat. Je zegt: \"goed hoor, druk\". Hoe vaak is dat niet helemaal waar?",
+            respostas: ["Zelden", "Soms", "Vaak", "Bijna altijd"]
+        },
+        {
+            numero: "Vraag 4 van 5",
+            texto: "Je lijf geeft signalen: stijve kaken, schouders omhoog, een hoofd dat om 3 uur 's nachts begint. Hoe vaak merk je dat?",
+            respostas: ["Nooit", "Een paar keer per maand", "Meerdere keren per week", "Bijna dagelijks"]
+        },
+        {
+            numero: "Vraag 5 van 5",
+            texto: "Als de dag voorbij is, kun je dan loslaten, of ga je in gedachten door met alles wat nog moet?",
+            respostas: ["Ik kan loslaten", "Meestal wel", "Zelden", "Het stopt nooit"]
+        }
+    ];
+
+    var q37Actual = 0;
+    var q37Respostas = [];
+
+    function q37Guardar() {
+        try {
+            sessionStorage.setItem('q37_answers', JSON.stringify(q37Respostas));
+            var soma = 0;
+            for (var i = 0; i < q37Respostas.length; i++) soma += q37Respostas[i];
+            sessionStorage.setItem('q37_score', String(soma));
+        } catch (e) {}
+    }
+
+    function q37Escapar(t) {
+        return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function q37Desenhar(indice) {
+        var q = q37Perguntas[indice];
+        var caixa = document.getElementById('q37-container');
+        var html = '<div class="question-container">'
+                 + '<div class="question-number">' + q37Escapar(q.numero) + '</div>'
+                 + '<div class="question-text">' + q37Escapar(q.texto) + '</div>'
+                 + '<div class="answers">';
+        for (var i = 0; i < q.respostas.length; i++) {
+            html += '<button type="button" class="answer-btn" data-i="' + i + '">' + q37Escapar(q.respostas[i]) + '</button>';
+        }
+        html += '</div></div>';
+        caixa.innerHTML = html;
+        Array.prototype.forEach.call(caixa.querySelectorAll('.answer-btn'), function (b) {
+            b.addEventListener('click', function () { q37Escolher(parseInt(b.getAttribute('data-i'), 10)); });
+        });
+        document.getElementById('q37-progress-fill').style.width = ((indice / q37Perguntas.length) * 100) + '%';
+    }
+
+    function q37Escolher(indice) {
+        q37Respostas[q37Actual] = indice;
+        q37Guardar();
+
+        var botoes = document.querySelectorAll('#q37-container .answer-btn');
+        Array.prototype.forEach.call(botoes, function (b) { b.classList.remove('selected'); });
+        if (botoes[indice]) botoes[indice].classList.add('selected');
+
+        setTimeout(function () {
+            q37Actual++;
+            if (q37Actual < q37Perguntas.length) {
+                q37Desenhar(q37Actual);
+            } else {
+                document.getElementById('q37-progress-fill').style.width = '100%';
+                document.getElementById('q37-container').style.display = 'none';
+                document.getElementById('q37-result').style.display = 'block';
+                q37Pagina.querySelector('.quiz-intro').style.display = 'none';
+                q37Pagina.querySelector('.progress-bar').style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }, 400);
+    }
+
+    var q37Cta = document.getElementById('q37-cta');
+    if (q37Cta) {
+        q37Cta.addEventListener('click', function () {
+            try { sessionStorage.setItem('ge_funil', '37'); } catch (e) {}
+            showPage('page-email-capture');
+        });
+    }
+
+    q37Desenhar(0);
+})();
+</script>
+
+<script>
+/* ---------------------------------------------------------------------------
    Atalho de pre-visualizacao: ?pagina=<nome> abre direto uma pagina de oferta.
    Serve so' para mandar um link de uma pre-visualizacao; em producao o
    parametro e' ignorado por completo e o site abre como sempre.
@@ -12107,6 +12341,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var PAGINAS = {
         quiz:     'page-quiz',
+        quiz37:   'page-quiz37',
         checkout: 'page-checkout',
         upsell:   'page-upsell',
         aanbod37: 'page-aanbod37',
