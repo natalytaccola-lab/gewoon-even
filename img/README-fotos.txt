@@ -17,3 +17,26 @@ A licenca da Pexels permite uso comercial sem atribuicao, por isso nao ha
 credito no site. Este ficheiro serve de registo interno.
 
 A antiga img/p7-dag1.jpg ficou no repositorio, sem uso.
+
+=== Pagina do Slaapprotocol (#page-upsell2, EUR 67) - 6 fotos, 2026-10-14 ===
+Todas: Pexels (uso comercial sem atribuicao, registo interno). Formato: recorte
+quadrado, 800x800, WebP qualidade 80.
+
+p67-hero.webp       Hero. Autor: Gabriel Gonzalez Encarnacion.
+  Origem: pexels-gabriel-gonzalez-encarnacion-679361047-27017724.jpg (2000x3000)
+  Tratamento: recorte quadrado (posicao vertical 55%), sombras levantadas (gama 0,85).
+p67-begrijpen.webp  Begrijpen (Intro). Autor: Beyzaa Yurtkuran.
+  Origem: pexels-beyzaa-yurtkuran-279977530-18325167.jpg (4160x6240)
+  Tratamento: recorte quadrado (40%), saturacao -18%, sombras levemente levantadas.
+p67-aankomen.webp   Aankomen (Avondritueel). Autor: Jahratreza.
+  Origem: pexels-jahratreza-37331980.jpg (2239x3610)
+  Tratamento: recorte quadrado (centro), sombras levantadas (gama 0,85).
+p67-loslaten.webp   De inspanning loslaten (Inslapen). Autor: Rae Angela.
+  Origem: pexels-rae-angela-31297056-7298235.jpg (6000x4000)
+  Tratamento: recorte quadrado (centro), tom aquecido levemente.
+p67-terug.webp      Terug naar jezelf ('s nachts wakker). Autor: Linasali.
+  Origem: pexels-linasali-9903362.jpg (3456x5184)
+  Tratamento: recorte quadrado (centro), tom aquecido levemente.
+p67-fecho.webp      Fecho (CTA final). Autor: Emrah.
+  Origem: pexels-emrah-398670870-30710351 (1).jpg (2912x5184)
+  Tratamento: recorte quadrado a 75% da altura (xicara), sombras levantadas (gama 0,8).
