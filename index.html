@@ -10822,10 +10822,6 @@ function selectSleepAnswer(answerIndex) {
         currentSleepQuestion++;
         if (currentSleepQuestion < sleepQuestions.length) {
             renderSleepQuestion(currentSleepQuestion);
-        } else if (sleepAnswers.length === sleepQuestions.length
-                   && sleepAnswers.every(a => a === 0)) {
-            // tres vezes "Nooit": nao ha queixa de sono, nao ha oferta
-            showPage('page-thankyou');
         } else {
             document.getElementById('sleepquiz-progress-fill').style.width = '100%';
             document.getElementById('sleepquiz-container').style.display = 'none';
