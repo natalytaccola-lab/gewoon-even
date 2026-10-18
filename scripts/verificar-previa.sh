@@ -27,17 +27,22 @@ echo "  token: encontrado (${#TOKEN} caracteres) — nao e' impresso"
 # --- o que esperamos ---------------------------------------------------
 git fetch -q origin previa-site 2>/dev/null
 SHA=$(git rev-parse --short "$REF")
-ESPERADO=$(git show "$REF:index.html" | md5 -q)
+ESPERADO=$(git show "$REF:index.html" | grep -v 'vercel.live/_next-live/feedback' | md5 -q)
 echo "  esperado: $REF = $SHA | md5 do index.html = $ESPERADO"
 
 # --- o que a prevalidacao serve ----------------------------------------
-TMP=$(mktemp -t previa); trap 'rm -f "$TMP"' EXIT
+TMP=$(mktemp -t previa); trap 'rm -f "$TMP" "$TMP.limpo"' EXIT
 CODIGO=$(curl -s -o "$TMP" -w '%{http_code}' --max-time 40 \
          -H "x-vercel-protection-bypass: $TOKEN" \
          -H 'x-vercel-set-bypass-cookie: false' \
          "$URL/")
-SERVIDO=$(md5 -q "$TMP")
-echo "  servido : HTTP $CODIGO | md5 = $SERVIDO"
+# A Vercel injecta nas PRE-VISUALIZACOES (nunca em producao) uma linha com o
+# script do Vercel Live. Tira-se antes de comparar, senao o md5 nunca bate.
+DEPLOY=$(grep -o 'data-deployment-id="[^"]*"' "$TMP" | head -1 | cut -d'"' -f2)
+grep -v 'vercel.live/_next-live/feedback' "$TMP" > "$TMP.limpo"
+SERVIDO=$(md5 -q "$TMP.limpo")
+echo "  servido : HTTP $CODIGO | md5 (sem o script do Vercel Live) = $SERVIDO"
+[ -n "$DEPLOY" ] && echo "  deployment: $DEPLOY"
 
 if [ "$CODIGO" != "200" ]; then
     echo "  >> A pre-visualizacao nao respondeu 200. O token pode estar errado ou expirado."
@@ -49,7 +54,7 @@ if [ "$SERVIDO" = "$ESPERADO" ]; then
 else
     echo "  >> AINDA NAO: o conteudo servido nao e' o do $SHA (deploy por terminar, ou outro commit)."
     for M in pg67-fragment gv-cont p67-handleiding-capa gv-tel-ecra; do
-        printf "     marcador %-22s %s\n" "$M" "$(grep -c "$M" "$TMP")"
+        printf "     marcador %-22s %s\n" "$M" "$(grep -c "$M" "$TMP.limpo")"
     done
     exit 3
 fi
