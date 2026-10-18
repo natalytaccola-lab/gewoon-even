@@ -1,1 +1,7 @@
 *.bak
+
+# Segredos locais. Nunca versionar: o token de bypass da Vercel da acesso
+# a' pre-visualizacao a quem o tiver.
+.env
+.env.*
+!.env.example
