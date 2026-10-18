@@ -42,8 +42,25 @@
             } catch (e) { /* armazenamento bloqueado: a escolha vale so' nesta visita */ }
         }
 
+        /* Hosts de pre-visualizacao: o pixel NUNCA carrega la', mesmo com
+           consentimento dado, para a previa nao sujar os dados da producao.
+           A lista esta' duplicada de proposito — o gate do atalho ?pagina=
+           tem a sua, no fim do ficheiro. Ao acrescentar um host de previa,
+           acrescenta-o nos DOIS sitios. */
+        var HOSTS_PREVIA_PIXEL = [
+            'gewoon-even-git-previa-site-natalytaccola-8262s-projects.vercel.app'
+        ];
+        function hostDePreVisualizacaoPixel() {
+            var h = String(location.hostname || '').toLowerCase();
+            return HOSTS_PREVIA_PIXEL.indexOf(h) !== -1;
+        }
+
         function carregarPixel() {
             if (carregado) return;
+            // Na previa nao se carrega nada: o fbq continua a ser o stub que
+            // guarda as chamadas na fila, por isso nenhum fbq('track', ...)
+            // rebenta — simplesmente nada sai para a Meta.
+            if (hostDePreVisualizacaoPixel()) return;
             carregado = true;
             !function (f, b, e, v, n, t, s) {
                 if (f.fbq && f.fbq.loaded) return;
