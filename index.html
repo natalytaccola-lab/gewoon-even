@@ -88,10 +88,11 @@
             caixa.setAttribute('role', 'dialog');
             caixa.setAttribute('aria-label', 'Cookies');
             caixa.innerHTML =
-                '<p class="ge-consent-txt">We gebruiken cookies van Meta om onze advertenties te meten. Mag dat?</p>' +
+                '<p class="ge-consent-txt">Wij zijn klein en betalen elke advertentie zelf. Met cookies van Meta zien we welke advertenties werken. Mag dat? ' +
+                '<a class="ge-consent-link" href="/privacy" target="_blank" rel="noopener">Meer info</a></p>' +
                 '<div class="ge-consent-bts">' +
-                '<button type="button" class="ge-consent-bt" data-ge="ok">Accepteren</button>' +
-                '<button type="button" class="ge-consent-bt" data-ge="no">Weigeren</button>' +
+                '<button type="button" class="ge-consent-bt" data-ge="ok">Ja, prima</button>' +
+                '<button type="button" class="ge-consent-bt" data-ge="no">Nee, liever niet</button>' +
                 '</div>';
             document.body.appendChild(caixa);
             caixa.querySelector('[data-ge="ok"]').addEventListener('click', window.geConsent.aceitar);
@@ -683,6 +684,14 @@
             outline: 2px solid #F2EDE6;
             outline-offset: 3px;
         }
+        /* Link discreto para a privacyverklaring, dentro do proprio banner.
+           Abre em nova aba. Regras novas: nao se edita nenhuma das de cima. */
+        .ge-consent-link { color: rgba(242, 237, 230, 0.82); font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-style: normal; font-size: 0.9rem; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+        .ge-consent-link:hover { color: #F2EDE6; }
+        .ge-consent-link:focus-visible { outline: 2px solid #F2EDE6; outline-offset: 3px; border-radius: 3px; }
+        /* Os dois botoes com exactamente a mesma largura em qualquer ecra, para
+           nenhum dos dois pesar mais do que o outro. */
+        .ge-consent-bts { display: grid; grid-template-columns: 1fr 1fr; }
 
         .footer-link {
             color: inherit;
