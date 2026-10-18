@@ -6467,29 +6467,8 @@
            seu mostrador SVG e ao IIFE do #page-upsell, e reaproveita-lo obrigava
            a mexer nesse JS. Este e' novo, aditivo e so' responde a #page-upsell2. */
 
-        #page-upsell2 .pg67-play {
-            flex: 0 0 auto;
-            box-sizing: border-box;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            padding: 0;
-            background: #E8A06B;
-            border: 0;
-            border-radius: 50%;
-            color: #2B3A31;
-            cursor: pointer;
-        }
 
-        #page-upsell2 .pg67-play:hover { background: #F0AE7D; }
-        #page-upsell2 .pg67-play:focus-visible { outline: 3px solid #F2EDE6; outline-offset: 3px; }
 
-        #page-upsell2 .pg67-play-ico { width: 26px; height: 26px; display: block; }
-        #page-upsell2 .pg67-play .pg67-ico-pausa { display: none; }
-        #page-upsell2 .pg67-play.is-a-tocar .pg67-ico-play { display: none; }
-        #page-upsell2 .pg67-play.is-a-tocar .pg67-ico-pausa { display: inline; }
 
 
 
@@ -6629,7 +6608,6 @@
         #page-upsell2 .gv .pg67n-start { display: inline-block; margin-bottom: 10px; padding: 4px 11px; border-radius: 999px; background: #B4552B; color: #F2EDE6; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
         #page-upsell2 .gv .pg67n-start[hidden] { display: none; }
         #page-upsell2 .gv .pg67n-open-var[hidden] { display: none; }
-        #page-upsell2 .gv .pg67n-amostra { margin-top: 18px; padding: 14px 16px; background: #2B3A31; border-radius: 14px; }
         #page-upsell2 .gv .gv-diff { margin: 34px auto 0; max-width: 640px; text-align: center; font-family: var(--gv-display); font-size: 26px; line-height: 1.25; color: var(--gv-noite); }
 
         /* sem promessa + depoimentos */
@@ -6724,7 +6702,6 @@
             #page-upsell2 .gv .gv-slot-kop { font-size: 52px; }
         }
         @media (min-width: 1024px) { #page-upsell2 .gv .gv-quote p { font-size: 34px; } }
-        #page-upsell2 .gv .pg67n-amostra p { margin: 0 0 7px; font-size: 15px; line-height: 1.35; color: #F2EDE6; }
         #page-upsell2 .gv .pg67-pagar-ficha img { height: 100%; width: auto; }
         #page-upsell2 .gv .gv-deps.gv-deps--een { display: block; overflow: visible; padding: 0; margin: 34px 0 0; }
 
@@ -6738,7 +6715,6 @@
         #page-upsell2 .gv .gv-cont-1 { margin: 0 auto; max-width: 42rem; font-family: var(--gv-body); font-weight: 400; font-size: 15.5px; line-height: 1.5; color: var(--gv-verde); }
         #page-upsell2 .gv .gv-cont-2 { margin: 5px auto 0; max-width: 42rem; font-family: var(--gv-display); font-style: italic; font-size: 17px; line-height: 1.45; color: #5A6A5F; }
         /* Segunda frase do lead do hero: escondida quando nao ha resultado do quiz. */
-        #page-upsell2 .gv .gv-lead-var[hidden] { display: none; }
         /* Destaque leve do item do PDF, dentro da paleta existente. */
         #page-upsell2 .gv .gv-lijst li.gv-li--pdf { border-top: 1px solid rgba(62, 78, 67, 0.28); background: var(--gv-wit); margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 4px; }
 
@@ -6791,6 +6767,68 @@
         #page-upsell2 .gv .gv-pdf-vel--1 { z-index: 2; transform: rotate(0.5deg) translate(4px, 4px); }
         #page-upsell2 .gv .gv-pdf-vel--2 { z-index: 1; transform: rotate(3.5deg) translate(9px, 9px); }
 
+        /* Hero em coluna unica (abaixo do breakpoint de 768px): a imagem passa
+           para depois do botao, para o h1, o lead e o CTA ficarem juntos no topo.
+           Fica num max-width proprio porque acima de 768px o .gv-hero-in e' uma
+           grelha com colocacao explicita, onde o 'order' nao teria efeito. */
+        @media (max-width: 767.98px) {
+            #page-upsell2 .gv .gv-hero-in { display: flex; flex-direction: column; }
+            #page-upsell2 .gv .gv-hero-tekst { order: 1; }
+            #page-upsell2 .gv .gv-hero-act { order: 2; margin-bottom: 0; }
+            #page-upsell2 .gv .gv-hero-foto { order: 3; margin: 22px 0 0; }
+        }
+        /* ---- 6: seccao do fragmento mais compacta, telefone maior ---- */
+        #page-upsell2 .gv .gv-frag { padding-top: 4px; padding-bottom: 10px; }
+        #page-upsell2 .gv .gv-frag .gv-wrap { max-width: 880px; }
+        #page-upsell2 .gv .gv-frag-in { gap: 18px; }
+        #page-upsell2 .gv .gv-frag-kop { margin-bottom: 8px; }
+        #page-upsell2 .gv .gv-frag-sub2 { margin: 4px 0 0; text-align: center; font-size: 14.5px; line-height: 1.5; color: #6E7A6F; }
+        #page-upsell2 .gv .gv-frag .gv-tel { width: 88%; max-width: 330px; margin: 0 auto; }   /* ~80% do ecra: o .gv-wrap ja tira 20px de cada lado */
+        /* ---- 7: bloco de comparacao ---- */
+        #page-upsell2 .gv .gv-verg { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 22px 0 26px; text-align: left; }
+        #page-upsell2 .gv .gv-verg-kol { padding: 18px 20px 20px; border: 1px solid var(--gv-linha); border-radius: 14px; background: var(--gv-wit); }
+        #page-upsell2 .gv .gv-verg-kol--uit { border-color: rgba(159, 93, 65, 0.42); background: rgba(224, 169, 143, 0.13); }
+        #page-upsell2 .gv .gv-verg-rotulo { margin: 0 0 12px; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #6E7A6F; }
+        #page-upsell2 .gv .gv-verg-kol--uit .gv-verg-rotulo { color: var(--gv-terra); }
+        #page-upsell2 .gv .gv-verg-cijfer { margin: 0; font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace; font-weight: 400; font-size: 28px; line-height: 1.1; color: var(--gv-noite); }
+        #page-upsell2 .gv .gv-verg-sub { margin: 2px 0 14px; font-size: 13.5px; line-height: 1.35; color: #5A6A5F; }
+        #page-upsell2 .gv .gv-verg-kol > .gv-verg-sub:last-child { margin-bottom: 0; }
+        /* ---- 8: composicao telefone + PDF no topo da caixa ---- */
+        #page-upsell2 .gv .gv-stack { position: relative; width: 280px; margin: 0 auto 26px; }
+        #page-upsell2 .gv .gv-stack .gv-tel { width: 190px; margin: 0; }
+        #page-upsell2 .gv .gv-stack .gv-tel-ecra { padding: 7px 7px 14px; }
+        #page-upsell2 .gv .gv-stack .gv-pdf { position: absolute; right: 0; bottom: 8px; width: 104px; margin: 0; transform: rotate(6deg); }
+        #page-upsell2 .gv .gv-tel-lijst { list-style: none; margin: 4px 11px 10px; padding: 0; text-align: left; }
+        #page-upsell2 .gv .gv-tel-lijst li { padding: 7px 0; border-top: 1px solid rgba(62, 78, 67, 0.16); font-size: 10.5px; line-height: 1.3; color: var(--gv-verde); }
+        /* ---- 9: linha de entrega ---- */
+        #page-upsell2 .gv .gv-levering { margin: 10px 0 0; font-size: 14.5px; line-height: 1.45; color: #5A6A5F; }
+        #page-upsell2 .gv .gv-levering--donker { color: rgba(242, 237, 230, 0.82); }
+        /* ---- 10: FAQ ---- */
+        #page-upsell2 .gv .gv-faq { padding-top: 0; }
+        #page-upsell2 .gv .gv-faq-kop { margin-bottom: 20px; }
+        #page-upsell2 .gv .gv-faq-item { border-top: 1px solid var(--gv-linha); }
+        #page-upsell2 .gv .gv-faq-item:last-of-type { border-bottom: 1px solid var(--gv-linha); }
+        #page-upsell2 .gv .gv-faq-item > summary { position: relative; list-style: none; cursor: pointer; padding: 18px 44px 18px 0; font-family: var(--gv-display); font-weight: 500; font-size: 21px; line-height: 1.25; color: var(--gv-noite); }
+        #page-upsell2 .gv .gv-faq-item > summary::-webkit-details-marker { display: none; }
+        #page-upsell2 .gv .gv-faq-item > summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-family: var(--gv-body); font-weight: 400; font-size: 24px; line-height: 1; color: var(--gv-terra); }
+        #page-upsell2 .gv .gv-faq-item[open] > summary::after { content: "\2212"; }
+        #page-upsell2 .gv .gv-faq-item > summary:focus-visible { outline: 2px solid var(--gv-terra); outline-offset: 2px; }
+        #page-upsell2 .gv .gv-faq-item > p { margin: 0 0 20px; padding-right: 44px; font-size: 16.5px; line-height: 1.6; color: #48574C; }
+        /* ---- C: rotulo do botao do hero, um por perfil ---- */
+        #page-upsell2 .gv .gv-ghost-var[hidden] { display: none; }
+        /* ---- D: mapa da pergunta 8, acima dos cartoes ---- */
+        #page-upsell2 .gv .gv-mapa { margin: 0 auto 26px; max-width: 620px; text-align: center; font-family: var(--gv-display); font-style: italic; font-size: 21px; line-height: 1.35; color: var(--gv-noite); }
+        #page-upsell2 .gv .gv-mapa[hidden] { display: none; }
+        /* ---- G: frase da pergunta 7, dentro da caixa ---- */
+        #page-upsell2 .gv .gv-bezwaar { margin: 0 0 18px; text-align: center; font-family: var(--gv-display); font-style: italic; font-size: 18px; line-height: 1.45; color: #5A6A5F; }
+        #page-upsell2 .gv .gv-bezwaar[hidden] { display: none; }
+        /* ---- J: frase destacada dentro de cada depoimento ---- */
+        #page-upsell2 .gv .gv-dep-uit { font-weight: 600; color: inherit; }
+        /* Eco da pergunta 8 no ecra de resultado. A classe global .strong (0,1,0)
+           perde para a regra global "#page-upsell2 p" (1,0,1); esta, escopada e
+           mais especifica (1,2,1), devolve o peso sem tocar em nenhuma das duas. */
+        #page-upsell2 .pg67-resultado p.strong { font-weight: 600; }
+
         /* Variantes >= 768px das regras acima. Fica DEPOIS do bloco base de
            proposito: as regras tem a mesma especificidade, por isso a ordem no
            ficheiro e' que decide. Posto antes, o bloco base anulava-as. */
@@ -6813,6 +6851,22 @@
             #page-upsell2 .gv .gv-tel { width: 300px; margin: 0; }
             /* C: mockup do PDF um pouco maior */
             #page-upsell2 .gv .gv-pdf { width: 180px; }
+            /* 6: duas colunas equilibradas, telefone a 380px */
+            #page-upsell2 .gv .gv-frag-in { grid-template-columns: minmax(0, 1fr) 380px; gap: 44px; align-items: center; }
+            #page-upsell2 .gv .gv-frag .gv-tel { width: 380px; max-width: none; margin: 0; }
+            #page-upsell2 .gv .gv-frag-sub2 { text-align: left; }
+            /* 7 */
+            #page-upsell2 .gv .gv-verg { grid-template-columns: 1fr 1fr; gap: 18px; }
+            #page-upsell2 .gv .gv-verg-cijfer { font-size: 32px; }
+            /* 8 */
+            #page-upsell2 .gv .gv-stack { width: 340px; }
+            #page-upsell2 .gv .gv-stack .gv-tel { width: 230px; }
+            #page-upsell2 .gv .gv-stack .gv-pdf { width: 126px; }
+            #page-upsell2 .gv .gv-tel-lijst li { font-size: 12px; }
+            /* 10 */
+            #page-upsell2 .gv .gv-faq-item > summary { font-size: 24px; }
+            #page-upsell2 .gv .gv-mapa { font-size: 24px; }
+            #page-upsell2 .gv .gv-bezwaar { font-size: 19px; }
         }
 
         /* ====================================================================
@@ -10464,43 +10518,36 @@ const sleepQuestions = [
 ];
 sleepQuestions.forEach((q, i) => { q.number = "Vraag " + (i + 1) + " van " + sleepQuestions.length; });
 
-const SLEEP_INTRO_PROTOCOL = "Het Slaapprotocol bestaat uit vier begeleide audio’s voor verschillende momenten van de nacht: begrijpen wat er gebeurt, de dag afsluiten, omgaan met het moment waarop je niet in slaap valt en weten wat je kunt doen wanneer je ’s nachts wakker wordt.";
+const SLEEP_NACHTALARM = "Wat je beschrijft, heeft een naam. In slaaponderzoek heet het hyperarousal. Wij noemen het het Nachtalarm: je systeem blijft aan staan, ook als jij uit wilt.";
+
 const SLEEP_PROFILES = {
     A: { title: "Je hoofd blijft doorgaan, ook als je lichaam moe is.", paras: [
         "Overdag is er genoeg te doen. En zodra het stil wordt, gaat je hoofd verder: wat morgen nog moet, wat er gezegd is, en of je straks wel in slaap valt.",
-        "Dat betekent niet dat je te weinig je best doet. Soms blijft je aandacht gericht op alles wat nog moet, zelfs wanneer je lichaam rust nodig heeft.",
-        "Daarom heb je misschien niet nóg een algemene slaaptip nodig, maar iets concreets voor het moment waarop je hoofd blijft doorgaan."],
-        protocol: SLEEP_INTRO_PROTOCOL + " Vooral het Avondritueel en Inslapen sluiten hierop aan.",
-        close: "Je hoeft niet je hele leven om te gooien. Je kunt beginnen met één audio, op het moment dat die bij je past." },
+        "Je doet je best. Juist daarom blijft je aandacht hangen bij alles wat nog moet, ook als je lichaam rust nodig heeft."] },
     B: { title: "Je nacht staat op scherp.", paras: [
         "Je wordt wakker en bijna meteen let je op je slaap: hoe laat is het, hoeveel uur kun je nog krijgen?",
-        "Dat is begrijpelijk. Maar hoe meer je probeert te slapen, hoe alerter je soms wordt. Zo kan wakker worden een kringetje worden: kijken, uitrekenen, opletten, nog wakkerder.",
-        "Dat betekent niet dat je het verkeerd doet. Het betekent dat je op dat moment iets anders nodig hebt dan nóg een poging om te slapen."],
-        protocol: SLEEP_INTRO_PROTOCOL + " ’s Nachts wakker is voor precies dat moment: eerst zakt het alarm, dan je gedachten.",
-        close: "Je hoeft niet je hele leven om te gooien. Je kunt beginnen met één audio, op het moment dat die bij je past." },
+        "Dat is begrijpelijk. Maar hoe meer je probeert te slapen, hoe alerter je soms wordt. Zo kan wakker worden een kringetje worden: kijken, uitrekenen, opletten, nog wakkerder."] },
     C: { title: "Overdag blijf je doorgaan.", paras: [
         "Je doet wat er gedaan moet worden. Misschien merkt de buitenwereld weinig van hoe moe je eigenlijk bent.",
-        "Maar dat je blijft doorgaan, betekent niet dat het je niets kost. Alles vraagt iets meer moeite dan het zou moeten.",
-        "Je hoeft niet aan het einde van je krachten te zijn om hier iets aan te willen doen."],
-        protocol: SLEEP_INTRO_PROTOCOL,
-        close: "Je hoeft niet je hele leven om te gooien. Je kunt klein beginnen: met één audio, op het moment dat die bij je past." }
+        "Doorgaan kost je meer dan je laat zien. Alles vraagt meer moeite dan het zou moeten.",
+        "Je hoeft niet aan het einde van je krachten te zijn om hier iets aan te willen doen."] }
 };
 const SLEEP_LAYER_D = [
-    "Je hebt al veel geprobeerd. Logisch. Veel daarvan helpt, afhankelijk van de oorzaak. Wat vaak buiten beeld blijft, is wat je doet op het moment zelf, midden in de nacht, wanneer je al moe bent.",
-    "Daarom is dit geen losse verzameling tips, maar een protocol: elke audio lost één stap op."];
+    "Je hebt al veel geprobeerd. Logisch. Veel daarvan helpt, afhankelijk van de oorzaak. Wat vaak buiten beeld blijft, is wat je doet op het moment zelf, midden in de nacht, wanneer je al moe bent."
+];
 const SLEEP_Q8 = [
-    { audio: 'avond', t: "Je gaf aan dat je vooral iets wilt om de dag los te laten voordat je naar bed gaat. Daarvoor is het Avondritueel." },
-    { audio: 'inslapen', t: "Je gaf aan dat je vooral wilt weten wat je kunt doen wanneer je niet in slaap valt. Daarvoor is Inslapen." },
-    { audio: 'nachts', t: "Je gaf aan dat je vooral een houvast wilt voor wanneer je midden in de nacht wakker wordt. Daarvoor is ’s Nachts wakker." },
-    { audio: 'intro', t: "Je gaf aan dat je vooral wilt begrijpen waarom je zo moe bent en toch alert blijft. Daarvoor is de Intro." },
-    { audio: null, t: "Je gaf aan dat je iets praktisch wilt dat je zelf kunt gebruiken, zonder je hele leven om te gooien. Je kunt beginnen met één audio, op het moment dat je hem nodig hebt." }
+    { audio: 'avond',    eco: "Je gaf aan dat je vooral iets wilt om de dag los te laten voordat je naar bed gaat.", mapa: "Daarvoor is het Avondritueel." },
+    { audio: 'inslapen', eco: "Je gaf aan dat je vooral wilt weten wat je kunt doen wanneer je niet in slaap valt.", mapa: "Daarvoor is Inslapen." },
+    { audio: 'nachts',   eco: "Je gaf aan dat je vooral een houvast wilt voor wanneer je midden in de nacht wakker wordt.", mapa: "Daarvoor is ’s Nachts wakker." },
+    { audio: 'intro',    eco: "Je gaf aan dat je vooral wilt begrijpen waarom je zo moe bent en toch alert blijft.", mapa: "Daarvoor is de Intro." },
+    { audio: null,       eco: "Je gaf aan dat je iets praktisch wilt dat je zelf kunt gebruiken, zonder je hele leven om te gooien.", mapa: "Je kunt beginnen met één audio, op het moment dat je hem nodig hebt." }
 ];
 const SLEEP_Q7 = [
-    "Je hoeft niets te geloven voordat je het hebt gehoord. Je kunt eerst een fragment beluisteren, en je hebt 60 dagen geld-teruggarantie.",
-    "Het Slaapprotocol is geen app en geen abonnement. Je betaalt één keer €67 en de audio’s blijven van jou.",
+    "Na zoveel pogingen is twijfel logisch. Daarom ligt het risico niet bij jou: werkt het niet, dan krijg je binnen 60 dagen je geld terug.",
+    "Het Slaapprotocol is geen app en geen abonnement. Je betaalt één keer en de audio’s blijven van jou.",
     "Je hoeft geen programma te volgen. Je kiest zelf welke audio bij het moment past, en je kunt met één beginnen.",
-    "Een audio belooft geen slaap. Wat hij wel kan: je iets geven om te volgen op het moment dat je zelf niet meer weet wat je moet doen. Je kunt eerst het fragment beluisteren.",
-    "Je krijgt vier audio’s, elk voor een eigen moment, plus een korte handleiding (pdf) voor de ochtend na een slechte nacht. Eenmalig €67, onbeperkte toegang."
+    "Je hoeft alleen te luisteren. Als je zelf vastloopt, neemt de stem het over.",
+    "Wat hierboven staat, is het hele pakket. Er komt achteraf niets bij."
 ];
 
 let currentSleepQuestion = 0;
@@ -10602,23 +10649,33 @@ function renderSleepResult(r) {
         <h2>${sleepEsc(p.title)}</h2>
         ${p.paras.map(t => `<p>${sleepEsc(t)}</p>`).join('')}
         ${r.layerD ? SLEEP_LAYER_D.map(t => `<p>${sleepEsc(t)}</p>`).join('') : ''}
-        <p>${sleepEsc(p.protocol)}</p>
-        <p class="strong">${sleepEsc(q8.t)}</p>
-        <p>${sleepEsc(SLEEP_Q7[r.q7])}</p>
-        <p>${sleepEsc(p.close)}</p>
+        <p>${sleepEsc(SLEEP_NACHTALARM)}</p>
+        <p class="strong">${sleepEsc(q8.eco)}</p>
         <div class="section-space"></div>
-        <button type="button" class="btn-primary" onclick="showSleepOffer()">Bekijk het Slaapprotocol — €67</button>
-        <p class="pg67-resultaat-sub">Eenmalige betaling · Geen abonnement · 60 dagen geld-teruggarantie</p>`;
+        <button type="button" class="btn-primary" onclick="showSleepOffer()">Hoe zet ik het alarm uit? →</button>`;
     document.getElementById('sleepquiz-resultaat-inhoud').innerHTML = html;
 }
 
 function applySleepOffer() {
     const r = sleepResult || { profile: 'A', q8: null };
     document.querySelectorAll('#sleepquiz-offer .pg67n-open-var').forEach(el => { el.hidden = el.getAttribute('data-profiel') !== r.profile; });
-    // Segunda frase do lead ("Voor jou beginnen we bij ... en ...") so faz sentido
-    // com resultado do quiz. Sem resultado (ex: ?pagina=oferta67) mostra-se apenas
-    // a primeira frase.
-    document.querySelectorAll('#sleepquiz-offer .gv-lead-var').forEach(el => { el.hidden = !sleepResult; });
+    // O botao do hero e' um so (um unico onclick); o que muda e' qual dos tres
+    // rotulos fica visivel.
+    document.querySelectorAll('#sleepquiz-offer .gv-ghost-var').forEach(el => { el.hidden = el.getAttribute('data-profiel') !== r.profile; });
+    // Mapa da pergunta 8 (acima dos cartoes) e frase da pergunta 7 (na caixa):
+    // so' aparecem quando ha' resultado do quiz.
+    const mapa = document.getElementById('gv-mapa');
+    if (mapa) {
+        const q8m = (r.q8 != null && SLEEP_Q8[r.q8]) ? SLEEP_Q8[r.q8].mapa : '';
+        mapa.textContent = sleepResult ? q8m : '';
+        mapa.hidden = !(sleepResult && q8m);
+    }
+    const bezwaar = document.getElementById('gv-bezwaar');
+    if (bezwaar) {
+        const q7t = (r.q7 != null && SLEEP_Q7[r.q7]) ? SLEEP_Q7[r.q7] : '';
+        bezwaar.textContent = sleepResult ? q7t : '';
+        bezwaar.hidden = !(sleepResult && q7t);
+    }
     // Faixa de continuidade: so' no Funil A. A1 = comprou o 7 Dagen (hash real do
     // Stripe); A2 = veio do 7 Dagen sem comprar, mas ja' e' comprador do Noodprotocol
     // (bandeira ge_koper). Qualquer outra entrada nao mostra faixa nenhuma.
@@ -11033,29 +11090,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 <header class="gv-hero">
                     <div class="gv-wrap gv-hero-in">
                         <div class="gv-hero-tekst">
-                        <p class="gv-eyebrow">Het Slaapprotocol</p>
-                        <div class="pg67n-open-var" data-profiel="A"><h1 class="gv-h1">Geef je hoofd iets anders te doen dan proberen te slapen.</h1><p class="gv-lead">Vier audio’s voor de momenten waarop je lichaam ’s nachts aan blijft staan. <span class="gv-lead-var">Voor jou beginnen we bij het Avondritueel en Inslapen.</span></p></div>
-                        <div class="pg67n-open-var" data-profiel="B" hidden><h1 class="gv-h1">Wakker in de nacht? Je hoeft niet zelf te bedenken wat je moet doen.</h1><p class="gv-lead">’s Nachts wakker is voor precies dat moment: eerst zakt het alarm, dan je gedachten.</p></div>
-                        <div class="pg67n-open-var" data-profiel="C" hidden><h1 class="gv-h1">Klein beginnen mag: één audio, op het moment dat het bij je past.</h1><p class="gv-lead">Het Slaapprotocol vraagt niet om je hele leven om te gooien. Jij kiest welke bij het moment past.</p></div>
+                        <div class="pg67n-open-var" data-profiel="A"><h1 class="gv-h1">Geef je hoofd iets anders te doen dan proberen te slapen.</h1><p class="gv-lead">Vier audio’s voor de momenten waarop je lichaam ’s nachts aan blijft staan.</p></div>
+                        <div class="pg67n-open-var" data-profiel="B" hidden><h1 class="gv-h1">Om drie uur ’s nachts hoef je niet zelf te bedenken wat je moet doen.</h1><p class="gv-lead">’s Nachts wakker is voor precies dat moment: eerst zakt het alarm, dan je gedachten.</p></div>
+                        <div class="pg67n-open-var" data-profiel="C" hidden><h1 class="gv-h1">Geef je lichaam ’s nachts terug wat de dag kost.</h1><p class="gv-lead">Vier audio’s voor de momenten waarop het alarm afgaat.</p></div>
                         </div>
-                        <figure class="gv-hero-foto"><img src="img/p67-isa.webp" alt="" width="900" height="900" loading="lazy" decoding="async"><figcaption>Beeld ter illustratie</figcaption></figure>
-                        <div class="gv-hero-act"><a href="#pg67n-audios" class="gv-ghost" onclick="document.getElementById('pg67n-audios').scrollIntoView({behavior:'smooth'});return false;">Bekijk de vier audio’s ↓</a>
-                        <a class="gv-link" href="#pg67-fragment" onclick="var e=document.getElementById('pg67-fragment');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});}return false;">Of luister eerst naar een fragment (0:25)</a></div>
+                        <figure class="gv-hero-foto"><img src="img/p67-isa.webp" alt="" width="900" height="900" loading="lazy" decoding="async"></figure>
+                        <div class="gv-hero-act"><a href="#pg67n-wacht" class="gv-ghost" onclick="document.getElementById('pg67n-wacht').scrollIntoView({behavior:'smooth'});return false;"><span class="gv-ghost-var" data-profiel="A">Waarom dat werkt ↓</span><span class="gv-ghost-var" data-profiel="B" hidden>Waarom nadenken het erger maakt ↓</span><span class="gv-ghost-var" data-profiel="C" hidden>Waarom dat nu niet lukt ↓</span></a></div>
                     </div>
-                    <div class="gv-golf" style="--van:#1F2B24;--naar:#EAE3D8" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false"><path class="gv-g-massa" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z"/><path class="gv-g-1" d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z"/><path class="gv-g-2" d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z"/><path class="gv-g-3" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z"/></svg></div>
+                    <div class="gv-golf" style="--van:#1F2B24;--naar:#FBF8F3" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false"><path class="gv-g-massa" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z"/><path class="gv-g-1" d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z"/><path class="gv-g-2" d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z"/><path class="gv-g-3" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z"/></svg></div>
                 </header>
-                <section class="gv-bar" id="gv-bar"><div class="gv-wrap gv-bar-in">
-                    <div class="gv-stat"><strong>4</strong><span>audio’s, elk voor een eigen moment</span></div>
-                    <div class="gv-stat"><strong>€67</strong><span>eenmalig, geen abonnement</span></div>
-                    <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary gv-bar-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Begin vanavond — €67</a>
-                </div></section>
 
                 <!-- 2. QUATRO MOMENTOS -->
                 <section class="gv-sec gv-sec--wit gv-sec--lees" id="pg67n-wacht">
                     <div class="gv-wrap">
-                        <h2 class="gv-h2">Je lichaam blijft op wacht staan. Deze audio’s begeleiden je op de momenten waarop dat gebeurt.</h2>
+                        <h2 class="gv-h2">Het Nachtalarm: hoe je lichaam ’s nachts aan blijft staan.</h2>
                         <div class="gv-lees">
-                            <p>Je lichaam blijft alert, ook als je doodmoe bent. Je hoofd blijft bezig, je let op ieder geluid en slapen wordt iets waar je je best voor moet doen.<sup>1</sup> Dat noemen we het Nachtalarm. Het gaat op drie momenten af: vóór het slapengaan, bij het inslapen en midden in de nacht.</p>
+                            <p>Je lichaam blijft alert, ook als je doodmoe bent. Je hoofd blijft bezig, je let op ieder geluid en slapen wordt iets waar je je best voor moet doen.<sup>1</sup> Het Nachtalarm gaat op drie momenten af: vóór het slapengaan, bij het inslapen en midden in de nacht.</p>
                             <blockquote class="gv-quote"><p>“De hele dag zat ik aan te hikken tegen het moment dat ik weer naar bed moest.”</p><cite>Isa, RTL Nieuws · <a href="https://www.rtl.nl/lifestyle/artikel/5574512/isa-nooit-meer-slaapproblemen-slapeloosheid-bang-voor-nacht-slaapgebrek" target="_blank" rel="noopener noreferrer">Lees het artikel →</a></cite></blockquote>
                         </div>
                     </div>
@@ -11070,8 +11120,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <section class="gv-sec gv-sec--wit gv-frag" id="pg67-fragment">
                     <div class="gv-wrap gv-frag-in">
                         <div class="gv-frag-tekst">
-                            <h2 class="gv-h2 gv-h2--klein gv-frag-kop">Luister eerst. Dan beslis je.</h2>
-                            <p class="gv-frag-sub">Een fragment uit Inslapen. Zet je geluid aan.</p>
+                            <h2 class="gv-h2 gv-frag-kop">Luister eerst. Dan beslis je.</h2>
+                            <p class="gv-frag-sub">Een fragment uit Inslapen. Merk wat je schouders doen in 25 seconden.</p>
+                            <p class="gv-frag-sub2">Zet je geluid aan.</p>
                         </div>
                         <div class="gv-tel">
                             <div class="gv-tel-ecra">
@@ -11094,8 +11145,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </section>
 
+                <section class="gv-bar" id="gv-bar"><div class="gv-wrap gv-bar-in">
+                    <div class="gv-stat"><strong>4</strong><span>audio’s, elk voor een eigen moment</span></div>
+                    <div class="gv-stat"><strong>€67</strong><span>eenmalig, geen abonnement</span></div>
+                    <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary gv-bar-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Begin vanavond</a>
+                </div></section>
                 <section class="gv-sec gv-sec--wit" id="pg67n-audios">
                     <div class="gv-wrap">
+                        <p class="gv-mapa" id="gv-mapa" hidden></p>
                         <div class="gv-audios" id="pg67n-aanbod">
                     <article class="gv-audio pg67n-moment" data-audio="intro">
                         <div class="gv-audio-foto"><img src="img/p67-begrijpen.webp" alt="" width="800" height="800" loading="lazy" decoding="async" style="object-position:center 56%"></div>
@@ -11107,8 +11164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </article>
                     <article class="gv-audio pg67n-moment" data-audio="inslapen">
                         <div class="gv-audio-foto"><img src="img/p67-loslaten.webp" alt="" width="800" height="800" loading="lazy" decoding="async" style="object-position:center 40%"></div>
-                        <div class="gv-audio-tekst"><span class="pg67n-start" hidden>Jouw startpunt</span><h3>Inslapen · De inspanning loslaten</h3><p>Bij het inslapen. Je leert het moment herkennen waarop je op je slaap gaat letten. Je hoofd krijgt iets anders te doen dan proberen te slapen.</p><div class="pg67n-amostra">
-                                </div></div>
+                        <div class="gv-audio-tekst"><span class="pg67n-start" hidden>Jouw startpunt</span><h3>Inslapen · De inspanning loslaten</h3><p>Bij het inslapen. Je leert het moment herkennen waarop je op je slaap gaat letten. Je hoofd krijgt iets anders te doen dan proberen te slapen.</p></div>
                     </article>
                     <article class="gv-audio pg67n-moment" data-audio="nachts">
                         <div class="gv-audio-foto"><img src="img/p67-terug.webp" alt="" width="800" height="800" loading="lazy" decoding="async" style="object-position:center 55%"></div>
@@ -11125,7 +11181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="gv-wrap">
                         <p class="gv-promesse">Je leert anders omgaan met de momenten die je nu wakker houden.</p>
                         <p class="gv-nota">Gebaseerd op principes uit cognitieve gedragstherapie voor insomnie (CGT-i).</p>
-                        <div class="gv-deps" tabindex="0" aria-label="Testgebruikers"><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik was bang om naar bed te gaan.”</p><p>“Tegen de avond begon ik al op te zien tegen de nacht. Ik wist hoe het zou gaan: moe naar bed, wakker liggen en steeds op de klok kijken. Daardoor werd ik alleen maar onrustiger. (…) Ik wilde gewoon weten wat ik kon doen als het weer gebeurde. De verschillende audio’s gaven me iets concreets om op terug te vallen.”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-merel.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Merel <span>· testgebruiker</span></span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Overdag ging ik gewoon door. Tot het niet meer ging.”</p><p>“Van buiten leek er weinig aan de hand. Ik werkte, zorgde voor mijn gezin en deed wat er moest gebeuren. Alleen sliep ik al heel lang slecht (…). Ik bleef denken dat het vanzelf wel over zou gaan. (…) Wat me aansprak, was dat het Slaapprotocol niet vroeg om mijn hele leven om te gooien. Ik kon klein beginnen en iets proberen op het moment dat ik het nodig had.”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-jolien.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Jolien <span>· testgebruiker</span></span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik dacht dat ik er maar mee moest leren leven.”</p><p>“Een ander kussen, melatonine, thee, geen telefoon meer in bed… Ik heb het allemaal geprobeerd. Telkens dacht ik: misschien helpt dit. En telkens lag ik weer wakker. (…) Ik kreeg concrete begeleiding voor het moment waarop ik wakker lag. Dat voelde anders dan de zoveelste algemene slaaptip.”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-thijs.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Thijs B. <span>· testgebruiker</span></span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik had geen zin meer in nóg een app.”</p><p>“Ik had al verschillende slaapapps geprobeerd. (…) Soms vond ik het prettig, maar als ik om drie uur wakker werd, wist ik nog steeds niet goed wat ik moest doen. Ik wilde niet nóg een abonnement of een app die me vertelde hoe slecht ik had geslapen. (…) Ik kan zelf kiezen wanneer ik ze gebruik, zonder iedere nacht mijn slaap te hoeven meten.”</p></blockquote><figcaption><span class="gv-avatar gv-avatar--leeg" aria-hidden="true">S</span><span class="gv-wie">Sanne L. <span>· testgebruiker</span></span></figcaption></figure></div>
+                        <div class="gv-deps" tabindex="0" aria-label="Testgebruikers"><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik was bang om naar bed te gaan.”</p><p>“Tegen de avond begon ik al op te zien tegen de nacht. Ik wist hoe het zou gaan: moe naar bed, wakker liggen en steeds op de klok kijken. Daardoor werd ik alleen maar onrustiger. (…) Ik wilde gewoon weten wat ik kon doen als het weer gebeurde. <strong class="gv-dep-uit">De verschillende audio’s gaven me iets concreets om op terug te vallen.</strong>”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-merel.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Merel <span>· testgebruiker</span></span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Overdag ging ik gewoon door. Tot het niet meer ging.”</p><p>“Van buiten leek er weinig aan de hand. Ik werkte, zorgde voor mijn gezin en deed wat er moest gebeuren. Alleen sliep ik al heel lang slecht (…). Ik bleef denken dat het vanzelf wel over zou gaan. (…) Wat me aansprak, was dat het Slaapprotocol niet vroeg om mijn hele leven om te gooien. <strong class="gv-dep-uit">Ik kon klein beginnen en iets proberen op het moment dat ik het nodig had.</strong>”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-jolien.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Jolien <span>· testgebruiker</span></span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik had geen zin meer in nóg een app.”</p><p>“Ik had al verschillende slaapapps geprobeerd. (…) Soms vond ik het prettig, maar als ik om drie uur wakker werd, wist ik nog steeds niet goed wat ik moest doen. Ik wilde niet nóg een abonnement of een app die me vertelde hoe slecht ik had geslapen. (…) <strong class="gv-dep-uit">Ik kan zelf kiezen wanneer ik ze gebruik, zonder iedere nacht mijn slaap te hoeven meten.</strong>”</p></blockquote><figcaption><span class="gv-avatar gv-avatar--leeg" aria-hidden="true">S</span><span class="gv-wie">Sanne L. <span>· testgebruiker</span></span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik dacht dat ik er maar mee moest leren leven.”</p><p>“Een ander kussen, melatonine, thee, geen telefoon meer in bed… Ik heb het allemaal geprobeerd. Telkens dacht ik: misschien helpt dit. En telkens lag ik weer wakker. (…) Ik kreeg concrete begeleiding voor het moment waarop ik wakker lag. <strong class="gv-dep-uit">Dat voelde anders dan de zoveelste algemene slaaptip.</strong>”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-thijs.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Thijs B. <span>· testgebruiker</span></span></figcaption></figure></div>
                         <p class="gv-nota gv-nota--mid">Testgebruikers gebruikten het Slaapprotocol 30 dagen vóór de lancering, op ons verzoek. Hun woorden, ongewijzigd.</p>
                     </div>
                 </section>
@@ -11135,24 +11191,83 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="gv-wrap gv-smal">
                         <h2 class="gv-h2 gv-h2--klein">Voordat je beslist</h2>
                         <p>Met de huisarts begin je gratis. Blijft het probleem, dan valt de volgende stap, psycholoog of therapie, onder je eigen risico (€385 in 2026), en is de gemiddelde wachttijd in de ggz meer dan 14 weken.<sup>2</sup></p>
-                        <p class="gv-vanavond">Het Slaapprotocol kun je vanavond al gebruiken, zonder afspraak en zonder wachtlijst, naast andere hulp.</p>
-                        <div class="gv-deps gv-deps--een"><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Voor €67 wilde ik wel zeker weten wat ik kreeg.”</p><p>“Ik twijfelde over de prijs. Online vind je tenslotte genoeg gratis slaapmeditaties. (…) De uitleg en de audio’s voor verschillende momenten van de nacht maakten voor mij duidelijker wat ik kocht. Ik vond het ook belangrijk dat ik vooraf een fragment kon beluisteren en wist hoe de geld-teruggarantie werkte. Dat gaf me meer houvast om te beslissen.”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-esther.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Esther <span>· testgebruiker</span></span></figcaption></figure></div>
+                        <div class="gv-verg">
+                            <div class="gv-verg-kol">
+                                <p class="gv-verg-rotulo">Psycholoog of therapie</p>
+                                <p class="gv-verg-cijfer">€385</p>
+                                <p class="gv-verg-sub">eigen risico</p>
+                                <p class="gv-verg-cijfer">14+ weken</p>
+                                <p class="gv-verg-sub">gemiddelde wachttijd</p>
+                            </div>
+                            <div class="gv-verg-kol gv-verg-kol--uit">
+                                <p class="gv-verg-rotulo">Het Slaapprotocol</p>
+                                <p class="gv-verg-cijfer">€67</p>
+                                <p class="gv-verg-sub">eenmalig</p>
+                                <p class="gv-verg-cijfer">Vanavond</p>
+                                <p class="gv-verg-sub">in je eigen bed</p>
+                            </div>
+                        </div>
+                        <p class="gv-vanavond">Sta je al op een wachtlijst? Veertien weken zijn 98 nachten. Het Slaapprotocol is er voor die nachten, naast de hulp die nog komt.</p>
+                        <p class="gv-vanavond">Je hoeft je verhaal aan niemand te vertellen. Geen intake, geen afspraak.</p>
+                        <div class="gv-deps gv-deps--een"><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Voor €67 wilde ik wel zeker weten wat ik kreeg.”</p><p>“Ik twijfelde over de prijs. Online vind je tenslotte genoeg gratis slaapmeditaties. (…) <strong class="gv-dep-uit">De uitleg en de audio’s voor verschillende momenten van de nacht maakten voor mij duidelijker wat ik kocht.</strong> Ik vond het ook belangrijk dat ik vooraf een fragment kon beluisteren en wist hoe de geld-teruggarantie werkte. Dat gaf me meer houvast om te beslissen.”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-esther.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Esther <span>· testgebruiker</span></span></figcaption></figure></div>
                     </div>
                 </section>
                 <section class="gv-sec gv-sec--creme gv-sec--box">
                     <div class="gv-wrap">
                         <div class="gv-box">
-                            <div class="gv-pdf" aria-hidden="true">
+                            <div class="gv-stack" aria-hidden="true">
+                                <div class="gv-tel gv-tel--stat">
+                                    <div class="gv-tel-ecra">
+                                        <p class="gv-tel-kop">Het Slaapprotocol</p>
+                                        <ul class="gv-tel-lijst">
+                                            <li>Intro · Begrijpen</li>
+                                            <li>Avondritueel · Aankomen</li>
+                                            <li>Inslapen · De inspanning loslaten</li>
+                                            <li>’s Nachts wakker · Terug naar jezelf</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="gv-pdf">
                                 <span class="gv-pdf-vel gv-pdf-vel--2"></span>
                                 <span class="gv-pdf-vel gv-pdf-vel--1"></span>
                                 <img class="gv-pdf-capa" src="img/p67-handleiding-capa.webp" alt="" width="560" height="792" loading="lazy" decoding="async">
                             </div>
+                            </div>
                             <h2 class="gv-box-kop">Wat je krijgt: vier audio’s, elk voor een eigen moment</h2>
                             <ul class="gv-lijst"><li><span class="gv-ic"><svg class="gv-ck" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Intro · Begrijpen</strong>: je weet waarom je lichaam ’s nachts aan blijft staan.</span></li><li><span class="gv-ic"><svg class="gv-ck" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Avondritueel · Aankomen</strong>: je sluit de dag af voordat je naar bed gaat.</span></li><li><span class="gv-ic"><svg class="gv-ck" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Inslapen · De inspanning loslaten</strong>: je hoofd krijgt iets anders te doen dan proberen te slapen.</span></li><li><span class="gv-ic"><svg class="gv-ck" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>’s Nachts wakker · Terug naar jezelf</strong>: midden in de nacht weet je wat je doet.</span></li><li class="gv-li--pdf"><span class="gv-ic"><svg class="gv-ck" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Handleiding (pdf)</strong>: wat je doet de ochtend na een slechte nacht.</span></li><li><span class="gv-ic"><svg class="gv-ck" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Onbeperkte toegang</strong>: de audio’s blijven voor altijd van jou.</span></li></ul>
                             <p class="gv-prijs"><strong>€67</strong><span>eenmalig</span></p>
-                            <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary gv-box-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, geef me het Slaapprotocol — €67</a>
+                            <p class="gv-bezwaar" id="gv-bezwaar" hidden></p>
+                            <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary gv-box-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, geef me het Slaapprotocol</a>
+                            <p class="gv-levering">Direct na betaling in je mail. Vanavond luister je de eerste audio.</p>
                             <p class="gv-sub">Eenmalige betaling · 60 dagen geld-teruggarantie</p>
                         </div>
+                    </div>
+                </section>
+                <!-- 6b. FAQ. Fica entre a caixa e a garantia, ambas em creme, por
+                     isso nao leva onda nenhuma: a onda creme->escuro segue-se a esta. -->
+                <section class="gv-sec gv-sec--creme gv-faq" id="pg67-faq">
+                    <div class="gv-wrap gv-smal">
+                        <h2 class="gv-h2 gv-faq-kop">Nog even dit</h2>
+                        <details class="gv-faq-item">
+                            <summary>Hoe krijg ik de audio’s?</summary>
+                            <p>Direct na je betaling krijg je een mail met de link naar je audio’s. Je luistert op je telefoon, tablet of computer, zonder app te installeren.</p>
+                        </details>
+                        <details class="gv-faq-item">
+                            <summary>Moet ik elke avond alle vier luisteren?</summary>
+                            <p>Nee. Elke audio hoort bij een eigen moment: het Avondritueel vóór het slapengaan, Inslapen in bed, ’s Nachts wakker als je midden in de nacht wakker ligt. Begin één keer met de Intro. Daarna kies je wat bij de avond past.</p>
+                        </details>
+                        <details class="gv-faq-item">
+                            <summary>Merkt mijn partner er iets van?</summary>
+                            <p>Je luistert met oordopjes, midden in de nacht. Niemand wordt wakker. Niemand hoeft het te weten.</p>
+                        </details>
+                        <details class="gv-faq-item">
+                            <summary>Werkt het als ik slaapmedicatie gebruik?</summary>
+                            <p>Het Slaapprotocol is een audioprogramma en geen medische behandeling. Je kunt de audio’s naast je medicatie beluisteren. Verander niets aan je gebruik zonder overleg met je huisarts.</p>
+                        </details>
+                        <details class="gv-faq-item">
+                            <summary>Hoe werkt de geld-teruggarantie?</summary>
+                            <p>Binnen 60 dagen na je aankoop mail je naar hello@gewoon-even.nl. Je krijgt je geld terug, zonder dat je hoeft uit te leggen waarom.</p>
+                        </details>
                     </div>
                 </section>
                 <div class="gv-golf gv-golf--zacht" style="--van:#F2EDE6;--naar:#1F2B24" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false"><path class="gv-g-massa" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z"/><path class="gv-g-1" d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z"/><path class="gv-g-2" d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z"/><path class="gv-g-3" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z"/></svg></div>
@@ -11170,6 +11285,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h2 class="gv-slot-kop">Geef je nacht een ander begin.</h2>
                         <p class="gv-slot-sub">Leer luisteren naar je lichaam en kom weer bij jezelf.</p>
                         <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary gv-slot-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik probeer het 60 dagen — €67</a>
+                        <p class="gv-levering gv-levering--donker">Direct na betaling in je mail. Vanavond luister je de eerste audio.</p>
                         <div class="pg67-pagar">
                             <div class="pg67-pagar-fichas">
                                 <span class="pg67-pagar-ficha"><img src="img/ideal.webp" alt="iDEAL" width="143" height="126" loading="lazy"></span>
