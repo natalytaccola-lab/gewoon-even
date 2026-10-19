@@ -420,13 +420,6 @@
             color: var(--green);
         }
 
-        .normaal-list {
-            font-size: 1.05rem;
-            font-weight: 300;
-            color: var(--text);
-            margin-bottom: 24px;
-        }
-
         /* ============ CHECKOUT PAGE ============ */
         .checkout-section {
             padding: 48px 0 24px;
@@ -8813,7 +8806,7 @@
 
     <div class="container">
         <div class="quiz-intro">
-            <p>Beantwoord 5 korte vragen en ontdek welk protocol bij jou past.</p>
+            <p>Vijf korte vragen over hoe jouw lichaam met spanning omgaat. Aan het eind weet je wat er speelt, en wat je op het moment zelf kunt doen.</p>
         </div>
 
         <div id="quiz-container">
@@ -8827,14 +8820,15 @@
         <!-- Result (hidden until quiz complete) -->
         <div id="quiz-result" style="display: none;">
             <div class="result-section">
-                <h2>Herkenbaar, hè?</h2>
+                <h2>Wij noemen dat de alarmstand.</h2>
                 <div class="section-space"></div>
-                <p>De meeste mensen die deze vragen beantwoorden, herkennen zichzelf in bijna alles. Niet omdat er iets mis is met je. Maar omdat je zenuwstelsel al zo lang op scherp staat dat het normaal is gaan voelen.</p>
-                <p class="normaal-list">Stijve schouders? Normaal. Slapeloze nachten? Normaal. <em>Ja hoor, prima</em> zeggen terwijl je trilt? Normaal.</p>
-                <p class="strong">Maar het is niet normaal. Het is een lichaam dat vastzit in een alarmstand die niet meer uitgaat.</p>
-                <p class="strong">Het goede nieuws: het hoeft maar 3 stappen om dat systeem te resetten.</p>
+                <p>Je dag stopt. Je systeem gaat door. Het blijft opletten, plannen en klaarstaan, ook als er niets meer van je gevraagd wordt.</p>
+                <!-- linha conforme o score (applyQuizResultLine): >= 8 alto, <= 7 baixo -->
+                <p id="quiz-result-score">Jouw antwoorden laten zien dat de onrust bij jou vaak blijft hangen.</p>
+                <p class="strong">Wat buiten gebeurt, houd je niet altijd tegen. En hopen dat het vanzelf overgaat, kost je elke keer weer een avond, een nacht of je geduld.</p>
+                <p class="strong">Daarvoor is het Noodprotocol: drie korte audio’s die klaarstaan voor het moment dat de onrust oploopt. Je hoeft niets uit te zoeken of te regelen. Je zet er één op en doet mee.</p>
                 <div class="section-space"></div>
-                <button class="btn-primary" onclick="showPage('page-email-capture')">Laat me zien hoe →</button>
+                <button class="btn-primary" onclick="showPage('page-email-capture')">Laat me de drie audio’s zien →</button>
             </div>
         </div>
     </div>
@@ -10205,28 +10199,28 @@
 const questions = [
     {
         number: "Vraag 1 van 5",
-        text: "Onderweg naar je werk voelt alles opeens te dichtbij — de geluiden, de mensen, de ruimte. Herken je dat?",
-        answers: ["Nee, nooit", "Af en toe", "Ja, regelmatig", "Ja, bijna elke keer"]
+        text: "Je week zit vol: werk, boodschappen, regelen, afspraken van weken geleden. En is het eindelijk zover, dan heb je eigenlijk geen zin meer. Herken je dat?",
+        answers: ["Zelden. Meestal heb ik genoeg energie.", "Soms, na een drukke week.", "Regelmatig. Zelfs leuke dingen kosten me meer dan ze opleveren.", "Vaak. Ik verlang vooral naar een moment waarop even niets hoeft."]
     },
     {
         number: "Vraag 2 van 5",
-        text: "Je ligt in bed en je hoofd begint. Gedachten over morgen, over alles wat nog moet, over dingen die misschien nooit gebeuren. Hoe vaak?",
-        answers: ["Zelden", "Een paar keer per maand", "Meerdere keren per week", "Bijna elke nacht"]
+        text: "Je dag zit erop. Hoe makkelijk laat je hem achter je?",
+        answers: ["Makkelijk. Wat klaar is, is klaar.", "Meestal. Soms loop ik nog iets na in mijn hoofd.", "Moeilijk. Er blijft altijd wel iets openstaan: een mail, een afspraak, iemand die op me rekent.", "Bijna nooit. Ik voel me eigenlijk altijd verantwoordelijk voor iets."]
     },
     {
         number: "Vraag 3 van 5",
-        text: "Iemand vraagt 'gaat het?' en je zegt 'ja hoor, prima' terwijl je van binnen trilt. Hoe vaak doe je dat?",
-        answers: ["Nooit", "Soms", "Vaak", "Dat is mijn standaardmodus"]
+        text: "Er hoeft even niets van je. Je zit op de bank of ligt in bed. Wat gebeurt er dan?",
+        answers: ["Ik ontspan en geniet ervan.", "Het duurt even, maar dan kom ik tot rust.", "Ik pak toch mijn telefoon of sta weer op om iets te doen.", "Juist als het stil wordt, merk ik pas hoe opgejaagd ik ben."]
     },
     {
         number: "Vraag 4 van 5",
-        text: "Merk je spanning in je lichaam die er gewoon altijd is? Stijve kaken, schouders omhoog, buikpijn zonder reden?",
-        answers: ["Nee", "Nu je het zegt... ja", "Ja, dagelijks", "Ik wist niet dat dat niet normaal was"]
+        text: "Soms blijft het niet bij gedachten. Hoe merk jij dat het te veel wordt?",
+        answers: ["Dat gebeurt zelden. Ik voel op tijd dat ik rust nodig heb.", "Ik word prikkelbaar en kan me minder goed concentreren.", "Ik adem hoog en mijn schouders schieten omhoog.", "Alles komt tegelijk binnen, en ik krijg het niet meer stil."]
     },
     {
         number: "Vraag 5 van 5",
-        text: "Als je eerlijk bent — wanneer was de laatste keer dat je echt ontspannen was? Niet 'even op de bank zitten' maar echt rustig van binnen?",
-        answers: ["Vorige week", "Vorige maand", "Ik weet het niet meer", "Ik weet niet of ik dat ooit heb gevoeld"]
+        text: "En als het zover is, wat doe je dan?",
+        answers: ["Ik breng mezelf meestal weer tot rust.", "Ik probeer rustig te ademen, maar dat helpt niet altijd.", "Ik zoek afleiding, maar de onrust blijft op de achtergrond.", "Ik doe maar wat en hoop dat het vanzelf overgaat."]
     }
 ];
 
@@ -10288,6 +10282,19 @@ function applyCheckoutSubheadline() {
     el.textContent = score <= 7 ? SUB_QUIZ_BAIXO : SUB_QUIZ_ALTO;
 }
 
+// ============ RESULTADO: LINHA CONFORME O SCORE ============
+// Mesmo limite da subheadline do checkout: <= 7 baixo, >= 8 alto. O score sai
+// das respostas em memoria, para funcionar mesmo sem sessionStorage.
+const RESULT_QUIZ_BAIXO = "Jouw antwoorden laten zien dat je meestal nog tot rust komt. Juist dan is bijsturen het makkelijkst.";
+const RESULT_QUIZ_ALTO = "Jouw antwoorden laten zien dat de onrust bij jou vaak blijft hangen.";
+
+function applyQuizResultLine() {
+    const el = document.getElementById('quiz-result-score');
+    if (!el) return;
+    const score = quizAnswers.reduce((total, v) => total + v, 0);
+    el.textContent = score <= 7 ? RESULT_QUIZ_BAIXO : RESULT_QUIZ_ALTO;
+}
+
 function renderQuestion(index) {
     const q = questions[index];
     const container = document.getElementById('quiz-container');
@@ -10320,6 +10327,7 @@ function selectAnswer(answerIndex) {
             renderQuestion(currentQuestion);
         } else {
             // Quiz complete
+            applyQuizResultLine();
             document.getElementById('progress-fill').style.width = '100%';
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('quiz-result').style.display = 'block';
