@@ -6522,15 +6522,16 @@
         #page-upsell2 .gv .gv-smal { max-width: 700px; }
 
         /* titulos */
-        #page-upsell2 .gv .gv-h1 { margin: 0 0 18px; font-family: var(--gv-display); font-weight: 500; font-size: 40px; line-height: 1.08; letter-spacing: -.005em; color: var(--gv-creme); text-align: center; }
+        #page-upsell2 .gv .gv-h1 { margin: 0 0 18px; font-family: var(--gv-display); font-weight: 500; font-size: 40px; line-height: 1.08; letter-spacing: -.005em; color: var(--gv-noite); text-align: center; }
         #page-upsell2 .gv .gv-h2 { margin: 0 auto 34px; max-width: 800px; font-family: var(--gv-display); font-weight: 500; font-size: 32px; line-height: 1.14; color: var(--gv-noite); text-align: center; }
         #page-upsell2 .gv .gv-h2--klein { font-size: 30px; margin-bottom: 18px; }
 
         /* HERO: so texto, sem foto; a onda faz a passagem */
-        #page-upsell2 .gv .gv-hero { position: relative; background: var(--gv-noite); color: var(--gv-creme); padding: 54px 0 0; }
+        /* hero em creme (o --bg da pagina, o mesmo do quiz e do resultado), texto escuro */
+        #page-upsell2 .gv .gv-hero { position: relative; background: var(--bg); color: var(--gv-noite); padding: 54px 0 0; }
         #page-upsell2 .gv .gv-hero-in { text-align: center; padding-bottom: 8px; position: relative; z-index: 1; }
         #page-upsell2 .gv .gv-eyebrow { margin: 0 0 16px; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--gv-terra-l); }
-        #page-upsell2 .gv .gv-lead { margin: 0 auto 28px; max-width: 34rem; font-size: 19px; line-height: 1.55; color: rgba(242,237,230,.9); }
+        #page-upsell2 .gv .gv-lead { margin: 0 auto 28px; max-width: 34rem; font-size: 19px; line-height: 1.55; color: var(--gv-verde); }
         #page-upsell2 .gv .gv-hero-act { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 8px; }
         #page-upsell2 .gv .gv-ghost { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 14px 30px; border: 1.5px solid rgba(242,237,230,.7); border-radius: 999px; color: var(--gv-creme); text-decoration: none; font-size: 17px; font-weight: 500; transition: background .2s; }
         #page-upsell2 .gv .gv-ghost:hover { background: rgba(242,237,230,.1); }
@@ -6663,6 +6664,19 @@
             #page-upsell2 .gv .gv-slot .gv-slot-cta { animation: none; }
         }
 
+        /* Revelacao ao rolar e contagem da comparacao. O estado escondido so'
+           existe com .gv-anim, que o JS poe no .gv; sem JS (ou com movimento
+           reduzido) fica tudo visivel. So' opacity e transform. */
+        #page-upsell2 .gv.gv-anim .gv-rev { opacity: 0; transform: translateY(20px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); transition-delay: var(--gv-rev-d, 0ms); }
+        #page-upsell2 .gv.gv-anim .gv-rev.is-rev { opacity: 1; transform: none; }
+        #page-upsell2 .gv .gv-verg-cijfer { font-variant-numeric: tabular-nums; }
+        #page-upsell2 .gv .gv-tel-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+        #page-upsell2 .gv .gv-tel-num { display: inline-block; text-align: right; }
+        #page-upsell2 .gv .gv-tel-plus.is-wacht { visibility: hidden; }
+        @media (prefers-reduced-motion: reduce) {
+            #page-upsell2 .gv.gv-anim .gv-rev { opacity: 1; transform: none; transition: none; }
+        }
+
         /* barra fixa (so telemovel) */
         #page-upsell2 .pg67n-sticky { display: none; }
         @media (max-width: 767px) {
@@ -6680,6 +6694,8 @@
             #page-upsell2 .gv .gv-hero { padding-top: 84px; }
             #page-upsell2 .gv .gv-lead { font-size: 21px; }
             #page-upsell2 .gv .gv-hero-act { flex-direction: row; justify-content: center; gap: 28px; }
+            #page-upsell2 .gv .gv-hero .gv-ghost { border-color: rgba(31,43,36,.7); color: var(--gv-noite); }
+            #page-upsell2 .gv .gv-hero .gv-ghost:hover { background: rgba(31,43,36,.06); }
             #page-upsell2 .gv .gv-bar-in { flex-direction: row; justify-content: center; gap: 0; }
             #page-upsell2 .gv .gv-stat { padding: 0 32px; border-right: 1px solid rgba(62,78,67,.22); }
             #page-upsell2 .gv .gv-bar-cta { margin-left: 32px; }
@@ -6707,7 +6723,7 @@
 
         /* ---- A: hero em 2 colunas com a ilustracao ---- */
         #page-upsell2 .gv .gv-hero-foto { margin: 0 0 22px; }
-        #page-upsell2 .gv .gv-hero-foto img { width: 100%; height: auto; max-height: 55vh; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 14px; filter: contrast(1.06) brightness(1.04); }
+        #page-upsell2 .gv .gv-hero-foto img { width: 100%; height: auto; max-height: 55vh; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 14px; filter: contrast(1.06) brightness(1.04); }
         #page-upsell2 .gv .gv-hero-foto figcaption { margin-top: 8px; text-align: center; font-size: 13px; color: rgba(242, 237, 230, 0.78); }
         /* ---- A: "Je lichaam..." em coluna unica de leitura ---- */
         #page-upsell2 .gv .gv-lees { max-width: 620px; margin: 0 auto 52px; }
@@ -6763,6 +6779,18 @@
             #page-upsell2 .gv .gv-hero-tekst { order: 1; }
             #page-upsell2 .gv .gv-hero-act { order: 2; margin-bottom: 0; }
             #page-upsell2 .gv .gv-hero-foto { order: 3; margin: 22px 0 0; }
+            /* O botao entra na foto, sobre o cobertor: a mesma celula de grelha
+               que a figura, encostado em baixo. Fundo verde-noite a 72% (o minimo para 4,5:1 sobre o caderno e a mesinha) com
+               desfoque para ler sobre o lencol claro. */
+            #page-upsell2 .gv .gv-hero-in { display: grid; grid-template-columns: minmax(0, 1fr); }
+            #page-upsell2 .gv .gv-hero-tekst { grid-row: 1; grid-column: 1; }
+            #page-upsell2 .gv .gv-hero-foto { grid-row: 2; grid-column: 1; }
+            #page-upsell2 .gv .gv-hero-act { grid-row: 2; grid-column: 1; align-self: end; justify-self: center; z-index: 2; margin: 0 0 20px; }
+            #page-upsell2 .gv .gv-hero-act .gv-ghost { min-height: 46px; padding: 12px 24px; font-size: 15px; white-space: nowrap; background: rgba(31, 43, 36, 0.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+            #page-upsell2 .gv .gv-hero-act .gv-ghost:hover { background: rgba(31, 43, 36, 0.82); }
+            /* foto mais baixa no telemovel (4:3), para o botao ficar mais acima; o
+               recorte guarda o abajur em cima e a cama em baixo. Desktop fica 4:5. */
+            #page-upsell2 .gv .gv-hero-foto img { aspect-ratio: 4 / 3; object-position: center 30%; }
         }
         /* ---- 6: seccao do fragmento mais compacta, telefone maior ---- */
         #page-upsell2 .gv .gv-frag { padding-top: 4px; padding-bottom: 10px; }
@@ -11081,10 +11109,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="pg67n-open-var" data-profiel="B" hidden><h1 class="gv-h1">Om drie uur ’s nachts hoef je niet zelf te bedenken wat je moet doen.</h1><p class="gv-lead">’s Nachts wakker is voor precies dat moment: eerst zakt het alarm, dan je gedachten.</p></div>
                         <div class="pg67n-open-var" data-profiel="C" hidden><h1 class="gv-h1">Geef je lichaam ’s nachts terug wat de dag kost.</h1><p class="gv-lead">Vier audio’s voor de momenten waarop het alarm afgaat.</p></div>
                         </div>
-                        <figure class="gv-hero-foto"><img src="img/p67-isa.webp" alt="" width="900" height="900" loading="lazy" decoding="async"></figure>
+                        <figure class="gv-hero-foto"><img src="img/p67-hero-nachtlamp.webp" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
                         <div class="gv-hero-act"><a href="#pg67n-wacht" class="gv-ghost" onclick="document.getElementById('pg67n-wacht').scrollIntoView({behavior:'smooth'});return false;"><span class="gv-ghost-var" data-profiel="A">Waarom dat werkt ↓</span><span class="gv-ghost-var" data-profiel="B" hidden>Waarom nadenken het erger maakt ↓</span><span class="gv-ghost-var" data-profiel="C" hidden>Waarom dat nu niet lukt ↓</span></a></div>
                     </div>
-                    <div class="gv-golf" style="--van:#1F2B24;--naar:#FBF8F3" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false"><path class="gv-g-massa" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z"/><path class="gv-g-1" d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z"/><path class="gv-g-2" d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z"/><path class="gv-g-3" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z"/></svg></div>
+                    <div class="gv-golf gv-golf--zacht" style="--van:#F5F2EE;--naar:#FBF8F3" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false"><path class="gv-g-massa" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z"/><path class="gv-g-1" d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z"/><path class="gv-g-2" d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z"/><path class="gv-g-3" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z"/></svg></div>
                 </header>
 
                 <!-- 2. QUATRO MOMENTOS -->
@@ -11314,6 +11342,69 @@ document.addEventListener('DOMContentLoaded', () => {
                         new IntersectionObserver(upd).observe(top);
                         [slot,verg,box].forEach(function(el){ if(el) new IntersectionObserver(upd,{rootMargin:'0px 0px -10% 0px'}).observe(el); });
                     }
+                })();
+                </script>
+                <script>
+                /* Revelacao ao rolar (fade + subida) e contagem dos numeros da
+                   comparacao. Cada observador desliga-se depois de disparar. O
+                   hero, a barra de preco, a caixa da oferta, o fecho e a barra
+                   fixa ficam fora: aparecem logo. */
+                (function(){
+                    var gv=document.querySelector('#page-upsell2 .gv'); if(!gv) return;
+                    if(!('IntersectionObserver' in window)) return;
+                    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                    var STAP=80;
+                    function sel(q){ return Array.prototype.slice.call(gv.querySelectorAll(q)); }
+                    // alvos soltos e grupos (os filhos entram em sequencia)
+                    var soltos=sel('.gv-h2:not(.gv-frag-kop)').concat(sel('#pg67n-wacht .gv-lees'), sel('#pg67-fragment .gv-frag-in'), sel('.gv-faq-item'), sel('.gv-garband .gv-gar'));
+                    var grupos=sel('.gv-audios').concat(sel('.gv-deps'), sel('.gv-verg'));
+                    soltos.forEach(function(el){ el.classList.add('gv-rev'); });
+                    grupos.forEach(function(g){ Array.prototype.forEach.call(g.children,function(c,i){ c.classList.add('gv-rev'); c.style.setProperty('--gv-rev-d',(i*STAP)+'ms'); }); });
+                    gv.classList.add('gv-anim');
+                    var io=new IntersectionObserver(function(es){
+                        es.forEach(function(e){
+                            if(!e.isIntersecting) return;
+                            var t=e.target;
+                            if(t.classList.contains('gv-rev')) t.classList.add('is-rev');
+                            else Array.prototype.forEach.call(t.children,function(c){ c.classList.add('is-rev'); });
+                            io.unobserve(t);
+                        });
+                    },{rootMargin:'0px 0px -15% 0px'});
+                    soltos.concat(grupos).forEach(function(el){ io.observe(el); });
+
+                    // contagem: so' "€385" e "14+ weken". O valor real fica no HTML
+                    // (num span so' para leitores de ecra); o que anima e' uma copia
+                    // aria-hidden, e o "+" so' aparece no fim.
+                    var verg=gv.querySelector('.gv-verg'); if(!verg) return;
+                    var alvos=Array.prototype.filter.call(verg.querySelectorAll('.gv-verg-kol:not(.gv-verg-kol--uit) .gv-verg-cijfer'),function(el){ return /\d/.test(el.textContent); });
+                    var partes=alvos.map(function(el){
+                        var txt=el.textContent, m=txt.match(/^(\D*)(\d+)(\+?)(.*)$/); if(!m) return null;
+                        el.setAttribute('aria-live','off');
+                        el.innerHTML='';
+                        var sr=document.createElement('span'); sr.className='gv-tel-sr'; sr.textContent=txt;
+                        var vis=document.createElement('span'); vis.setAttribute('aria-hidden','true');
+                        var num=document.createElement('span'); num.className='gv-tel-num'; num.style.minWidth=m[2].length+'ch'; num.textContent='0';
+                        // a folga dos digitos que faltam fica do lado de fora: depois do "€", atras do "weken"
+                        num.style.textAlign=m[1]?'left':'right';
+                        var plus=document.createElement('span'); plus.className='gv-tel-plus is-wacht'; plus.textContent=m[3];
+                        vis.appendChild(document.createTextNode(m[1])); vis.appendChild(num); vis.appendChild(plus); vis.appendChild(document.createTextNode(m[4]));
+                        el.appendChild(sr); el.appendChild(vis);
+                        return {num:num, plus:plus, alvo:parseInt(m[2],10)};
+                    }).filter(Boolean);
+                    if(!partes.length) return;
+                    var tio=new IntersectionObserver(function(es){
+                        if(!es[0].isIntersecting) return;
+                        tio.disconnect();
+                        var t0=null, DUR=1200;
+                        function passo(t){
+                            if(t0===null) t0=t;
+                            var k=Math.min(1,(t-t0)/DUR), e=1-Math.pow(1-k,3);
+                            partes.forEach(function(p){ p.num.textContent=String(Math.round(p.alvo*e)); if(k===1) p.plus.classList.remove('is-wacht'); });
+                            if(k<1) requestAnimationFrame(passo);
+                        }
+                        requestAnimationFrame(passo);
+                    },{rootMargin:'0px 0px -30% 0px'});
+                    tio.observe(verg);
                 })();
                 </script>
             </div>
