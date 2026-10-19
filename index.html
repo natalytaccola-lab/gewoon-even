@@ -6577,7 +6577,7 @@
         #page-upsell2 .gv .gv-sec--creme { background: var(--gv-creme); }
         #page-upsell2 .gv .gv-split { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; margin-bottom: 52px; }
         #page-upsell2 .gv .gv-foto { margin: 0; }
-        #page-upsell2 .gv .gv-foto img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 14px; filter: grayscale(1) contrast(1.06) brightness(1.04); }
+        #page-upsell2 .gv .gv-foto img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 14px; filter: contrast(1.06) brightness(1.04); }
         #page-upsell2 .gv .gv-foto figcaption { margin-top: 8px; text-align: center; font-size: 13px; color: #6E6150; }
         #page-upsell2 .gv .gv-split-tekst p { font-size: 18px; }
         #page-upsell2 .gv .gv-quote { margin: 26px 0 0; padding: 4px 0 4px 20px; border-left: 3px solid #C89078; }
@@ -6588,7 +6588,7 @@
         /* os quatro audios */
         #page-upsell2 .gv .gv-audios { display: grid; grid-template-columns: 1fr; gap: 20px; counter-reset: gvstap; }
         #page-upsell2 .gv .gv-audio { position: relative; counter-increment: gvstap; background: #fff; border: 1px solid var(--gv-linha); border-radius: 16px; box-shadow: 0 8px 26px rgba(31,43,36,.08); overflow: hidden; display: flex; flex-direction: column; }
-        #page-upsell2 .gv .gv-audio-foto img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; filter: grayscale(1) contrast(1.05); }
+        #page-upsell2 .gv .gv-audio-foto img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; filter: contrast(1.05); }
         #page-upsell2 .gv .gv-audio::after { content: counter(gvstap); position: absolute; top: 12px; left: 12px; width: 34px; height: 34px; border-radius: 50%; background: var(--gv-noite); color: var(--gv-creme); font-family: var(--gv-display); font-size: 22px; font-weight: 600; line-height: 34px; text-align: center; box-shadow: 0 0 0 3px #fff; }
         #page-upsell2 .gv .gv-audios.is-herordend .gv-audio::after { display: none; }
         #page-upsell2 .gv .gv-audio-tekst { padding: 20px 22px 24px; flex: 1; }
@@ -6602,14 +6602,13 @@
         /* sem promessa + depoimentos */
         #page-upsell2 .gv .gv-promesse { margin: 0 auto 10px; max-width: 640px; text-align: center; font-family: var(--gv-display); font-weight: 500; font-size: 30px; line-height: 1.2; color: var(--gv-noite); }
         #page-upsell2 .gv .gv-nota { margin: 0 auto 34px; max-width: 640px; text-align: center; font-size: 14.5px; line-height: 1.5; color: #5A6A5F; }
-        #page-upsell2 .gv .gv-nota--mid { margin: 26px auto 0; }
         #page-upsell2 .gv .gv-deps { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 20px 14px; margin: 0 -20px; -webkit-overflow-scrolling: touch; }
         #page-upsell2 .gv .gv-dep { flex: 0 0 86%; scroll-snap-align: center; margin: 0; padding: 26px 24px 22px; background: #fff; border: 1px solid var(--gv-linha); border-radius: 16px; box-shadow: 0 8px 26px rgba(31,43,36,.07); display: flex; flex-direction: column; justify-content: space-between; }
         #page-upsell2 .gv .gv-dep blockquote { margin: 0 0 18px; }
         #page-upsell2 .gv .gv-dep p { font-size: 16.5px; line-height: 1.58; margin: 0; }
         #page-upsell2 .gv .gv-dep .gv-dep-kop { margin: 0 0 10px; font-family: var(--gv-display); font-style: italic; font-weight: 500; font-size: 24px; line-height: 1.15; color: var(--gv-noite); }
         #page-upsell2 .gv .gv-dep figcaption { display: flex; align-items: center; gap: 12px; }
-        #page-upsell2 .gv .gv-avatar { width: 48px; height: 48px !important; border-radius: 50%; object-fit: cover; filter: grayscale(1) contrast(1.05); flex: 0 0 auto; }
+        #page-upsell2 .gv .gv-avatar { width: 48px; height: 48px !important; border-radius: 50%; object-fit: cover; filter: contrast(1.05); flex: 0 0 auto; }
         #page-upsell2 .gv .gv-avatar--leeg { display: inline-flex; align-items: center; justify-content: center; background: #D9D3C8; color: #48574C; font-family: var(--gv-display); font-size: 24px; filter: none; }
         #page-upsell2 .gv .gv-wie { font-size: 15.5px; font-weight: 500; color: var(--gv-noite); }
         #page-upsell2 .gv .gv-wie span { font-weight: 400; color: #5A6A5F; }
@@ -6656,6 +6655,20 @@
         #page-upsell2 .gv .gv-bronnen summary { cursor: pointer; text-align: center; padding: 8px 0; }
         #page-upsell2 .gv .gv-bronnen ol { margin: 8px 0 0; padding-left: 20px; }
         #page-upsell2 .gv .gv-bronnen li { margin-bottom: 6px; }
+        #page-upsell2 .gv .gv-bronnen .gv-bronnen-nota { margin: 6px auto 0; max-width: 700px; text-align: center; font-size: 13px; line-height: 1.5; color: rgba(242,237,230,.72); }
+
+        /* Ultimo CTA (fecho escuro): laranja vivo e um pulso lento, so' neste
+           botao. Branco sobre #C1541D = 4,61:1. Sem animacao com reduced-motion. */
+        #page-upsell2 .gv .gv-slot .gv-slot-cta { background: #C1541D; animation: gv-pulso 2.2s ease-in-out infinite; }
+        #page-upsell2 .gv .gv-slot .gv-slot-cta:hover { background: #B04A18; }
+        @keyframes gv-pulso {
+            0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(193, 84, 29, 0.55); }
+            50%  { transform: scale(1.03); box-shadow: 0 0 0 14px rgba(193, 84, 29, 0); }
+            100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(193, 84, 29, 0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #page-upsell2 .gv .gv-slot .gv-slot-cta { animation: none; }
+        }
 
         /* barra fixa (so telemovel) */
         #page-upsell2 .pg67n-sticky { display: none; }
@@ -6701,7 +6714,7 @@
 
         /* ---- A: hero em 2 colunas com a ilustracao ---- */
         #page-upsell2 .gv .gv-hero-foto { margin: 0 0 22px; }
-        #page-upsell2 .gv .gv-hero-foto img { width: 100%; height: auto; max-height: 55vh; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 14px; filter: grayscale(1) contrast(1.06) brightness(1.04); }
+        #page-upsell2 .gv .gv-hero-foto img { width: 100%; height: auto; max-height: 55vh; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 14px; filter: contrast(1.06) brightness(1.04); }
         #page-upsell2 .gv .gv-hero-foto figcaption { margin-top: 8px; text-align: center; font-size: 13px; color: rgba(242, 237, 230, 0.78); }
         /* ---- A: "Je lichaam..." em coluna unica de leitura ---- */
         #page-upsell2 .gv .gv-lees { max-width: 620px; margin: 0 auto 52px; }
@@ -6725,7 +6738,7 @@
         #page-upsell2 .gv .gv-tel-tijd { margin-left: 11px; margin-right: 11px; }
         #page-upsell2 .gv .gv-tel-kop { margin-top: 11px; margin-bottom: 5px; font-size: 9px; letter-spacing: 0.1em; line-height: 1.2; text-transform: uppercase; text-align: center; color: #6E7A6F; }
         #page-upsell2 .gv .gv-tel-capa { position: relative; aspect-ratio: 1 / 1; margin-bottom: 7px; border-radius: 12px; overflow: hidden; background: var(--gv-noite); }
-        #page-upsell2 .gv .gv-tel-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.06) brightness(1.04); }
+        #page-upsell2 .gv .gv-tel-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.06) brightness(1.04); }
         #page-upsell2 .gv .gv-tel-capa::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: var(--gv-noite); opacity: 0.10; }
         #page-upsell2 .gv .gv-tel-titel { margin-top: 0; margin-bottom: 5px; font-size: 0.8rem; font-weight: 500; line-height: 1.25; text-align: center; color: var(--gv-verde); }
         #page-upsell2 .gv .gv-tel-barra { height: 3px; margin-bottom: 4px; border-radius: 2px; background: rgba(62, 78, 67, 0.22); overflow: hidden; }
@@ -11147,8 +11160,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="gv-wrap">
                         <p class="gv-promesse">Je leert anders omgaan met de momenten die je nu wakker houden.</p>
                         <p class="gv-nota">Gebaseerd op principes uit cognitieve gedragstherapie voor insomnie (CGT-i).</p>
-                        <div class="gv-deps" tabindex="0" aria-label="Testgebruikers"><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik was bang om naar bed te gaan.”</p><p>“Tegen de avond begon ik al op te zien tegen de nacht. Ik wist hoe het zou gaan: moe naar bed, wakker liggen en steeds op de klok kijken. Daardoor werd ik alleen maar onrustiger. (…) Ik wilde gewoon weten wat ik kon doen als het weer gebeurde. <strong class="gv-dep-uit">De verschillende audio’s gaven me iets concreets om op terug te vallen.</strong>”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-merel.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Merel <span>· testgebruiker</span></span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Overdag ging ik gewoon door. Tot het niet meer ging.”</p><p>“Van buiten leek er weinig aan de hand. Ik werkte, zorgde voor mijn gezin en deed wat er moest gebeuren. Alleen sliep ik al heel lang slecht (…). Ik bleef denken dat het vanzelf wel over zou gaan. (…) Wat me aansprak, was dat het Slaapprotocol niet vroeg om mijn hele leven om te gooien. <strong class="gv-dep-uit">Ik kon klein beginnen en iets proberen op het moment dat ik het nodig had.</strong>”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-jolien.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Jolien <span>· testgebruiker</span></span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik had geen zin meer in nóg een app.”</p><p>“Ik had al verschillende slaapapps geprobeerd. (…) Soms vond ik het prettig, maar als ik om drie uur wakker werd, wist ik nog steeds niet goed wat ik moest doen. Ik wilde niet nóg een abonnement of een app die me vertelde hoe slecht ik had geslapen. (…) <strong class="gv-dep-uit">Ik kan zelf kiezen wanneer ik ze gebruik, zonder iedere nacht mijn slaap te hoeven meten.</strong>”</p></blockquote><figcaption><span class="gv-avatar gv-avatar--leeg" aria-hidden="true">S</span><span class="gv-wie">Sanne L. <span>· testgebruiker</span></span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik dacht dat ik er maar mee moest leren leven.”</p><p>“Een ander kussen, melatonine, thee, geen telefoon meer in bed… Ik heb het allemaal geprobeerd. Telkens dacht ik: misschien helpt dit. En telkens lag ik weer wakker. (…) Ik kreeg concrete begeleiding voor het moment waarop ik wakker lag. <strong class="gv-dep-uit">Dat voelde anders dan de zoveelste algemene slaaptip.</strong>”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-thijs.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Thijs B. <span>· testgebruiker</span></span></figcaption></figure></div>
-                        <p class="gv-nota gv-nota--mid">Testgebruikers gebruikten het Slaapprotocol 30 dagen vóór de lancering, op ons verzoek. Hun woorden, ongewijzigd.</p>
+                        <div class="gv-deps" tabindex="0" aria-label="Ervaringen"><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik was bang om naar bed te gaan.”</p><p>“Tegen de avond begon ik al op te zien tegen de nacht. Ik wist hoe het zou gaan: moe naar bed, wakker liggen en steeds op de klok kijken. Daardoor werd ik alleen maar onrustiger. (…) Ik wilde gewoon weten wat ik kon doen als het weer gebeurde. <strong class="gv-dep-uit">De verschillende audio’s gaven me iets concreets om op terug te vallen.</strong>”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-merel.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Merel</span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Overdag ging ik gewoon door. Tot het niet meer ging.”</p><p>“Van buiten leek er weinig aan de hand. Ik werkte, zorgde voor mijn gezin en deed wat er moest gebeuren. Alleen sliep ik al heel lang slecht (…). Ik bleef denken dat het vanzelf wel over zou gaan. (…) Wat me aansprak, was dat het Slaapprotocol niet vroeg om mijn hele leven om te gooien. <strong class="gv-dep-uit">Ik kon klein beginnen en iets proberen op het moment dat ik het nodig had.</strong>”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-jolien.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Jolien</span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik had geen zin meer in nóg een app.”</p><p>“Ik had al verschillende slaapapps geprobeerd. (…) Soms vond ik het prettig, maar als ik om drie uur wakker werd, wist ik nog steeds niet goed wat ik moest doen. Ik wilde niet nóg een abonnement of een app die me vertelde hoe slecht ik had geslapen. (…) <strong class="gv-dep-uit">Ik kan zelf kiezen wanneer ik ze gebruik, zonder iedere nacht mijn slaap te hoeven meten.</strong>”</p></blockquote><figcaption><span class="gv-avatar gv-avatar--leeg" aria-hidden="true">S</span><span class="gv-wie">Sanne L.</span></figcaption></figure><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Ik dacht dat ik er maar mee moest leren leven.”</p><p>“Een ander kussen, melatonine, thee, geen telefoon meer in bed… Ik heb het allemaal geprobeerd. Telkens dacht ik: misschien helpt dit. En telkens lag ik weer wakker. (…) Ik kreeg concrete begeleiding voor het moment waarop ik wakker lag. <strong class="gv-dep-uit">Dat voelde anders dan de zoveelste algemene slaaptip.</strong>”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-thijs.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Thijs B.</span></figcaption></figure></div>
                     </div>
                 </section>
 
@@ -11156,26 +11168,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 <section class="gv-sec gv-sec--creme gv-beslis">
                     <div class="gv-wrap gv-smal">
                         <h2 class="gv-h2 gv-h2--klein">Voordat je beslist</h2>
-                        <p>Met de huisarts begin je gratis. Blijft het probleem, dan valt de volgende stap, psycholoog of therapie, onder je eigen risico (€385 in 2026), en is de gemiddelde wachttijd in de ggz meer dan 14 weken.<sup>2</sup></p>
                         <div class="gv-verg">
                             <div class="gv-verg-kol">
-                                <p class="gv-verg-rotulo">Psycholoog of therapie</p>
+                                <p class="gv-verg-rotulo">Hulp via de ggz</p>
                                 <p class="gv-verg-cijfer">€385</p>
-                                <p class="gv-verg-sub">eigen risico</p>
+                                <p class="gv-verg-sub">eigen risico in 2026</p>
                                 <p class="gv-verg-cijfer">14+ weken</p>
-                                <p class="gv-verg-sub">gemiddelde wachttijd</p>
+                                <p class="gv-verg-sub">gemiddelde wachttijd<sup>2</sup></p>
                             </div>
                             <div class="gv-verg-kol gv-verg-kol--uit">
                                 <p class="gv-verg-rotulo">Het Slaapprotocol</p>
                                 <p class="gv-verg-cijfer">€67</p>
                                 <p class="gv-verg-sub">eenmalig</p>
-                                <p class="gv-verg-cijfer">Vanavond</p>
+                                <p class="gv-verg-cijfer">0 weken</p>
                                 <p class="gv-verg-sub">in je eigen bed</p>
                             </div>
                         </div>
                         <p class="gv-vanavond">Sta je al op een wachtlijst? Veertien weken zijn 98 nachten. Het Slaapprotocol is er voor die nachten, naast de hulp die nog komt.</p>
                         <p class="gv-vanavond">Je hoeft je verhaal aan niemand te vertellen. Geen intake, geen afspraak.</p>
-                        <div class="gv-deps gv-deps--een"><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Voor €67 wilde ik wel zeker weten wat ik kreeg.”</p><p>“Ik twijfelde over de prijs. Online vind je tenslotte genoeg gratis slaapmeditaties. (…) <strong class="gv-dep-uit">De uitleg en de audio’s voor verschillende momenten van de nacht maakten voor mij duidelijker wat ik kocht.</strong> Ik vond het ook belangrijk dat ik vooraf een fragment kon beluisteren en wist hoe de geld-teruggarantie werkte. Dat gaf me meer houvast om te beslissen.”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-esther.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Esther <span>· testgebruiker</span></span></figcaption></figure></div>
+                        <div class="gv-deps gv-deps--een"><figure class="gv-dep"><blockquote><p class="gv-dep-kop">“Voor €67 wilde ik wel zeker weten wat ik kreeg.”</p><p>“Ik twijfelde over de prijs. Online vind je tenslotte genoeg gratis slaapmeditaties. (…) <strong class="gv-dep-uit">De uitleg en de audio’s voor verschillende momenten van de nacht maakten voor mij duidelijker wat ik kocht.</strong> Ik vond het ook belangrijk dat ik vooraf een fragment kon beluisteren en wist hoe de geld-teruggarantie werkte. Dat gaf me meer houvast om te beslissen.”</p></blockquote><figcaption><img class="gv-avatar" src="img/p67-esther.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span class="gv-wie">Esther</span></figcaption></figure></div>
                     </div>
                 </section>
                 <section class="gv-sec gv-sec--creme gv-sec--box">
@@ -11268,7 +11279,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <ol>
                         <li>Dressle et al., <em>Journal of Sleep Research</em> (2023): bij 109 mensen met insomnia waren de corticale activatie en de activatie vóór het slapengaan hoger dan in de vergelijkingsgroep.</li>
                         <li>NZa/RIVM, 1e kwartaal 2023: gemiddelde wachttijd generalistische basis-ggz 14,1 weken, specialistische ggz 20,9 weken. Eigen risico 2026: Consumentenbond.</li>
-                    </ol></details></div>
+                    </ol></details>
+                    <p class="gv-bronnen-nota">De ervaringen op deze pagina zijn van mensen die het Slaapprotocol vóór de lancering gebruikten.</p></div>
                 </section>
 
 <div class="pg67n-sticky" id="pg67n-sticky" aria-hidden="true"><a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary" tabindex="-1" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Begin vanavond — €67</a></div>
@@ -11276,11 +11288,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 (function(){
                     var bar=document.getElementById('pg67n-sticky'); if(!bar) return;
                     var slot=document.querySelector('#page-upsell2 .gv-slot'), top=document.querySelector('#page-upsell2 .gv-bar-cta');
-                    var passed=false, inSlot=false;
-                    function upd(){ var on=passed&&!inSlot; bar.classList.toggle('is-on',on); bar.setAttribute('aria-hidden',on?'false':'true'); var l=bar.querySelector('a'); if(l) l.tabIndex=on?0:-1; }
+                    // da entrada da comparacao ate' a saida da caixa "Wat je krijgt" a barra
+                    // fica escondida, como no fecho escuro (um trecho so', sem voltar entre os dois)
+                    var verg=document.querySelector('#page-upsell2 .gv-verg'), box=document.querySelector('#page-upsell2 .gv-box');
+                    // Os observadores so' disparam; a posicao e' relida a cada disparo.
+                    // Num salto longo (ancora, ir ao topo) um observador pode nao
+                    // disparar, e um estado guardado ficava velho.
+                    function r(e){ return e.getBoundingClientRect(); }
+                    function upd(){
+                        var vh=innerHeight*0.9;
+                        var passed=r(top).bottom<0;
+                        var inSlot=r(slot).top<vh&&r(slot).bottom>0;
+                        var trecho=!!(verg&&box)&&r(verg).top<vh&&r(box).bottom>0;
+                        var on=passed&&!inSlot&&!trecho; bar.classList.toggle('is-on',on); bar.setAttribute('aria-hidden',on?'false':'true'); var l=bar.querySelector('a'); if(l) l.tabIndex=on?0:-1;
+                    }
                     if('IntersectionObserver' in window && slot && top){
-                        new IntersectionObserver(function(e){passed=!e[0].isIntersecting&&e[0].boundingClientRect.top<0;upd();}).observe(top);
-                        new IntersectionObserver(function(e){inSlot=e[0].isIntersecting;upd();},{rootMargin:'0px 0px -10% 0px'}).observe(slot);
+                        new IntersectionObserver(upd).observe(top);
+                        [slot,verg,box].forEach(function(el){ if(el) new IntersectionObserver(upd,{rootMargin:'0px 0px -10% 0px'}).observe(el); });
                     }
                 })();
                 </script>
