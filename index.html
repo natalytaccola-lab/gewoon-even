@@ -6198,47 +6198,6 @@
            escopado por #page-upsell2 e pendurado em ganchos .pg67-.
            ==================================================================== */
 
-        /* ---- a) faixa de confirmacao do topo (so' aparece a quem comprou o
-           Protocol van 7 Dagen; o JS liga-a pelo hash do redirect) ---- */
-        #page-upsell2 .pg67-faixa {
-            box-sizing: border-box;
-            margin: 0 0 28px;
-            padding: 14px 18px;
-            background: #F6E8B1;
-            border: 1px solid #E3CF86;
-            border-radius: 14px;
-            text-align: center;
-        }
-
-        #page-upsell2 .pg67-faixa p.subtle {
-            margin: 0;
-            font-family: var(--font-body);
-            font-size: 15px;
-            font-weight: 400;
-            line-height: 1.5;
-            color: #2B3A31;
-        }
-
-        #page-upsell2 .pg67-faixa .btn-primary {
-            box-sizing: border-box;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: auto;
-            min-height: 44px;
-            margin-bottom: 0;
-            padding: 10px 18px;
-            background: none;
-            border-radius: 999px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #2B3A31;
-            text-decoration: underline;
-            text-underline-offset: 0.18em;
-        }
-
-        #page-upsell2 .pg67-faixa .btn-primary:hover { background: rgba(43, 58, 49, 0.08); }
-
         /* ---- b) mini-quiz ---- */
         #page-upsell2 .pg67-quiz .upsell-badge {
             font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
@@ -6246,6 +6205,14 @@
             font-weight: 400;
             letter-spacing: 0.14em;
             color: #2F4A40;
+        }
+
+        /* Eyebrow da abertura: a mesma pilula, com o texto no laranja escuro
+           dos botoes de compra (#A9421C, ponta de --np-grad-final) sobre um
+           veu de 8% dele. */
+        #page-upsell2 .pg67-quiz .pg67-abertura-var .upsell-badge {
+            background: rgba(169, 66, 28, 0.08);
+            color: #A9421C;
         }
 
         #page-upsell2 .pg67-perguntas .question-number { font-size: 14px; }
@@ -6728,14 +6695,6 @@
         #page-upsell2 .gv .gv-deps.gv-deps--een { display: block; overflow: visible; padding: 0; margin: 34px 0 0; }
 
         /* ---- Itens 1, 2 e 4: tudo escopado em #page-upsell2 .gv ---- */
-        /* Faixa de continuidade (so Funil A), acima do hero: discreta, creme,
-           centrada; linha 1 em peso normal, linha 2 em italico Cormorant. */
-        #page-upsell2 .gv .gv-cont { background: var(--gv-creme); border-bottom: 1px solid var(--gv-linha); }
-        #page-upsell2 .gv .gv-cont[hidden],
-        #page-upsell2 .gv .gv-cont-var[hidden] { display: none; }
-        #page-upsell2 .gv .gv-cont-in { padding: 16px 20px 15px; text-align: center; }
-        #page-upsell2 .gv .gv-cont-1 { margin: 0 auto; max-width: 42rem; font-family: var(--gv-body); font-weight: 400; font-size: 15.5px; line-height: 1.5; color: var(--gv-verde); }
-        #page-upsell2 .gv .gv-cont-2 { margin: 5px auto 0; max-width: 42rem; font-family: var(--gv-display); font-style: italic; font-size: 17px; line-height: 1.45; color: #5A6A5F; }
         /* Segunda frase do lead do hero: escondida quando nao ha resultado do quiz. */
         /* Destaque leve do item do PDF, dentro da paleta existente. */
         #page-upsell2 .gv .gv-lijst li.gv-li--pdf { border-top: 1px solid rgba(62, 78, 67, 0.28); background: var(--gv-wit); margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 4px; }
@@ -6855,9 +6814,6 @@
            proposito: as regras tem a mesma especificidade, por isso a ordem no
            ficheiro e' que decide. Posto antes, o bloco base anulava-as. */
         @media (min-width: 768px) {
-            #page-upsell2 .gv .gv-cont-in { padding: 20px 20px 19px; }
-            #page-upsell2 .gv .gv-cont-1 { font-size: 16.5px; }
-            #page-upsell2 .gv .gv-cont-2 { font-size: 19px; }
             /* A: hero em 2 colunas, alinhadas pelo topo */
             #page-upsell2 .gv .gv-hero-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 48px; align-items: start; text-align: left; }
             #page-upsell2 .gv .gv-hero-tekst { grid-column: 1; grid-row: 1; }
@@ -10367,8 +10323,8 @@ function selectAnswer(answerIndex) {
 const BREVO_TRACKED_PAGES = ['page-upsell', 'page-upsell2', 'page-downsell'];
 
 // True apenas quando page-upsell2 é aberta pelo redirect real do Stripe depois
-// de pagar o Protocol 7 Dagen (hash #upsell2-slaap-7n4kx9). Controla se o banner
-// de confirmação de compra é mostrado — outras entradas em page-upsell2 (ex: uma
+// de pagar o Protocol 7 Dagen (hash #upsell2-slaap-7n4kx9). Escolhe a abertura A1
+// do quiz ("✓ 7 Dagen staat in je mail") — outras entradas em page-upsell2 (ex: uma
 // futura sequência de email a vender o Slaapprotocol a quem não acabou de comprar
 // o 7 Dagen) devem chegar com isto a false, para não confirmar uma compra que a
 // pessoa não fez.
@@ -10409,10 +10365,6 @@ function showPage(pageId) {
         fbq('track', 'ViewContent', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
     } else if (pageId === 'page-upsell2') {
         if (typeof resetSleepQuiz === 'function') resetSleepQuiz();
-        const confirmBanner = document.querySelector('#sleepquiz-intro .purchase-confirm');
-        if (confirmBanner) {
-            confirmBanner.style.display = upsell2ConfirmedPurchaseEntry ? 'block' : 'none';
-        }
     } else if (pageId === 'page-downsell') {
         fbq('track', 'ViewContent', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
     } else if (pageId === 'page-deliver-noodprotocol') {
@@ -10698,22 +10650,6 @@ function applySleepOffer() {
         bezwaar.textContent = sleepResult ? q7t : '';
         bezwaar.hidden = !(sleepResult && q7t);
     }
-    // Faixa de continuidade: so' no Funil A. A1 = comprou o 7 Dagen (hash real do
-    // Stripe); A2 = veio do 7 Dagen sem comprar, mas ja' e' comprador do Noodprotocol
-    // (bandeira ge_koper). Qualquer outra entrada nao mostra faixa nenhuma.
-    const cont = document.getElementById('gv-cont');
-    if (cont) {
-        let variante = null;
-        if (upsell2ConfirmedPurchaseEntry) {
-            variante = 'A1';
-        } else {
-            let koper = false;
-            try { koper = sessionStorage.getItem('ge_koper') === '1'; } catch (e) {}
-            if (koper) variante = 'A2';
-        }
-        cont.querySelectorAll('.gv-cont-var').forEach(el => { el.hidden = el.getAttribute('data-cont') !== variante; });
-        cont.hidden = !variante;
-    }
     const wrap = document.getElementById('pg67n-aanbod');
     if (!wrap) return;
     const order = ['intro', 'avond', 'inslapen', 'nachts'];
@@ -10735,7 +10671,23 @@ function showSleepOffer() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Abertura do quiz por origem (so' Funil A tem variante). A1 = comprou o 7 Dagen
+// (hash real do Stripe); A2 = veio do 7 Dagen sem comprar, mas ja' e' comprador do
+// Noodprotocol (bandeira ge_koper). Qualquer outra entrada fica com a abertura padrao.
+function applySleepIntro() {
+    let variante = '';
+    if (upsell2ConfirmedPurchaseEntry) {
+        variante = 'A1';
+    } else {
+        let koper = false;
+        try { koper = sessionStorage.getItem('ge_koper') === '1'; } catch (e) {}
+        if (koper) variante = 'A2';
+    }
+    document.querySelectorAll('#sleepquiz-intro .pg67-abertura-var').forEach(el => { el.hidden = el.getAttribute('data-abertura') !== variante; });
+}
+
 function resetSleepQuiz() {
+    applySleepIntro();
     document.getElementById('page-upsell2').classList.remove('is-oferta');
     currentSleepQuestion = 0;
     sleepAnswers = [];
@@ -10796,7 +10748,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (hash === '#upsell2-slaap-7n4kx9') {
         // Redirect do Payment Link "Gewoon Even — Protocol 7 Dagen" (upsell) após compra
         // confirmada: mostra o upsell do Slaapprotocol como oferta pós-compra genuína.
-        // Este é o ÚNICO hash que deve confirmar a compra do 7 Dagen no banner —
+        // Este é o ÚNICO hash que deve confirmar a compra do 7 Dagen na abertura —
         // uma futura sequência de email a vender o Slaapprotocol (para quem já tem o
         // 7 Dagen há dias, ou para quem só tem o Noodprotocol) deve usar um hash
         // PRÓPRIO e diferente deste, para não herdar esta confirmação por engano.
@@ -11066,13 +11018,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <!-- Screen 1: mini-quiz -->
         <div id="sleepquiz-intro" class="upsell-section pg67-quiz">
-            <div class="purchase-confirm pg67-faixa" style="display: none;">
-                <p class="subtle">✓ Het Protocol van 7 Dagen is bevestigd. Je ontvangt het per e-mail.</p>
-                <a href="#toegang-p7-4x9nw" onclick="showPage('page-deliver-protocol7'); return false;" class="btn-primary" style="margin-top: 8px;">Naar mijn Protocol van 7 Dagen →</a>
+            <!-- Abertura por origem (applySleepIntro): A1 = comprou o 7 Dagen,
+                 A2 = comprador do Noodprotocol (ge_koper), resto = padrao. -->
+            <div class="pg67-abertura-var" data-abertura="A1" hidden>
+                <div class="upsell-badge">✓ 7 Dagen staat in je mail</div>
+                <h1>En ’s nachts?</h1>
+                <p>Overdag leer je je systeem af te remmen. ’s Nachts gaat het alarm vaak vanzelf weer aan. Acht korte vragen laten zien wanneer, en wat dan helpt.</p>
             </div>
-            <div class="upsell-badge">Even iets anders</div>
-            <h1>Voordat je verdergaat — 8 korte vragen.</h1>
-            <p>Dit duurt ongeveer een minuut en zegt iets over hoe jouw nacht eruitziet.</p>
+            <div class="pg67-abertura-var" data-abertura="A2" hidden>
+                <div class="upsell-badge">✓ Noodprotocol staat in je mail</div>
+                <h1>En ’s nachts?</h1>
+                <p>Het Noodprotocol helpt op het moment zelf. ’s Nachts gaat het alarm vaak vanzelf weer aan. Acht korte vragen laten zien wanneer, en wat dan helpt.</p>
+            </div>
+            <div class="pg67-abertura-var" data-abertura="">
+                <div class="upsell-badge">Jouw nacht in 8 vragen</div>
+                <h1>Overdag hou je het vol. En ’s nachts?</h1>
+                <p>’s Nachts gaat het alarm vaak vanzelf weer aan. Acht korte vragen laten zien wanneer, en wat dan helpt.</p>
+            </div>
         </div>
 
         <div id="sleepquiz-container" class="pg67-perguntas"></div>
@@ -11090,24 +11052,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <div id="sleepquiz-offer" style="display: none;">
             <div class="gv">
 
-                <!-- 1b. FAIXA DE CONTINUIDADE (so Funil A). A variante sai do
-                     mecanismo que ja existia: upsell2ConfirmedPurchaseEntry (hash
-                     real do Stripe depois de pagar o 7 Dagen) distingue A1; para A2
-                     usa-se a bandeira ge_koper, acesa pelos hashes de compra no
-                     <head>. Funil B/C e acesso direto nao acendem nenhuma das duas,
-                     por isso a faixa fica escondida. Sem parametro de URL novo. -->
-                <div class="gv-cont" id="gv-cont" hidden>
-                    <div class="gv-wrap gv-cont-in">
-                        <div class="gv-cont-var" data-cont="A1" hidden>
-                            <p class="gv-cont-1">Je Protocol van 7 Dagen staat klaar in je mail. Nog één ding voordat je gaat.</p>
-                            <p class="gv-cont-2">Overdag leer je je systeem af te remmen. ’s Nachts gaat het alarm vaak vanzelf weer aan.</p>
-                        </div>
-                        <div class="gv-cont-var" data-cont="A2" hidden>
-                            <p class="gv-cont-1">Je Noodprotocol staat klaar in je mail. Nog één ding voordat je gaat.</p>
-                            <p class="gv-cont-2">Het Noodprotocol helpt je op het moment zelf. ’s Nachts gaat het alarm vaak vanzelf weer aan.</p>
-                        </div>
-                    </div>
-                </div>
                 <!-- 1. OPENING per profiel -->
                 <header class="gv-hero">
                     <div class="gv-wrap gv-hero-in">
@@ -11346,7 +11290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="footer">
-        <div class="container pg67-voet-nota">Het Nachtalarm is een beeld om te begrijpen wat er gebeurt. Slecht slapen kan ook andere oorzaken hebben. Houdt het aan, praat dan met je huisarts. Gebruik je slaapmedicatie? Verander dan niets zonder overleg met je huisarts.</div>
+        <div class="container pg67-voet-nota">Het Nachtalarm is een beeld, geen diagnose. Het Slaapprotocol is geen medische behandeling. Slaap je al langer slecht, bespreek het dan ook met je huisarts. Gebruik je slaapmedicatie? Verander dan niets zonder overleg met je huisarts.</div>
         <div class="container">Gewoon Even — Voor als gewoon even niet meer lukt.</div>
         <div class="container footer-legal"><a class="footer-link" href="/privacy">Privacyverklaring</a><span class="footer-sep" aria-hidden="true">·</span><a class="footer-link" href="/voorwaarden">Algemene voorwaarden</a><span class="footer-sep" aria-hidden="true">·</span><button type="button" class="footer-link" onclick="geConsent.reabrir()">Cookie-instellingen</button></div>
     </div>
