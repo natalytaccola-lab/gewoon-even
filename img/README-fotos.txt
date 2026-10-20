@@ -18,13 +18,14 @@ credito no site. Este ficheiro serve de registo interno.
 
 A antiga img/p7-dag1.jpg ficou no repositorio, sem uso.
 
-=== Pagina do Slaapprotocol (#page-upsell2, EUR 67) - 2 fotos, 2026-10-14 ===
-Todas: Pexels (uso comercial sem atribuicao, registo interno). Formato: recorte
-quadrado, 800x800, WebP qualidade 80.
+=== Pagina do Slaapprotocol (#page-upsell2, EUR 67) - 2 fotos, 2026-10-19 ===
+Todas: Pexels (uso comercial sem atribuicao, registo interno). Formato e
+tratamento: ver cada entrada (WebP qualidade 75).
 
-p67-hero.webp       Hero. Autor: Gabriel Gonzalez Encarnacion.
-  Origem: pexels-gabriel-gonzalez-encarnacion-679361047-27017724.jpg (2000x3000)
-  Tratamento: recorte quadrado (posicao vertical 55%), sombras levantadas (gama 0,85).
-p67-fecho.webp      Fecho (CTA final). Autor: Emrah.
-  Origem: pexels-emrah-398670870-30710351 (1).jpg (2912x5184)
-  Tratamento: recorte quadrado a 75% da altura (xicara), sombras levantadas (gama 0,8).
+p67-hero-nachtlamp.webp        Hero (abajur, cama, caderno). Autor: zinep.
+  Origem: pexels-zinep-18348191.jpg (1333x2000)
+  Tratamento: recorte retrato 4:5 ancorado em baixo (abajur e cama), 800x1000; sem filtro.
+p67-luisteren-koptelefoon.webp Fragmento (dentro do telefone). Autor: cottonbro.
+  Origem: pexels-cottonbro-6687761.jpg (1333x2000)
+  Tratamento: recorte quadrado a partir de y=334 (rosto e fone), 800x800; sem filtro.
+
