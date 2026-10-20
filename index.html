@@ -17,7 +17,10 @@
             var q = new URLSearchParams(location.search);
             if (!q.has('sid')) return;
             var sid = q.get('sid');
-            if (/^cs_(live|test)_[A-Za-z0-9]+$/.test(sid)) window.geStripeSid = sid;
+            // Na producao so' sessoes reais (cs_live_); cs_test_ so' na previa.
+            var producao = location.hostname === 'gewoon-even.nl' || location.hostname === 'www.gewoon-even.nl';
+            var formato = producao ? /^cs_live_[A-Za-z0-9]+$/ : /^cs_(live|test)_[A-Za-z0-9]+$/;
+            if (formato.test(sid)) window.geStripeSid = sid;
             q.delete('sid');
             var resto = q.toString();
             history.replaceState(history.state, '', location.pathname + (resto ? '?' + resto : '') + location.hash);
