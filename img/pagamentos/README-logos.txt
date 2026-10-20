@@ -31,3 +31,23 @@ aceites no checkout.
 ideal.webp (em img/, nao nesta pasta)
 -------------------------------------
 Ja' existia no repositorio antes desta alteracao; nao foi tocado.
+
+apple-pay-logo.svg, bancontact-logo.svg
+---------------------------------------
+Origem : https://github.com/activemerchant/payment_icons (Shopify)
+Commit : fc8c830a5ca576553df88bf364fd449ea7b4f069 (v1.7.69)
+Caminho: app/assets/images/payment_icons/apple_pay.svg
+         app/assets/images/payment_icons/bancontact.svg
+Licenca: MIT (ver LICENSE-shopify-payment-icons.txt)
+
+SHA-256:
+  apple_pay.svg (origem = copia)  ed3c7ae2536acff4ab8d97dbe7d56ca4dd003e3b81c3a899f7dcdf13df114e2d
+  bancontact.svg (origem)         5025a18e9848062fdad79279079e840ec3ea36bd223dc3a77b7b3074efa8d638
+  bancontact-logo.svg (copia)     a113f1773aeb46c590038c63cecd87cb0c8c0785a634a45e605f7ec7ffbd5bae
+
+apple-pay-logo.svg foi copiado sem alteracao. Em bancontact-logo.svg
+foram retirados os dois paths da moldura de cartao exterior e o viewBox
+foi recortado para 5.4 4.4 27.2 15.2, para nao ficar uma moldura dentro
+da ficha branca; o logotipo em si nao foi tocado.
+"Apple Pay" e "Bancontact" sao marcas dos respectivos titulares, aqui
+usadas apenas para indicar os meios de pagamento aceites no checkout.

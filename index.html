@@ -6723,6 +6723,11 @@
         }
         @media (min-width: 1024px) { #page-upsell2 .gv .gv-quote p { font-size: 34px; } }
         #page-upsell2 .gv .pg67-pagar-ficha img { height: 100%; width: auto; }
+        /* Fileira de pagamento na caixa de oferta: mais pequena e discreta, texto escuro sobre creme. */
+        #page-upsell2 .gv .pg67-pagar--box { margin: 14px 0 0; }
+        #page-upsell2 .gv .pg67-pagar--box .pg67-pagar-fichas { gap: 6px; }
+        #page-upsell2 .gv .pg67-pagar--box .pg67-pagar-ficha { height: 26px; padding: 5px 8px; border-radius: 6px; }
+        #page-upsell2 .gv .pg67-pagar--box .pg67-pagar-txt { margin-top: 8px; font-size: 13px; color: #5A6A5F; }
         #page-upsell2 .gv .gv-deps.gv-deps--een { display: block; overflow: visible; padding: 0; margin: 34px 0 0; }
 
         /* ---- Itens 1, 2 e 4: tudo escopado em #page-upsell2 .gv ---- */
@@ -11352,6 +11357,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p class="gv-prijs"><strong>€67</strong><span>eenmalig</span></p>
                             <p class="gv-bezwaar" id="gv-bezwaar" hidden></p>
                             <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary gv-box-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, geef me het Slaapprotocol</a>
+                            <div class="pg67-pagar pg67-pagar--box">
+                                <div class="pg67-pagar-fichas" aria-hidden="true">
+                                    <span class="pg67-pagar-ficha"><img src="img/ideal.webp" alt="" width="143" height="126" loading="lazy"></span>
+                                    <span class="pg67-pagar-ficha"><img src="img/pagamentos/bancontact-logo.svg" alt="" width="272" height="152" loading="lazy"></span>
+                                    <span class="pg67-pagar-ficha"><img src="img/pagamentos/apple-pay-logo.svg" alt="" width="38" height="24" loading="lazy"></span>
+                                    <span class="pg67-pagar-ficha"><img src="img/pagamentos/visa-logo.svg" alt="" width="780" height="500" loading="lazy"></span>
+                                    <span class="pg67-pagar-ficha"><img src="img/pagamentos/mastercard-logo.svg" alt="" width="780" height="500" loading="lazy"></span>
+                                    <span class="pg67-pagar-ficha"><img src="img/pagamentos/paypal-logo.svg" alt="" width="780" height="500" loading="lazy"></span>
+                                </div>
+                                <p class="pg67-pagar-txt">Veilig betalen via iDEAL, Bancontact, Apple Pay, creditcard of PayPal</p>
+                            </div>
                             <p class="gv-levering">Direct na betaling in je mail. Vanavond luister je de eerste audio.</p>
                             <p class="gv-sub">Eenmalige betaling · 60 dagen geld-teruggarantie</p>
                         </div>
@@ -11362,6 +11378,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <section class="gv-sec gv-sec--creme gv-faq" id="pg67-faq">
                     <div class="gv-wrap gv-smal">
                         <h2 class="gv-h2 gv-faq-kop">Nog even dit</h2>
+                        <details class="gv-faq-item">
+                            <summary>Wat als ik al van alles heb geprobeerd?</summary>
+                            <p>Tips en apps vragen dat je zelf iets onthoudt of volhoudt. Het Slaapprotocol neemt het op dat moment van je over: je zet een audio op en volgt de stem. Werkt het niet voor je, dan krijg je binnen 60 dagen je geld terug.</p>
+                        </details>
                         <details class="gv-faq-item">
                             <summary>Hoe krijg ik de audio’s?</summary>
                             <p>Direct na je betaling krijg je een mail met de link naar je audio’s. Je luistert op je telefoon, tablet of computer, zonder app te installeren.</p>
@@ -11401,13 +11421,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary gv-slot-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik probeer het 60 dagen — €67</a>
                         <p class="gv-levering gv-levering--donker">Direct na betaling in je mail. Vanavond luister je de eerste audio.</p>
                         <div class="pg67-pagar">
-                            <div class="pg67-pagar-fichas">
-                                <span class="pg67-pagar-ficha"><img src="img/ideal.webp" alt="iDEAL" width="143" height="126" loading="lazy"></span>
-                                <span class="pg67-pagar-ficha"><img src="img/pagamentos/mastercard-logo.svg" alt="Mastercard" width="780" height="500" loading="lazy"></span>
-                                <span class="pg67-pagar-ficha"><img src="img/pagamentos/visa-logo.svg" alt="Visa" width="780" height="500" loading="lazy"></span>
-                                <span class="pg67-pagar-ficha"><img src="img/pagamentos/paypal-logo.svg" alt="PayPal" width="780" height="500" loading="lazy"></span>
+                            <div class="pg67-pagar-fichas" aria-hidden="true">
+                                <span class="pg67-pagar-ficha"><img src="img/ideal.webp" alt="" width="143" height="126" loading="lazy"></span>
+                                <span class="pg67-pagar-ficha"><img src="img/pagamentos/bancontact-logo.svg" alt="" width="272" height="152" loading="lazy"></span>
+                                <span class="pg67-pagar-ficha"><img src="img/pagamentos/apple-pay-logo.svg" alt="" width="38" height="24" loading="lazy"></span>
+                                <span class="pg67-pagar-ficha"><img src="img/pagamentos/visa-logo.svg" alt="" width="780" height="500" loading="lazy"></span>
+                                <span class="pg67-pagar-ficha"><img src="img/pagamentos/mastercard-logo.svg" alt="" width="780" height="500" loading="lazy"></span>
+                                <span class="pg67-pagar-ficha"><img src="img/pagamentos/paypal-logo.svg" alt="" width="780" height="500" loading="lazy"></span>
                             </div>
-                            <p class="pg67-pagar-txt">Veilig betalen via iDEAL, Mastercard, Visa of PayPal · Stripe</p>
+                            <p class="pg67-pagar-txt">Veilig betalen via iDEAL, Bancontact, Apple Pay, creditcard of PayPal</p>
                         </div><button class="btn-decline pg67-recusa" onclick="showPage('page-thankyou')">Nee, dat is voor nu genoeg.</button>
                     </div>
                 </section>
