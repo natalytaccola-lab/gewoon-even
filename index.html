@@ -8948,7 +8948,7 @@
                 <div class="section-space"></div>
                 <p>Je dag stopt. Je systeem gaat door. Het blijft opletten, plannen en klaarstaan, ook als er niets meer van je gevraagd wordt.</p>
                 <!-- linha conforme o score (applyQuizResultLine): >= 8 alto, <= 7 baixo -->
-                <p id="quiz-result-score">Jouw antwoorden laten zien dat de onrust bij jou vaak blijft hangen.</p>
+                <p id="quiz-result-score">Uit je antwoorden blijkt dat de onrust bij jou vaak blijft hangen.</p>
                 <p class="strong">Wat buiten gebeurt, houd je niet altijd tegen. En hopen dat het vanzelf overgaat, kost je elke keer weer een avond, een nacht of je geduld.</p>
                 <p class="strong">Daarvoor is het Noodprotocol: drie korte audio’s die klaarstaan voor het moment dat de onrust oploopt. Je hoeft niets uit te zoeken of te regelen. Je zet er één op en doet mee.</p>
                 <div class="section-space"></div>
@@ -10323,7 +10323,7 @@
 const questions = [
     {
         number: "Vraag 1 van 5",
-        text: "Je week zit vol: werk, boodschappen, regelen, afspraken van weken geleden. En is het eindelijk zover, dan heb je eigenlijk geen zin meer. Herken je dat?",
+        text: "Je week zit vol: werk, boodschappen, regelen, afspraken die al weken in je agenda staan. En is het eindelijk zover, dan heb je eigenlijk geen zin meer. Herken je dat?",
         answers: ["Zelden. Meestal heb ik genoeg energie.", "Soms, na een drukke week.", "Regelmatig. Zelfs leuke dingen kosten me meer dan ze opleveren.", "Vaak. Ik verlang vooral naar een moment waarop even niets hoeft."]
     },
     {
@@ -10409,8 +10409,8 @@ function applyCheckoutSubheadline() {
 // ============ RESULTADO: LINHA CONFORME O SCORE ============
 // Mesmo limite da subheadline do checkout: <= 7 baixo, >= 8 alto. O score sai
 // das respostas em memoria, para funcionar mesmo sem sessionStorage.
-const RESULT_QUIZ_BAIXO = "Jouw antwoorden laten zien dat je meestal nog tot rust komt. Juist dan is bijsturen het makkelijkst.";
-const RESULT_QUIZ_ALTO = "Jouw antwoorden laten zien dat de onrust bij jou vaak blijft hangen.";
+const RESULT_QUIZ_BAIXO = "Uit je antwoorden blijkt dat je meestal nog tot rust komt. Juist dan is bijsturen het makkelijkst.";
+const RESULT_QUIZ_ALTO = "Uit je antwoorden blijkt dat de onrust bij jou vaak blijft hangen.";
 
 function applyQuizResultLine() {
     const el = document.getElementById('quiz-result-score');
@@ -10469,7 +10469,7 @@ const BREVO_TRACKED_PAGES = ['page-upsell', 'page-upsell2', 'page-downsell'];
 
 // True apenas quando page-upsell2 é aberta pelo redirect real do Stripe depois
 // de pagar o Protocol 7 Dagen (#betaald-p7-di0vtq, ou o antigo #upsell2-slaap-7n4kx9). Escolhe a abertura A1
-// do quiz ("✓ 7 Dagen staat in je mail") — outras entradas em page-upsell2 (ex: uma
+// do quiz ("✓ Protocol van 7 Dagen in je mail") — outras entradas em page-upsell2 (ex: uma
 // futura sequência de email a vender o Slaapprotocol a quem não acabou de comprar
 // o 7 Dagen) devem chegar com isto a false, para não confirmar uma compra que a
 // pessoa não fez.
@@ -11185,19 +11185,19 @@ document.addEventListener('DOMContentLoaded', () => {
             <!-- Abertura por origem (applySleepIntro): A1 = comprou o 7 Dagen,
                  A2 = comprador do Noodprotocol (ge_koper), resto = padrao. -->
             <div class="pg67-abertura-var" data-abertura="A1" hidden>
-                <div class="upsell-badge">✓ 7 Dagen staat in je mail</div>
+                <div class="upsell-badge">✓ Protocol van 7 Dagen in je mail</div>
                 <h1>Wat als het begint bij je slaap?</h1>
                 <p>Wat je overdag oefent, verwerkt je lichaam ’s nachts. Acht korte vragen laten zien of dat bij jou lukt.</p>
             </div>
             <div class="pg67-abertura-var" data-abertura="A2" hidden>
                 <div class="upsell-badge">✓ Noodprotocol staat in je mail</div>
                 <h1>Wat als het begint bij je slaap?</h1>
-                <p>Wie slecht slaapt, begint elke dag met een kortere lont. Acht korte vragen laten zien waar het bij jou misgaat.</p>
+                <p>Wie slecht slaapt, heeft overdag vaak een kort lontje. Acht korte vragen laten zien waar het bij jou misgaat.</p>
             </div>
             <div class="pg67-abertura-var" data-abertura="">
                 <div class="upsell-badge">Om drie uur nog wakker?</div>
                 <h1>Wat als het begint bij je slaap?</h1>
-                <p>Wie slecht slaapt, begint elke dag met een kortere lont. Acht korte vragen laten zien waar het bij jou misgaat.</p>
+                <p>Wie slecht slaapt, heeft overdag vaak een kort lontje. Acht korte vragen laten zien waar het bij jou misgaat.</p>
             </div>
         </div>
 
@@ -11390,7 +11390,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p>Direct na je betaling krijg je een mail met de link naar je audio’s. Je luistert op je telefoon, tablet of computer, zonder app te installeren.</p>
                         </details>
                         <details class="gv-faq-item">
-                            <summary>Moet ik elke avond alle vier luisteren?</summary>
+                            <summary>Moet ik elke avond naar alle vier de audio’s luisteren?</summary>
                             <p>Nee. Elke audio hoort bij een eigen moment: het Avondritueel vóór het slapengaan, Inslapen in bed, ’s Nachts wakker als je midden in de nacht wakker ligt. Begin één keer met de Intro. Daarna kies je wat bij de avond past.</p>
                         </details>
                         <details class="gv-faq-item">
@@ -11399,7 +11399,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </details>
                         <details class="gv-faq-item">
                             <summary>Werkt het als ik slaapmedicatie gebruik?</summary>
-                            <p>Het Slaapprotocol is een audioprogramma en geen medische behandeling. Je kunt de audio’s naast je medicatie beluisteren. Verander niets aan je gebruik zonder overleg met je huisarts.</p>
+                            <p>Het Slaapprotocol is een audioprogramma en geen medische behandeling. Je kunt de audio’s gewoon gebruiken als je slaapmedicatie neemt. Verander niets aan je gebruik zonder overleg met je huisarts.</p>
                         </details>
                         <details class="gv-faq-item">
                             <summary>Hoe werkt de geld-teruggarantie?</summary>
