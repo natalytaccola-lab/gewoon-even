@@ -60,7 +60,7 @@ else
 fi
 
 # --- recursos criticos --------------------------------------------------
-for A in img/p67-handleiding-capa.webp img/p67-hero-nachtlamp.webp img/p67-loslaten.webp img/inslapen-sample.mp3; do
+for A in img/p67-handleiding-capa.webp img/p67-hero-nachtlamp.webp img/p67-luisteren-koptelefoon.webp img/inslapen-sample.mp3; do
     C=$(curl -s -o /dev/null -w '%{http_code} %{size_download}' --max-time 30 \
         -H "x-vercel-protection-bypass: $TOKEN" "$URL/$A")
     printf "  %-34s %s\n" "$A" "$C"

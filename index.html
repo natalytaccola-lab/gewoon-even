@@ -6477,9 +6477,6 @@
         /* ---- v3: quiz de 8 perguntas + abertura por perfil ---- */
         #page-upsell2 .pg67n .pg67n-eyebrow { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: #F2D3BF; margin: 0 0 10px; }
         #page-upsell2 .pg67n .pg67n-open-var[hidden], #page-upsell2 .pg67n .pg67n-start[hidden] { display: none; }
-        #page-upsell2 .pg67n .pg67n-start { display: inline-block; margin-bottom: 6px; padding: 3px 10px; border-radius: 999px; background: #B4552B; color: #F2EDE6; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
-        #page-upsell2 .pg67n .pg67n-moment-tekst h3 { display: block; }
-        #page-upsell2 .pg67n .pg67n-aanbod.is-herordend .pg67n-moment::after { display: none; }
         #page-upsell2 .pg67n .pg67n-fraglink { font-family: inherit; font-size: 15px; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
         #page-upsell2 .pg67n .pg67n-diff { margin-top: 22px; text-align: center; }
         #page-upsell2 .pg67n .pg67n-promesse { text-align: center; }
@@ -6580,14 +6577,6 @@
         #page-upsell2 .gv .gv-quote cite a { color: var(--gv-terra); text-underline-offset: 3px; }
 
         /* os quatro audios */
-        #page-upsell2 .gv .gv-audios { display: grid; grid-template-columns: 1fr; gap: 20px; counter-reset: gvstap; }
-        #page-upsell2 .gv .gv-audio { position: relative; counter-increment: gvstap; background: #fff; border: 1px solid var(--gv-linha); border-radius: 16px; box-shadow: 0 8px 26px rgba(31,43,36,.08); overflow: hidden; display: flex; flex-direction: column; }
-        #page-upsell2 .gv .gv-audio-foto img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; filter: contrast(1.05); }
-        #page-upsell2 .gv .gv-audio::after { content: counter(gvstap); position: absolute; top: 12px; left: 12px; width: 34px; height: 34px; border-radius: 50%; background: var(--gv-noite); color: var(--gv-creme); font-family: var(--gv-display); font-size: 22px; font-weight: 600; line-height: 34px; text-align: center; box-shadow: 0 0 0 3px #fff; }
-        #page-upsell2 .gv .gv-audios.is-herordend .gv-audio::after { display: none; }
-        #page-upsell2 .gv .gv-audio-tekst { padding: 20px 22px 24px; flex: 1; }
-        #page-upsell2 .gv .gv-audio-tekst h3 { margin: 0 0 8px; font-family: var(--gv-display); font-weight: 500; font-size: 27px; line-height: 1.1; color: var(--gv-terra); }
-        #page-upsell2 .gv .gv-audio-tekst p { font-size: 16.5px; margin-bottom: 0; }
         #page-upsell2 .gv .pg67n-start { display: inline-block; margin-bottom: 10px; padding: 4px 11px; border-radius: 999px; background: #B4552B; color: #F2EDE6; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
         #page-upsell2 .gv .pg67n-start[hidden] { display: none; }
         #page-upsell2 .gv .pg67n-open-var[hidden] { display: none; }
@@ -6702,7 +6691,6 @@
             #page-upsell2 .gv .gv-sec { padding: 84px 0; }
             #page-upsell2 .gv .gv-sec--wit { padding-bottom: 52px; }
             #page-upsell2 .gv .gv-split { grid-template-columns: 5fr 6fr; gap: 56px; }
-            #page-upsell2 .gv .gv-audios { grid-template-columns: 1fr 1fr; gap: 24px; }
             #page-upsell2 .gv .gv-diff { font-size: 32px; margin-top: 48px; }
             #page-upsell2 .gv .gv-promesse { font-size: 38px; }
             #page-upsell2 .gv .gv-deps { display: grid; grid-template-columns: 1fr 1fr; overflow: visible; padding: 0; margin: 0; gap: 22px; }
@@ -6728,6 +6716,55 @@
         /* ---- A: "Je lichaam..." em coluna unica de leitura ---- */
         #page-upsell2 .gv .gv-lees { max-width: 620px; margin: 0 auto 52px; }
         #page-upsell2 .gv .gv-lees > p { text-align: center; font-size: 18px; }
+        /* ---- Linha do tempo do Nachtalarm (substitui os 4 cards) ----
+           Papel e traco a mao: um SVG ondulado em sage, icones em traco fino.
+           Telemovel: linha vertical a esquerda; >= 768px: horizontal, 4 colunas. */
+        #page-upsell2 .gv .gv-lees:not(.gv-lees--quote) { margin-bottom: 30px; }
+        #page-upsell2 .gv .gv-lees--quote { margin-top: 44px; margin-bottom: 0; }
+        #page-upsell2 .gv .gv-lees--quote .gv-quote { margin-top: 0; }
+        #page-upsell2 .gv .gv-tijd { position: relative; max-width: 520px; margin: 0 auto; }
+        #page-upsell2 .gv .gv-tijd-lijn { position: absolute; overflow: visible; pointer-events: none; }
+        #page-upsell2 .gv .gv-tijd-lijn path { fill: none; stroke: #9DAA9B; stroke-width: 2.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+        #page-upsell2 .gv .gv-tijd-lijn--h { display: none; }
+        #page-upsell2 .gv .gv-tijd-lijn--v { left: 12px; top: 22px; bottom: 34px; width: 20px; height: calc(100% - 56px); }
+        #page-upsell2 .gv .gv-tijd-lijst { list-style: none; margin: 0; padding: 0; }
+        #page-upsell2 .gv .gv-tijd-punt { position: relative; padding: 0 0 26px 62px; }
+        #page-upsell2 .gv .gv-tijd-punt:last-child { padding-bottom: 0; }
+        /* o traco para no icone da manha: o resto fica tapado com a cor da seccao */
+        #page-upsell2 .gv .gv-tijd-punt:last-child::before { content: ""; position: absolute; left: 0; top: 44px; bottom: 0; width: 44px; background: var(--gv-wit); }
+        #page-upsell2 .gv .gv-tijd-ico { position: absolute; left: 0; top: 0; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--gv-wit); border: 1.5px solid #B9C2B6; color: #6E7A6F; }
+        #page-upsell2 .gv .gv-tijd-ico svg { width: 22px; height: 22px; }
+        #page-upsell2 .gv .gv-tijd-punt--nacht .gv-tijd-ico { border-color: var(--gv-terra); color: var(--gv-terra); background: #F7ECE5; }
+        #page-upsell2 .gv .gv-tijd-inhoud { position: relative; padding-top: 2px; }
+        #page-upsell2 .gv .gv-tijd-uur { margin: 0 0 2px; font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace; font-size: 15px; letter-spacing: .04em; color: var(--gv-terra); }
+        #page-upsell2 .gv .gv-tijd-label { margin: 0 0 4px; font-family: var(--gv-display); font-weight: 500; font-size: 23px; line-height: 1.15; color: var(--gv-noite); }
+        #page-upsell2 .gv .gv-tijd-punt--nacht .gv-tijd-label { color: var(--gv-terra); }
+        #page-upsell2 .gv .gv-tijd-tekst { margin: 0 0 10px; font-size: 16.5px; line-height: 1.5; color: var(--gv-verde); }
+        #page-upsell2 .gv .gv-tijd-tag { display: inline-block; padding: 4px 10px; border-radius: 8px; background: #EFE8DD; font-size: 13px; line-height: 1.35; color: #48574C; }
+        #page-upsell2 .gv .gv-tijd-punt .pg67n-start { margin-bottom: 6px; }
+        /* Jouw startpunt: destaque subtil do ponto escolhido na pergunta 8 */
+        #page-upsell2 .gv .gv-tijd-punt.is-start .gv-tijd-inhoud { margin: -8px -10px 0 -12px; padding: 10px 10px 12px 12px; border-radius: 12px; background: rgba(180, 85, 43, .06); }
+        #page-upsell2 .gv .gv-tijd-punt.is-start .gv-tijd-ico { border-color: var(--gv-terra); }
+        #page-upsell2 .gv .gv-tijd-nota { margin: 26px auto 0; max-width: 520px; font-size: 14.5px; line-height: 1.5; color: #5A6A5F; text-align: center; }
+        #page-upsell2 .gv .gv-tijd-nota.is-start { padding: 10px 12px; border-radius: 12px; background: rgba(180, 85, 43, .06); }
+        #page-upsell2 .gv .gv-tijd-nota .pg67n-start { margin: 0 6px 0 0; vertical-align: 1px; }
+        #page-upsell2 .gv #pg67n-wacht .gv-diff { margin-top: 30px; }
+        /* desenho do traco e entrada dos pontos (so' com .gv-anim) */
+        #page-upsell2 .gv.gv-anim .gv-tijd-lijn.gv-rev { opacity: 1; transform: none; }
+        #page-upsell2 .gv.gv-anim .gv-tijd-lijn path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s cubic-bezier(.4,.1,.2,1); }
+        #page-upsell2 .gv.gv-anim .gv-tijd-lijn.is-rev path { stroke-dashoffset: 0; }
+        @media (min-width: 768px) {
+            #page-upsell2 .gv .gv-tijd { max-width: 1040px; }
+            #page-upsell2 .gv .gv-tijd-lijn--v { display: none; }
+            #page-upsell2 .gv .gv-tijd-lijn--h { display: block; left: 12.5%; right: 12.5%; top: 12px; width: 75%; height: 20px; }
+            #page-upsell2 .gv .gv-tijd-lijst { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+            #page-upsell2 .gv .gv-tijd-punt { padding: 0; text-align: center; }
+            #page-upsell2 .gv .gv-tijd-punt:last-child::before { display: none; }
+            #page-upsell2 .gv .gv-tijd-ico { position: relative; margin: 0 auto 16px; }
+            #page-upsell2 .gv .gv-tijd-punt.is-start .gv-tijd-inhoud { margin: -8px -8px 0; padding: 10px 8px 12px; }
+            #page-upsell2 .gv .gv-tijd-label { font-size: 25px; }
+            #page-upsell2 .gv .gv-tijd-nota { margin-top: 34px; }
+        }
         /* ---- B: seccao do fragmento ---- */
         #page-upsell2 .gv .gv-sec--lees { padding-bottom: 4px; }
         #page-upsell2 .gv .gv-frag { padding-bottom: 12px; }
@@ -6865,8 +6902,6 @@
         /* ---- C: rotulo do botao do hero, um por perfil ---- */
         #page-upsell2 .gv .gv-ghost-var[hidden] { display: none; }
         /* ---- D: mapa da pergunta 8, acima dos cartoes ---- */
-        #page-upsell2 .gv .gv-mapa { margin: 0 auto 26px; max-width: 620px; text-align: center; font-family: var(--gv-display); font-style: italic; font-size: 21px; line-height: 1.35; color: var(--gv-noite); }
-        #page-upsell2 .gv .gv-mapa[hidden] { display: none; }
         /* ---- G: frase da pergunta 7, dentro da caixa ---- */
         #page-upsell2 .gv .gv-bezwaar { margin: 0 0 18px; text-align: center; font-family: var(--gv-display); font-style: italic; font-size: 18px; line-height: 1.45; color: #5A6A5F; }
         #page-upsell2 .gv .gv-bezwaar[hidden] { display: none; }
@@ -6910,7 +6945,6 @@
             #page-upsell2 .gv .gv-tel-lijst li { font-size: 12px; }
             /* 10 */
             #page-upsell2 .gv .gv-faq-item > summary { font-size: 24px; }
-            #page-upsell2 .gv .gv-mapa { font-size: 24px; }
             #page-upsell2 .gv .gv-bezwaar { font-size: 19px; }
         }
 
@@ -10592,11 +10626,11 @@ const SLEEP_LAYER_D = [
     "Je hebt al veel geprobeerd. Logisch. Veel daarvan helpt, afhankelijk van de oorzaak. Wat vaak buiten beeld blijft, is wat je doet op het moment zelf, midden in de nacht, wanneer je al moe bent."
 ];
 const SLEEP_Q8 = [
-    { audio: 'avond',    eco: "Je gaf aan dat je vooral iets wilt om de dag los te laten voordat je naar bed gaat.", mapa: "Daarvoor is het Avondritueel." },
-    { audio: 'inslapen', eco: "Je gaf aan dat je vooral wilt weten wat je kunt doen wanneer je niet in slaap valt.", mapa: "Daarvoor is Inslapen." },
-    { audio: 'nachts',   eco: "Je gaf aan dat je vooral een houvast wilt voor wanneer je midden in de nacht wakker wordt.", mapa: "Daarvoor is ’s Nachts wakker." },
-    { audio: 'intro',    eco: "Je gaf aan dat je vooral wilt begrijpen waarom je zo moe bent en toch alert blijft.", mapa: "Daarvoor is de Intro." },
-    { audio: null,       eco: "Je gaf aan dat je iets praktisch wilt dat je zelf kunt gebruiken, zonder je hele leven om te gooien.", mapa: "Je kunt beginnen met één audio, op het moment dat je hem nodig hebt." }
+    { audio: 'avond',    eco: "Je gaf aan dat je vooral iets wilt om de dag los te laten voordat je naar bed gaat." },
+    { audio: 'inslapen', eco: "Je gaf aan dat je vooral wilt weten wat je kunt doen wanneer je niet in slaap valt." },
+    { audio: 'nachts',   eco: "Je gaf aan dat je vooral een houvast wilt voor wanneer je midden in de nacht wakker wordt." },
+    { audio: 'intro',    eco: "Je gaf aan dat je vooral wilt begrijpen waarom je zo moe bent en toch alert blijft." },
+    { audio: null,       eco: "Je gaf aan dat je iets praktisch wilt dat je zelf kunt gebruiken, zonder je hele leven om te gooien." }
 ];
 const SLEEP_Q7 = [
     "Na zoveel pogingen is twijfel logisch. Daarom ligt het risico niet bij jou: werkt het niet, dan krijg je binnen 60 dagen je geld terug.",
@@ -10718,31 +10752,21 @@ function applySleepOffer() {
     // O botao do hero e' um so (um unico onclick); o que muda e' qual dos tres
     // rotulos fica visivel.
     document.querySelectorAll('#sleepquiz-offer .gv-ghost-var').forEach(el => { el.hidden = el.getAttribute('data-profiel') !== r.profile; });
-    // Mapa da pergunta 8 (acima dos cartoes) e frase da pergunta 7 (na caixa):
-    // so' aparecem quando ha' resultado do quiz.
-    const mapa = document.getElementById('gv-mapa');
-    if (mapa) {
-        const q8m = (r.q8 != null && SLEEP_Q8[r.q8]) ? SLEEP_Q8[r.q8].mapa : '';
-        mapa.textContent = sleepResult ? q8m : '';
-        mapa.hidden = !(sleepResult && q8m);
-    }
+    // Frase da pergunta 7 (na caixa): so' aparece quando ha' resultado do quiz.
     const bezwaar = document.getElementById('gv-bezwaar');
     if (bezwaar) {
         const q7t = (r.q7 != null && SLEEP_Q7[r.q7]) ? SLEEP_Q7[r.q7] : '';
         bezwaar.textContent = sleepResult ? q7t : '';
         bezwaar.hidden = !(sleepResult && q7t);
     }
-    const wrap = document.getElementById('pg67n-aanbod');
-    if (!wrap) return;
-    const order = ['intro', 'avond', 'inslapen', 'nachts'];
-    const first = (r.q8 != null && SLEEP_Q8[r.q8]) ? SLEEP_Q8[r.q8].audio : null;
-    wrap.querySelectorAll('.pg67n-start').forEach(s => { s.hidden = true; });
-    wrap.classList.toggle('is-herordend', !!first && first !== 'intro');
-    const cards = {};
-    wrap.querySelectorAll('.pg67n-moment').forEach(c => { cards[c.getAttribute('data-audio')] = c; });
-    const seq = first ? [first].concat(order.filter(k => k !== first)) : order;
-    seq.forEach(k => { if (cards[k]) wrap.appendChild(cards[k]); });
-    if (first && cards[first]) { const s = cards[first].querySelector('.pg67n-start'); if (s) s.hidden = false; }
+    // "Jouw startpunt" na linha do tempo, pela pergunta 8: avond/inslapen/nachts
+    // marcam o ponto, intro marca a nota da Intro, null (ou sem quiz) nada.
+    const first = (sleepResult && r.q8 != null && SLEEP_Q8[r.q8]) ? SLEEP_Q8[r.q8].audio : null;
+    document.querySelectorAll('#pg67n-wacht [data-audio]').forEach(el => {
+        const aan = !!first && el.getAttribute('data-audio') === first;
+        el.classList.toggle('is-start', aan);
+        const s = el.querySelector('.pg67n-start'); if (s) s.hidden = !aan;
+    });
 }
 
 function showSleepOffer() {
@@ -11153,7 +11177,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="gv-wrap">
                         <h2 class="gv-h2">Het Nachtalarm: hoe je lichaam ’s nachts aan blijft staan.</h2>
                         <div class="gv-lees">
-                            <p>Je lichaam blijft alert, ook als je doodmoe bent. Je hoofd blijft bezig, je let op ieder geluid en slapen wordt iets waar je je best voor moet doen.<sup>1</sup> Het Nachtalarm gaat op drie momenten af: vóór het slapengaan, bij het inslapen en midden in de nacht.</p>
+                            <p>Je lichaam blijft alert, ook als je doodmoe bent. Je hoofd blijft bezig, je let op ieder geluid en slapen wordt iets waar je je best voor moet doen.<sup>1</sup> Het Nachtalarm gaat op drie momenten af:</p>
+                        </div>
+                        <!-- Linha do tempo do Nachtalarm: os tres momentos e a manha seguinte,
+                             cada um com o audio que lhe corresponde. O traco e' um SVG ondulado
+                             (horizontal no desktop, vertical no telemovel); "Jouw startpunt" vem
+                             da pergunta 8 (applySleepOffer). -->
+                        <div class="gv-tijd" id="gv-tijd">
+                            <svg class="gv-tijd-lijn gv-tijd-lijn--h" viewBox="0 0 1000 20" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M4 10 C 90 4, 170 15, 260 9 S 420 5, 500 11 S 660 15, 740 9 S 900 4, 996 10"/></svg>
+                            <svg class="gv-tijd-lijn gv-tijd-lijn--v" viewBox="0 0 20 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M10 4 C 4 90, 15 170, 9 260 S 5 420, 11 500 S 15 660, 9 740 S 4 900, 10 996"/></svg>
+                            <ol class="gv-tijd-lijst">
+                                <li class="gv-tijd-punt" data-audio="avond"><span class="gv-tijd-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3 17h18"/><path d="M7 17a5 5 0 0 1 10 0"/><path d="M12 7.5v2"/><path d="M5.7 10.7l1.4 1.4"/><path d="M18.3 10.7l-1.4 1.4"/><path d="M6 20.5h12"/></svg></span><div class="gv-tijd-inhoud"><span class="pg67n-start" hidden>Jouw startpunt</span><p class="gv-tijd-label">Vóór het slapengaan</p><p class="gv-tijd-tekst">Je hoofd loopt de dag nog eens door</p><span class="gv-tijd-tag">Avondritueel · Aankomen</span></div></li>
+                                <li class="gv-tijd-punt" data-audio="inslapen"><span class="gv-tijd-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M19.5 14.6A7.6 7.6 0 1 1 9.4 4.5a6 6 0 0 0 10.1 10.1z"/><path d="M16 4.5h3l-3 3.2h3"/></svg></span><div class="gv-tijd-inhoud"><span class="pg67n-start" hidden>Jouw startpunt</span><p class="gv-tijd-label">Bij het inslapen</p><p class="gv-tijd-tekst">Je bent moe, en juist dan gaat je hoofd aan</p><span class="gv-tijd-tag">Inslapen · De inspanning loslaten</span></div></li>
+                                <li class="gv-tijd-punt gv-tijd-punt--nacht" data-audio="nachts"><span class="gv-tijd-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="13.5" r="7"/><path d="M12 10v3.6l2.4 1.6"/><path d="M4.6 6.4l2.6-2.4"/><path d="M19.4 6.4l-2.6-2.4"/></svg></span><div class="gv-tijd-inhoud"><span class="pg67n-start" hidden>Jouw startpunt</span><p class="gv-tijd-uur">03:00</p><p class="gv-tijd-label">Midden in de nacht</p><p class="gv-tijd-tekst">Je wordt wakker en kijkt hoe laat het is</p><span class="gv-tijd-tag">’s Nachts wakker · Terug naar jezelf</span></div></li>
+                                <li class="gv-tijd-punt"><span class="gv-tijd-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3 18h18"/><path d="M7 18a5 5 0 0 1 10 0"/><path d="M12 10.5V5"/><path d="M9.6 7.2L12 5l2.4 2.2"/><path d="M6 21h12"/></svg></span><div class="gv-tijd-inhoud"><span class="pg67n-start" hidden>Jouw startpunt</span><p class="gv-tijd-label">De ochtend erna</p><p class="gv-tijd-tekst">Na zo’n nacht begint de dag al moe</p><span class="gv-tijd-tag">Handleiding (pdf)</span></div></li>
+                            </ol>
+                        </div>
+                        <p class="gv-tijd-nota" data-audio="intro"><span class="pg67n-start" hidden>Jouw startpunt</span> Begin bij de Intro · Begrijpen: wat er in je lichaam gebeurt.</p>
+                        <p class="gv-diff">Elke audio helpt je één moment van de nacht anders aan te pakken. Samen vormen ze één protocol, stap voor stap.</p>
+                        <div class="gv-lees gv-lees--quote">
                             <blockquote class="gv-quote"><p>“De hele dag zat ik aan te hikken tegen het moment dat ik weer naar bed moest.”</p><cite>Isa, RTL Nieuws · <a href="https://www.rtl.nl/lifestyle/artikel/5574512/isa-nooit-meer-slaapproblemen-slapeloosheid-bang-voor-nacht-slaapgebrek" target="_blank" rel="noopener noreferrer">Lees het artikel →</a></cite></blockquote>
                         </div>
                     </div>
@@ -11198,31 +11240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="gv-stat"><strong>€67</strong><span>eenmalig, geen abonnement</span></div>
                     <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary gv-bar-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Begin vanavond</a>
                 </div></section>
-                <section class="gv-sec gv-sec--wit" id="pg67n-audios">
-                    <div class="gv-wrap">
-                        <p class="gv-mapa" id="gv-mapa" hidden></p>
-                        <div class="gv-audios" id="pg67n-aanbod">
-                    <article class="gv-audio pg67n-moment" data-audio="intro">
-                        <div class="gv-audio-foto"><img src="img/p67-begrijpen.webp" alt="" width="800" height="800" loading="lazy" decoding="async" style="object-position:center 56%"></div>
-                        <div class="gv-audio-tekst"><span class="pg67n-start" hidden>Jouw startpunt</span><h3>Intro · Begrijpen</h3><p>Je ontdekt wat je lichaam ’s nachts doet en waarom. Alleen dat haalt al het gewicht van de schuld weg.</p></div>
-                    </article>
-                    <article class="gv-audio pg67n-moment" data-audio="avond">
-                        <div class="gv-audio-foto"><img src="img/p67-aankomen.webp" alt="" width="800" height="800" loading="lazy" decoding="async" style="object-position:center 78%"></div>
-                        <div class="gv-audio-tekst"><span class="pg67n-start" hidden>Jouw startpunt</span><h3>Avondritueel · Aankomen</h3><p>Vóór het slapengaan. Je leert de dag van binnenuit af te sluiten, elke avond, voor je gaat liggen.</p></div>
-                    </article>
-                    <article class="gv-audio pg67n-moment" data-audio="inslapen">
-                        <div class="gv-audio-foto"><img src="img/p67-loslaten.webp" alt="" width="800" height="800" loading="lazy" decoding="async" style="object-position:center 40%"></div>
-                        <div class="gv-audio-tekst"><span class="pg67n-start" hidden>Jouw startpunt</span><h3>Inslapen · De inspanning loslaten</h3><p>Bij het inslapen. Je leert het moment herkennen waarop je op je slaap gaat letten. Je hoofd krijgt iets anders te doen dan proberen te slapen.</p></div>
-                    </article>
-                    <article class="gv-audio pg67n-moment" data-audio="nachts">
-                        <div class="gv-audio-foto"><img src="img/p67-terug.webp" alt="" width="800" height="800" loading="lazy" decoding="async" style="object-position:center 55%"></div>
-                        <div class="gv-audio-tekst"><span class="pg67n-start" hidden>Jouw startpunt</span><h3>’s Nachts wakker · Terug naar jezelf</h3><p>Midden in de nacht. Je hoeft niet zelf te bedenken wat je moet doen: de audio begeleidt je stap voor stap. Eerst zakt het alarm, dan je gedachten, en je weet wat je doet als de slaap op zich laat wachten.</p></div>
-                    </article>
-                        </div>
-                        <p class="gv-diff">Elke audio helpt je één moment van de nacht anders aan te pakken. Samen vormen ze één protocol, stap voor stap.</p>
-                    </div>
-                </section>
-                <div class="gv-golf gv-golf--zacht" style="--van:#FBF8F3;--naar:#F2EDE6" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false"><path class="gv-g-massa" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z"/><path class="gv-g-1" d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z"/><path class="gv-g-2" d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z"/><path class="gv-g-3" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z"/></svg></div>
+                <div class="gv-golf gv-golf--zacht" style="--van:#EAE3D8;--naar:#F2EDE6" aria-hidden="true"><svg viewBox="0 152 1200 248" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false"><path class="gv-g-massa" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 L0 400 Z"/><path class="gv-g-1" d="M0 280 Q150 180 300 220 Q450 260 600 200 Q750 140 900 180 Q1050 220 1200 160 L1200 320 Q1050 280 900 300 Q750 320 600 280 Q450 240 300 300 Q150 360 0 320 Z"/><path class="gv-g-2" d="M0 300 Q200 220 400 270 Q600 320 800 240 Q1000 160 1200 220 L1200 340 Q1000 280 800 310 Q600 340 400 300 Q200 260 0 340 Z"/><path class="gv-g-3" d="M0 340 Q200 280 400 310 Q600 340 800 280 Q1000 220 1200 280 L1200 400 Q1000 360 800 380 Q600 400 400 370 Q200 340 0 400 Z"/></svg></div>
 
                 <!-- 3. SEM PROMESSA + DEPOIMENTOS -->
                 <section class="gv-sec gv-sec--creme">
@@ -11390,9 +11408,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     function sel(q){ return Array.prototype.slice.call(gv.querySelectorAll(q)); }
                     // alvos soltos e grupos (os filhos entram em sequencia)
                     var soltos=sel('.gv-h2:not(.gv-frag-kop)').concat(sel('#pg67n-wacht .gv-lees'), sel('#pg67-fragment .gv-frag-in'), sel('.gv-faq-item'), sel('.gv-garband .gv-gar'));
-                    var grupos=sel('.gv-audios').concat(sel('.gv-deps'), sel('.gv-verg'));
+                    var grupos=sel('.gv-tijd-lijst').concat(sel('.gv-deps'), sel('.gv-verg'));
+                    soltos=soltos.concat(sel('.gv-tijd-lijn'), sel('.gv-tijd-nota'), sel('#pg67n-wacht .gv-diff'));
                     soltos.forEach(function(el){ el.classList.add('gv-rev'); });
-                    grupos.forEach(function(g){ Array.prototype.forEach.call(g.children,function(c,i){ c.classList.add('gv-rev'); c.style.setProperty('--gv-rev-d',(i*STAP)+'ms'); }); });
+                    grupos.forEach(function(g){ var stap=g.classList.contains('gv-tijd-lijst')?120:STAP; Array.prototype.forEach.call(g.children,function(c,i){ c.classList.add('gv-rev'); c.style.setProperty('--gv-rev-d',(i*stap)+'ms'); }); });
                     gv.classList.add('gv-anim');
                     // mockup da caixa: equalizador decorativo em cada linha do telefone
                     var stack=gv.querySelector('.gv-stack'), linhas=stack?stack.querySelectorAll('.gv-tel-lijst li'):[];
