@@ -10640,6 +10640,15 @@ const SLEEP_Q7 = [
     "Wat hierboven staat, is het hele pakket. Er komt achteraf niets bij."
 ];
 
+// Frase do fecho por startpunt (campo audio da pergunta 8)
+const SLEEP_SLOT = {
+    inslapen: "Vanavond begin je met Inslapen. Oortjes in, licht uit, en je volgt de stem.",
+    avond:    "Vanavond begin je met het Avondritueel. Oortjes in, licht uit, en je volgt de stem.",
+    nachts:   "Word je vannacht wakker, dan zet je ’s Nachts wakker op. Oortjes in, en je volgt de stem.",
+    intro:    "Vanavond begin je met de Intro. Oortjes in, licht uit, en je volgt de stem.",
+    geen:     "Vanavond: oortjes in, licht uit, play. De rest doet de stem."
+};
+
 let currentSleepQuestion = 0;
 let sleepAnswers = [];       // single: index; multi (Q6): array of indexes
 let sleepResult = null;      // { profile, layerD, q7, q8 }
@@ -10759,9 +10768,13 @@ function applySleepOffer() {
         bezwaar.textContent = sleepResult ? q7t : '';
         bezwaar.hidden = !(sleepResult && q7t);
     }
+    const first = (sleepResult && r.q8 != null && SLEEP_Q8[r.q8]) ? SLEEP_Q8[r.q8].audio : null;
+    // Fecho: a frase sob "Geef je nacht een ander begin." segue o mesmo
+    // startpunt; sem resposta fica a do HTML.
+    const slotSub = document.getElementById('gv-slot-sub');
+    if (slotSub) slotSub.textContent = SLEEP_SLOT[first] || SLEEP_SLOT.geen;
     // "Jouw startpunt" na linha do tempo, pela pergunta 8: avond/inslapen/nachts
     // marcam o ponto, intro marca a nota da Intro, null (ou sem quiz) nada.
-    const first = (sleepResult && r.q8 != null && SLEEP_Q8[r.q8]) ? SLEEP_Q8[r.q8].audio : null;
     document.querySelectorAll('#pg67n-wacht [data-audio]').forEach(el => {
         const aan = !!first && el.getAttribute('data-audio') === first;
         el.classList.toggle('is-start', aan);
@@ -11347,7 +11360,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <section class="gv-slot pg67n-slot">
                     <div class="gv-wrap gv-slot-in">
                         <h2 class="gv-slot-kop">Geef je nacht een ander begin.</h2>
-                        <p class="gv-slot-sub">Leer luisteren naar je lichaam en kom weer bij jezelf.</p>
+                        <p class="gv-slot-sub" id="gv-slot-sub">Vanavond: oortjes in, licht uit, play. De rest doet de stem.</p>
                         <a href="https://buy.stripe.com/6oU7sKfri9ol7g81KOfjG03" class="btn-primary gv-slot-cta" onclick="fbq('track','InitiateCheckout',{content_name:'Slaapprotocol',value:67.00,currency:'EUR'})">Ja, ik probeer het 60 dagen — €67</a>
                         <p class="gv-levering gv-levering--donker">Direct na betaling in je mail. Vanavond luister je de eerste audio.</p>
                         <div class="pg67-pagar">
