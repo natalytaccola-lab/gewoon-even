@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gewoon Even — Noodprotocol</title>
     <link rel="canonical" href="https://gewoon-even.nl/">
+    <script>
+    /* Retorno do Stripe: os Payment Links voltam para
+       /?sid={CHECKOUT_SESSION_ID}#betaald-<produto>-<codigo>. O id da sessao
+       fica so' em memoria (window.geStripeSid) e sai logo do endereco, antes
+       do pixel: nao vai na URL do PageView, nao fica no historico e nao segue
+       com quem partilha o link. E' o eventID do Purchase (registarCompra) e o
+       mesmo session.id que o webhook recebe, para uma futura Conversions API. */
+    (function () {
+        try {
+            var q = new URLSearchParams(location.search);
+            if (!q.has('sid')) return;
+            var sid = q.get('sid');
+            if (/^cs_(live|test)_[A-Za-z0-9]+$/.test(sid)) window.geStripeSid = sid;
+            q.delete('sid');
+            var resto = q.toString();
+            history.replaceState(history.state, '', location.pathname + (resto ? '?' + resto : '') + location.hash);
+        } catch (e) {}
+    })();
+    </script>
     <!-- Meta Pixel: NADA do Meta carrega antes do consentimento.
          O fbq definido aqui e' so' uma fila em memoria. O fbevents.js so' e'
          pedido depois do "Accepteren"; com "Weigeren" a fila e' deitada fora e
@@ -142,9 +161,11 @@
     <script>
     /* -----------------------------------------------------------------------
        Bandeira de comprador.
-       Acende SO' nos dois hashes que sao redirects reais da Stripe:
-         #upsell-p7-6h2mk9    (depois de pagar o Noodprotocol)
-         #upsell2-slaap-7n4kx9 (depois de pagar o Protocol van 7 Dagen)
+       Acende SO' nos hashes de retorno da Stripe depois de pagar o
+       Noodprotocol ou o Protocol van 7 Dagen:
+         #betaald-np-17ypqz e #betaald-p7-di0vtq (retornos novos, com ?sid)
+         #upsell-p7-6h2mk9 e #upsell2-slaap-7n4kx9 (retornos antigos; o
+         primeiro e' tambem o UPSELL_URL do e-mail de entrega do Noodprotocol)
        Fica guardada na sessao, por isso um comprador que recusa o EUR 37 e o
        EUR 67 continua a ser comprador na pagina de agradecimento.
        Qualquer outra entrada -- os hashes novos de e-mail incluidos -- chega
@@ -153,7 +174,7 @@
        Nao toca no encaminhador nem na upsell2ConfirmedPurchaseEntry.
        ----------------------------------------------------------------------- */
     (function () {
-        var HASHES_DE_COMPRA = ['#upsell-p7-6h2mk9', '#upsell2-slaap-7n4kx9'];
+        var HASHES_DE_COMPRA = ['#betaald-np-17ypqz', '#betaald-p7-di0vtq', '#upsell-p7-6h2mk9', '#upsell2-slaap-7n4kx9'];
         var CHAVE = 'ge_koper';
         function marcar() { try { sessionStorage.setItem(CHAVE, '1'); } catch (e) {} }
         function aceso() { try { return sessionStorage.getItem(CHAVE) === '1'; } catch (e) { return false; } }
@@ -10439,7 +10460,7 @@ function selectAnswer(answerIndex) {
 const BREVO_TRACKED_PAGES = ['page-upsell', 'page-upsell2', 'page-downsell'];
 
 // True apenas quando page-upsell2 é aberta pelo redirect real do Stripe depois
-// de pagar o Protocol 7 Dagen (hash #upsell2-slaap-7n4kx9). Escolhe a abertura A1
+// de pagar o Protocol 7 Dagen (#betaald-p7-di0vtq, ou o antigo #upsell2-slaap-7n4kx9). Escolhe a abertura A1
 // do quiz ("✓ 7 Dagen staat in je mail") — outras entradas em page-upsell2 (ex: uma
 // futura sequência de email a vender o Slaapprotocol a quem não acabou de comprar
 // o 7 Dagen) devem chegar com isto a false, para não confirmar uma compra que a
@@ -10483,23 +10504,10 @@ function showPage(pageId) {
         if (typeof resetSleepQuiz === 'function') resetSleepQuiz();
     } else if (pageId === 'page-downsell') {
         fbq('track', 'ViewContent', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
-    } else if (pageId === 'page-deliver-noodprotocol') {
-        if (!compraJaContada('np')) {
-            fbq('track', 'Purchase', {content_name: 'Noodprotocol', value: 17.00, currency: 'EUR'});
-        }
-    } else if (pageId === 'page-deliver-protocol7') {
-        if (!compraJaContada('p7d')) {
-            fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
-        }
-    } else if (pageId === 'page-deliver-crisiskaart') {
-        if (!compraJaContada('ck')) {
-            fbq('track', 'Purchase', {content_name: 'Crisiskaart', value: 9.00, currency: 'EUR'});
-        }
-    } else if (pageId === 'page-deliver-slaap') {
-        if (!compraJaContada('slaap')) {
-            fbq('track', 'Purchase', {content_name: 'Slaapprotocol', value: 67.00, currency: 'EUR'});
-        }
     }
+    // As paginas de entrega (#toegang-*) nao disparam Purchase: abrem-se pelos
+    // links dos e-mails, tantas vezes quantas a pessoa quiser. O Purchase sai
+    // so' no retorno da Stripe (#betaald-*, registarCompra).
 }
 
 function handleEmailSubmit(event) {
@@ -10821,12 +10829,10 @@ function resetSleepQuiz() {
 
 // Handle URL-based page routing for delivery pages
 // Wrapped in DOMContentLoaded because the delivery page divs are defined
-// later in the document; without this, getElementById would return null
-// and showPage() would throw before fbq('track','Purchase') ran.
-// Guardas de contagem unica por sessao. A chave vive em sessionStorage, dentro
+// later in the document; without this, getElementById would return null.
+// Guarda de contagem unica por sessao. A chave vive em sessionStorage, dentro
 // de try/catch — em navegacao privada ou com o armazenamento bloqueado o acesso
-// lanca, e nesse caso deixamos passar (melhor contar a mais do que partir a
-// pagina).
+// lanca, e nesse caso deixamos passar.
 function jaContado(chave) {
     try {
         if (sessionStorage.getItem(chave)) return true;
@@ -10842,17 +10848,49 @@ function entradaJaContada(hash) {
     return jaContado('ge_hash_' + hash);
 }
 
-// Uma Purchase por PRODUTO e por sessao — a chave e' o produto, nao o caminho.
-// O mesmo 7 Dagen pode ser contado por dois caminhos na mesma sessao (a entrada
-// em #upsell2-slaap-7n4kx9 e a abertura da page-deliver-protocol7 pelo botao da
-// faixa de confirmacao); sem chave partilhada davam duas Purchase de EUR 37.
-function compraJaContada(produto) {
-    return jaContado('ge_purchase_' + produto);
+// Purchase: uma vez por compra, so' no retorno da Stripe (#betaald-*). O
+// eventID e' o id da sessao do Checkout (window.geStripeSid, lido no <head>),
+// o mesmo session.id que o webhook recebe -- a Meta junta um evento do
+// navegador e um da Conversions API com o mesmo eventID e conta-os uma vez.
+// Sem sid valido (hash escrito a mao, link partilhado) nao ha Purchase. A
+// marca fica em localStorage, para nao repetir nem noutro dia; se estiver
+// bloqueado, fica a sessionStorage.
+function registarCompra(produto, valor) {
+    const sid = window.geStripeSid;
+    if (!sid) return false;
+    const chave = 'ge_compra_' + sid;
+    let ja = false;
+    try { ja = !!localStorage.getItem(chave); }
+    catch (e) { try { ja = !!sessionStorage.getItem(chave); } catch (e2) {} }
+    if (ja) return false;
+    fbq('track', 'Purchase', {content_name: produto, value: valor, currency: 'EUR'}, {eventID: sid});
+    try { localStorage.setItem(chave, '1'); }
+    catch (e) { try { sessionStorage.setItem(chave, '1'); } catch (e2) {} }
+    return true;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
-    if (hash === '#upsell-p7-6h2mk9') {
+    // Retornos da Stripe depois do pagamento (URLs que nao aparecem em nenhum
+    // e-mail). Cada um faz o que o retorno antigo / a entrega faz, mais o Purchase.
+    if (hash === '#betaald-np-17ypqz') {
+        // EUR 17: como #upsell-p7-6h2mk9 (oferta do 7 Dagen, ge_koper no <head>)
+        registarCompra('Noodprotocol', 17.00);
+        showPage('page-upsell');
+    } else if (hash === '#betaald-p7-di0vtq') {
+        // EUR 37: como #upsell2-slaap-7n4kx9 (oferta do Slaapprotocol, abertura A1)
+        upsell2ConfirmedPurchaseEntry = true;
+        registarCompra('Protocol 7 Dagen', 37.00);
+        showPage('page-upsell2');
+    } else if (hash === '#betaald-ck-0jj2uk') {
+        // EUR 9: como #toegang-ck-2j7mp (entrega da Crisiskaart)
+        registarCompra('Crisiskaart', 9.00);
+        showPage('page-deliver-crisiskaart');
+    } else if (hash === '#betaald-sl-4tfsbz') {
+        // EUR 67: como #toegang-sl-9m3kx7 (entrega do Slaapprotocol)
+        registarCompra('Slaapprotocol', 67.00);
+        showPage('page-deliver-slaap');
+    } else if (hash === '#upsell-p7-6h2mk9') {
         // esta entrada nao dispara Purchase nenhuma; a chave fica registada
         // na mesma, para o dia em que passar a disparar
         entradaJaContada(hash);
@@ -10871,10 +10909,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // uma futura sequência de email a vender o Slaapprotocol (para quem já tem o
         // 7 Dagen há dias, ou para quem só tem o Noodprotocol) deve usar um hash
         // PRÓPRIO e diferente deste, para não herdar esta confirmação por engano.
+        // Retorno antigo: continua a abrir a oferta com a abertura A1, mas ja'
+        // nao conta Purchase (passou para #betaald-p7-di0vtq, com o sid).
         upsell2ConfirmedPurchaseEntry = true;
-        if (!compraJaContada('p7d')) {
-            fbq('track', 'Purchase', {content_name: 'Protocol 7 Dagen', value: 37.00, currency: 'EUR'});
-        }
         showPage('page-upsell2');
     } else if (hash === '#toegang-np-8f3k2m') {
         showPage('page-deliver-noodprotocol');
