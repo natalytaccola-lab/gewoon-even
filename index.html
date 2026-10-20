@@ -6232,6 +6232,12 @@
             color: #A9421C;
         }
 
+        /* Abaixo de 400px os tres eyebrows cabem numa linha ate' 360px: so' o
+           espacamento entre letras encolhe, a fonte e o texto ficam. */
+        @media (max-width: 399.98px) {
+            #page-upsell2 .pg67-quiz .pg67-abertura-var .upsell-badge { letter-spacing: 0.06em; }
+        }
+
         #page-upsell2 .pg67-perguntas .question-number { font-size: 14px; }
 
         #page-upsell2 .pg67-perguntas .question-text {
