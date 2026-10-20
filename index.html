@@ -6815,6 +6815,39 @@
         #page-upsell2 .gv .gv-stack .gv-pdf { position: absolute; right: 0; bottom: 8px; width: 104px; margin: 0; transform: rotate(6deg); }
         #page-upsell2 .gv .gv-tel-lijst { list-style: none; margin: 4px 11px 10px; padding: 0; text-align: left; }
         #page-upsell2 .gv .gv-tel-lijst li { padding: 7px 0; border-top: 1px solid rgba(62, 78, 67, 0.16); font-size: 10.5px; line-height: 1.3; color: var(--gv-verde); }
+        /* Mockup da caixa (.gv-stack): entrada, linha "a tocar" e PDF a flutuar.
+           So' transform/opacity (incl. translate e rotate). O estado final e' o
+           de base; o escondido so' existe com .gv-anim (JS e sem reduced-motion). */
+        #page-upsell2 .gv .gv-stack .gv-pdf-vel--1 { rotate: 2deg; }
+        #page-upsell2 .gv .gv-stack .gv-pdf-vel--2 { rotate: 4deg; }
+        #page-upsell2 .gv .gv-stack .gv-tel-lijst li { position: relative; isolation: isolate; padding-right: 18px; }
+        #page-upsell2 .gv .gv-stack .gv-tel-lijst li::before { content: ""; position: absolute; inset: 1px -6px 0; z-index: -1; border-radius: 5px; background: rgba(193, 84, 29, 0.09); opacity: 0; transition: opacity .5s ease; }
+        #page-upsell2 .gv .gv-stack .gv-tel-lijst li.is-aan::before { opacity: 1; }
+        #page-upsell2 .gv .gv-eq { position: absolute; right: 0; top: 50%; display: flex; align-items: flex-end; gap: 2px; height: 9px; transform: translateY(-50%); opacity: 0; transition: opacity .5s ease; }
+        #page-upsell2 .gv .gv-eq span { display: block; width: 2px; height: 100%; border-radius: 1px; background: #C1541D; transform-origin: 50% 100%; transform: scaleY(.35); animation: gv-eq .9s ease-in-out infinite alternate; }
+        #page-upsell2 .gv .gv-eq span:nth-child(2) { animation-delay: -.3s; animation-duration: .7s; }
+        #page-upsell2 .gv .gv-eq span:nth-child(3) { animation-delay: -.6s; animation-duration: 1.1s; }
+        #page-upsell2 .gv .gv-stack li.is-aan .gv-eq { opacity: 1; }
+        @keyframes gv-eq { from { transform: scaleY(.3); } to { transform: scaleY(1); } }
+        #page-upsell2 .gv .gv-stack.is-loop .gv-pdf > * { animation: gv-zweef 6s ease-in-out infinite; }
+        @keyframes gv-zweef { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+        #page-upsell2 .gv .gv-stack.is-pauze *, #page-upsell2 .gv .gv-stack.is-pauze *::before { animation-play-state: paused !important; }
+        #page-upsell2 .gv.gv-anim .gv-stack .gv-tel { opacity: 0; transform: translateY(16px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+        #page-upsell2 .gv.gv-anim .gv-stack .gv-tel-lijst li { opacity: 0; transform: translateY(8px); transition: opacity .45s cubic-bezier(.2,.7,.2,1), transform .45s cubic-bezier(.2,.7,.2,1); transition-delay: 200ms; }
+        #page-upsell2 .gv.gv-anim .gv-stack .gv-tel-lijst li:nth-child(2) { transition-delay: 290ms; }
+        #page-upsell2 .gv.gv-anim .gv-stack .gv-tel-lijst li:nth-child(3) { transition-delay: 380ms; }
+        #page-upsell2 .gv.gv-anim .gv-stack .gv-tel-lijst li:nth-child(4) { transition-delay: 470ms; }
+        #page-upsell2 .gv.gv-anim .gv-stack .gv-pdf { opacity: 0; translate: -70px 0; transition: opacity .7s cubic-bezier(.2,.7,.2,1) .15s, translate .7s cubic-bezier(.2,.7,.2,1) .15s; }
+        #page-upsell2 .gv.gv-anim .gv-stack .gv-pdf-vel { rotate: 0deg; transition: rotate .6s cubic-bezier(.2,.7,.2,1) .5s; }
+        #page-upsell2 .gv.gv-anim .gv-stack.is-rev .gv-tel,
+        #page-upsell2 .gv.gv-anim .gv-stack.is-rev .gv-tel-lijst li { opacity: 1; transform: none; }
+        #page-upsell2 .gv.gv-anim .gv-stack.is-rev .gv-pdf { opacity: 1; translate: 0 0; }
+        #page-upsell2 .gv.gv-anim .gv-stack.is-rev .gv-pdf-vel--1 { rotate: 2deg; }
+        #page-upsell2 .gv.gv-anim .gv-stack.is-rev .gv-pdf-vel--2 { rotate: 4deg; }
+        @media (prefers-reduced-motion: reduce) {
+            #page-upsell2 .gv .gv-stack *, #page-upsell2 .gv .gv-stack *::before { animation: none !important; transition: none !important; }
+            #page-upsell2 .gv .gv-eq { display: none; }
+        }
         /* ---- 9: linha de entrega ---- */
         #page-upsell2 .gv .gv-levering { margin: 10px 0 0; font-size: 14.5px; line-height: 1.45; color: #5A6A5F; }
         #page-upsell2 .gv .gv-levering--donker { color: rgba(242, 237, 230, 0.82); }
@@ -11361,16 +11394,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     soltos.forEach(function(el){ el.classList.add('gv-rev'); });
                     grupos.forEach(function(g){ Array.prototype.forEach.call(g.children,function(c,i){ c.classList.add('gv-rev'); c.style.setProperty('--gv-rev-d',(i*STAP)+'ms'); }); });
                     gv.classList.add('gv-anim');
+                    // mockup da caixa: equalizador decorativo em cada linha do telefone
+                    var stack=gv.querySelector('.gv-stack'), linhas=stack?stack.querySelectorAll('.gv-tel-lijst li'):[];
+                    Array.prototype.forEach.call(linhas,function(li){ var eq=document.createElement('span'); eq.className='gv-eq'; eq.setAttribute('aria-hidden','true'); eq.innerHTML='<span></span><span></span><span></span>'; li.appendChild(eq); });
+                    var atual=-1, relogio=null, visivel=false, aCorrer=false;
+                    function passo(){ atual=(atual+1)%linhas.length; Array.prototype.forEach.call(linhas,function(li,i){ li.classList.toggle('is-aan',i===atual); }); }
+                    function retomar(){ if(!aCorrer||!visivel||relogio) return; stack.classList.remove('is-pauze'); relogio=setInterval(passo,3000); }
+                    function pausar(){ clearInterval(relogio); relogio=null; stack.classList.add('is-pauze'); }
+                    function entrarStack(){ stack.classList.add('is-rev'); setTimeout(function(){ aCorrer=true; stack.classList.add('is-loop'); passo(); retomar(); },1000); }
                     var io=new IntersectionObserver(function(es){
                         es.forEach(function(e){
                             if(!e.isIntersecting) return;
                             var t=e.target;
-                            if(t.classList.contains('gv-rev')) t.classList.add('is-rev');
+                            if(t===stack) entrarStack();
+                            else if(t.classList.contains('gv-rev')) t.classList.add('is-rev');
                             else Array.prototype.forEach.call(t.children,function(c){ c.classList.add('is-rev'); });
                             io.unobserve(t);
                         });
                     },{rootMargin:'0px 0px -15% 0px'});
                     soltos.concat(grupos).forEach(function(el){ io.observe(el); });
+                    if(stack&&linhas.length){
+                        io.observe(stack);
+                        // fora do ecra, o equalizador, a troca de linha e a flutuacao param
+                        new IntersectionObserver(function(es){ visivel=es[0].isIntersecting; if(visivel) retomar(); else pausar(); }).observe(stack);
+                    }
 
                     // contagem: so' "€385" e "14+ weken". O valor real fica no HTML
                     // (num span so' para leitores de ecra); o que anima e' uma copia
