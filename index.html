@@ -8968,6 +8968,33 @@
         @media (min-width: 901px) { #page-checkout .nph-speler { justify-self: end; } #page-checkout .nph-telefoon { width: 270px; } }
         @media (prefers-reduced-motion: reduce) { #page-checkout .nph-speler { animation: none; } }
 
+        /* 3 · uma coluna de leitura so' (544px, centrada) para todo o texto
+           corrido do €17. Antes cada bloco tinha a sua largura maxima (480,
+           544, 620, 680px) e, centrados, comecavam cada um numa margem.
+           Os componentes largos (audios, estudos, tabela, depoimentos,
+           passos) ficam como estavam. */
+        #page-checkout .np-body p,
+        #page-checkout .np-cedo blockquote,
+        #page-checkout .np-herken h2,
+        #page-checkout .np-herken p,
+        #page-checkout .np-faq > h2,
+        #page-checkout .np-faq > details,
+        #page-checkout .pg-climax-col > .np-anchor,
+        #page-checkout .pg-climax-col > .np-cta-quote,
+        #page-checkout .pg-climax-col > .np-fecho,
+        #page-checkout .pg-climax-col > .np-disclaimer {
+            max-width: 34rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        /* as duas frases grandes tinham margem com !important encostada a' esquerda */
+        #page-checkout .np-body p.np-lift { max-width: 34rem !important; margin-left: auto !important; margin-right: auto !important; }
+        /* a caixa da citacao da Femke tinha 34rem com o padding dentro: no tablet o texto entrava 24px */
+        #page-checkout .np-cedo { max-width: none; }
+        /* o bloco escuro termina numa onda absoluta: o fundo passa a reservar
+           a altura dela, para o aviso medico nao ficar por cima da onda */
+        #page-checkout .np-climax { padding-bottom: calc(2.2rem + clamp(58px, 9.2vw, 205px)); }
+
         /* 2 · botoes chapados: mesma cor (o tom medio do degrade), sem degrade */
         #page-checkout {
             --np-grad-final: #B5491E;
