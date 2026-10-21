@@ -8946,6 +8946,43 @@
         html.ge-funil37 #page-quiz { display: none; }
 
     </style>
+
+    <style>
+        /* ===== PREVIA VISUAL €17 (branch previa-visual-17) ===== */
+        /* 1 · mockup do player no hero, no lugar da foto */
+        #page-checkout .nph-speler { justify-self: center; text-align: center; animation: np-foto-entra 700ms ease-out both; }
+        #page-checkout .nph-telefoon { width: 250px; margin: 0 auto; padding: 7px; border-radius: 30px; background: #55675A; box-shadow: 0 24px 50px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(242,237,230,0.12); }
+        #page-checkout .nph-ecra { padding: 12px 12px 14px; border-radius: 23px; background: var(--creme); text-align: left; }
+        #page-checkout .nph-kop { margin: 0 0 8px; font-family: var(--np-mono, 'IBM Plex Mono', monospace); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; text-align: center; color: #5A6655; }
+        #page-checkout .nph-capa { position: relative; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; background: var(--verde-dique); }
+        #page-checkout .nph-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
+        #page-checkout .nph-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); display: inline-flex; align-items: center; justify-content: center; width: 58px; height: 58px; padding: 0; border: 0; border-radius: 50%; background: rgba(242,237,230,0.92); color: var(--verde-dique); cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+        #page-checkout .nph-play svg { width: 26px; height: 26px; margin-left: 3px; }
+        #page-checkout .nph-play:focus-visible { outline: 2px solid var(--creme); outline-offset: 3px; }
+        #page-checkout .nph-titel { margin: 10px 0 6px; font-family: var(--np-display); font-size: 19px; line-height: 1.2; text-align: center; color: var(--verde-dique); }
+        #page-checkout .nph-barra { height: 3px; border-radius: 2px; background: rgba(62,78,67,0.2); overflow: hidden; }
+        #page-checkout .nph-barra span { display: block; width: 0; height: 100%; background: var(--verde-dique); }
+        #page-checkout .nph-tijd { display: flex; justify-content: space-between; margin: 4px 0 10px; font-family: var(--np-mono, 'IBM Plex Mono', monospace); font-size: 9px; color: #5A6655; }
+        #page-checkout .nph-lijst { display: flex; justify-content: space-between; gap: 6px; margin: 0; padding: 9px 0 0; border-top: 1px solid rgba(62,78,67,0.15); list-style: none; font-family: var(--np-body); font-size: 10.5px; color: #5A6655; }
+        #page-checkout .nph-lijst .is-nu { color: var(--verde-dique); font-weight: 600; }
+        #page-checkout .nph-legenda { margin: 14px 0 0; font-family: var(--np-body); font-size: 14px; color: rgba(242,237,230,0.8); }
+        @media (min-width: 901px) { #page-checkout .nph-speler { justify-self: end; } #page-checkout .nph-telefoon { width: 270px; } }
+        @media (prefers-reduced-motion: reduce) { #page-checkout .nph-speler { animation: none; } }
+
+        /* 2 · botoes chapados: mesma cor (o tom medio do degrade), sem degrade */
+        #page-checkout {
+            --np-grad-final: #B5491E;
+            --np-grad-meio:  #94543A;
+            --np-grad-barra: #B5491E;
+            --np-grad-final-hover: #9A3E19;
+            --np-grad-meio-hover:  #7E4731;
+            --np-grad-barra-hover: #9A3E19;
+        }
+
+        /* 3 · modulos cortados: relogio atras da frase e caixa de estudos */
+        #page-checkout .np-relogio { display: none; }
+        #page-checkout .np-prova { display: none; }
+    </style>
 </head>
 <body>
 
@@ -9077,13 +9114,26 @@
                     </h1>
                     <p class="np-sub">Het staat al maanden aan. Je borst. Je kaken. Je hoofd om 3 uur 's nachts.</p>
                 </div>
-                <figure class="np-hero-foto">
-                    <img src="img/noodstop.jpg"
-                         srcset="img/noodstop.jpg 480w, img/noodstop@2x.jpg 960w"
-                         sizes="(min-width: 901px) 400px, calc(100vw - 48px)"
-                         width="480" height="603"
-                         alt="Iemand in de trein met een koptelefoon in de hand.">
-                </figure>
+                <div class="nph-speler">
+                    <div class="nph-telefoon">
+                        <div class="nph-ecra">
+                            <p class="nph-kop">Noodprotocol</p>
+                            <div class="nph-capa">
+                                <img class="nph-foto" src="img/noodstop.jpg" srcset="img/noodstop.jpg 480w, img/noodstop@2x.jpg 960w" sizes="260px" width="480" height="603" alt="">
+                                <button type="button" class="nph-play" aria-label="Luister 22 seconden uit de Noodstop">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="currentColor"/></svg>
+                                </button>
+                            </div>
+                            <p class="nph-titel">01 &middot; Noodstop</p>
+                            <div class="nph-barra" aria-hidden="true"><span></span></div>
+                            <p class="nph-tijd" aria-hidden="true"><span>0:00</span><span>0:22</span></p>
+                            <ol class="nph-lijst" aria-label="Drie audio's">
+                                <li class="is-nu">01 Noodstop</li><li>02 Reset</li><li>03 Landing</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <p class="nph-legenda">Luister 22 seconden. Zonder account.</p>
+                </div>
             </div>
         </div>
 
@@ -13375,5 +13425,14 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 </script>
 
+<script>
+/* PREVIA VISUAL €17: o play do mockup do hero dispara a mesma amostra do botao "Luister 22 seconden" */
+(function () {
+    var b = document.querySelector('#page-checkout .nph-play');
+    var alvo = document.querySelector('#page-checkout .np-cta-amostra');
+    if (!b || !alvo) return;
+    b.addEventListener('click', function () { alvo.click(); });
+})();
+</script>
 </body>
 </html>
