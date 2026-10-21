@@ -55,7 +55,7 @@ const HANDLED_EVENTS = [
 // 200 SEM enviar e SEM erro — exactamente o que fazia antes desta tabela.
 // Preencher à medida que os modelos forem criados no painel do Brevo.
 const NP_TEMPLATE_ID    = 62;  // "Entrega Noodprotocol (v7 onda transparente)"
-const P7D_TEMPLATE_ID   = 73;  // "Entrega Protocol 7 Dagen (v8 link aanbod-sl)"
+const P7D_TEMPLATE_ID   = 80;  // "Entrega Protocol 7 Dagen (v9 Eén)"
 const CK_TEMPLATE_ID    = 64;  // "Entrega Crisiskaart (v7 onda transparente)"
 const SLAAP_TEMPLATE_ID = 65;  // "Entrega Slaapprotocol (v7 onda transparente)"
 
