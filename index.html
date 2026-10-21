@@ -183,6 +183,18 @@
         function aceso() { try { return sessionStorage.getItem(CHAVE) === '1'; } catch (e) { return false; } }
         if (HASHES_DE_COMPRA.indexOf(window.location.hash) !== -1) marcar();
         if (aceso()) document.documentElement.classList.add('ge-is-koper');
+
+        // Segunda bandeira, so' para quem pagou o Noodprotocol (EUR 17): os dois
+        // retornos desse pagamento. Quem comprou so' o EUR 37 (Funil B) tem a
+        // primeira mas nao esta, e nao ve o que e' do Noodprotocol.
+        var HASHES_NOODPROTOCOL = ['#betaald-np-17ypqz', '#upsell-p7-6h2mk9'];
+        var CHAVE_NP = 'ge_koper_np';
+        if (HASHES_NOODPROTOCOL.indexOf(window.location.hash) !== -1) {
+            try { sessionStorage.setItem(CHAVE_NP, '1'); } catch (e) {}
+        }
+        var np = false;
+        try { np = sessionStorage.getItem(CHAVE_NP) === '1'; } catch (e) {}
+        if (np) document.documentElement.classList.add('ge-is-koper-np');
     })();
     </script>
     <script>
@@ -6995,6 +7007,9 @@
            bandeira de comprador. */
         html.ge-is-koper .ge-bezoeker { display: none !important; }
 
+        /* So' para quem comprou o Noodprotocol (.ge-is-koper-np). */
+        html:not(.ge-is-koper-np) .ge-koper-np { display: none !important; }
+
         /* ---- sem animacao para quem a dispensa ---- */
         @media (prefers-reduced-motion: reduce) {
             #page-upsell .u2-play:not(.is-a-tocar) .u2-anel-base { animation: none; }
@@ -10307,11 +10322,11 @@
             <h1>Bedankt.</h1>
             <p class="ge-bezoeker">Fijn dat je even bent gebleven.</p>
             <p class="ge-bezoeker">Neem de tijd. Wat je nodig hebt, loopt niet weg.</p>
-            <p class="ge-koper">Je ontvangt binnen enkele minuten een email met toegang. Check ook je spam.</p>
+            <p class="ge-koper">Je ontvangt binnen enkele minuten een e-mail met toegang. Check ook je spam.</p>
             <p class="ge-koper">Tip: download de audio nu en zet hem op je startscherm. Zodat je hem hebt wanneer je hem nodig hebt.</p>
-            <a href="#toegang-np-8f3k2m" onclick="showPage('page-deliver-noodprotocol'); return false;" class="btn-primary ge-koper" style="margin-top: 8px;">Direct naar mijn Noodprotocol →</a>
+            <a href="#toegang-np-8f3k2m" onclick="showPage('page-deliver-noodprotocol'); return false;" class="btn-primary ge-koper-np" style="margin-top: 8px;">Direct naar mijn Noodprotocol →</a>
             <div class="thankyou-divider"></div>
-            <p class="strong ge-koper">De dijk hoeft niet te breken.<br>Je hebt nu een sluissysteem.</p>
+            <p class="strong ge-koper-np">De dijk hoeft niet te breken.<br>Je hebt nu een sluissysteem.</p>
             <div class="section-space"></div>
             <p class="green-text strong" style="font-family: var(--font-display); font-size: 1.2rem;">— Gewoon Even</p>
         </div>
@@ -10990,7 +11005,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="container">
         <div class="delivery-header">
             <h1>Je Noodprotocol is klaar.</h1>
-            <p>Hieronder vind je je 3 protocollen. Je kunt ze hier beluisteren of downloaden naar je telefoon.</p>
+            <p>Hieronder vind je je drie audio’s. Je kunt ze hier beluisteren of downloaden naar je telefoon.</p>
             <div class="delivery-instruction">
                 🎧 Gebruik koptelefoon of oordopjes voor het beste effect. De lage frequenties in de achtergrondmuziek werken het best via koptelefoon.
             </div>
