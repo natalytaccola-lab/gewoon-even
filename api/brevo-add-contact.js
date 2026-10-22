@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email } = req.body || {};
+  const { email, funil } = req.body || {};
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!email || !emailRegex.test(email)) {
@@ -14,10 +14,15 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.BREVO_API_KEY;
-  const listId = process.env.BREVO_LIST_ID;
+
+  // Funil B (quiz 37) tem lista propria. Se a variavel nao existir, nao se faz
+  // nada: nunca cair na BREVO_LIST_ID, para as duas listas nao se misturarem.
+  const isFunil37 = funil === '37';
+  const listId = isFunil37 ? process.env.BREVO_LIST_ID_37 : process.env.BREVO_LIST_ID;
+  const source = isFunil37 ? 'quiz_37' : 'quiz_completed';
 
   if (!apiKey || !listId) {
-    console.log('[Brevo] API key or List ID not configured, skipping');
+    console.log('[Brevo] API key or List ID not configured, skipping', isFunil37 ? '(funil 37)' : '');
     return res.status(200).json({ ok: true, noop: true });
   }
 
@@ -33,7 +38,7 @@ export default async function handler(req, res) {
         email: email,
         listIds: [parseInt(listId, 10)],
         attributes: {
-          SOURCE: 'quiz_completed',
+          SOURCE: source,
           SIGNUP_DATE: new Date().toISOString()
         },
         updateEnabled: true
