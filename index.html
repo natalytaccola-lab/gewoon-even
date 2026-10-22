@@ -9064,11 +9064,11 @@
             #page-quiz .banner, #page-quiz37 .banner { height: 64px; }
         }
         /* quiz A: hook antes da pergunta 1 */
-        #page-quiz .qz-hook { padding: 34px 0 6px; }
-        #page-quiz .qz-hook-tit { margin: 0 0 14px; font-family: var(--np-display, 'Cormorant Garamond', serif); font-size: 32px; font-weight: 500; line-height: 1.15; letter-spacing: -0.01em; color: #3E4E43; text-wrap: balance; }
-        #page-quiz .qz-hook .qz-hook-lijn { margin: 0 0 10px; font-size: 1.05rem; font-weight: 600; color: #3E4E43; }
-        #page-quiz .qz-hook .qz-hook-brug { margin: 0; font-size: 1rem; line-height: 1.55; color: var(--text-light); }
-        @media (min-width: 901px) { #page-quiz .qz-hook-tit { font-size: 44px; } #page-quiz .qz-hook { padding-top: 48px; } }
+        #page-quiz .qz-hook, #page-quiz37 .qz-hook { padding: 34px 0 6px; }
+        #page-quiz .qz-hook-tit, #page-quiz37 .qz-hook-tit { margin: 0 0 14px; font-family: var(--np-display, 'Cormorant Garamond', serif); font-size: 32px; font-weight: 500; line-height: 1.15; letter-spacing: -0.01em; color: #3E4E43; text-wrap: balance; }
+        #page-quiz .qz-hook .qz-hook-lijn, #page-quiz37 .qz-hook .qz-hook-lijn { margin: 0 0 10px; font-size: 1.05rem; font-weight: 600; color: #3E4E43; }
+        #page-quiz .qz-hook .qz-hook-brug, #page-quiz37 .qz-hook .qz-hook-brug { margin: 0; font-size: 1rem; line-height: 1.55; color: var(--text-light); }
+        @media (min-width: 901px) { #page-quiz .qz-hook-tit, #page-quiz37 .qz-hook-tit { font-size: 44px; } #page-quiz .qz-hook, #page-quiz37 .qz-hook { padding-top: 48px; } }
         /* tabela com 4 colunas: no celular as colunas encolhem */
         #page-checkout .np-cmp-tabela th[scope="row"] { width: 28%; }
         #page-checkout .np-cmp-tabela tbody td { width: 18%; }
@@ -9168,8 +9168,10 @@
     </div>
 
     <div class="container">
-        <div class="quiz-intro">
-            <p>Beantwoord 5 korte vragen en ontdek waar jouw lijf nog aan staat.</p>
+        <div class="quiz-intro qz-hook">
+            <h1 class="qz-hook-tit">Staat jouw lijf nog aan, ook als er niets meer hoeft?</h1>
+            <p class="qz-hook-lijn">De meeste vrouwen die alles regelen, merken het pas als ze stilzitten.</p>
+            <p class="qz-hook-brug">Vijf vragen. Je uitkomst zie je meteen.</p>
         </div>
 
         <div id="q37-container">
