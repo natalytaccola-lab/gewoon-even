@@ -8194,6 +8194,27 @@
             border-radius: 16px;
             background: rgba(200, 144, 120, 0.16);
         }
+        /* a nota da marca: caixa propria, com contorno, para nao se ler como
+           mais um paragrafo da pagina */
+        #page-aanbod37 .u2-sobre { padding: 8px 0 48px; }
+        #page-aanbod37 .u2-sobre-cartao {
+            position: relative;
+            padding: 34px 26px 28px;
+            border: 1px solid rgba(158, 96, 68, 0.28);
+            border-radius: 20px;
+        }
+        #page-aanbod37 .u2-sobre-cartao::before {
+            content: "";
+            display: block;
+            width: 36px;
+            height: 2px;
+            margin: 0 auto 18px;
+            border-radius: 2px;
+            background: #9E6044;
+        }
+        @media (min-width: 640px) {
+            #page-aanbod37 .u2-sobre-cartao { padding: 42px 48px 34px; }
+        }
         #page-aanbod37 p.u2-sobre-txt {
             margin: 0;
             font-family: var(--np-display);
@@ -10029,15 +10050,6 @@
         </div>
     </section>
 
-    <!-- B -------------------------------------------------------- a historia -->
-    <section class="u2-leitura">
-        <div class="u2-col">
-            <p>Na jaren in Nederland en veel gesprekken met vrouwen zoals jij zagen we steeds hetzelfde patroon. Je regelt alles voor iedereen om je heen. Je zegt dat het goed gaat, want doe maar gewoon. Ondertussen staat je lijf aan.</p>
-            <p>Alles wat je probeerde vroeg m&eacute;&eacute;r van je: nog een afspraak, nog een app, nog een gewoonte om vol te houden. Daarom maakten we iets dat alleen tien minuten luisteren vraagt, met inzichten uit de neurowetenschap.</p>
-            <p class="a37-assinatura">Gewoon Even</p>
-        </div>
-    </section>
-
     <!-- 2 ---------------------------------------------------------- a leitura -->
     <section class="u2-leitura">
         <div class="u2-col">
@@ -10315,6 +10327,16 @@
         </div>
     </section>
 
+
+    <!-- 5c ----------------------------------------------------- sobre a marca -->
+    <section class="u2-sobre">
+        <div class="u2-col">
+            <div class="u2-sobre-cartao">
+            <p class="u2-sobre-txt">Je regelt het voor iedereen om je heen en schuift je eigen wensen soms opzij. Na jaren in Nederland en veel gesprekken met vrouwen zoals jij maakten we Gewoon Even, met inzichten uit de neurowetenschap: korte audio's die je helpen vanuit rust te kiezen wat jij wilt.</p>
+            <p class="u2-sobre-assinatura">Met warme groet, Gewoon Even</p>
+            </div>
+        </div>
+    </section>
 
     <!-- 6 ---------------------------------------------------------- a decisao -->
     <section class="u2-decisao">
