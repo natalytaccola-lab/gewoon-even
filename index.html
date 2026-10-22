@@ -9080,6 +9080,15 @@
             #page-checkout .np-cmp-tabela tbody td { padding-left: 2px; padding-right: 2px; }
         }
         @media (max-width: 340px) { #page-checkout .np-cmp-tabela thead th.np-cmp-nos { font-size: 12.5px; } }
+        /* €17: promessa de tempo no hero */
+        #page-checkout .np-tempo { margin: 1rem 0 0; font-family: var(--np-display); font-size: 1.35rem; font-weight: 600; line-height: 1.3; color: #F2EDE6; letter-spacing: 0.005em; }
+        @media (min-width: 901px) { #page-checkout .np-tempo { font-size: 1.5rem; } }
+        /* €17: situacao de cada depoimento, ao lado do nome */
+        #page-checkout .np-voice-tag { font-weight: 400; color: #5A6655; }
+        /* entrega D1: welke audio wanneer */
+        #page-deliver-noodprotocol .np-wanneer { margin: 0 0 28px; padding: 20px 20px 8px; border-radius: 14px; background: rgba(154, 163, 150, 0.16); }
+        #page-deliver-noodprotocol .np-wanneer-tit { margin: 0 0 12px; font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; color: #3E4E43; }
+        #page-deliver-noodprotocol .np-wanneer p { margin: 0 0 12px; font-size: 0.98rem; line-height: 1.5; color: #3E4E43; }
         /* fonte da tabela comparativa: nota de rodape, nao texto */
         #page-checkout .np-cmp p.np-cmp-rodape { font-size: 12.5px; line-height: 1.5; margin-top: 0.9rem; }
         /* o bloco escuro termina numa onda absoluta: o fundo passa a reservar
@@ -9231,6 +9240,7 @@
                         <span>Je lijf weet wel beter.</span>
                     </h1>
                     <p class="np-sub">Het staat al maanden aan. Je borst. Je kaken. Je hoofd om 3 uur 's nachts.</p>
+                    <p class="np-tempo">Zeven minuten. Eén stem. Op het moment zelf.</p>
                 </div>
                 <div class="nph-speler">
                     <div class="nph-telefoon">
@@ -9490,19 +9500,19 @@
         <div class="np-voices" tabindex="0" role="group" aria-label="Ervaringen van mensen die het Noodprotocol gebruikten">
             <div class="np-voices-track">
                 <figure class="np-voice">
-                    <figcaption class="np-voice-who">Sandra, 36</figcaption>
+                    <figcaption class="np-voice-who">Sandra, 36<span class="np-voice-tag"> · hoofd dat niet stopt</span></figcaption>
                     <blockquote class="np-voice-quote">"Mijn hoofd maakt overuren. Zelfs als ik probeer te ontspannen, ben ik ondertussen mijn boodschappenlijst, mijn werk en een gesprek van drie dagen geleden aan het analyseren. Daarom haakte ik bij meditatie meestal na twee minuten af. Bij Reset hoefde ik mijn gedachten helemaal niet stil te maken. Ik kreeg gewoon iets anders om mijn aandacht aan te geven. Mijn voeten, mijn handen, geluiden om me heen… <span class="np-voice-mark">Voor het eerst voelde het niet alsof ik moest vechten tegen mijn eigen hoofd.</span>"</blockquote>
                 </figure>
                 <figure class="np-voice">
-                    <figcaption class="np-voice-who">Marieke, 49</figcaption>
+                    <figcaption class="np-voice-who">Marieke, 49<span class="np-voice-tag"> · al veel apps geprobeerd</span></figcaption>
                     <blockquote class="np-voice-quote">"Ik heb een telefoon vol apps waar ik ooit enthousiast aan begon en na een week nooit meer naar keek. Ik wilde echt niet nóg iets waar ik dagelijks aan moest denken. Dat vond ik juist fijn aan Noodprotocol: <span class="np-voice-mark">ik hoefde niets te installeren, geen account aan te maken en nergens aan vast te zitten.</span> Ik pak mijn telefoon, luister wanneer ik het nodig heb en daarna ben ik klaar. Dat past veel beter bij mijn leven."</blockquote>
                 </figure>
                 <figure class="np-voice">
-                    <figcaption class="np-voice-who">Eline, 39</figcaption>
+                    <figcaption class="np-voice-who">Eline, 39<span class="np-voice-tag"> · 's nachts wakker</span></figcaption>
                     <blockquote class="np-voice-quote">"Mijn moeilijkste momenten zijn 's nachts. Iedereen slaapt en ik lig wakker met een lijf dat blijkbaar denkt dat er iets verschrikkelijks staat te gebeuren. De eerste keer dat ik Noodprotocol gebruikte was rond drie uur 's nachts. <span class="np-voice-mark">Ik hoefde niemand te bellen, geen scherm te bekijken en geen ingewikkelde oefening te doen.</span> Alleen mijn oortjes in en luisteren. Ik viel niet magisch meteen in slaap, maar de paniek uit mijn lichaam zakte genoeg om weer te kunnen liggen."</blockquote>
                 </figure>
                 <figure class="np-voice">
-                    <figcaption class="np-voice-who">Tom, 47</figcaption>
+                    <figcaption class="np-voice-who">Tom, 47<span class="np-voice-tag"> · sceptisch over meditatie</span></figcaption>
                     <blockquote class="np-voice-quote">"Ik ben niet iemand die normaal gesproken naar meditatie-audio's luistert. Ik vond het eerlijk gezegd allemaal een beetje zweverig klinken. Maar de stem is juist heel nuchter. Geen manifesteren, geen 'denk positief', geen spirituele verhalen. Gewoon: doe dit, voel dat, adem hierheen. Ik merkte vooral dat ik niet hoefde te geloven dat het zou werken. <span class="np-voice-mark">Ik hoefde het alleen maar te volgen.</span>"</blockquote>
                 </figure>
             </div>
@@ -9555,6 +9565,7 @@
 
             <ul class="pg-cartao-lista">
                 <li><svg class="pg-cartao-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg><span>Drie stemopnames. Samen ± 21 minuten.</span></li>
+                <li><svg class="pg-cartao-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg><span>Plus: welke audio je wanneer gebruikt, in één overzicht.</span></li>
                 <li><svg class="pg-cartao-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg><span>Je krijgt een e-mail met een link en luistert in je browser.</span></li>
                 <li><svg class="pg-cartao-ico" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg><span>Je betaalt één keer €17.</span></li>
             </ul>
@@ -11195,6 +11206,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="delivery-instruction">
                 🎧 Gebruik koptelefoon of oordopjes: zo klinkt ook de achtergrondmuziek het mooist.
             </div>
+        </div>
+
+        <div class="np-wanneer">
+            <h2 class="np-wanneer-tit">Welke audio wanneer?</h2>
+            <p><strong>① Noodstop</strong> · Voor wanneer het ineens allemaal te veel wordt.</p>
+            <p><strong>② Reset</strong> · Voor wanneer je weet dat je veilig bent, maar je lijf nog aan staat.</p>
+            <p><strong>③ Landing</strong> · Voor wanneer de dag voorbij is, maar je lijf nog niet loslaat.</p>
         </div>
 
         <div class="audio-track">
