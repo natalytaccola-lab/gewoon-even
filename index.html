@@ -9055,6 +9055,14 @@
                 border-radius: 20px;
             }
         }
+        /* quizzes A e B (entrada do trafego frio): sem a marca no topo e com a
+           onda reduzida a uma faixa fina e suave, para o texto subir */
+        #page-quiz .banner, #page-quiz37 .banner { height: 46px; }
+        #page-quiz .banner svg, #page-quiz37 .banner svg { opacity: 0.55; }
+        #page-quiz .brand-name, #page-quiz37 .brand-name { display: none; }
+        @media (min-width: 901px) {
+            #page-quiz .banner, #page-quiz37 .banner { height: 64px; }
+        }
         /* fonte da tabela comparativa: nota de rodape, nao texto */
         #page-checkout .np-cmp p.np-cmp-rodape { font-size: 12.5px; line-height: 1.5; margin-top: 0.9rem; }
         /* o bloco escuro termina numa onda absoluta: o fundo passa a reservar
