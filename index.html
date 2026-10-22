@@ -8946,6 +8946,10 @@
         #page-checkout .nph-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
         #page-checkout .nph-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); display: inline-flex; align-items: center; justify-content: center; width: 58px; height: 58px; padding: 0; border: 0; border-radius: 50%; background: rgba(242,237,230,0.92); color: var(--verde-dique); cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
         #page-checkout .nph-play svg { width: 26px; height: 26px; margin-left: 3px; }
+        #page-checkout .nph-play .nph-ico-pausa { display: none; margin-left: 0; }
+        #page-checkout .nph-play.is-a-tocar .nph-ico-play { display: none; }
+        #page-checkout .nph-play.is-a-tocar .nph-ico-pausa { display: block; }
+        #page-checkout .nph-barra span { transition: width 250ms linear; }
         #page-checkout .nph-play:focus-visible { outline: 2px solid var(--creme); outline-offset: 3px; }
         #page-checkout .nph-titel { margin: 10px 0 6px; font-family: var(--np-display); font-size: 19px; line-height: 1.2; text-align: center; color: var(--verde-dique); }
         #page-checkout .nph-barra { height: 3px; border-radius: 2px; background: rgba(62,78,67,0.2); overflow: hidden; }
@@ -9173,12 +9177,13 @@
                             <div class="nph-capa">
                                 <img class="nph-foto" src="img/noodstop.jpg" srcset="img/noodstop.jpg 480w, img/noodstop@2x.jpg 960w" sizes="260px" width="480" height="603" alt="">
                                 <button type="button" class="nph-play" aria-label="Luister 22 seconden uit de Noodstop">
-                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="currentColor"/></svg>
+                                    <svg class="nph-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="currentColor"/></svg>
+                                    <svg class="nph-ico-pausa" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="6" width="3" height="12" rx="1.2" fill="currentColor"/><rect x="13" y="6" width="3" height="12" rx="1.2" fill="currentColor"/></svg>
                                 </button>
                             </div>
                             <p class="nph-titel">01 &middot; Noodstop</p>
                             <div class="nph-barra" aria-hidden="true"><span></span></div>
-                            <p class="nph-tijd" aria-hidden="true"><span>0:00</span><span>0:22</span></p>
+                            <p class="nph-tijd" aria-hidden="true"><span class="nph-nu">00:00</span><span class="nph-fim">00:22</span></p>
                             <ol class="nph-lijst" aria-label="Drie audio's">
                                 <li class="is-nu">01 Noodstop</li><li>02 Reset</li><li>03 Landing</li>
                             </ol>
@@ -12042,6 +12047,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })();
 
+    // ---- player do hero: toca a amostra ali mesmo, sem rolar a pagina ----
+    (function () {
+        var hero = page.querySelector('.nph-speler');
+        var botao = hero && hero.querySelector('.nph-play');
+        if (!botao) return;
+        var am = montarAmostra({
+            fone: botao,
+            botao: botao,
+            titulo: hero.querySelector('.nph-titel'),
+            agora: hero.querySelector('.nph-nu'),
+            fim: hero.querySelector('.nph-fim'),
+            barra: hero.querySelector('.nph-barra span')
+        });
+        // saiu do ecra: pausa, para nao tocar por baixo do resto da pagina
+        if (window.IntersectionObserver) {
+            new IntersectionObserver(function (es) {
+                if (!es[0].isIntersecting) am.pausar();
+            }, { threshold: 0.15 }).observe(hero);
+        }
+    })();
+
     // ---- altura do carrossel: a do cartao em foco, nao a do mais alto ----
     // Com flex, o contentor ficava com a altura do cartao mais alto (Landing) e
     // sobrava um vao por baixo do Noodstop. Aqui a altura e' posta a cada
@@ -13545,14 +13571,5 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 </script>
 
-<script>
-/* €17: o play do mockup do hero dispara a mesma amostra do botao "Luister 22 seconden" */
-(function () {
-    var b = document.querySelector('#page-checkout .nph-play');
-    var alvo = document.querySelector('#page-checkout .np-cta-amostra');
-    if (!b || !alvo) return;
-    b.addEventListener('click', function () { alvo.click(); });
-})();
-</script>
 </body>
 </html>
