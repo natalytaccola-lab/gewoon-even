@@ -8985,6 +8985,12 @@
         /* a caixa da citacao da Femke tinha 34rem com o padding dentro: no tablet o texto entrava 24px */
         #page-checkout .np-cedo { max-width: none; }
         #page-checkout .np-prova-cifra { font-variant-numeric: tabular-nums; }
+        #page-checkout .np-cta-amostra { cursor: pointer; }
+        #page-checkout .np-cta-amostra .np-am-pausa,
+        #page-checkout .np-cta-amostra .np-am-tijd { display: none; }
+        #page-checkout .np-cta-amostra.is-a-tocar .np-am-play { display: none; }
+        #page-checkout .np-cta-amostra.is-a-tocar .np-am-pausa { display: block; }
+        #page-checkout .np-cta-amostra.is-a-tocar .np-am-tijd { display: inline; opacity: 0.8; font-variant-numeric: tabular-nums; }
         /* efeito Apple: a escala vem do script (--ge-zoom), ligada ao scroll */
         #page-checkout .np-fio-foto .np-cover-img,
         #page-checkout .nph-capa .nph-foto {
@@ -9211,8 +9217,8 @@
 
 
         <div class="np-amostra-cta">
-            <a class="btn-primary np-cta-amostra" href="#np-cartao" role="button">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="currentColor"/></svg>Luister 22 seconden</a>
+            <button type="button" class="btn-primary np-cta-amostra" aria-pressed="false">
+                <svg class="np-am-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="currentColor"/></svg><svg class="np-am-pausa" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="6" width="3" height="12" rx="1.2" fill="currentColor"/><rect x="13" y="6" width="3" height="12" rx="1.2" fill="currentColor"/></svg><span class="np-am-lbl">Luister 22 seconden</span><span class="np-am-tijd" aria-hidden="true">00:00</span></button>
             <p class="np-amostra-nota">Zonder account. Zonder betaling.</p>
         </div>
 
@@ -11880,6 +11886,7 @@ document.addEventListener('DOMContentLoaded', () => {
         prog.style.strokeDashoffset = 1;
     }
 
+    var todasAmostras = [];
     function montarAmostra(cfg) {
         var som = new Audio('img/noodstop-sample.mp3');
         som.preload = 'metadata';
@@ -11912,6 +11919,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function tocar() {
+            todasAmostras.forEach(function (o) { if (o !== api) o.pausar(); });
             var fresco = som.currentTime === 0;   // so' para repor o rotulo 00:00
             aTocar = true;
             conviteUsado = true;
@@ -11993,8 +12001,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!conviteUsado) convite(true);
 
-        return { pausar: pausar, terminar: terminar, convite: convite,
-                 aTocar: function () { return aTocar; }, som: som };
+        var api = { pausar: pausar, terminar: terminar, convite: convite,
+                    aTocar: function () { return aTocar; }, som: som };
+        todasAmostras.push(api);
+        return api;
     }
 
     // ---- telefone fixo do desktop ----
@@ -12314,21 +12324,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // duplicar a logica, disparamos o click do cartao, que corre o mesmo
     // alternar() do montarAmostra — sem nada assincrono pelo meio. O scroll
     // vem depois, porque nao bloqueia o gesto.
+    // (21 out) passou a tocar no proprio lugar, como o player do hero: o
+    // scroll ate' ao cartao saltava a frase do alarme e a citacao da Femke.
     (function () {
         var botao = page.querySelector('.np-cta-amostra');
         if (!botao) return;
-        botao.addEventListener('click', function (e) {
-            e.preventDefault();
-            var cartoes = page.querySelectorAll('.np-fio-card.np-amostra');
-            var alvo = null;
-            for (var i = 0; i < cartoes.length; i++) {
-                if (cartoes[i].getClientRects().length &&
-                    !cartoes[i].classList.contains('is-inerte')) { alvo = cartoes[i]; break; }
-            }
-            if (!alvo) return;
-            if (!alvo.classList.contains('is-a-tocar')) alvo.click();
-            alvo.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+        var am = montarAmostra({
+            fone: botao,
+            botao: botao,
+            titulo: botao.querySelector('.np-am-lbl'),
+            agora: botao.querySelector('.np-am-tijd')
         });
+        if (window.IntersectionObserver) {
+            new IntersectionObserver(function (es) {
+                if (!es[0].isIntersecting) am.pausar();
+            }, { threshold: 0 }).observe(botao);
+        }
     })();
 
     // ---- barra fixa em mobile ----
