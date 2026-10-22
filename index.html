@@ -8981,6 +8981,16 @@
         /* a caixa da citacao da Femke tinha 34rem com o padding dentro: no tablet o texto entrava 24px */
         #page-checkout .np-cedo { max-width: none; }
         #page-checkout .np-prova-cifra { font-variant-numeric: tabular-nums; }
+        /* efeito Apple: a escala vem do script (--ge-zoom), ligada ao scroll */
+        #page-checkout .np-fio-foto .np-cover-img,
+        #page-checkout .nph-capa .nph-foto {
+            transform: scale(var(--ge-zoom, 1));
+            transform-origin: 50% 45%;
+            will-change: transform;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #page-checkout .np-fio-foto .np-cover-img, #page-checkout .nph-capa .nph-foto { transform: none; }
+        }
         /* fonte da tabela comparativa: nota de rodape, nao texto */
         #page-checkout .np-cmp p.np-cmp-rodape { font-size: 12.5px; line-height: 1.5; margin-top: 0.9rem; }
         /* o bloco escuro termina numa onda absoluta: o fundo passa a reservar
@@ -13433,6 +13443,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', abrirAtalho);
     else abrirAtalho();
+})();
+</script>
+
+<script>
+/* €17, "efeito Apple" nas fotos: a foto comeca ligeiramente ampliada dentro
+   da moldura e assenta no tamanho real a' medida que sobe no ecra, ligada ao
+   scroll (nao a um tempo fixo). So' mexe no transform da imagem: a moldura,
+   o layout e a troca de capas ficam como estavam. Sem efeito com
+   reduced-motion. */
+(function () {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var page = document.getElementById('page-checkout');
+    if (!page) return;
+    var molduras = page.querySelectorAll('.np-fio-foto, .nph-capa');
+    if (!molduras.length) return;
+    var ZOOM = 0.14, pedido = false;
+    function actualizar() {
+        pedido = false;
+        if (!page.classList.contains('active')) return;
+        var vh = window.innerHeight || 800;
+        Array.prototype.forEach.call(molduras, function (m) {
+            var r = m.getBoundingClientRect();
+            if (r.bottom < -50 || r.top > vh + 50) return;
+            /* 0 quando o topo da foto entra por baixo, 1 quando o meio da foto chega ao meio do ecra */
+            var p = (vh - r.top) / (vh / 2 + r.height / 2);
+            p = Math.max(0, Math.min(1, p));
+            var e = 1 - Math.pow(1 - p, 2);
+            m.style.setProperty('--ge-zoom', (1 + ZOOM * (1 - e)).toFixed(4));
+        });
+    }
+    function pedir() { if (!pedido) { pedido = true; requestAnimationFrame(actualizar); } }
+    window.addEventListener('scroll', pedir, { passive: true });
+    window.addEventListener('resize', pedir);
+    window.addEventListener('hashchange', function () { setTimeout(pedir, 60); });
+    pedir();
 })();
 </script>
 
