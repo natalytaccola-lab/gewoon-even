@@ -8991,6 +8991,33 @@
         @media (prefers-reduced-motion: reduce) {
             #page-checkout .np-fio-foto .np-cover-img, #page-checkout .nph-capa .nph-foto { transform: none; }
         }
+        /* "Herken je dit?" em bloco de cor (terracota claro da onda). O texto
+           continua na coluna de 34rem: o padding fica por fora dela. */
+        #page-checkout .np-herken {
+            --hk-pad: 24px;
+            max-width: none;
+            margin: 3rem 0 0;
+            padding: 2.4rem var(--hk-pad) 2.1rem;
+            background: rgba(200, 144, 120, 0.14);
+        }
+        #page-checkout .np-herken h2 { margin-bottom: 1.1rem; }
+        #page-checkout .np-herken p {
+            margin-top: 0;
+            margin-bottom: 0;
+            padding: 0.8rem 0;
+            border-top: 1px solid rgba(158, 96, 68, 0.18);
+        }
+        #page-checkout .np-herken h2 + p { border-top: 0; padding-top: 0.2rem; }
+        @media (min-width: 640px) {
+            #page-checkout .np-herken {
+                --hk-pad: 2.6rem;
+                width: calc(34rem + 2 * var(--hk-pad));
+                max-width: calc(100% - 48px);
+                margin: 3.4rem auto 0;
+                padding: 2.8rem var(--hk-pad) 2.4rem;
+                border-radius: 20px;
+            }
+        }
         /* fonte da tabela comparativa: nota de rodape, nao texto */
         #page-checkout .np-cmp p.np-cmp-rodape { font-size: 12.5px; line-height: 1.5; margin-top: 0.9rem; }
         /* o bloco escuro termina numa onda absoluta: o fundo passa a reservar
