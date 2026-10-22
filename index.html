@@ -9063,6 +9063,23 @@
         @media (min-width: 901px) {
             #page-quiz .banner, #page-quiz37 .banner { height: 64px; }
         }
+        /* quiz A: hook antes da pergunta 1 */
+        #page-quiz .qz-hook { padding: 34px 0 6px; }
+        #page-quiz .qz-hook-tit { margin: 0 0 14px; font-family: var(--np-display, 'Cormorant Garamond', serif); font-size: 32px; font-weight: 500; line-height: 1.15; letter-spacing: -0.01em; color: #3E4E43; text-wrap: balance; }
+        #page-quiz .qz-hook .qz-hook-lijn { margin: 0 0 10px; font-size: 1.05rem; font-weight: 600; color: #3E4E43; }
+        #page-quiz .qz-hook .qz-hook-brug { margin: 0; font-size: 1rem; line-height: 1.55; color: var(--text-light); }
+        @media (min-width: 901px) { #page-quiz .qz-hook-tit { font-size: 44px; } #page-quiz .qz-hook { padding-top: 48px; } }
+        /* tabela com 4 colunas: no celular as colunas encolhem */
+        #page-checkout .np-cmp-tabela th[scope="row"] { width: 28%; }
+        #page-checkout .np-cmp-tabela tbody td { width: 18%; }
+        @media (max-width: 600px) {
+            #page-checkout .np-cmp-tabela thead th { font-size: 11.5px; padding-left: 2px; padding-right: 2px; hyphens: auto; }
+            #page-checkout .np-cmp-tabela thead th.np-cmp-nos { font-size: 14px; line-height: 1.1; }
+            #page-checkout .np-cmp-tabela th[scope="row"] { font-size: 13.5px; width: 25%; }
+            #page-checkout .np-cmp-tabela tbody td { width: 18.75%; }
+            #page-checkout .np-cmp-tabela tbody td { padding-left: 2px; padding-right: 2px; }
+        }
+        @media (max-width: 340px) { #page-checkout .np-cmp-tabela thead th.np-cmp-nos { font-size: 12.5px; } }
         /* fonte da tabela comparativa: nota de rodape, nao texto */
         #page-checkout .np-cmp p.np-cmp-rodape { font-size: 12.5px; line-height: 1.5; margin-top: 0.9rem; }
         /* o bloco escuro termina numa onda absoluta: o fundo passa a reservar
@@ -9098,8 +9115,10 @@
     </div>
 
     <div class="container">
-        <div class="quiz-intro">
-            <p>Vijf korte vragen over hoe jouw lichaam met spanning omgaat. Aan het eind weet je wat er speelt, en wat je op het moment zelf kunt doen.</p>
+        <div class="quiz-intro qz-hook">
+            <h1 class="qz-hook-tit">Je hoeft geen cursus te volgen om vanavond rustiger te worden.</h1>
+            <p class="qz-hook-lijn">Geen abonnement, geen modules, geen huiswerk.</p>
+            <p class="qz-hook-brug">Vijf vragen laten zien wat er bij jou speelt, en wat je op het moment zelf kunt doen.</p>
         </div>
 
         <div id="quiz-container">
@@ -9390,13 +9409,14 @@
     <div class="container np-cmp">
         <h2>Eerlijk vergeleken</h2>
         <table class="np-cmp-tabela">
-            <caption class="np-sr">Eerlijk vergeleken: Noodprotocol, psycholoog en meditatie-app</caption>
+            <caption class="np-sr">Eerlijk vergeleken: Noodprotocol, psycholoog, meditatie-app en online programma</caption>
             <thead>
                 <tr>
                     <td></td>
-                    <th scope="col" class="np-cmp-nos">Noodprotocol</th>
-                    <th scope="col">Psycholoog</th>
-                    <th scope="col">Meditatie-app</th>
+                    <th scope="col" class="np-cmp-nos">Nood&shy;protocol</th>
+                    <th scope="col">Psycho&shy;loog</th>
+                    <th scope="col">Medi&shy;tatie-app</th>
+                    <th scope="col">Online pro&shy;gramma</th>
                 </tr>
             </thead>
             <tbody>
@@ -9405,11 +9425,13 @@
                     <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
                 </tr>
                 <tr>
                     <th scope="row">Eenmalig betalen</th>
                     <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-meio"><svg viewBox="0 0 24 24" role="img" aria-label="wisselend" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6.5 12h11"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-meio"><svg viewBox="0 0 24 24" role="img" aria-label="wisselend" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6.5 12h11"/></svg></span></td>
                 </tr>
                 <tr>
@@ -9417,23 +9439,26 @@
                     <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
                 </tr>
                 <tr>
                     <th scope="row">Voor het moment zelf</th>
                     <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-meio"><svg viewBox="0 0 24 24" role="img" aria-label="wisselend" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6.5 12h11"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-meio"><svg viewBox="0 0 24 24" role="img" aria-label="wisselend" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6.5 12h11"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
                 </tr>
                 <tr>
                     <th scope="row">Persoonlijke behandeling</th>
                     <td class="np-cmp-nos"><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-sim"><svg viewBox="0 0 24 24" role="img" aria-label="ja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.3 10.9 15 15.8 9.6"/></svg></span></td>
                     <td><span class="np-cmp-m np-cmp-nao"><svg viewBox="0 0 24 24" role="img" aria-label="nee" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 7.5 16.5 16.5"/><path d="M16.5 7.5 7.5 16.5"/></svg></span></td>
+                    <td><span class="np-cmp-m np-cmp-meio"><svg viewBox="0 0 24 24" role="img" aria-label="wisselend" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6.5 12h11"/></svg></span></td>
                 </tr>
             </tbody>
         </table>
 
-        <p class="np-cmp-rodape">Wachttijd ggz 2025: gemiddeld 14 weken tot de intake, 24 weken tot de behandeling (Radar en MIND, op NZa-gegevens). Veel meditatie-apps hebben een abonnement.</p>
+        <p class="np-cmp-rodape">Wachttijd ggz 2025: gemiddeld 14 weken tot de intake, 24 weken tot de behandeling (Radar en MIND, op NZa-gegevens). Veel meditatie-apps en online programma&rsquo;s werken met een abonnement.</p>
     </div>
 
     <div class="container np-herken">
