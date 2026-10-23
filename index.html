@@ -9110,15 +9110,18 @@
 
         /* amostra: vazada (verde) com equalizador que respira; o laranja
            cheio fica so' para comprar */
+        /* verde-dique cheio, texto creme, equalizador pessego: cor propria,
+           longe do laranja de comprar */
         #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra,
         #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra:hover {
-            background: transparent;
-            color: #3E4E43;
-            border: 1.5px solid #3E4E43;
-            box-shadow: none;
+            background: #3E4E43;
+            color: #F2EDE6;
+            border: 0;
+            box-shadow: 0 6px 18px rgba(62, 78, 67, 0.22);
         }
-        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra:hover { background: rgba(62, 78, 67, 0.06); }
-        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra.is-a-tocar { background: rgba(154, 163, 150, 0.24); }
+        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra:hover { background: #33413A; }
+        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra.is-a-tocar { background: #4C5F52; }
+        #page-checkout .np-cta-amostra .np-am-eq { color: #F2B48A; }
         #page-checkout .np-am-eq { display: inline-flex; align-items: center; gap: 3px; width: 20px; height: 18px; }
         #page-checkout .np-am-eq i { display: block; width: 3px; height: 100%; border-radius: 2px; background: currentColor; transform-origin: 50% 100%; transform: scaleY(0.35); animation: np-eq 1.6s ease-in-out infinite alternate; }
         #page-checkout .np-am-eq i:nth-child(2) { animation-delay: -0.4s; }
