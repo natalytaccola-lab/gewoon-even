@@ -9094,6 +9094,42 @@
         #page-deliver-noodprotocol .np-wanneer { margin: 0 0 28px; padding: 20px 20px 8px; border-radius: 14px; background: rgba(154, 163, 150, 0.16); }
         #page-deliver-noodprotocol .np-wanneer-tit { margin: 0 0 12px; font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; color: #3E4E43; }
         #page-deliver-noodprotocol .np-wanneer p { margin: 0 0 12px; font-size: 0.98rem; line-height: 1.5; color: #3E4E43; }
+        /* CTA do meio: centrado com o selo, e uma respiracao discreta no
+           lugar da pulsacao com escala */
+        #page-checkout .np-cta-meio-wrap { text-align: center; }
+        #page-checkout .np-cta-meio-wrap .btn-primary.np-cta-meio {
+            display: flex; width: 100%; max-width: 440px; margin-left: auto; margin-right: auto;
+        }
+        @keyframes np-halo-suave { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.85; } }
+        #page-checkout .np-cta-meio::after {
+            transform: none;
+            box-shadow: 0 8px 26px rgba(158, 96, 68, 0.38);
+            animation: np-halo-suave 3.2s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) { #page-checkout .np-cta-meio::after { animation: none; opacity: 0.5; } }
+
+        /* amostra: vazada (verde) com equalizador que respira; o laranja
+           cheio fica so' para comprar */
+        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra,
+        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra:hover {
+            background: transparent;
+            color: #3E4E43;
+            border: 1.5px solid #3E4E43;
+            box-shadow: none;
+        }
+        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra:hover { background: rgba(62, 78, 67, 0.06); }
+        #page-checkout .np-amostra-cta .btn-primary.np-cta-amostra.is-a-tocar { background: rgba(154, 163, 150, 0.24); }
+        #page-checkout .np-am-eq { display: inline-flex; align-items: center; gap: 3px; width: 20px; height: 18px; }
+        #page-checkout .np-am-eq i { display: block; width: 3px; height: 100%; border-radius: 2px; background: currentColor; transform-origin: 50% 100%; transform: scaleY(0.35); animation: np-eq 1.6s ease-in-out infinite alternate; }
+        #page-checkout .np-am-eq i:nth-child(2) { animation-delay: -0.4s; }
+        #page-checkout .np-am-eq i:nth-child(3) { animation-delay: -0.9s; }
+        #page-checkout .np-am-eq i:nth-child(4) { animation-delay: -1.2s; }
+        @keyframes np-eq { from { transform: scaleY(0.3); } to { transform: scaleY(1); } }
+        /* a tocar: o equalizador fica e acelera; a pausa vem no segundo toque */
+        #page-checkout .np-cta-amostra.is-a-tocar .np-am-play { display: inline-flex; }
+        #page-checkout .np-cta-amostra.is-a-tocar .np-am-pausa { display: none; }
+        #page-checkout .np-cta-amostra.is-a-tocar .np-am-eq i { animation-duration: 0.55s; }
+        @media (prefers-reduced-motion: reduce) { #page-checkout .np-am-eq i { animation: none; transform: scaleY(0.7); } }
         /* fonte da tabela comparativa: nota de rodape, nao texto */
         #page-checkout .np-cmp p.np-cmp-rodape { font-size: 12.5px; line-height: 1.5; margin-top: 0.9rem; }
         /* o bloco escuro termina numa onda absoluta: o fundo passa a reservar
@@ -9289,7 +9325,7 @@
 
         <div class="np-amostra-cta">
             <button type="button" class="btn-primary np-cta-amostra" aria-pressed="false">
-                <svg class="np-am-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="currentColor"/></svg><svg class="np-am-pausa" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="6" width="3" height="12" rx="1.2" fill="currentColor"/><rect x="13" y="6" width="3" height="12" rx="1.2" fill="currentColor"/></svg><span class="np-am-lbl">Luister 22 seconden</span><span class="np-am-tijd" aria-hidden="true">00:00</span></button>
+                <span class="np-am-eq np-am-play" aria-hidden="true"><i></i><i></i><i></i><i></i></span><svg class="np-am-pausa" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="6" width="3" height="12" rx="1.2" fill="currentColor"/><rect x="13" y="6" width="3" height="12" rx="1.2" fill="currentColor"/></svg><span class="np-am-lbl">Luister 22 seconden</span><span class="np-am-tijd" aria-hidden="true">00:00</span></button>
             <p class="np-amostra-nota">Zonder account. Zonder betaling.</p>
         </div>
 
