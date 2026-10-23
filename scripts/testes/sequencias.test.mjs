@@ -19,6 +19,9 @@ assert.equal(proximoPasso(seq,c({},{listUnsubscribed:[3]}),3,hoje).passo,null);
 assert.equal(proximoPasso(seq,c({SIGNUP_DATE:'2026-10-20'}),3,hoje).passo,null);
 // funil B nao entra
 assert.equal(proximoPasso(seq,c({SOURCE:'quiz_37'}),3,hoje).passo,null);
+// sem SOURCE nem SIGNUP_DATE (atributos que o Brevo descartava): usa createdAt
+assert.equal(proximoPasso(seq,{email:'z@b.nl',createdAt:'2026-11-04T09:00:00.000+01:00',attributes:{}},3,hoje).passo.marca,'FA6_SENT');
+assert.equal(proximoPasso(seq,{email:'z@b.nl',createdAt:'2026-10-01T09:00:00.000+01:00',attributes:{}},3,hoje).passo,null);
 // 6 enviado hoje -> 7 ainda nao
 assert.equal(proximoPasso(seq,c({FA6_SENT:'2026-11-20'}),3,hoje).passo,null);
 // dia 19 e 6 enviado ha 3 dias -> 7

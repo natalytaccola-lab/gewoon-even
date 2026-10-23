@@ -11,7 +11,7 @@
 // Nenhum segredo novo a configurar: se CRON_SECRET existir, a corrida exige-o
 // (Authorization: Bearer); se nao existir, so' aceita o agente do cron do Vercel.
 
-import { SEQUENCIAS, proximoPasso, hojeISO } from './_sequencias.js';
+import { SEQUENCIAS, ATRIBUTOS_TEXTO, proximoPasso, hojeISO } from './_sequencias.js';
 import { linkDescadastro, segredoDescadastro } from './_assinatura.js';
 
 const TESTE_PARA = ['hello@gewoon-even.nl', 'natalytaccola@gmail.com'];
@@ -37,9 +37,9 @@ async function brevo(apiKey, metodo, caminho, corpo) {
   return { ok: r.ok, status: r.status, dados };
 }
 
-// Cria o atributo de data se ainda nao existir (400 = ja' existe, tudo bem).
-async function garantirAtributo(apiKey, nome) {
-  const r = await brevo(apiKey, 'POST', `/contacts/attributes/normal/${nome}`, { type: 'date' });
+// Cria o atributo se ainda nao existir (400 = ja' existe, tudo bem).
+async function garantirAtributo(apiKey, nome, tipo) {
+  const r = await brevo(apiKey, 'POST', `/contacts/attributes/normal/${nome}`, { type: tipo });
   return r.ok || r.status === 400;
 }
 
@@ -98,16 +98,20 @@ export default async function handler(req, res) {
   const relatorio = { data: hojeISO(), simular, sequencias: [] };
   let envios = 0;
 
+  for (const nome of ATRIBUTOS_TEXTO) {
+    if (!(await garantirAtributo(apiKey, nome, 'text'))) relatorio.falhaAtributo = nome;
+  }
+
   for (const seq of SEQUENCIAS) {
     const listaId = process.env[seq.listaEnv];
     const resumo = { id: seq.id, lista: listaId, contactos: 0, aEnviar: {}, enviados: [], falhas: [], motivos: {} };
     relatorio.sequencias.push(resumo);
     if (!listaId) { resumo.falhas.push('lista nao configurada'); continue; }
 
-    if (!simular) {
-      for (const p of seq.passos) {
-        if (!(await garantirAtributo(apiKey, p.marca))) resumo.falhas.push('atributo ' + p.marca);
-      }
+    // Tambem na simulacao: criar um atributo que falta e' inofensivo e assim
+    // a primeira simulacao ja' deixa o Brevo pronto.
+    for (const p of seq.passos) {
+      if (!(await garantirAtributo(apiKey, p.marca, 'date'))) resumo.falhas.push('atributo ' + p.marca);
     }
 
     let contactos;

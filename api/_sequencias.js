@@ -8,7 +8,7 @@
 // {{ params.UNSUB_URL }} no rodape) e juntar um passo abaixo. Mais nada.
 //
 // Regras de seguranca:
-//  - so' entra quem se inscreveu DEPOIS de `inicio` (nunca dispara para
+//  - so' entra quem se inscreveu a partir de `inicio` (nunca dispara para
 //    contactos antigos de teste ou de antes do lancamento);
 //  - quem tem qualquer atributo de `paraSe` preenchido (ex.: comprou) sai;
 //  - quem esta' na blacklist ou se descadastrou da lista nunca recebe;
@@ -59,10 +59,14 @@ export function proximoPasso(seq, contacto, listaId, agora = new Date()) {
   if ((contacto.listUnsubscribed || []).map(Number).includes(Number(listaId))) {
     return { passo: null, motivo: 'descadastrado da lista' };
   }
-  if (seq.origem && a.SOURCE !== seq.origem) return { passo: null, motivo: 'outra origem' };
+  // SOURCE so' conta quando existe: quem fez depois o quiz do Funil B passa a
+  // ter SOURCE 'quiz_37' e segue a sequencia de la'.
+  if (seq.origem && a.SOURCE && a.SOURCE !== seq.origem) return { passo: null, motivo: 'outra origem' };
 
-  const inscricao = diaNum(a.SIGNUP_DATE);
-  if (inscricao === null) return { passo: null, motivo: 'sem SIGNUP_DATE' };
+  // Data de inscricao: SIGNUP_DATE gravado pelo quiz; se faltar, a data de
+  // criacao do contacto no Brevo (para um lead novo, e' o mesmo dia).
+  const inscricao = diaNum(a.SIGNUP_DATE) ?? diaNum(contacto.createdAt);
+  if (inscricao === null) return { passo: null, motivo: 'sem data de inscricao' };
   if (inscricao < diaNum(seq.inicio)) return { passo: null, motivo: 'inscrito antes do inicio' };
 
   for (const attr of seq.paraSe) {
@@ -85,3 +89,8 @@ export function proximoPasso(seq, contacto, listaId, agora = new Date()) {
   }
   return { passo: null, motivo: 'sequencia completa' };
 }
+
+// Atributos que o quiz grava no contacto (api/brevo-add-contact.js). Tem de
+// existir no Brevo, senao o Brevo descarta-os em silencio. SIGNUP_DATE e' texto
+// (o quiz manda ISO com hora; um atributo de data rejeitaria o contacto).
+export const ATRIBUTOS_TEXTO = ['SOURCE', 'SIGNUP_DATE'];
