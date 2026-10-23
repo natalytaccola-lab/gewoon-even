@@ -22,8 +22,8 @@ async function buffer(readable) {
 // Retorna objeto com nome do attribute Brevo a setar como true + tag legível.
 function getProductInfo(amountTotal) {
   if (amountTotal === 900)  return { attr: 'HAS_CK',    tag: 'BUYER_CK',    name: 'Crisiskaart' };
-  if (amountTotal === 1700) return { attr: 'HAS_NP',    tag: 'BUYER_NP',    name: 'Innerlijk Noodplan' };
-  if (amountTotal === 3700) return { attr: 'HAS_P7D',   tag: 'BUYER_P7D',   name: '7-dagen herijking' };
+  if (amountTotal === 1700) return { attr: 'HAS_NP',    tag: 'BUYER_NP',    name: 'Noodprotocol' };
+  if (amountTotal === 3700) return { attr: 'HAS_P7D',   tag: 'BUYER_P7D',   name: 'Protocol 7 Dagen' };
   if (amountTotal === 6700) return { attr: 'HAS_SLAAP', tag: 'BUYER_SLAAP', name: 'Slaapprotocol' };
   return null;
 }
