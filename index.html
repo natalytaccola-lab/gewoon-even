@@ -9133,6 +9133,24 @@
         #page-checkout .np-cta-amostra.is-a-tocar .np-am-pausa { display: none; }
         #page-checkout .np-cta-amostra.is-a-tocar .np-am-eq i { animation-duration: 0.55s; }
         @media (prefers-reduced-motion: reduce) { #page-checkout .np-am-eq i { animation: none; transform: scaleY(0.7); } }
+        /* mockups dos tres audios: ~30% menores (pedido 23 out) */
+        #page-checkout .np-track .np-fio-card { max-width: 205px; }
+        /* conteudo do cartao acompanha o tamanho menor */
+        #page-checkout .np-track .np-fio-faixa { padding: 12px 12px 10px; border-radius: 0 0 16px 16px; }
+        #page-checkout .np-track .np-fio-foto { border-radius: 16px 16px 0 0; }
+        #page-checkout .np-track .np-fio-topo { grid-template-columns: 40px minmax(0, 1fr); gap: 10px; }
+        #page-checkout .np-track .np-fio-card.is-inerte .np-fio-topo { grid-template-columns: 1fr; }
+        #page-checkout .np-track .np-fio-play { width: 40px; height: 40px; }
+        #page-checkout .np-track .np-fio-play svg { width: 18px; height: 18px; }
+        #page-checkout .np-track .np-fio-titulo { font-size: 18px; }
+        #page-checkout .np-track .np-fio-convite { font-size: 14px; gap: 5px; margin-top: 2px; }
+        #page-checkout .np-track .np-fio-convite-txt, #page-checkout .np-track .np-fio-titulo { font-size: 15px; line-height: 1.2; }
+        #page-checkout .np-track .np-fio-titulo { font-size: 18px; }
+        #page-checkout .np-track .np-fio-seta { width: 20px; height: 14px; }
+        @media (min-width: 1024px) {
+            #page-checkout .np-track { grid-template-columns: 56px minmax(0, 1fr) 154px; }
+            #page-checkout .np-track .np-fio-card { width: 154px; max-width: none; }
+        }
         /* fonte da tabela comparativa: nota de rodape, nao texto */
         #page-checkout .np-cmp p.np-cmp-rodape { font-size: 12.5px; line-height: 1.5; margin-top: 0.9rem; }
         /* o bloco escuro termina numa onda absoluta: o fundo passa a reservar
