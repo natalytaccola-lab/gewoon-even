@@ -93,7 +93,10 @@ export default async function handler(req, res) {
     const auth = req.headers.authorization || '';
     const agente = String(req.headers['user-agent'] || '');
     const autorizado = cron ? auth === `Bearer ${cron}` : agente.startsWith('vercel-cron');
-    if (!autorizado) return res.status(401).json({ ok: false });
+    if (!autorizado) {
+      console.warn('[sequencias] pedido recusado', JSON.stringify({ agente, temAuth: !!auth }));
+      return res.status(401).json({ ok: false });
+    }
   }
   const relatorio = { data: hojeISO(), simular, sequencias: [] };
   let envios = 0;
