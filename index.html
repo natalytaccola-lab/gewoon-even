@@ -34,7 +34,9 @@
          removido: disparava sem consentimento e sem maneira de o impedir. -->
     <script>
     (function () {
+        // ID do pixel: o UNICO sitio onde ele aparece (o resto da pagina usa window.GE_PIXEL).
         var PIXEL = '1303902808354568';
+        window.GE_PIXEL = PIXEL;
         var CHAVE = 'ge_consent';
         var MESES = 6;
         var fila = [];
@@ -10857,7 +10859,7 @@ function handleEmailSubmit(event) {
     // Fire Lead event with Advanced Matching (em parameter)
     // Re-init Pixel with em so AM is sent on the next track call (ud[em] in URL).
     if (typeof fbq !== 'undefined') {
-        fbq('init', '1303902808354568', {em: email});
+        fbq('init', window.GE_PIXEL, {em: email});
         fbq('track', 'Lead', {
             content_name: isFunil37 ? 'Quiz 37 Completed' : 'Quiz Completed',
             content_category: 'Email Capture'
