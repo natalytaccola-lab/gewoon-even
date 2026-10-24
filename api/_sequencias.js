@@ -93,4 +93,4 @@ export function proximoPasso(seq, contacto, listaId, agora = new Date()) {
 // Atributos que o quiz grava no contacto (api/brevo-add-contact.js). Tem de
 // existir no Brevo, senao o Brevo descarta-os em silencio. SIGNUP_DATE e' texto
 // (o quiz manda ISO com hora; um atributo de data rejeitaria o contacto).
-export const ATRIBUTOS_TEXTO = ['SOURCE', 'SIGNUP_DATE'];
+export const ATRIBUTOS_TEXTO = ['SOURCE', 'SIGNUP_DATE', 'AD_CODE', 'AD_CAMPAIGN'];

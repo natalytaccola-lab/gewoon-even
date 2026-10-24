@@ -193,6 +193,52 @@
     })();
     </script>
     <script>
+    /* Origem do anuncio, titulo por angulo e e-mail no checkout.
+       - ?ad=<codigo> (ou utm_content) e utm_campaign: guardados so' nesta sessao
+         e gravados no contacto do Brevo quando a pessoa deixa o e-mail no quiz
+         (AD_CODE / AD_CAMPAIGN). Liga cada venda ao anuncio que a trouxe.
+       - ?h=<angulo>: troca o titulo do quiz pelo de TITULOS. Codigo desconhecido
+         ou vazio = titulo de sempre.
+       - Checkout: o e-mail do quiz vai preenchido na Stripe (prefilled_email),
+         para a compra cair no mesmo contacto que recebe as sequencias. */
+    (function () {
+        var TITULOS = {
+            // 'a3': 'Bloed: normaal. Hartfilmpje: normaal. En toch slaat je lijf alarm.',
+        };
+        var limpo = function (v, n) { return String(v || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, n); };
+        var q;
+        try { q = new URLSearchParams(window.location.search); } catch (e) { return; }
+        var ad = limpo(q.get('ad') || q.get('utm_content'), 40);
+        var camp = limpo(q.get('utm_campaign'), 60);
+        try {
+            if (ad) sessionStorage.setItem('ge_ad', ad);
+            if (camp) sessionStorage.setItem('ge_camp', camp);
+        } catch (e) {}
+
+        var h = limpo(q.get('h'), 10).toLowerCase();
+        if (h && Object.prototype.hasOwnProperty.call(TITULOS, h)) {
+            var trocar = function () {
+                document.querySelectorAll('.qz-hook-tit').forEach(function (el) { el.textContent = TITULOS[h]; });
+            };
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', trocar);
+            else trocar();
+        }
+
+        document.addEventListener('click', function (e) {
+            var a = e.target && e.target.closest && e.target.closest('a[href*="buy.stripe.com"]');
+            if (!a) return;
+            var email = '';
+            try { email = sessionStorage.getItem('userEmail') || ''; } catch (err) {}
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+            try {
+                var u = new URL(a.href);
+                u.searchParams.set('prefilled_email', email);
+                a.href = u.toString();
+            } catch (err) {}
+        }, true);
+    })();
+    </script>
+    <script>
     /* -----------------------------------------------------------------------
        Bandeira de comprador.
        Acende SO' nos hashes de retorno da Stripe depois de pagar o
@@ -10897,6 +10943,13 @@ function handleEmailSubmit(event) {
 
     // Brevo integration — fire-and-forget, não bloqueia navegação
     const geCorpo = isFunil37 ? { email: email, funil: '37' } : { email: email };
+    // Origem do anuncio (guardada na entrada, ver o script "Origem do anuncio").
+    try {
+        const geAd = sessionStorage.getItem('ge_ad');
+        const geCamp = sessionStorage.getItem('ge_camp');
+        if (geAd) geCorpo.ad = geAd;
+        if (geCamp) geCorpo.campanha = geCamp;
+    } catch (e) {}
     fetch('/api/brevo-add-contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
