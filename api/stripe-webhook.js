@@ -3,6 +3,7 @@
 // Permite cliente ter combinações (NP, NP+P7D, NP+CK, etc) sem perder histórico.
 
 import Stripe from 'stripe';
+import { enviarCompraMeta } from './_meta-capi.js';
 
 export const config = {
   api: {
@@ -290,6 +291,21 @@ export default async function handler(req, res) {
   // nao dispara a entrega. A entrega vem depois, no async_payment_succeeded.
   const entrega = DELIVERY[session.amount_total] || null;
   const pago = session.payment_status === 'paid';
+
+  // Purchase para a Meta pelo servidor, so' com pagamento confirmado e so' para
+  // quem aceitou os cookies (ver _meta-capi.js). Repetir o mesmo session.id nao
+  // conta duas vezes: a Meta deduplica pelo event_id.
+  if (pago) {
+    const capi = await enviarCompraMeta({
+      sessionId: session.id,
+      clientReferenceId: session.client_reference_id,
+      email: customerEmail,
+      valor: amountPaid,
+      moeda: currency,
+      produto: product.name
+    });
+    console.log(`[Meta CAPI] session ${session.id}: ${JSON.stringify(capi)}`);
+  }
 
   if (entrega && !pago) {
     console.log(`[${entrega.label}] session ${session.id} payment_status=${session.payment_status} — contact saved, delivery deferred`);

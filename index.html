@@ -111,6 +111,34 @@
             reabrir: function () { abrir(); }
         };
 
+        // Conversions API: quem aceitou leva o consentimento (e os cookies
+        // _fbp/_fbc) para a Stripe em client_reference_id. O webhook so' envia
+        // a compra a Meta quando ve este prefixo "ge1". Formato em api/_meta-capi.js.
+        function cookie(nome) {
+            var m = document.cookie.match(new RegExp('(?:^|; )' + nome + '=([^;]*)'));
+            return m ? decodeURIComponent(m[1]) : '';
+        }
+        function refConsentimento() {
+            var fbp = cookie('_fbp'), fbc = cookie('_fbc');
+            var ref = 'ge1';
+            if (/^fb\.\d\.\d+\.\d+$/.test(fbp)) {
+                ref += '_' + fbp.replace(/\./g, '-');
+                var m = fbc.match(/^fb\.(\d)\.(\d+)\.([A-Za-z0-9_-]+)$/);
+                var comFbc = m ? ref + '_fb-' + m[1] + '-' + m[2] + '-' + m[3] : ref;
+                if (comFbc.length <= 200) ref = comFbc;   // limite da Stripe
+            }
+            return ref;
+        }
+        document.addEventListener('click', function (e) {
+            var a = e.target && e.target.closest && e.target.closest('a[href*="buy.stripe.com"]');
+            if (!a || escolha() !== 'aceite') return;
+            try {
+                var u = new URL(a.href);
+                u.searchParams.set('client_reference_id', refConsentimento());
+                a.href = u.toString();
+            } catch (err) {}
+        }, true);
+
         var caixa = null;
 
         function fechar() {
