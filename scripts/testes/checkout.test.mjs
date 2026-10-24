@@ -120,6 +120,12 @@ assert.equal((await up({ sid: 'cs_live_np', produto: 'ck' })).j.fallback, true);
 assert.equal((await up({ sid: 'cs_test_np', produto: 'p7' })).j.fallback, true);
 assert.equal((await up({ sid: 'cs_live_nao_existe', produto: 'p7' })).j.fallback, true);
 
+// so' verificar: diz se da' para um clique, sem cobrar
+const antes = estado.pis.length;
+r = await up({ sid: 'cs_live_cartao', produto: 'p7', apenasVerificar: true });
+assert.equal(r.j.podeUmClique, true); assert.equal(estado.pis.length, antes);
+r = await up({ sid: 'cs_live_antiga', produto: 'p7', apenasVerificar: true });
+assert.equal(r.j.fallback, true);
 console.log('checkout + upsell: ok');
 
 // --- /api/sessao ------------------------------------------------------------

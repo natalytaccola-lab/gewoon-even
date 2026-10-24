@@ -43,7 +43,7 @@ export default async function handler(req, res) {
   const segredo = (process.env.STRIPE_SECRET_KEY || '').trim();
   if (!segredo) return recusa(res, 'stripe_env_missing');
 
-  const { sid, produto } = req.body || {};
+  const { sid, produto, apenasVerificar } = req.body || {};
   if (!Object.prototype.hasOwnProperty.call(PRODUTOS, produto)) return res.status(400).json({ ok: false, erro: 'produto' });
   if (typeof sid !== 'string' || !/^(cs_live|pi)_[A-Za-z0-9]+$/.test(sid)) return recusa(res, 'sid');
 
@@ -72,6 +72,10 @@ export default async function handler(req, res) {
     const metodo = metodoReutilizavel(sessao.payment_intent);
     const email = sessao.customer_details && sessao.customer_details.email;
     if (!cliente || !metodo || !email) return recusa(res, 'sem_metodo_guardado');
+
+    // O site pergunta antes de mostrar a confirmacao do um clique, para nao
+    // a mostrar a quem pagou de uma forma que nao se pode reutilizar.
+    if (apenasVerificar) return res.status(200).json({ ok: true, podeUmClique: true });
 
     const p = PRODUTOS[produto];
     let pi;

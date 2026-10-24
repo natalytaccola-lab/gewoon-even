@@ -413,6 +413,14 @@
         else setTimeout(verificarRetorno, 0);
 
         function umClique(chave, valor, href) {
+            abrir('<p class="ge-pay__msg">Even geduld&hellip;</p>');
+            fetch('/api/upsell', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: window.geStripeSid, produto: chave, apenasVerificar: true }) })
+                .then(function (r) { return r.json(); })
+                .then(function (j) { if (j && j.podeUmClique) confirmarUmClique(chave, valor, href); else checkoutEmbutido(chave, href); })
+                .catch(function () { checkoutEmbutido(chave, href); });
+        }
+
+        function confirmarUmClique(chave, valor, href) {
             abrir('<p class="ge-pay__msg">' + valor + ' afrekenen met dezelfde betaalmethode als net?</p>' +
                   '<div class="ge-pay__acoes"><button type="button" class="ge-pay__sim">Ja, betaal ' + valor + '</button>' +
                   '<button type="button" class="ge-pay__nao">Liever een andere betaalmethode</button></div>');
