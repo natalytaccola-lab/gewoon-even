@@ -70,8 +70,9 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: false, error: 'brevo_api_error' });
     }
 
-    const data = await response.json();
-    return res.status(200).json({ ok: true, contactId: data.id });
+    // 201 = contacto novo (traz o id); 204 = contacto que ja' existia, atualizado, sem corpo.
+    const data = response.status === 204 ? null : await response.json().catch(() => null);
+    return res.status(200).json({ ok: true, contactId: data && data.id, atualizado: response.status === 204 });
 
   } catch (error) {
     console.error('[Brevo] Network error:', error);
