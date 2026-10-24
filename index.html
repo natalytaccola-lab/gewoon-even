@@ -20,7 +20,8 @@
             var sid = q.get('sid');
             // Na producao so' sessoes reais (cs_live_); cs_test_ so' na previa.
             var producao = location.hostname === 'gewoon-even.nl' || location.hostname === 'www.gewoon-even.nl';
-            var formato = producao ? /^cs_live_[A-Za-z0-9]+$/ : /^cs_(live|test)_[A-Za-z0-9]+$/;
+            // pi_: upsell de um clique (api/upsell.js), o PaymentIntent e' o id da compra.
+            var formato = producao ? /^(cs_live|pi)_[A-Za-z0-9]+$/ : /^(cs_live|cs_test|pi)_[A-Za-z0-9]+$/;
             if (formato.test(sid)) window.geStripeSid = sid;
             q.delete('sid');
             var resto = q.toString();
@@ -224,6 +225,8 @@
             else trocar();
         }
 
+        window.geCodigoAnuncio = ad || (function () { try { return sessionStorage.getItem('ge_ad') || ''; } catch (e) { return ''; } })();
+
         document.addEventListener('click', function (e) {
             var a = e.target && e.target.closest && e.target.closest('a[href*="buy.stripe.com"]');
             if (!a) return;
@@ -235,6 +238,149 @@
                 u.searchParams.set('prefilled_email', email);
                 a.href = u.toString();
             } catch (err) {}
+        }, true);
+    })();
+    </script>
+    <style>
+    /* Checkout embutido (Stripe) e confirmacao do upsell de um clique */
+    .ge-pay { position: fixed; inset: 0; z-index: 2147483000; background: rgba(30,38,33,.55); display: flex; align-items: flex-end; justify-content: center; }
+    .ge-pay[hidden] { display: none; }
+    .ge-pay__painel { position: relative; background: #fff; width: 100%; max-width: 520px; max-height: 94vh; overflow: auto; border-radius: 16px 16px 0 0; padding: 44px 0 16px; -webkit-overflow-scrolling: touch; }
+    @media (min-width: 700px) { .ge-pay { align-items: center; } .ge-pay__painel { border-radius: 16px; } }
+    .ge-pay__fechar { position: absolute; top: 8px; right: 10px; width: 36px; height: 36px; border: 0; background: transparent; font-size: 26px; line-height: 1; color: #3E4E43; cursor: pointer; }
+    .ge-pay__msg { font: 16px/1.5 Inter, Helvetica, Arial, sans-serif; color: #3E4E43; text-align: center; padding: 24px 24px 8px; }
+    .ge-pay__acoes { display: flex; flex-direction: column; gap: 10px; padding: 12px 24px 8px; }
+    .ge-pay__sim { border: 0; border-radius: 12px; padding: 16px; font: 600 17px Inter, Helvetica, Arial, sans-serif; color: #fff; background: #C1541D; cursor: pointer; }
+    .ge-pay__nao { border: 0; background: transparent; padding: 8px; font: 15px Inter, Helvetica, Arial, sans-serif; color: #3E4E43; text-decoration: underline; cursor: pointer; }
+    body.ge-pay-aberto { overflow: hidden; }
+    </style>
+    <script>
+    /* Checkout embutido + upsell de um clique (api/checkout.js, api/upsell.js).
+       Os botoes continuam a ser os mesmos <a href="https://buy.stripe.com/...">:
+       este script apanha o clique e, em vez de ir para a Stripe, abre o
+       pagamento numa janela por cima da pagina. Logo a seguir a uma compra feita
+       aqui, o produto seguinte da cadeia e' cobrado com a mesma forma de
+       pagamento, depois de uma confirmacao.
+       Ligado so' com a chave: ?checkout=novo (fica guardado neste navegador);
+       ?checkout=antigo volta aos links normais. Sem a chave, nada muda. */
+    (function () {
+        var PADRAO_LIGADO = false;
+        var PK = 'pk_live_HDehe0ULvLVUmjcKPhdqsZza';
+        var LINKS = {
+            '00waEW6UM2ZXdEwcpsfjG00': { chave: 'np', valor: '€17' },
+            'aFa6oG0wo8kheIAexAfjG04': { chave: 'p7', valor: '€37' },
+            '6oU7sKfri9ol7g81KOfjG03': { chave: 'slaap', valor: '€67' },
+            '3cI00i92Ubwt1VO1KOfjG02': { chave: 'ck', valor: '€9' }
+        };
+        var UPSELL = { p7: true, slaap: true };
+
+        function ligado() {
+            try {
+                var q = new URLSearchParams(location.search).get('checkout');
+                if (q === 'novo') localStorage.setItem('ge_checkout', 'novo');
+                if (q === 'antigo') localStorage.removeItem('ge_checkout');
+                return PADRAO_LIGADO || localStorage.getItem('ge_checkout') === 'novo';
+            } catch (e) { return PADRAO_LIGADO; }
+        }
+        if (!ligado()) return;
+
+        var caixa, painel, alvo, embutido, stripeJs;
+        function montarCaixa() {
+            if (caixa) return;
+            caixa = document.createElement('div');
+            caixa.className = 'ge-pay'; caixa.hidden = true;
+            caixa.setAttribute('role', 'dialog'); caixa.setAttribute('aria-modal', 'true');
+            caixa.innerHTML = '<div class="ge-pay__painel"><button type="button" class="ge-pay__fechar" aria-label="Sluiten">&times;</button><div class="ge-pay__conteudo"></div></div>';
+            document.body.appendChild(caixa);
+            painel = caixa.querySelector('.ge-pay__conteudo');
+            caixa.querySelector('.ge-pay__fechar').addEventListener('click', fechar);
+            caixa.addEventListener('click', function (e) { if (e.target === caixa) fechar(); });
+        }
+        function abrir(html) {
+            montarCaixa();
+            painel.innerHTML = html;
+            caixa.hidden = false;
+            document.body.classList.add('ge-pay-aberto');
+        }
+        function fechar() {
+            if (embutido) { try { embutido.destroy(); } catch (e) {} embutido = null; }
+            if (caixa) caixa.hidden = true;
+            document.body.classList.remove('ge-pay-aberto');
+        }
+        function irPara(id, retorno) {
+            window.location.href = '/?sid=' + encodeURIComponent(id) + retorno;
+        }
+        function carregarStripe() {
+            if (stripeJs) return stripeJs;
+            stripeJs = new Promise(function (ok, falha) {
+                if (window.Stripe) return ok(window.Stripe(PK));
+                var s = document.createElement('script');
+                s.src = 'https://js.stripe.com/v3/';
+                s.onload = function () { ok(window.Stripe(PK)); };
+                s.onerror = falha;
+                document.head.appendChild(s);
+            });
+            return stripeJs;
+        }
+
+        function checkoutEmbutido(chave, href) {
+            abrir('<p class="ge-pay__msg">Betaalscherm laden&hellip;</p><div id="ge-pay-stripe"></div>');
+            var u; try { u = new URL(href); } catch (e) { u = null; }
+            var corpo = {
+                produto: chave,
+                email: u ? u.searchParams.get('prefilled_email') || '' : '',
+                ref: u ? u.searchParams.get('client_reference_id') || '' : '',
+                ad: window.geCodigoAnuncio || ''
+            };
+            var sessao = null;
+            carregarStripe().then(function (stripe) {
+                return stripe.initEmbeddedCheckout({
+                    fetchClientSecret: function () {
+                        return fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo) })
+                            .then(function (r) { return r.json(); })
+                            .then(function (j) { if (!j.ok) throw new Error('checkout'); sessao = j; return j.clientSecret; });
+                    },
+                    onComplete: function () { if (sessao) irPara(sessao.id, sessao.retorno); }
+                });
+            }).then(function (e) {
+                embutido = e;
+                var msg = painel.querySelector('.ge-pay__msg'); if (msg) msg.remove();
+                e.mount('#ge-pay-stripe');
+            }).catch(function () {
+                // Qualquer falha: o link normal da Stripe, como antes.
+                fechar(); window.location.href = href;
+            });
+        }
+
+        function umClique(chave, valor, href) {
+            abrir('<p class="ge-pay__msg">' + valor + ' afrekenen met dezelfde betaalmethode als net?</p>' +
+                  '<div class="ge-pay__acoes"><button type="button" class="ge-pay__sim">Ja, betaal ' + valor + '</button>' +
+                  '<button type="button" class="ge-pay__nao">Liever een andere betaalmethode</button></div>');
+            painel.querySelector('.ge-pay__nao').addEventListener('click', function () { checkoutEmbutido(chave, href); });
+            painel.querySelector('.ge-pay__sim').addEventListener('click', function () {
+                painel.innerHTML = '<p class="ge-pay__msg">Even geduld&hellip;</p>';
+                fetch('/api/upsell', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: window.geStripeSid, produto: chave }) })
+                    .then(function (r) { return r.json(); })
+                    .then(function (j) {
+                        if (j.ok) return irPara(j.id, j.retorno);
+                        checkoutEmbutido(chave, href);   // sem metodo guardado, 3-D Secure, etc.
+                    })
+                    .catch(function () { checkoutEmbutido(chave, href); });
+            });
+        }
+
+        // Corre depois dos outros ouvintes de clique (consentimento, e-mail),
+        // que ja' acrescentaram client_reference_id e prefilled_email ao link.
+        document.addEventListener('click', function (e) {
+            var a = e.target && e.target.closest && e.target.closest('a[href*="buy.stripe.com"]');
+            if (!a) return;
+            var codigo = (a.getAttribute('href') || '').split('buy.stripe.com/')[1] || '';
+            codigo = codigo.split(/[?#]/)[0];
+            var p = LINKS[codigo];
+            if (!p) return;                       // link desconhecido: segue normal
+            e.preventDefault();
+            if (window.geStripeSid && UPSELL[p.chave]) umClique(p.chave, p.valor, a.href);
+            else checkoutEmbutido(p.chave, a.href);
         }, true);
     })();
     </script>
