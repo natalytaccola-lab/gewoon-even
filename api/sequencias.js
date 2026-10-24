@@ -15,6 +15,7 @@ import { SEQUENCIAS, ATRIBUTOS_TEXTO, proximoPasso, hojeISO } from './_sequencia
 import { linkDescadastro, segredoDescadastro } from './_assinatura.js';
 
 const TESTE_PARA = ['hello@gewoon-even.nl', 'natalytaccola@gmail.com'];
+const MARCA_CORRIDA = 'hello@gewoon-even.nl';
 
 const BREVO = 'https://api.brevo.com/v3';
 const BASE_SITE = 'https://gewoon-even.nl';
@@ -144,5 +145,14 @@ export default async function handler(req, res) {
   }
 
   console.log('[sequencias] resumo', JSON.stringify(relatorio));
+
+  // Prova duravel de cada corrida real (o plano Hobby do Vercel so' guarda 1 h
+  // de logs): data/hora + contagens num atributo do contacto da propria marca.
+  if (!simular) {
+    const curto = relatorio.sequencias.map(s => `${s.id}:${s.contactos}c/${s.enviados.length}e/${s.falhas.length}f`).join(' ');
+    await garantirAtributo(apiKey, 'SEQ_ULTIMA_CORRIDA', 'text');
+    await brevo(apiKey, 'PUT', `/contacts/${encodeURIComponent(MARCA_CORRIDA)}`,
+      { attributes: { SEQ_ULTIMA_CORRIDA: `${new Date().toISOString()} ${curto}`.slice(0, 250) } });
+  }
   return res.status(200).json({ ok: true, ...relatorio });
 }

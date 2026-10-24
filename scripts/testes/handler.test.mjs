@@ -35,7 +35,8 @@ assert.deepEqual(envios.map(c=>c.corpo.to[0].email+':'+c.corpo.templateId),['d16
 assert.match(envios[0].corpo.params.UNSUB_URL,/^https:\/\/gewoon-even\.nl\/api\/uitschrijven\?e=d16%40x\.nl&t=/);
 assert.equal(envios[0].corpo.headers['List-Unsubscribe-Post'],'List-Unsubscribe=One-Click');
 const marcas=chamadas.filter(c=>c.metodo==='PUT').map(c=>decodeURIComponent(c.url.split('/').pop())+':'+JSON.stringify(c.corpo.attributes));
-assert.deepEqual(marcas,[`d16@x.nl:{"FA6_SENT":"${hoje}"}`,`d19@x.nl:{"FA7_SENT":"${hoje}"}`]);
+assert.deepEqual(marcas.filter(m=>!m.startsWith('hello@')),[`d16@x.nl:{"FA6_SENT":"${hoje}"}`,`d19@x.nl:{"FA7_SENT":"${hoje}"}`]);
+assert.match(marcas.find(m=>m.startsWith('hello@gewoon-even.nl:')),/SEQ_ULTIMA_CORRIDA":"\d{4}-\d\d-\d\dT.* funil-a-extra:4c\/2e\/0f/);
 // teste: um envio, sem marca
 chamadas=[]; r=await run({teste:'1',para:'hello@gewoon-even.nl',passo:'FA7_SENT'});
 assert.equal(r.s,200); assert.equal(chamadas.length,1); assert.equal(chamadas[0].corpo.templateId,84);
