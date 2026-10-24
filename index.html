@@ -22,6 +22,16 @@
             var producao = location.hostname === 'gewoon-even.nl' || location.hostname === 'www.gewoon-even.nl';
             // pi_: upsell de um clique (api/upsell.js), o PaymentIntent e' o id da compra.
             var formato = producao ? /^(cs_live|pi)_[A-Za-z0-9]+$/ : /^(cs_live|cs_test|pi)_[A-Za-z0-9]+$/;
+            // ck=1: retorno do checkout embutido. A Stripe devolve a pessoa aqui
+            // TAMBEM quando ela cancela no banco, por isso nada de "pago" ate'
+            // confirmar com /api/sessao (script "Checkout embutido", mais abaixo).
+            if (q.get('ck') === '1' && /^cs_(live|test)_[A-Za-z0-9]+$/.test(sid) && /^#betaald-/.test(location.hash)) {
+                window.geRetornoPendente = { sid: sid, hash: location.hash };
+                q.delete('sid'); q.delete('ck');
+                var r0 = q.toString();
+                history.replaceState(history.state, '', location.pathname + (r0 ? '?' + r0 : '') + '#a-verificar');
+                return;
+            }
             if (formato.test(sid)) window.geStripeSid = sid;
             q.delete('sid');
             var resto = q.toString();
@@ -282,7 +292,7 @@
                 return PADRAO_LIGADO || localStorage.getItem('ge_checkout') === 'novo';
             } catch (e) { return PADRAO_LIGADO; }
         }
-        if (!ligado()) return;
+        var ATIVO = ligado();
 
         var caixa, painel, alvo, embutido, stripeJs;
         function montarCaixa() {
@@ -324,6 +334,11 @@
         }
 
         function checkoutEmbutido(chave, href) {
+            // Para voltar a mesma oferta se a pessoa cancelar no banco.
+            try {
+                var ativa = document.querySelector('.page.active');
+                if (ativa && ativa.id) sessionStorage.setItem('ge_pagina_pagamento', ativa.id);
+            } catch (e) {}
             abrir('<p class="ge-pay__msg">Betaalscherm laden&hellip;</p><div id="ge-pay-stripe"></div>');
             var u; try { u = new URL(href); } catch (e) { u = null; }
             var corpo = {
@@ -356,6 +371,47 @@
             });
         }
 
+        function montarSessao(sessao) {
+            abrir('<p class="ge-pay__msg">Betaalscherm laden&hellip;</p><div id="ge-pay-stripe"></div>');
+            carregarStripe().then(function (stripe) {
+                return stripe.initEmbeddedCheckout({
+                    fetchClientSecret: function () { return Promise.resolve(sessao.clientSecret); },
+                    onComplete: function () { irPara(sessao.id, sessao.retorno); }
+                });
+            }).then(function (e) {
+                embutido = e;
+                var msg = painel.querySelector('.ge-pay__msg'); if (msg) msg.remove();
+                e.mount('#ge-pay-stripe');
+            }).catch(function () { fechar(); });
+        }
+
+        // Volta do banco (iDEAL/Bancontact) no checkout embutido: so' segue para
+        // a pagina de "pago" se a Stripe confirmar. Se a pessoa cancelou, volta a
+        // oferta com a janela de pagamento aberta na mesma sessao.
+        function verificarRetorno() {
+            var pend = window.geRetornoPendente;
+            if (!pend) return;
+            abrir('<p class="ge-pay__msg">Even controleren&hellip;</p>');
+            fetch('/api/sessao?sid=' + encodeURIComponent(pend.sid))
+                .then(function (r) { return r.json(); })
+                .then(function (j) {
+                    if (j && j.status === 'complete') {
+                        window.location.replace('/?sid=' + encodeURIComponent(pend.sid) + pend.hash);
+                        return;
+                    }
+                    var pag = ''; try { pag = sessionStorage.getItem('ge_pagina_pagamento') || ''; } catch (e) {}
+                    if (typeof showPage === 'function' && /^page-[a-z0-9-]+$/.test(pag) && document.getElementById(pag)) showPage(pag);
+                    if (j && j.status === 'open' && j.clientSecret) {
+                        montarSessao({ id: pend.sid, clientSecret: j.clientSecret, retorno: pend.hash });
+                    } else {
+                        fechar();
+                    }
+                })
+                .catch(function () { fechar(); });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(verificarRetorno, 0); });
+        else setTimeout(verificarRetorno, 0);
+
         function umClique(chave, valor, href) {
             abrir('<p class="ge-pay__msg">' + valor + ' afrekenen met dezelfde betaalmethode als net?</p>' +
                   '<div class="ge-pay__acoes"><button type="button" class="ge-pay__sim">Ja, betaal ' + valor + '</button>' +
@@ -381,7 +437,7 @@
             var codigo = (a.getAttribute('href') || '').split('buy.stripe.com/')[1] || '';
             codigo = codigo.split(/[?#]/)[0];
             var p = LINKS[codigo];
-            if (!p) return;                       // link desconhecido: segue normal
+            if (!ATIVO || !p) return;             // chave desligada ou link desconhecido: segue normal
             e.preventDefault();
             if (window.geStripeSid && UPSELL[p.chave]) umClique(p.chave, p.valor, a.href);
             else checkoutEmbutido(p.chave, a.href);

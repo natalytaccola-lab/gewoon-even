@@ -70,7 +70,7 @@ assert.equal(p.ui_mode, 'embedded_page'); assert.equal(p.redirect_on_completion,
 assert.deepEqual(p.line_items, [{ price: 'price_1700', quantity: 1 }]);
 assert.equal(p.customer_email, 'a@b.nl'); assert.equal(p.client_reference_id, 'ge1_fb-1-2-3');
 assert.equal(p.metadata.ge_produto, 'np'); assert.equal(p.metadata.ge_ad, 'a3x');
-assert.equal(p.return_url, 'https://gewoon-even.nl/?sid={CHECKOUT_SESSION_ID}#betaald-np-17ypqz');
+assert.equal(p.return_url, 'https://gewoon-even.nl/?sid={CHECKOUT_SESSION_ID}&ck=1#betaald-np-17ypqz');
 assert.equal(p.payment_method_options.ideal.setup_future_usage, 'off_session');
 assert.ok(!p.payment_method_types.includes('sepa_debit'), 'SEPA nunca aparece como opcao');
 
@@ -121,3 +121,13 @@ assert.equal((await up({ sid: 'cs_test_np', produto: 'p7' })).j.fallback, true);
 assert.equal((await up({ sid: 'cs_live_nao_existe', produto: 'p7' })).j.fallback, true);
 
 console.log('checkout + upsell: ok');
+
+// --- /api/sessao ------------------------------------------------------------
+const sessaoApi = await import('../../api/sessao.js');
+sessaoApi.deps.Stripe = class { constructor() { this.checkout = { sessions: { retrieve: async (id) =>
+  id === 'cs_live_aberta' ? { status: 'open', client_secret: 'seg_aberta' } : { status: 'complete', client_secret: 'nao_expor' } } }; } };
+const sv = async (sid) => { const x = { s: 0, j: null, h: {}, setHeader(k, v) { this.h[k] = v; }, status(c) { this.s = c; return this; }, json(o) { this.j = o; return this; } }; await sessaoApi.default({ query: { sid } }, x); return x; };
+let sr = await sv('cs_live_aberta'); assert.equal(sr.j.status, 'open'); assert.equal(sr.j.clientSecret, 'seg_aberta');
+sr = await sv('cs_live_paga'); assert.equal(sr.j.status, 'complete'); assert.ok(!('clientSecret' in sr.j));
+sr = await sv('pi_x'); assert.equal(sr.s, 400);
+console.log('sessao: ok');

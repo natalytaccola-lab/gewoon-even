@@ -31,7 +31,9 @@ function parametros({ chave, preco, email, ref, ad, guardarBanco }) {
     customer_creation: 'always',
     ...(emailValido(email) ? { customer_email: email } : {}),
     ...(refValido(ref) ? { client_reference_id: ref } : {}),
-    return_url: `${BASE_SITE}/?sid={CHECKOUT_SESSION_ID}${p.retorno}`,
+    // ck=1: o site confirma o pagamento antes de mostrar "pago" (a Stripe volta
+    // a este endereco tambem quando a pessoa cancela no banco).
+    return_url: `${BASE_SITE}/?sid={CHECKOUT_SESSION_ID}&ck=1${p.retorno}`,
     redirect_on_completion: 'if_required',
     metadata: { ge_produto: chave, ...(ad ? { ge_ad: ad } : {}) },
     payment_intent_data: { metadata: { ge_produto: chave } }
