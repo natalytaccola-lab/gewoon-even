@@ -66,7 +66,7 @@ let r = resp();
 await checkout.default({ method: 'POST', body: { produto: 'np', email: 'a@b.nl', ref: 'ge1_fb-1-2-3', ad: 'a3<x>' } }, r);
 assert.equal(r.s, 200); assert.equal(r.j.clientSecret, 'seg_1'); assert.equal(r.j.retorno, '#betaald-np-17ypqz');
 let p = estado.criadas[0];
-assert.equal(p.ui_mode, 'embedded'); assert.equal(p.redirect_on_completion, 'if_required');
+assert.equal(p.ui_mode, 'embedded_page'); assert.equal(p.redirect_on_completion, 'if_required');
 assert.deepEqual(p.line_items, [{ price: 'price_1700', quantity: 1 }]);
 assert.equal(p.customer_email, 'a@b.nl'); assert.equal(p.client_reference_id, 'ge1_fb-1-2-3');
 assert.equal(p.metadata.ge_produto, 'np'); assert.equal(p.metadata.ge_ad, 'a3x');

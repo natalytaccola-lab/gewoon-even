@@ -20,7 +20,7 @@ function parametros({ chave, preco, email, ref, ad, guardarBanco }) {
   const p = PRODUTOS[chave];
   const guardar = { setup_future_usage: 'off_session' };
   return {
-    ui_mode: 'embedded',
+    ui_mode: 'embedded_page',
     mode: 'payment',
     locale: 'nl',
     line_items: [{ price: preco, quantity: 1 }],
