@@ -40,7 +40,7 @@ function parametros({ chave, preco, email, ref, ad, guardarBanco }) {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
-  const segredo = process.env.STRIPE_SECRET_KEY;
+  const segredo = (process.env.STRIPE_SECRET_KEY || '').trim();
   if (!segredo) return res.status(503).json({ ok: false, erro: 'stripe_env_missing' });
 
   const { produto, email, ref, ad } = req.body || {};
@@ -59,7 +59,7 @@ export default async function handler(req, res) {
     }
     return res.status(200).json({ ok: true, clientSecret: sessao.client_secret, id: sessao.id, retorno: PRODUTOS[produto].retorno });
   } catch (e) {
-    console.error('[checkout] falhou', produto, e.message);
+    console.error('[checkout] falhou', produto, e.type || '', e.code || '', e.message, e.detail && (e.detail.message || e.detail.code || String(e.detail)));
     return res.status(502).json({ ok: false, erro: 'stripe' });
   }
 }

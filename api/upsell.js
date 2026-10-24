@@ -40,7 +40,7 @@ function metodoReutilizavel(pi) {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
-  const segredo = process.env.STRIPE_SECRET_KEY;
+  const segredo = (process.env.STRIPE_SECRET_KEY || '').trim();
   if (!segredo) return recusa(res, 'stripe_env_missing');
 
   const { sid, produto } = req.body || {};
