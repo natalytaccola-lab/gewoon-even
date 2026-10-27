@@ -83,7 +83,10 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const errorBody = await response.text();
       console.error('[Brevo] API error:', response.status, errorBody);
-      return fim({ ok: false, error: 'brevo_api_error' });
+      // So' o codigo do Brevo (sem dados do contacto), para diagnostico.
+      let codigo = '';
+      try { codigo = String(JSON.parse(errorBody).code || '').slice(0, 40); } catch (e) {}
+      return fim({ ok: false, error: 'brevo_api_error', status: response.status, codigo });
     }
 
     // 201 = contacto novo (traz o id); 204 = contacto que ja' existia, atualizado, sem corpo.
