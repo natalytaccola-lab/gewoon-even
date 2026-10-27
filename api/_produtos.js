@@ -15,9 +15,28 @@ export const PRODUTOS = {
   ck:    { plink: 'plink_1TONwAAqip58UYzsNk83iMUv', valor:  900, nome: 'Crisiskaart',      retorno: '#betaald-ck-0jj2uk', depois: [] }
 };
 
-// Produto de uma compra antiga (Payment Link, sem metadata), pelo valor.
+// Order bump: o produto que se pode juntar no proprio checkout de outro
+// (a caixinha "voeg toe" da Stripe). No Noodprotocol, a Crisiskaart.
+// Nos Payment Links o bump e' configurado no painel da Stripe (itens
+// opcionais do link); no checkout embutido, em api/checkout.js.
+export const BUMP = { np: 'ck' };
+
+// Os produtos de uma compra, pelo valor pago: um so' produto, ou o produto
+// principal mais o seu bump (EUR 17 + EUR 9 = EUR 26). O principal vem primeiro.
+export function produtosPorValor(centimos) {
+  const um = Object.keys(PRODUTOS).find(k => PRODUTOS[k].valor === centimos);
+  if (um) return [um];
+  for (const principal of Object.keys(BUMP)) {
+    const extra = BUMP[principal];
+    if (PRODUTOS[principal].valor + PRODUTOS[extra].valor === centimos) return [principal, extra];
+  }
+  return [];
+}
+
+// Produto de uma compra antiga (Payment Link, sem metadata), pelo valor. Com
+// bump, conta o principal: e' dele que sai a cadeia do upsell.
 export function produtoPorValor(centimos) {
-  return Object.keys(PRODUTOS).find(k => PRODUTOS[k].valor === centimos) || null;
+  return produtosPorValor(centimos)[0] || null;
 }
 
 // Janela do upsell de um clique: so' logo a seguir a compra anterior.

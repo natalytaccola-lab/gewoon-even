@@ -6,6 +6,7 @@
 // `session` so' precisa de: id, amount_total, currency, payment_status,
 // client_reference_id. No upsell, o id e' o do PaymentIntent.
 import { enviarCompraMeta } from './_meta-capi.js';
+import { PRODUTOS, produtosPorValor } from './_produtos.js';
 
 // Identifica produto pelo amount_total (em cents)
 // Retorna objeto com nome do attribute Brevo a setar como true + tag legível.
@@ -15,6 +16,13 @@ export function getProductInfo(amountTotal) {
   if (amountTotal === 3700) return { attr: 'HAS_P7D',   tag: 'BUYER_P7D',   name: 'Protocol 7 Dagen' };
   if (amountTotal === 6700) return { attr: 'HAS_SLAAP', tag: 'BUYER_SLAAP', name: 'Slaapprotocol' };
   return null;
+}
+
+// Os produtos de uma compra pelo valor pago, cada um com a info acima. Com o
+// order bump (Noodprotocol + Crisiskaart = EUR 26) vem uma lista de dois, o
+// principal primeiro. Valor desconhecido: lista vazia.
+export function produtosDaCompra(amountTotal) {
+  return produtosPorValor(amountTotal).map(k => ({ valor: PRODUTOS[k].valor, ...getProductInfo(PRODUTOS[k].valor) }));
 }
 
 // ---------------------------------------------------------------------------
@@ -196,10 +204,33 @@ async function deliverProduct(email, sessionId, apiKey, baseBody, entrega) {
 }
 
 
+// Entrega de varios produtos da mesma compra (order bump). Cada produto tem a
+// sua marca, por isso, se um falhar, a repeticao da Stripe so' reenvia esse.
+// Com um so' produto devolve exactamente o que o deliverProduct devolve.
+async function deliverAll(email, sessionId, apiKey, baseBody, entregas) {
+  if (entregas.length === 1) return deliverProduct(email, sessionId, apiKey, baseBody, entregas[0]);
+  const resultados = [];
+  for (const entrega of entregas) {
+    resultados.push({ label: entrega.label, ...(await deliverProduct(email, sessionId, apiKey, baseBody, entrega)) });
+  }
+  const falhou = resultados.some(r => r.status >= 500);
+  return {
+    status: falhou ? 500 : 200,
+    body: {
+      ...baseBody,
+      ...(falhou ? { ok: false, error: resultados.find(r => r.status >= 500).body.error } : {}),
+      email_sent: resultados.every(r => r.body.email_sent),
+      entregas: resultados.map(r => ({ label: r.label, email_sent: !!r.body.email_sent, ...(r.body.mark_failed ? { mark_failed: true } : {}) }))
+    }
+  };
+}
+
 export async function processarCompra({ session, customerEmail, brevoApiKey, brevoBuyersListId, eventType }) {
   const R = (status, body) => ({ status, body });
   // 3. Identificar produto
-  const product = getProductInfo(session.amount_total);
+  const itens = produtosDaCompra(session.amount_total);
+  const product = itens[0] || null;
+  const nomeCompra = itens.map(i => i.name).join(' + ');
   if (!product) {
     console.error(`[Stripe Webhook] Unknown amount_total: ${session.amount_total} for ${customerEmail}`);
     return R(200, { ok: false, error: 'unknown_product', amount: session.amount_total });
@@ -208,7 +239,7 @@ export async function processarCompra({ session, customerEmail, brevoApiKey, bre
   const amountPaid = (session.amount_total / 100).toFixed(2);
   const currency = session.currency?.toUpperCase() || 'EUR';
 
-  console.log(`[Stripe Webhook] Mapped: ${product.name} (${product.attr}=true, ${product.tag}) for €${amountPaid} — event=${eventType || 'upsell'}, payment_status=${session.payment_status}`);
+  console.log(`[Stripe Webhook] Mapped: ${nomeCompra} (${itens.map(i => i.attr + '=true').join(', ')}, ${product.tag}) for €${amountPaid} — event=${eventType || 'upsell'}, payment_status=${session.payment_status}`);
 
   // 3b. Deduplicação do e-mail de entrega.
   // Lê a marca ANTES de gravar o contacto, porque a gravação é idempotente e
@@ -216,7 +247,7 @@ export async function processarCompra({ session, customerEmail, brevoApiKey, bre
   // Estrito: so 'paid'. Um 'unpaid' (pagamento atrasado ainda por confirmar) ou
   // um 'no_payment_required' (cupao de 100%) grava o contacto como sempre, mas
   // nao dispara a entrega. A entrega vem depois, no async_payment_succeeded.
-  const entrega = DELIVERY[session.amount_total] || null;
+  const entregas = itens.map(i => DELIVERY[i.valor]).filter(Boolean);
   const pago = session.payment_status === 'paid';
 
   // Purchase para a Meta pelo servidor, so' com pagamento confirmado e so' para
@@ -229,45 +260,51 @@ export async function processarCompra({ session, customerEmail, brevoApiKey, bre
       email: customerEmail,
       valor: amountPaid,
       moeda: currency,
-      produto: product.name,
+      produto: nomeCompra,
       cliente: session.customer_details,
       tecnico: { ip: session.metadata && session.metadata.ge_ip, ua: session.metadata && session.metadata.ge_ua }
     });
     console.log(`[Meta CAPI] session ${session.id}: ${JSON.stringify(capi)}`);
   }
 
-  if (entrega && !pago) {
-    console.log(`[${entrega.label}] session ${session.id} payment_status=${session.payment_status} — contact saved, delivery deferred`);
+  for (const entrega of entregas) {
+    if (!pago) {
+      console.log(`[${entrega.label}] session ${session.id} payment_status=${session.payment_status} — contact saved, delivery deferred`);
+    } else if (entrega.templateId === 0) {
+      // Modelo por criar: grava o contacto e sai em 200, sem enviar e sem erro.
+      console.log(`[${entrega.label}] session ${session.id} templateId=0 — modelo ainda não criado no Brevo, nada enviado`);
+    }
   }
 
-  // Modelo por criar: grava o contacto e sai em 200, sem enviar e sem erro.
-  if (entrega && pago && entrega.templateId === 0) {
-    console.log(`[${entrega.label}] session ${session.id} templateId=0 — modelo ainda não criado no Brevo, nada enviado`);
-  }
-
-  const vaiEntregar = !!entrega && pago && entrega.templateId !== 0;
-
-  if (vaiEntregar) {
+  const aEntregar = pago ? entregas.filter(e => e.templateId !== 0) : [];
+  const pendentes = [];
+  for (const entrega of aEntregar) {
     const mailSent = await readMailSent(customerEmail, session.id, brevoApiKey, entrega);
     if (mailSent && mailSent === session.id) {
       console.log(`[${entrega.label}] session ${session.id} duplicate event — already delivered, skipping`);
-      return R(200, {
-        ok: true,
-        skipped: 'duplicate',
-        email: customerEmail,
-        session: session.id
-      });
+    } else {
+      pendentes.push(entrega);
     }
   }
+  if (aEntregar.length && !pendentes.length) {
+    return R(200, {
+      ok: true,
+      skipped: 'duplicate',
+      email: customerEmail,
+      session: session.id
+    });
+  }
+  const vaiEntregar = pendentes.length > 0;
 
   // 4. Build attributes payload — aditivo: só seta o boolean do produto comprado
   // Brevo PUT/POST com partial attributes não destrói outros, apenas atualiza os enviados.
   const today = new Date().toISOString().split('T')[0];
   const attributes = {
-    [product.attr]: true,
+    ...Object.fromEntries(itens.map(i => [i.attr, true])),
     BUYER_STATUS: product.tag,            // backward compat com legacy automations
     LAST_PURCHASE_DATE: today,
     LAST_PURCHASE_AMOUNT: parseFloat(amountPaid),
+    // So' o principal: e' o nome que as automacoes do Brevo conhecem.
     LAST_PRODUCT_NAME: product.name
   };
 
@@ -324,7 +361,7 @@ export async function processarCompra({ session, customerEmail, brevoApiKey, bre
       }
 
       // 6. Contacto gravado. Só agora o e-mail de entrega.
-      const createdOutcome = await deliverProduct(customerEmail, session.id, brevoApiKey, createdBody, entrega);
+      const createdOutcome = await deliverAll(customerEmail, session.id, brevoApiKey, createdBody, pendentes);
       return createdOutcome;
     }
 
@@ -350,7 +387,7 @@ export async function processarCompra({ session, customerEmail, brevoApiKey, bre
     }
 
     // 6. Contacto gravado. Só agora o e-mail de entrega.
-    const updatedOutcome = await deliverProduct(customerEmail, session.id, brevoApiKey, updatedBody, entrega);
+    const updatedOutcome = await deliverAll(customerEmail, session.id, brevoApiKey, updatedBody, pendentes);
     return updatedOutcome;
 
   } catch (error) {

@@ -55,6 +55,29 @@ existe = false; contacto = null; chamadas = [];
 r = await processarCompra({ ...base, customerEmail: 'novo@x.nl', session: sessao('cs_live_3', 900) });
 assert.equal(r.body.action, 'created'); assert.equal(contacto.HAS_CK, true);
 
+// order bump: EUR 26 = Noodprotocol + Crisiskaart. Os dois marcados, as duas
+// entregas, uma so' Purchase com o valor total.
+existe = true; contacto = {}; chamadas = [];
+r = await processarCompra({ ...base, customerEmail: 'bump@x.nl', session: sessao('cs_live_5', 2600) });
+assert.equal(r.status, 200); assert.equal(r.body.email_sent, true);
+assert.equal(contacto.HAS_NP, true); assert.equal(contacto.HAS_CK, true);
+assert.equal(contacto.LAST_PRODUCT_NAME, 'Noodprotocol'); assert.equal(contacto.LAST_PURCHASE_AMOUNT, 26);
+assert.equal(contacto.NP_MAIL_SENT, 'cs_live_5'); assert.equal(contacto.CK_MAIL_SENT, 'cs_live_5');
+assert.deepEqual(chamadas.filter(c => c.url.includes('/smtp/email')).map(c => c.corpo.templateId), [62, 64]);
+const capi = chamadas.filter(c => c.url.includes('graph.facebook.com'));
+assert.equal(capi.length, 1);
+assert.equal(capi[0].corpo.data[0].custom_data.value, 26);
+
+// repeticao do mesmo evento: nenhuma das duas sai outra vez
+chamadas = [];
+r = await processarCompra({ ...base, customerEmail: 'bump@x.nl', session: sessao('cs_live_5', 2600) });
+assert.equal(r.body.skipped, 'duplicate');
+
+// so' uma das duas tinha saido: a repeticao envia so' a que falta
+delete contacto.CK_MAIL_SENT; chamadas = [];
+r = await processarCompra({ ...base, customerEmail: 'bump@x.nl', session: sessao('cs_live_5', 2600) });
+assert.deepEqual(chamadas.filter(c => c.url.includes('/smtp/email')).map(c => c.corpo.templateId), [64]);
+
 // valor desconhecido
 r = await processarCompra({ ...base, session: sessao('cs_live_4', 1234) });
 assert.equal(r.body.error, 'unknown_product');

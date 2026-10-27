@@ -1,4 +1,4 @@
-// GET /api/sessao?sid=cs_live_...  ->  { status, clientSecret? }
+// GET /api/sessao?sid=cs_live_...  ->  { status, valor?, clientSecret? }
 // Usado no retorno do checkout embutido (iDEAL/Bancontact): a Stripe devolve a
 // pessoa ao site tambem quando ela cancela no banco, por isso o site pergunta
 // aqui se a sessao ficou paga antes de mostrar "Betaling gelukt".
@@ -20,6 +20,9 @@ export default async function handler(req, res) {
     return res.status(200).json({
       ok: true,
       status: s.status,
+      // Valor pago (centimos), para o Purchase do navegador levar o mesmo valor
+      // que o webhook manda a Meta quando ha' order bump (EUR 17 ou EUR 26).
+      ...(s.status === 'complete' && Number.isInteger(s.amount_total) ? { valor: s.amount_total } : {}),
       ...(s.status === 'open' && s.client_secret ? { clientSecret: s.client_secret } : {})
     });
   } catch (e) {

@@ -27,6 +27,9 @@ function novaStripe() {
       cs_live_antiga: { id: 'cs_live_antiga', livemode: true, payment_status: 'paid', created: agora() - 60, amount_total: 1700,
         metadata: {}, customer: null, customer_details: { email: 'e@f.nl' },
         payment_intent: { payment_method: 'pm_x', latest_charge: { payment_method_details: { ideal: {} } } } },
+      cs_live_bump: { id: 'cs_live_bump', livemode: true, payment_status: 'paid', created: agora() - 60, amount_total: 2600,
+        metadata: {}, customer: 'cus_4', customer_details: { email: 'i@j.nl' }, client_reference_id: null,
+        payment_intent: { payment_method: 'pm_card', latest_charge: { payment_method_details: { card: {} } } } },
       cs_live_velha: { id: 'cs_live_velha', livemode: true, payment_status: 'paid', created: agora() - 5 * 3600, amount_total: 1700,
         metadata: { ge_produto: 'np' }, customer: 'cus_3', customer_details: { email: 'g@h.nl' },
         payment_intent: { payment_method: 'pm_card', latest_charge: { payment_method_details: { card: {} } } } }
@@ -42,6 +45,7 @@ function novaStripe() {
       this.checkout = { sessions: {
         create: async (p) => {
           if (estado.recusarBanco && p.payment_method_options.ideal) throw new Error('sepa_debit must be activated');
+          if (estado.recusarBump && p.optional_items) throw new Error('optional_items not supported');
           estado.criadas.push(p); return { id: 'cs_live_nova', client_secret: 'seg_1' };
         },
         retrieve: async (id) => { const s = estado.sessoes[id]; if (!s) throw new Error('nao existe'); return s; }
@@ -73,6 +77,14 @@ assert.equal(p.metadata.ge_produto, 'np'); assert.equal(p.metadata.ge_ad, 'a3x')
 assert.equal(p.return_url, 'https://gewoon-even.nl/?sid={CHECKOUT_SESSION_ID}&ck=1#betaald-np-17ypqz');
 assert.equal(p.payment_method_options.ideal.setup_future_usage, 'off_session');
 assert.ok(!p.payment_method_types.includes('sepa_debit'), 'SEPA nunca aparece como opcao');
+// order bump: a Crisiskaart como item opcional, so' no Noodprotocol
+assert.deepEqual(p.optional_items, [{ price: 'price_900', quantity: 1 }]);
+
+// a Stripe recusa o bump: o checkout segue sem ele
+estado.recusarBump = true; r = resp();
+await checkout.default({ method: 'POST', body: { produto: 'np' } }, r);
+assert.equal(r.s, 200); assert.ok(!('optional_items' in estado.criadas.at(-1)));
+estado.recusarBump = false;
 
 // sem SEPA na conta: tenta de novo guardando so' o cartao
 estado.recusarBanco = true; r = resp();
@@ -81,6 +93,7 @@ assert.equal(r.s, 200);
 p = estado.criadas.at(-1);
 assert.ok(!p.payment_method_options.ideal); assert.ok(p.payment_method_options.card);
 assert.ok(!('customer_email' in p)); assert.ok(!('client_reference_id' in p));
+assert.ok(!('optional_items' in p), 'o 7 Dagen nao tem bump');
 estado.recusarBanco = false;
 
 r = resp(); await checkout.default({ method: 'POST', body: { produto: 'xx' } }, r); assert.equal(r.s, 400);
@@ -94,6 +107,10 @@ p = estado.criadas.at(-1); assert.ok(!('ge_ip' in p.metadata)); assert.ok(!('ge_
 
 // --- /api/upsell ------------------------------------------------------------
 const up = async (body) => { const x = resp(); await upsell.default({ method: 'POST', body }, x); return x; };
+
+// Payment Link com bump (EUR 26, sem metadata): a cadeia continua a do Noodprotocol
+compras = []; r = await up({ sid: 'cs_live_bump', produto: 'p7' });
+assert.equal(r.j.ok, true);
 
 // iDEAL -> SEPA gerado, entrega ja' (processing)
 compras = []; r = await up({ sid: 'cs_live_np', produto: 'p7' });
@@ -138,9 +155,10 @@ console.log('checkout + upsell: ok');
 // --- /api/sessao ------------------------------------------------------------
 const sessaoApi = await import('../../api/sessao.js');
 sessaoApi.deps.Stripe = class { constructor() { this.checkout = { sessions: { retrieve: async (id) =>
-  id === 'cs_live_aberta' ? { status: 'open', client_secret: 'seg_aberta' } : { status: 'complete', client_secret: 'nao_expor' } } }; } };
+  id === 'cs_live_aberta' ? { status: 'open', client_secret: 'seg_aberta' } : { status: 'complete', client_secret: 'nao_expor', amount_total: 2600 } } }; } };
 const sv = async (sid) => { const x = { s: 0, j: null, h: {}, setHeader(k, v) { this.h[k] = v; }, status(c) { this.s = c; return this; }, json(o) { this.j = o; return this; } }; await sessaoApi.default({ query: { sid } }, x); return x; };
 let sr = await sv('cs_live_aberta'); assert.equal(sr.j.status, 'open'); assert.equal(sr.j.clientSecret, 'seg_aberta');
-sr = await sv('cs_live_paga'); assert.equal(sr.j.status, 'complete'); assert.ok(!('clientSecret' in sr.j));
+sr = await sv('cs_live_paga'); assert.equal(sr.j.status, 'complete'); assert.ok(!('clientSecret' in sr.j)); assert.equal(sr.j.valor, 2600);
+sr = await sv('cs_live_aberta'); assert.ok(!('valor' in sr.j));
 sr = await sv('pi_x'); assert.equal(sr.s, 400);
 console.log('sessao: ok');

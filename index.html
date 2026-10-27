@@ -11493,13 +11493,32 @@ function registarCompra(produto, valor) {
     return true;
 }
 
+function registarCompraNoodprotocol() {
+    const sid = window.geStripeSid;
+    if (!sid || !/^cs_/.test(sid)) return registarCompra('Noodprotocol', 17.00);
+    let feito = false;
+    const fim = (valor) => {
+        if (feito) return; feito = true;
+        if (valor === 2600) registarCompra('Noodprotocol + Crisiskaart', 26.00);
+        else registarCompra('Noodprotocol', 17.00);
+    };
+    setTimeout(() => fim(null), 2500);
+    fetch('/api/sessao?sid=' + encodeURIComponent(sid))
+        .then(r => r.json())
+        .then(j => fim(j && j.valor))
+        .catch(() => fim(null));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
     // Retornos da Stripe depois do pagamento (URLs que nao aparecem em nenhum
     // e-mail). Cada um faz o que o retorno antigo / a entrega faz, mais o Purchase.
     if (hash === '#betaald-np-17ypqz') {
         // EUR 17: como #upsell-p7-6h2mk9 (oferta do 7 Dagen, ge_koper no <head>)
-        registarCompra('Noodprotocol', 17.00);
+        // Com o order bump a compra pode ser de EUR 26 (+ Crisiskaart): o valor
+        // vem da Stripe (/api/sessao), para o Purchase do navegador e o da
+        // Conversions API dizerem o mesmo. Sem resposta em 2,5 s, conta EUR 17.
+        registarCompraNoodprotocol();
         showPage('page-upsell');
     } else if (hash === '#betaald-p7-di0vtq') {
         // EUR 37: como #upsell2-slaap-7n4kx9 (oferta do Slaapprotocol, abertura A1)

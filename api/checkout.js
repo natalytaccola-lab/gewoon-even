@@ -12,12 +12,12 @@ import Stripe from 'stripe';
 
 // Trocavel nos testes (scripts/testes/checkout.test.mjs).
 export const deps = { Stripe };
-import { PRODUTOS, BASE_SITE, precoDe, emailValido, refValido } from './_produtos.js';
+import { PRODUTOS, BUMP, BASE_SITE, precoDe, emailValido, refValido } from './_produtos.js';
 import { tecnicoDoPedido } from './_meta-capi.js';
 
 const METODOS = ['card', 'ideal', 'bancontact', 'paypal', 'link'];
 
-function parametros({ chave, preco, email, ref, ad, guardarBanco, tecnico }) {
+function parametros({ chave, preco, precoBump, email, ref, ad, guardarBanco, tecnico }) {
   const p = PRODUTOS[chave];
   const guardar = { setup_future_usage: 'off_session' };
   return {
@@ -25,6 +25,8 @@ function parametros({ chave, preco, email, ref, ad, guardarBanco, tecnico }) {
     mode: 'payment',
     locale: 'nl',
     line_items: [{ price: preco, quantity: 1 }],
+    // Order bump: a caixinha "toevoegen" da Stripe, desmarcada por defeito.
+    ...(precoBump ? { optional_items: [{ price: precoBump, quantity: 1 }] } : {}),
     payment_method_types: METODOS,
     payment_method_options: guardarBanco
       ? { card: guardar, ideal: guardar, bancontact: guardar }
@@ -63,13 +65,27 @@ export default async function handler(req, res) {
   const stripe = new deps.Stripe(segredo);
   try {
     const preco = await precoDe(stripe, produto);
-    let sessao;
-    try {
-      sessao = await stripe.checkout.sessions.create(parametros({ chave: produto, preco, email, ref, ad: adLimpo, guardarBanco: true, tecnico }));
-    } catch (e) {
-      console.warn('[checkout] sem guardar iDEAL/Bancontact:', e.message);
-      sessao = await stripe.checkout.sessions.create(parametros({ chave: produto, preco, email, ref, ad: adLimpo, guardarBanco: false, tecnico }));
+    // Sem o preco do bump, o checkout segue sem ele: nunca bloqueia a venda principal.
+    let precoBump = null;
+    if (BUMP[produto]) {
+      try { precoBump = await precoDe(stripe, BUMP[produto]); }
+      catch (e) { console.warn('[checkout] bump sem preco:', e.message); }
     }
+    // Tentativas por ordem: tudo; sem guardar iDEAL/Bancontact; e, se o bump
+    // for o problema, sem ele. A venda principal nunca fica presa ao bump.
+    const tentativas = [{ guardarBanco: true, precoBump }, { guardarBanco: false, precoBump }];
+    if (precoBump) tentativas.push({ guardarBanco: false, precoBump: null });
+    let sessao, erro;
+    for (const t of tentativas) {
+      try {
+        sessao = await stripe.checkout.sessions.create(parametros({ chave: produto, preco, email, ref, ad: adLimpo, tecnico, ...t }));
+        break;
+      } catch (e) {
+        erro = e;
+        console.warn('[checkout] tentativa falhou', JSON.stringify({ guardarBanco: t.guardarBanco, bump: !!t.precoBump }), e.message);
+      }
+    }
+    if (!sessao) throw erro;
     return res.status(200).json({ ok: true, clientSecret: sessao.client_secret, id: sessao.id, retorno: PRODUTOS[produto].retorno });
   } catch (e) {
     console.error('[checkout] falhou', produto, e.type || '', e.code || '', e.message, e.detail && (e.detail.message || e.detail.code || String(e.detail)));
