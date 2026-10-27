@@ -140,6 +140,8 @@
             }
             return ref;
         }
+        // O Lead do quiz tambem leva o consentimento para o servidor (handleEmailSubmit).
+        window.geRefConsentimento = function () { return escolha() === 'aceite' ? refConsentimento() : ''; };
         document.addEventListener('click', function (e) {
             var a = e.target && e.target.closest && e.target.closest('a[href*="buy.stripe.com"]');
             if (!a || escolha() !== 'aceite') return;
@@ -11147,16 +11149,21 @@ function handleEmailSubmit(event) {
 
     // Fire Lead event with Advanced Matching (em parameter)
     // Re-init Pixel with em so AM is sent on the next track call (ud[em] in URL).
+    // O mesmo id vai no pixel e no Lead do servidor (api/brevo-add-contact.js),
+    // para a Meta contar uma vez so'.
+    const geLeadId = 'lead-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
     if (typeof fbq !== 'undefined') {
         fbq('init', window.GE_PIXEL, {em: email});
         fbq('track', 'Lead', {
             content_name: isFunil37 ? 'Quiz 37 Completed' : 'Quiz Completed',
             content_category: 'Email Capture'
-        });
+        }, { eventID: geLeadId });
     }
 
     // Brevo integration — fire-and-forget, não bloqueia navegação
     const geCorpo = isFunil37 ? { email: email, funil: '37' } : { email: email };
+    geCorpo.lead_id = geLeadId;
+    try { const geRef = window.geRefConsentimento ? window.geRefConsentimento() : ''; if (geRef) geCorpo.ref = geRef; } catch (e) {}
     // Origem do anuncio (guardada na entrada, ver o script "Origem do anuncio").
     try {
         const geAd = sessionStorage.getItem('ge_ad');

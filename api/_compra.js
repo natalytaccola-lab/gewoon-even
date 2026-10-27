@@ -229,7 +229,9 @@ export async function processarCompra({ session, customerEmail, brevoApiKey, bre
       email: customerEmail,
       valor: amountPaid,
       moeda: currency,
-      produto: product.name
+      produto: product.name,
+      cliente: session.customer_details,
+      tecnico: { ip: session.metadata && session.metadata.ge_ip, ua: session.metadata && session.metadata.ge_ua }
     });
     console.log(`[Meta CAPI] session ${session.id}: ${JSON.stringify(capi)}`);
   }

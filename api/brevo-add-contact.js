@@ -1,6 +1,8 @@
 // Serverless function que adiciona um contato no Brevo via API
 // Modo defensivo: retorna 200 OK mesmo em falha, pra não quebrar UX
 
+import { enviarLeadMeta, tecnicoDoPedido } from './_meta-capi.js';
+
 let atributosProntos = false;
 
 export default async function handler(req, res) {
@@ -8,7 +10,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, funil, ad, campanha } = req.body || {};
+  const { email, funil, ad, campanha, lead_id, ref } = req.body || {};
   const limpo = (v, n) => String(v || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, n);
   const adCode = limpo(ad, 40);
   const adCampanha = limpo(campanha, 60);
@@ -26,9 +28,23 @@ export default async function handler(req, res) {
   const listId = isFunil37 ? process.env.BREVO_LIST_ID_37 : process.env.BREVO_LIST_ID;
   const source = isFunil37 ? 'quiz_37' : 'quiz_completed';
 
+  // Lead tambem pelo servidor (so' com consentimento, ver _meta-capi.js), em
+  // paralelo com o Brevo. Espera-se por ele antes de responder porque a
+  // funcao serverless termina na resposta.
+  const leadMeta = enviarLeadMeta({
+    eventId: lead_id, email, ref,
+    conteudo: isFunil37 ? 'Quiz 37 Completed' : 'Quiz Completed',
+    tecnico: tecnicoDoPedido(req)
+  }).catch(e => ({ enviado: false, motivo: String(e && e.message || e) }));
+  const fim = async (body) => {
+    const capi = await leadMeta;
+    if (capi && capi.motivo !== 'sem_consentimento' && capi.motivo !== 'sem_token') console.log('[Meta CAPI] lead:', JSON.stringify(capi));
+    return res.status(200).json(body);
+  };
+
   if (!apiKey || !listId) {
     console.log('[Brevo] API key or List ID not configured, skipping', isFunil37 ? '(funil 37)' : '');
-    return res.status(200).json({ ok: true, noop: true });
+    return fim({ ok: true, noop: true });
   }
 
   // Atributos da origem do anuncio: o Brevo descarta em silencio atributos que
@@ -67,15 +83,15 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const errorBody = await response.text();
       console.error('[Brevo] API error:', response.status, errorBody);
-      return res.status(200).json({ ok: false, error: 'brevo_api_error' });
+      return fim({ ok: false, error: 'brevo_api_error' });
     }
 
     // 201 = contacto novo (traz o id); 204 = contacto que ja' existia, atualizado, sem corpo.
     const data = response.status === 204 ? null : await response.json().catch(() => null);
-    return res.status(200).json({ ok: true, contactId: data && data.id, atualizado: response.status === 204 });
+    return fim({ ok: true, contactId: data && data.id, atualizado: response.status === 204 });
 
   } catch (error) {
     console.error('[Brevo] Network error:', error);
-    return res.status(200).json({ ok: false, error: 'network_error' });
+    return fim({ ok: false, error: 'network_error' });
   }
 }

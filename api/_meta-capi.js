@@ -1,4 +1,5 @@
-// Purchase pela Conversions API da Meta, enviado pelo webhook da Stripe.
+// Purchase (webhook da Stripe e upsell) e Lead (e-mail do quiz) pela
+// Conversions API da Meta.
 //
 // Porque: o pixel no navegador perde compras (iPhone, bloqueadores, quem fecha
 // a aba antes do retorno). O servidor ve todas. A Meta junta os dois eventos
@@ -36,32 +37,64 @@ export function lerConsentimento(ref) {
 
 const sha = v => crypto.createHash('sha256').update(String(v).trim().toLowerCase()).digest('hex');
 
-export function montarEvento({ sessionId, email, valor, moeda, produto, consentimento, agora = Date.now() }) {
-  const user_data = { em: [sha(email)] };
+// Dados extra para a Meta ligar o evento a pessoa (Event Match Quality).
+// Tudo o que identifica vai em sha256, como a Meta pede; IP e navegador vao
+// em claro (sao dados tecnicos que a Meta nao aceita em hash).
+//   cliente: customer_details da Stripe (name, phone, address.country/postal_code)
+//   tecnico: { ip, ua } capturados quando o checkout foi criado
+export function montarUserData({ email, consentimento, cliente, tecnico }) {
+  const user_data = { em: [sha(email)], external_id: [sha(email)] };
   if (consentimento.fbp) user_data.fbp = consentimento.fbp;
   if (consentimento.fbc) user_data.fbc = consentimento.fbc;
+  const c = cliente || {};
+  const partes = String(c.name || '').trim().split(/\s+/).filter(Boolean);
+  if (partes.length) user_data.fn = [sha(partes[0])];
+  if (partes.length > 1) user_data.ln = [sha(partes[partes.length - 1])];
+  const tel = String(c.phone || '').replace(/[^0-9]/g, '');
+  if (tel.length >= 8) user_data.ph = [sha(tel)];
+  const pais = String((c.address && c.address.country) || '').trim();
+  if (/^[A-Za-z]{2}$/.test(pais)) user_data.country = [sha(pais)];
+  const cp = String((c.address && c.address.postal_code) || '').replace(/\s+/g, '');
+  if (cp) user_data.zp = [sha(cp)];
+  const t = tecnico || {};
+  if (t.ip) user_data.client_ip_address = String(t.ip).slice(0, 64);
+  if (t.ua) user_data.client_user_agent = String(t.ua).slice(0, 400);
+  return user_data;
+}
+
+export function montarEvento({ sessionId, email, valor, moeda, produto, consentimento, cliente, tecnico, agora = Date.now() }) {
   return {
     event_name: 'Purchase',
     event_time: Math.floor(agora / 1000),
     event_id: sessionId,
     action_source: 'website',
     event_source_url: 'https://gewoon-even.nl/',
-    user_data,
-    custom_data: { value: Number(valor), currency: moeda, content_name: produto }
+    user_data: montarUserData({ email, consentimento, cliente, tecnico }),
+    custom_data: { value: Number(valor), currency: moeda, content_name: produto, order_id: sessionId }
   };
 }
 
-// Nunca deixa o webhook falhar: devolve um resumo para o log.
-export async function enviarCompraMeta(dados) {
+// Lead do quiz pelo servidor. O event_id e' o mesmo que o pixel usa no
+// fbq('track', 'Lead', ..., { eventID }), para a Meta contar uma vez so'.
+export function montarLead({ eventId, email, conteudo, consentimento, tecnico, agora = Date.now() }) {
+  return {
+    event_name: 'Lead',
+    event_time: Math.floor(agora / 1000),
+    event_id: eventId,
+    action_source: 'website',
+    event_source_url: 'https://gewoon-even.nl/',
+    user_data: montarUserData({ email, consentimento, tecnico }),
+    custom_data: { content_name: conteudo, content_category: 'Email Capture' }
+  };
+}
+
+async function enviar(evento) {
   const token = process.env.META_CAPI_TOKEN;
-  if (!token) return { enviado: false, motivo: 'sem_token' };
-  const consentimento = lerConsentimento(dados.clientReferenceId);
-  if (!consentimento) return { enviado: false, motivo: 'sem_consentimento' };
   try {
     const r = await fetch(`${GRAPH}/${PIXEL}/events?access_token=${encodeURIComponent(token)}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ data: [montarEvento({ ...dados, consentimento })] }),
+      body: JSON.stringify({ data: [evento] }),
       signal: AbortSignal.timeout(4000)
     });
     const corpo = await r.text();
@@ -69,4 +102,28 @@ export async function enviarCompraMeta(dados) {
   } catch (e) {
     return { enviado: false, motivo: String(e.message || e).slice(0, 200) };
   }
+}
+
+// IP e navegador de um pedido do site (Vercel poe o IP real em x-forwarded-for).
+export function tecnicoDoPedido(req) {
+  const h = (req && req.headers) || {};
+  const ip = String(h['x-forwarded-for'] || h['x-real-ip'] || '').split(',')[0].trim();
+  const ua = String(h['user-agent'] || '');
+  return { ip: ip || null, ua: ua || null };
+}
+
+// Nunca deixa o webhook falhar: devolve um resumo para o log.
+export async function enviarCompraMeta(dados) {
+  if (!process.env.META_CAPI_TOKEN) return { enviado: false, motivo: 'sem_token' };
+  const consentimento = lerConsentimento(dados.clientReferenceId);
+  if (!consentimento) return { enviado: false, motivo: 'sem_consentimento' };
+  return enviar(montarEvento({ ...dados, consentimento }));
+}
+
+export async function enviarLeadMeta(dados) {
+  if (!process.env.META_CAPI_TOKEN) return { enviado: false, motivo: 'sem_token' };
+  const consentimento = lerConsentimento(dados.ref);
+  if (!consentimento) return { enviado: false, motivo: 'sem_consentimento' };
+  if (typeof dados.eventId !== 'string' || !/^lead-[A-Za-z0-9-]{6,60}$/.test(dados.eventId)) return { enviado: false, motivo: 'sem_event_id' };
+  return enviar(montarLead({ ...dados, consentimento }));
 }

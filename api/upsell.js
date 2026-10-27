@@ -99,7 +99,7 @@ export default async function handler(req, res) {
 
     // SEPA fica em 'processing' alguns dias; entrega-se ja' (produto digital).
     const resultado = await deps.processarCompra({
-      session: { id: pi.id, amount_total: p.valor, currency: 'eur', payment_status: 'paid', client_reference_id: sessao.client_reference_id },
+      session: { id: pi.id, amount_total: p.valor, currency: 'eur', payment_status: 'paid', client_reference_id: sessao.client_reference_id, customer_details: sessao.customer_details, metadata: { ge_ip: sessao.metadata && sessao.metadata.ge_ip, ge_ua: sessao.metadata && sessao.metadata.ge_ua } },
       customerEmail: email,
       brevoApiKey: process.env.BREVO_API_KEY,
       brevoBuyersListId: process.env.BREVO_BUYERS_LIST_ID

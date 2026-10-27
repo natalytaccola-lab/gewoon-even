@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+process.env.BREVO_API_KEY='b'; process.env.BREVO_LIST_ID='3'; process.env.META_CAPI_TOKEN='tok';
+const calls=[];
+globalThis.fetch=async(u,o={})=>{calls.push({u:String(u),b:o.body?JSON.parse(o.body):null}); return {ok:true,status:201,json:async()=>({id:1}),text:async()=>'{"events_received":1}'};};
+const h=(await import('../../api/brevo-add-contact.js')).default;
+const res=()=>({s:0,j:null,status(c){this.s=c;return this;},json(o){this.j=o;return this;}});
+let r=res(); await h({method:'POST',headers:{'x-forwarded-for':'1.2.3.4','user-agent':'UA'},body:{email:'a@b.nl',lead_id:'lead-abc123-xyz',ref:'ge1'}},r);
+assert.equal(r.j.ok,true);
+const meta=calls.filter(c=>c.u.includes('graph.facebook.com'));
+assert.equal(meta.length,1); assert.equal(meta[0].b.data[0].event_id,'lead-abc123-xyz'); assert.equal(meta[0].b.data[0].user_data.client_ip_address,'1.2.3.4');
+calls.length=0; r=res(); await h({method:'POST',headers:{},body:{email:'a@b.nl',lead_id:'lead-abc123-xyz'}},r);
+assert.equal(calls.filter(c=>c.u.includes('graph.facebook.com')).length,0); assert.equal(r.j.ok,true);
+console.log('lead: ok');

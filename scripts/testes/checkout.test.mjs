@@ -85,6 +85,13 @@ estado.recusarBanco = false;
 
 r = resp(); await checkout.default({ method: 'POST', body: { produto: 'xx' } }, r); assert.equal(r.s, 400);
 
+// IP e navegador so' com consentimento (ref ge1...)
+const cab = { 'x-forwarded-for': '81.2.3.4, 10.0.0.1', 'user-agent': 'Mozilla/5.0' };
+r = resp(); await checkout.default({ method: 'POST', headers: cab, body: { produto: 'np', ref: 'ge1' } }, r);
+p = estado.criadas.at(-1); assert.equal(p.metadata.ge_ip, '81.2.3.4'); assert.equal(p.metadata.ge_ua, 'Mozilla/5.0');
+r = resp(); await checkout.default({ method: 'POST', headers: cab, body: { produto: 'np' } }, r);
+p = estado.criadas.at(-1); assert.ok(!('ge_ip' in p.metadata)); assert.ok(!('ge_ua' in p.metadata));
+
 // --- /api/upsell ------------------------------------------------------------
 const up = async (body) => { const x = resp(); await upsell.default({ method: 'POST', body }, x); return x; };
 

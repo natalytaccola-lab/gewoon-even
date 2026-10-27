@@ -13,10 +13,11 @@ import Stripe from 'stripe';
 // Trocavel nos testes (scripts/testes/checkout.test.mjs).
 export const deps = { Stripe };
 import { PRODUTOS, BASE_SITE, precoDe, emailValido, refValido } from './_produtos.js';
+import { tecnicoDoPedido } from './_meta-capi.js';
 
 const METODOS = ['card', 'ideal', 'bancontact', 'paypal', 'link'];
 
-function parametros({ chave, preco, email, ref, ad, guardarBanco }) {
+function parametros({ chave, preco, email, ref, ad, guardarBanco, tecnico }) {
   const p = PRODUTOS[chave];
   const guardar = { setup_future_usage: 'off_session' };
   return {
@@ -35,7 +36,14 @@ function parametros({ chave, preco, email, ref, ad, guardarBanco }) {
     // a este endereco tambem quando a pessoa cancela no banco).
     return_url: `${BASE_SITE}/?sid={CHECKOUT_SESSION_ID}&ck=1${p.retorno}`,
     redirect_on_completion: 'if_required',
-    metadata: { ge_produto: chave, ...(ad ? { ge_ad: ad } : {}) },
+    // IP e navegador so' de quem aceitou os cookies (ref "ge1..."): vao para a
+    // Meta junto com a compra, para ela ligar a compra ao anuncio.
+    metadata: {
+      ge_produto: chave,
+      ...(ad ? { ge_ad: ad } : {}),
+      ...(tecnico && tecnico.ip ? { ge_ip: tecnico.ip.slice(0, 64) } : {}),
+      ...(tecnico && tecnico.ua ? { ge_ua: tecnico.ua.slice(0, 400) } : {})
+    },
     payment_intent_data: { metadata: { ge_produto: chave } }
   };
 }
@@ -49,15 +57,18 @@ export default async function handler(req, res) {
   if (!Object.prototype.hasOwnProperty.call(PRODUTOS, produto)) return res.status(400).json({ ok: false, erro: 'produto' });
   const adLimpo = String(ad || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40);
 
+  const consentiu = refValido(ref) && /^ge1(_|$)/.test(ref);
+  const tecnico = consentiu ? tecnicoDoPedido(req) : null;
+
   const stripe = new deps.Stripe(segredo);
   try {
     const preco = await precoDe(stripe, produto);
     let sessao;
     try {
-      sessao = await stripe.checkout.sessions.create(parametros({ chave: produto, preco, email, ref, ad: adLimpo, guardarBanco: true }));
+      sessao = await stripe.checkout.sessions.create(parametros({ chave: produto, preco, email, ref, ad: adLimpo, guardarBanco: true, tecnico }));
     } catch (e) {
       console.warn('[checkout] sem guardar iDEAL/Bancontact:', e.message);
-      sessao = await stripe.checkout.sessions.create(parametros({ chave: produto, preco, email, ref, ad: adLimpo, guardarBanco: false }));
+      sessao = await stripe.checkout.sessions.create(parametros({ chave: produto, preco, email, ref, ad: adLimpo, guardarBanco: false, tecnico }));
     }
     return res.status(200).json({ ok: true, clientSecret: sessao.client_secret, id: sessao.id, retorno: PRODUTOS[produto].retorno });
   } catch (e) {
