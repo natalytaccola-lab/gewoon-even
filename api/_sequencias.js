@@ -54,9 +54,9 @@ export const SEQUENCIAS = [
     exige: ['HAS_P7D'],
     paraSe: ['HAS_SLAAP'],
     passos: [
-      { marca: 'F3_1_SENT', modelo: 0, dia: 4, nome: 'Funil 3 · 1 · Wat Dag 5 je laat zien' },
-      { marca: 'F3_2_SENT', modelo: 0, dia: 7, intervaloMin: 3, nome: 'Funil 3 · 2 · 03:12' },
-      { marca: 'F3_3_SENT', modelo: 0, dia: 10, intervaloMin: 3, nome: 'Funil 3 · 3 · 168 nachten' }
+      { marca: 'F3_1_SENT', modelo: 88, dia: 4, nome: 'Funil 3 · 1 · Wat Dag 5 je laat zien' },
+      { marca: 'F3_2_SENT', modelo: 89, dia: 7, intervaloMin: 3, nome: 'Funil 3 · 2 · 03:12' },
+      { marca: 'F3_3_SENT', modelo: 90, dia: 10, intervaloMin: 3, nome: 'Funil 3 · 3 · 168 nachten' }
     ]
   }
 ];
