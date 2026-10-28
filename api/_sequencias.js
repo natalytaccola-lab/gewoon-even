@@ -39,9 +39,9 @@ export const SEQUENCIAS = [
     exige: ['HAS_NP'],
     paraSe: ['HAS_P7D'],
     passos: [
-      { marca: 'F2_1_SENT', modelo: 0, dia: 1, nome: 'Funil 2 · 1 · De dagen ertussen' },
-      { marca: 'F2_2_SENT', modelo: 0, dia: 3, intervaloMin: 2, nome: 'Funil 2 · 2 · Niemand had iets door' },
-      { marca: 'F2_3_SENT', modelo: 0, dia: 6, intervaloMin: 3, nome: 'Funil 2 · 3 · 24 weken' }
+      { marca: 'F2_1_SENT', modelo: 85, dia: 1, nome: 'Funil 2 · 1 · De dagen ertussen' },
+      { marca: 'F2_2_SENT', modelo: 86, dia: 3, intervaloMin: 2, nome: 'Funil 2 · 2 · Niemand had iets door' },
+      { marca: 'F2_3_SENT', modelo: 87, dia: 6, intervaloMin: 3, nome: 'Funil 2 · 3 · 24 weken' }
     ]
   }
 ];
