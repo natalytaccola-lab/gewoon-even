@@ -33,6 +33,19 @@ assert.equal(proximoPasso(seq,c({FA6_SENT:'2026-11-24'}),3,new Date('2026-11-27T
 assert.equal(proximoPasso(seq,c({FA6_SENT:'2026-11-20',FA7_SENT:'2026-11-23'}),3,new Date('2026-12-30T08:00:00Z')).passo,null);
 // SIGNUP_DATE como data simples
 assert.equal(proximoPasso(seq,c({SIGNUP_DATE:'2026-11-04'}),3,hoje).passo.marca,'FA6_SENT');
+// --- Funil 2: pos-compra do Noodprotocol ---
+const f2=SEQUENCIAS.find(x=>x.id==='funil-2');
+const comp=(attrs={})=>({email:'k@b.nl',emailBlacklisted:false,listUnsubscribed:[],attributes:{HAS_NP:true,LAST_PURCHASE_DATE:'2026-11-01',...attrs}});
+const dia=d=>new Date(`2026-11-${String(d).padStart(2,'0')}T08:00:00Z`);
+assert.equal(proximoPasso(f2,comp(),6,dia(1)).passo,null);                      // dia 0
+assert.equal(proximoPasso(f2,comp(),6,dia(2)).passo.marca,'F2_1_SENT');         // dia 1
+assert.equal(proximoPasso(f2,comp({F2_1_SENT:'2026-11-02'}),6,dia(3)).passo,null);
+assert.equal(proximoPasso(f2,comp({F2_1_SENT:'2026-11-02'}),6,dia(4)).passo.marca,'F2_2_SENT');
+assert.equal(proximoPasso(f2,comp({F2_1_SENT:'2026-11-02',F2_2_SENT:'2026-11-04'}),6,dia(7)).passo.marca,'F2_3_SENT');
+assert.equal(proximoPasso(f2,comp({HAS_P7D:true}),6,dia(2)).passo,null);         // comprou o 37
+assert.equal(proximoPasso(f2,comp({HAS_NP:false}),6,dia(2)).passo,null);         // so' o 37 (Funil B)
+assert.equal(proximoPasso(f2,comp({LAST_PURCHASE_DATE:'2026-10-20'}),6,dia(2)).passo,null); // antes do inicio
+assert.equal(proximoPasso(f2,{...comp(),attributes:{HAS_NP:true,SOURCE:'quiz_37'}},6,dia(2)).passo,null); // sem data
 // assinatura
 const t=assinar('A@B.nl','s'); assert.ok(confere('a@b.nl',t,'s')); assert.ok(!confere('x@b.nl',t,'s')); assert.ok(!confere('a@b.nl',t,'outro'));
 assert.match(linkDescadastro('https://gewoon-even.nl','a@b.nl','s'),/\/api\/uitschrijven\?e=a%40b\.nl&t=[0-9a-f]{32}$/);

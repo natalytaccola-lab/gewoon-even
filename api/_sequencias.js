@@ -28,6 +28,21 @@ export const SEQUENCIAS = [
       { marca: 'FA6_SENT', modelo: 83, dia: 16, nome: 'Funil A 6 · Stille verlies' },
       { marca: 'FA7_SENT', modelo: 84, dia: 19, intervaloMin: 3, nome: 'Funil A 7 · Functionele klachten' }
     ]
+  },
+  {
+    id: 'funil-2',
+    // Quem comprou o Noodprotocol (EUR 17) e nao o Protocol van 7 Dagen (EUR
+    // 37): tres e-mails, contados da data da compra. Sai quem comprar o EUR 37.
+    listaEnv: 'BREVO_BUYERS_LIST_ID',
+    inicio: '2026-10-28',
+    dataBase: 'LAST_PURCHASE_DATE',
+    exige: ['HAS_NP'],
+    paraSe: ['HAS_P7D'],
+    passos: [
+      { marca: 'F2_1_SENT', modelo: 0, dia: 1, nome: 'Funil 2 · 1 · De dagen ertussen' },
+      { marca: 'F2_2_SENT', modelo: 0, dia: 3, intervaloMin: 2, nome: 'Funil 2 · 2 · Niemand had iets door' },
+      { marca: 'F2_3_SENT', modelo: 0, dia: 6, intervaloMin: 3, nome: 'Funil 2 · 3 · 24 weken' }
+    ]
   }
 ];
 
@@ -63,9 +78,16 @@ export function proximoPasso(seq, contacto, listaId, agora = new Date()) {
   // ter SOURCE 'quiz_37' e segue a sequencia de la'.
   if (seq.origem && a.SOURCE && a.SOURCE !== seq.origem) return { passo: null, motivo: 'outra origem' };
 
+  for (const attr of seq.exige || []) {
+    if (!preenchido(a[attr])) return { passo: null, motivo: attr + ' vazio' };
+  }
+
   // Data de inscricao: SIGNUP_DATE gravado pelo quiz; se faltar, a data de
-  // criacao do contacto no Brevo (para um lead novo, e' o mesmo dia).
-  const inscricao = diaNum(a.SIGNUP_DATE) ?? diaNum(contacto.createdAt);
+  // criacao do contacto no Brevo (para um lead novo, e' o mesmo dia). Uma
+  // sequencia pos-compra conta a partir de outro atributo (seq.dataBase).
+  const inscricao = seq.dataBase
+    ? diaNum(a[seq.dataBase])
+    : (diaNum(a.SIGNUP_DATE) ?? diaNum(contacto.createdAt));
   if (inscricao === null) return { passo: null, motivo: 'sem data de inscricao' };
   if (inscricao < diaNum(seq.inicio)) return { passo: null, motivo: 'inscrito antes do inicio' };
 

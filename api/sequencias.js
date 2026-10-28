@@ -126,6 +126,8 @@ export default async function handler(req, res) {
     for (const c of contactos) {
       const { passo, motivo } = proximoPasso(seq, c, listaId);
       if (!passo) { resumo.motivos[motivo] = (resumo.motivos[motivo] || 0) + 1; continue; }
+      // Modelo ainda por criar no Brevo: nada sai, fica so' contado.
+      if (!passo.modelo) { resumo.motivos['modelo por criar'] = (resumo.motivos['modelo por criar'] || 0) + 1; continue; }
 
       if (simular) { resumo.aEnviar[passo.nome] = (resumo.aEnviar[passo.nome] || 0) + 1; continue; }
       if (envios >= MAX_ENVIOS_POR_DIA) { resumo.falhas.push('limite diario atingido'); break; }
