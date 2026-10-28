@@ -46,6 +46,16 @@ assert.equal(proximoPasso(f2,comp({HAS_P7D:true}),6,dia(2)).passo,null);        
 assert.equal(proximoPasso(f2,comp({HAS_NP:false}),6,dia(2)).passo,null);         // so' o 37 (Funil B)
 assert.equal(proximoPasso(f2,comp({LAST_PURCHASE_DATE:'2026-10-20'}),6,dia(2)).passo,null); // antes do inicio
 assert.equal(proximoPasso(f2,{...comp(),attributes:{HAS_NP:true,SOURCE:'quiz_37'}},6,dia(2)).passo,null); // sem data
+// --- Funil 3: pos-compra do 37 ---
+const f3=SEQUENCIAS.find(x=>x.id==='funil-3');
+const c3=(attrs={})=>({email:'s@b.nl',emailBlacklisted:false,listUnsubscribed:[],attributes:{HAS_P7D:true,LAST_PURCHASE_DATE:'2026-11-01',...attrs}});
+assert.equal(proximoPasso(f3,c3(),6,dia(4)).passo,null);                        // dia 3
+assert.equal(proximoPasso(f3,c3(),6,dia(5)).passo.marca,'F3_1_SENT');           // dia 4, Funil B (sem HAS_NP)
+assert.equal(proximoPasso(f3,c3({HAS_NP:true}),6,dia(5)).passo.marca,'F3_1_SENT'); // Funil A
+assert.equal(proximoPasso(f3,c3({F3_1_SENT:'2026-11-05'}),6,dia(8)).passo.marca,'F3_2_SENT');
+assert.equal(proximoPasso(f3,c3({HAS_SLAAP:true}),6,dia(5)).passo,null);
+// quem tem o 37 sai do Funil 2
+assert.equal(proximoPasso(f2,comp({HAS_P7D:true}),6,dia(2)).passo,null);
 // assinatura
 const t=assinar('A@B.nl','s'); assert.ok(confere('a@b.nl',t,'s')); assert.ok(!confere('x@b.nl',t,'s')); assert.ok(!confere('a@b.nl',t,'outro'));
 assert.match(linkDescadastro('https://gewoon-even.nl','a@b.nl','s'),/\/api\/uitschrijven\?e=a%40b\.nl&t=[0-9a-f]{32}$/);

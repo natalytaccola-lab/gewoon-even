@@ -43,6 +43,21 @@ export const SEQUENCIAS = [
       { marca: 'F2_2_SENT', modelo: 86, dia: 3, intervaloMin: 2, nome: 'Funil 2 · 2 · Niemand had iets door' },
       { marca: 'F2_3_SENT', modelo: 87, dia: 6, intervaloMin: 3, nome: 'Funil 2 · 3 · 24 weken' }
     ]
+  },
+  {
+    id: 'funil-3',
+    // Quem comprou o Protocol van 7 Dagen (EUR 37), pelo Funil A ou pelo B, e
+    // nao o Slaapprotocol (EUR 67): tres e-mails, contados da compra do 37.
+    listaEnv: 'BREVO_BUYERS_LIST_ID',
+    inicio: '2026-10-28',
+    dataBase: 'LAST_PURCHASE_DATE',
+    exige: ['HAS_P7D'],
+    paraSe: ['HAS_SLAAP'],
+    passos: [
+      { marca: 'F3_1_SENT', modelo: 0, dia: 4, nome: 'Funil 3 · 1 · Wat Dag 5 je laat zien' },
+      { marca: 'F3_2_SENT', modelo: 0, dia: 7, intervaloMin: 3, nome: 'Funil 3 · 2 · 03:12' },
+      { marca: 'F3_3_SENT', modelo: 0, dia: 10, intervaloMin: 3, nome: 'Funil 3 · 3 · 168 nachten' }
+    ]
   }
 ];
 
