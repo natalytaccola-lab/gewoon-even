@@ -7,7 +7,7 @@ html,body{background:transparent}
 body{width:1080px;height:1920px;overflow:hidden;font-family:"Inter Display","Inter";-webkit-font-smoothing:antialiased;position:relative}
 .cap{position:absolute;left:60px;right:60px;top:360px;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
 .cap div{background:#fff;color:#111;font-weight:700;font-size:62px;line-height:1.18;padding:18px 30px;border-radius:22px;text-align:center}
-.nav{position:absolute;left:60px;right:60px;top:150px;background:#1E5B3A;color:#fff;border-radius:30px;padding:26px 34px;display:flex;align-items:center;gap:28px;font-size:44px;box-shadow:0 12px 30px rgba(0,0,0,.35);opacity:0}
+.nav{position:absolute;left:60px;right:60px;top:150px;background:#FFCC00;color:#111;border-radius:30px;padding:26px 34px;display:flex;align-items:center;gap:28px;font-size:44px;box-shadow:0 12px 30px rgba(0,0,0,.35);opacity:0}
 .nav b{font-size:60px;font-weight:700}
 .nav .seta{font-size:80px;line-height:1}
 .fim{position:absolute;inset:0;background:#000;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 90px;text-align:center;color:#fff}
