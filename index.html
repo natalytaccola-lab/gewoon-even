@@ -198,8 +198,17 @@
             var e = escolha();
             if (e === 'aceite') { carregarPixel(); return; }
             if (e === 'recusado') return;          // nada carrega, nada se pergunta
-            abrir();                               // sem escolha: perguntar
+            // Sem escolha. Quem entra pelo quiz (sem #rota) so' e' perguntado no
+            // fim do quiz (geConsent.perguntar, em selectAnswer/showPage): na
+            // primeira tela a pessoa ainda nao sabe o que e' o site e recusa por
+            // reflexo. Ate' la' nada sai para a Meta — o fbq continua a ser o
+            // stub que so' guarda na fila. Qualquer outra entrada pergunta ja'.
+            if (!location.hash) return;
+            abrir();
         }
+        // Chamado no fim do quiz e ao sair da pagina do quiz. So' abre se ainda
+        // nao houver escolha (abrir() tambem nao abre duas vezes).
+        window.geConsent.perguntar = function () { if (!escolha()) abrir(); };
 
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arrancar);
         else arrancar();
@@ -514,7 +523,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
     <!-- page-checkout (Noodprotocol): Cormorant / Inter / IBM Plex Mono -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"></noscript>
     <style>
         :root {
             /* ---- escala tipografica minima ----
@@ -9632,7 +9642,7 @@
                         <div class="nph-ecra">
                             <p class="nph-kop">Noodprotocol</p>
                             <div class="nph-capa">
-                                <img class="nph-foto" src="img/noodstop.jpg" srcset="img/noodstop.jpg 480w, img/noodstop@2x.jpg 960w" sizes="260px" width="480" height="603" alt="">
+                                <img class="nph-foto" src="img/noodstop.jpg" srcset="img/noodstop.jpg 480w, img/noodstop@2x.jpg 960w" sizes="260px" width="480" height="603" alt="" loading="lazy" decoding="async">
                                 <button type="button" class="nph-play" aria-label="Luister 22 seconden uit de Noodstop">
                                     <svg class="nph-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="currentColor"/></svg>
                                     <svg class="nph-ico-pausa" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="6" width="3" height="12" rx="1.2" fill="currentColor"/><rect x="13" y="6" width="3" height="12" rx="1.2" fill="currentColor"/></svg>
@@ -9703,7 +9713,7 @@
     <div class="np-stage">
         <div class="np-stage-device">
                 <div class="np-fio-card np-amostra" id="np-cartao" role="button" tabindex="0" aria-label="Speel voorproefje af" aria-pressed="false">
-                    <div class="np-fio-foto"><img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop-handgreep-654.webp" srcset="img/noodstop-handgreep-654.webp 654w, img/noodstop-handgreep-981.webp 981w" sizes="(min-width: 901px) 380px, calc(100vw - 48px)" width="654" height="818" alt="Een hand houdt zich vast aan een gele handgreep in het openbaar vervoer." loading="lazy" decoding="async"><img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" width="480" height="603" alt=""><img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" width="480" height="603" alt=""></div>
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" id="np-cover-0" src="img/noodstop-handgreep-654.webp" srcset="img/noodstop-handgreep-654.webp 654w, img/noodstop-handgreep-981.webp 981w" sizes="(min-width: 901px) 380px, calc(100vw - 48px)" width="654" height="818" alt="Een hand houdt zich vast aan een gele handgreep in het openbaar vervoer." loading="lazy" decoding="async"><img class="np-cover-img" id="np-cover-1" src="img/reset.jpg" width="480" height="603" alt="" loading="lazy" decoding="async"><img class="np-cover-img" id="np-cover-2" src="img/landing.jpg" width="480" height="603" alt="" loading="lazy" decoding="async"></div>
                     <div class="np-fio-faixa">
                         <div class="np-fio-topo"><span class="np-fio-play" aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 6.2c0-.9.7-1.3 1.4-.8l7 5.1c.6.5.6 1.4 0 1.8l-7 5.1c-.7.5-1.4.1-1.4-.8V6.2Z" fill="#FFFFFF"/></svg></span><div class="np-fio-txt"><p class="np-fio-titulo" id="np-title">Noodstop</p><p class="np-fio-convite"><svg class="np-fio-seta" viewBox="0 0 34 24" aria-hidden="true" fill="none" stroke="var(--np-seta)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M31 5C24 3 12 5 6 14"/><path d="M6 14 6.4 8"/><path d="M6 14 11.3 11.3"/></svg><span class="np-fio-convite-txt">Luister 22 seconden</span></p></div></div>
                         <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
@@ -9746,7 +9756,7 @@
             <p class="np-track-quote">"De gedachten die aan het racen waren, ze kunnen er nog zijn. Maar nu ben jij er ook."</p>
             </div>
                 <div class="np-fio-card is-inerte" aria-hidden="true">
-                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/reset.jpg" width="480" height="603" alt=""></div>
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/reset.jpg" width="480" height="603" alt="" loading="lazy" decoding="async"></div>
                     <div class="np-fio-faixa">
                         <div class="np-fio-topo"><div class="np-fio-txt"><p class="np-fio-titulo">Reset</p></div></div>
                         <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
@@ -9763,7 +9773,7 @@
             <p class="np-track-quote">"Je kaken. De meeste mensen dragen hier de hele dag spanning zonder het te weten."</p>
             </div>
                 <div class="np-fio-card is-inerte" aria-hidden="true">
-                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/landing.jpg" width="480" height="603" alt=""></div>
+                    <div class="np-fio-foto"><img class="np-cover-img is-on" src="img/landing.jpg" width="480" height="603" alt="" loading="lazy" decoding="async"></div>
                     <div class="np-fio-faixa">
                         <div class="np-fio-topo"><div class="np-fio-txt"><p class="np-fio-titulo">Landing</p></div></div>
                         <svg class="np-fio" viewBox="0 0 300 56" role="img" aria-label="Linha que se acalma enquanto o áudio toca" preserveAspectRatio="none"><use href="#np-fio-d" class="np-fio-base"/><use href="#np-fio-d" class="np-fio-prog"/></svg>
@@ -11074,6 +11084,8 @@ function selectAnswer(answerIndex) {
             document.querySelector('.quiz-intro').style.display = 'none';
             document.querySelector('.progress-bar').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            // aviso de cookies: agora, antes do e-mail (o Lead sai depois)
+            if (window.geConsent && window.geConsent.perguntar) window.geConsent.perguntar();
             // Lead event moved to handleEmailSubmit() — fires after email capture with Advanced Matching.
         }
     }, 400);
@@ -11106,6 +11118,7 @@ function trackPageViewInBrevo(pageId) {
 }
 
 function showPage(pageId) {
+        if (pageId !== 'page-quiz' && window.geConsent && window.geConsent.perguntar) window.geConsent.perguntar();
         // a abertura do €37 so' faz o fade quando a pagina entra
         if (pageId === 'page-upsell') {
             var up = document.getElementById('page-upsell');
