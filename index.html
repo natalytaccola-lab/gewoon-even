@@ -9384,6 +9384,23 @@
         #page-quiz .qz-hook .qz-hook-lijn, #page-quiz37 .qz-hook .qz-hook-lijn { margin: 0 0 10px; font-size: 1.05rem; font-weight: 600; color: #3E4E43; }
         #page-quiz .qz-hook .qz-hook-brug, #page-quiz37 .qz-hook .qz-hook-brug { margin: 0; font-size: 1rem; line-height: 1.55; color: var(--text-light); }
         @media (min-width: 901px) { #page-quiz .qz-hook-tit, #page-quiz37 .qz-hook-tit { font-size: 44px; } #page-quiz .qz-hook, #page-quiz37 .qz-hook { padding-top: 48px; } }
+        /* quiz principal com um pouco de cor: cartao amarelo manteiga (o mesmo
+           --u2-amarelo da faixa de confirmacao) atras de cada pergunta;
+           respostas brancas por cima, borda e selecao em verde como antes. */
+        #page-quiz .question-container {
+            background: #FBF1C7;
+            border: 1px solid #E3CF86;
+            border-radius: 18px;
+            padding: 26px 20px 22px;
+            margin-top: 8px;
+        }
+        #page-quiz .question-number { color: #6B5A2E; }
+        #page-quiz .question-text { margin-bottom: 24px; }
+        #page-quiz .answer-btn { background: #FFFFFF; border-color: #E3CF86; }
+        #page-quiz .answer-btn:hover { border-color: var(--green); background: #FFFDF5; }
+        /* ao tocar, a resposta escolhida fica verde cheio com texto branco */
+        #page-quiz .answer-btn.selected { border-color: var(--green); background: var(--green); color: #FFFFFF; }
+        #page-quiz .progress-bar { background: #F1E6C2; }
         /* tabela com 4 colunas: no celular as colunas encolhem */
         #page-checkout .np-cmp-tabela th[scope="row"] { width: 28%; }
         #page-checkout .np-cmp-tabela tbody td { width: 18%; }
